@@ -1,5 +1,5 @@
-body{
-    background-color: #212529;
+#body{
+    background-image: url("../Images/bg.png");
 }
 
 #logo{
@@ -7,4 +7,8 @@ body{
     display: block;
     margin: auto;
     width: 50%;
+}
+
+.container{
+		align-self: center;
 }
