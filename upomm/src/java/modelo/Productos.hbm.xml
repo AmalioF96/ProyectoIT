@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18-abr-2020 20:41:49 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Productos" table="productos" catalog="upomm" optimistic-lock="version">
+        <id name="idProducto" type="int">
+            <column name="id_producto" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="usuarios" class="modelo.Usuarios" fetch="select">
+            <column name="email_vendedor" length="50" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="50" not-null="true" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="500" not-null="true" />
+        </property>
+        <property name="precio" type="float">
+            <column name="precio" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="imagen" type="string">
+            <column name="imagen" length="200" not-null="true" />
+        </property>
+        <property name="disponible" type="boolean">
+            <column name="disponible" not-null="true" />
+        </property>
+        <set name="valoracioneses" table="valoraciones" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_producto" not-null="true" />
+            </key>
+            <one-to-many class="modelo.Valoraciones" />
+        </set>
+        <set name="categoriasProductoses" table="categorias_productos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_producto" not-null="true" />
+            </key>
+            <one-to-many class="modelo.CategoriasProductos" />
+        </set>
+        <set name="reclamacioneses" table="reclamaciones" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_producto" not-null="true" />
+            </key>
+            <one-to-many class="modelo.Reclamaciones" />
+        </set>
+        <set name="caracteristicasProductoses" table="caracteristicas_productos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_producto" not-null="true" />
+            </key>
+            <one-to-many class="modelo.CaracteristicasProductos" />
+        </set>
+        <set name="usuarioses" table="deseos_clientes" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="id_producto" not-null="true" />
+            </key>
+            <many-to-many entity-name="modelo.Usuarios">
+                <column name="email_cliente" length="50" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="lineasDeCompras" table="lineas_de_compra" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_producto" not-null="true" />
+            </key>
+            <one-to-many class="modelo.LineasDeCompra" />
+        </set>
+    </class>
+</hibernate-mapping>

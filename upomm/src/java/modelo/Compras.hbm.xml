@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18-abr-2020 20:41:49 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Compras" table="compras" catalog="upomm" optimistic-lock="version">
+        <id name="idCompra" type="int">
+            <column name="id_compra" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="usuarios" class="modelo.Usuarios" fetch="select">
+            <column name="email_cliente" length="50" not-null="true" />
+        </many-to-one>
+        <property name="fecha" type="timestamp">
+            <column name="fecha" length="19" not-null="true" />
+        </property>
+        <set name="reclamacioneses" table="reclamaciones" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_compra" not-null="true" />
+            </key>
+            <one-to-many class="modelo.Reclamaciones" />
+        </set>
+        <set name="lineasDeCompras" table="lineas_de_compra" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_compra" not-null="true" />
+            </key>
+            <one-to-many class="modelo.LineasDeCompra" />
+        </set>
+    </class>
+</hibernate-mapping>
