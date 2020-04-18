@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18-abr-2020 20:41:49 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Reclamaciones" table="reclamaciones" catalog="upomm" optimistic-lock="version">
+        <composite-id name="id" class="modelo.ReclamacionesId">
+            <key-property name="idCompra" type="int">
+                <column name="id_compra" />
+            </key-property>
+            <key-property name="idProducto" type="int">
+                <column name="id_producto" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="compras" class="modelo.Compras" update="false" insert="false" fetch="select">
+            <column name="id_compra" not-null="true" />
+        </many-to-one>
+        <many-to-one name="productos" class="modelo.Productos" update="false" insert="false" fetch="select">
+            <column name="id_producto" not-null="true" />
+        </many-to-one>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="1000" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="50" not-null="true" />
+        </property>
+        <property name="fecha" type="timestamp">
+            <column name="fecha" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
