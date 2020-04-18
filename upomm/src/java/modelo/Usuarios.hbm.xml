@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18-abr-2020 20:41:49 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Usuarios" table="usuarios" catalog="upomm" optimistic-lock="version">
+        <id name="email" type="string">
+            <column name="email" length="50" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="50" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="200" not-null="true" />
+        </property>
+        <property name="foto" type="string">
+            <column name="foto" length="50" not-null="true" />
+        </property>
+        <property name="tipo" type="string">
+            <column name="tipo" length="15" not-null="true" />
+        </property>
+        <set name="productoses" table="productos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="email_vendedor" length="50" not-null="true" />
+            </key>
+            <one-to-many class="modelo.Productos" />
+        </set>
+        <set name="productoses_1" table="deseos_clientes" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="email_cliente" length="50" not-null="true" />
+            </key>
+            <many-to-many entity-name="modelo.Productos">
+                <column name="id_producto" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="comprases" table="compras" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="email_cliente" length="50" not-null="true" />
+            </key>
+            <one-to-many class="modelo.Compras" />
+        </set>
+        <set name="valoracioneses" table="valoraciones" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="email_cliente" length="50" not-null="true" />
+            </key>
+            <one-to-many class="modelo.Valoraciones" />
+        </set>
+    </class>
+</hibernate-mapping>
