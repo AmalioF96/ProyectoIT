@@ -22,13 +22,13 @@
                             </s:a>
                             <h4 class="card-title text-center">Inicio de sesión</h4>
                             <div class="contenedor">
-                                <s:form cssClass="form-signin" action="#" method="post">
+                                <s:form cssClass="form-signin" action="accionLogin" method="post">
                                     <s:textfield name="email" cssClass="form-control" id="inputEmail" label="Correo electrónico"   />
                                     <s:password name="password" cssClass="form-control" id="inputPassword" label="Contraseña"/><br>
                                     <s:submit cssClass="btn btn-md btn-primary btn-block text-uppercase" name="btnLogin" value="Iniciar Sesión"/>
                                 </s:form>
                             </div>
-                            <p class="text-center">¿Aún no tienes una cuenta? <s:a href="signUp.php">¡Regístrate!</s:a></p>
+                            <p class="text-center">¿Aún no tienes una cuenta? <s:a href="signUp.jsp">¡Regístrate!</s:a></p>
                         </div>
                     </div>
                 </div>
