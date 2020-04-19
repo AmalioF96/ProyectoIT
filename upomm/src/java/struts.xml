@@ -20,6 +20,10 @@
             <result name="success"></result>
             <result name="error">signUp.jsp</result>
         </action>
+        <action name="accionLogin" class="controlador.usuarios.AccionLogin">
+            <result name="success">/principal.html</result>
+            <result name="input">/views/usuarios/login.jsp</result>
+        </action>
     </package>
     
     <package name="ventas" extends="struts-default">
