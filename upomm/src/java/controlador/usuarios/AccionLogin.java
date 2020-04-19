@@ -5,6 +5,7 @@
  */
 package controlador.usuarios;
 
+import modelo.DAO.UsuarioDAO;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -45,17 +46,26 @@ public class AccionLogin extends ActionSupport {
         boolean errores = false;
 
         if (this.email == null || this.email.trim().length() < 1) {
-            addFieldError("username", getText("usuario.relleno"));
+            addFieldError("email", getText("email.relleno"));
             errores = true;
         }
 
         if (this.password == null || this.password.trim().length() < 1) {
-            addFieldError("password", getText("pass.rellena"));
+            addFieldError("password", getText("password.rellena"));
             errores = true;
         }
 
         if (!errores) {
+            if (UsuarioDAO.comprobarUsuario(email, password) == null) {
+                addFieldError("password", getText("Error en los datos"));
 
+            }
         }
     }
+
+    @Override
+    public String execute() throws Exception {
+        return SUCCESS;
+    }
+
 }
