@@ -99,7 +99,6 @@ public class AccionSignUp extends ActionSupport {
     }
 
     public String execute() throws Exception {
-        UsuarioDAO userDao = new UsuarioDAO();
         String salida = SUCCESS;
         String tipo;
         if(this.isVendedor()){
@@ -108,7 +107,17 @@ public class AccionSignUp extends ActionSupport {
             tipo = "cliente";
         }
         Usuarios newUser = new Usuarios(this.getEmail(), this.getUsuario(), this.getPassword(), "", tipo);
-        
+        if(UsuarioDAO.existeEmail(this.getEmail())){
+            addFieldError("email", "Ya existe un usuario asociado al Email");
+            salida = ERROR;
+        }else{
+            if(UsuarioDAO.existeNombre(this.getUsuario())){
+                addFieldError("usuario", "Ya existe un usuario asociado al nombre");
+            salida = ERROR;
+            }else{
+                UsuarioDAO.creaUsuario(newUser);
+            }
+        }
         return salida;
     }
 
