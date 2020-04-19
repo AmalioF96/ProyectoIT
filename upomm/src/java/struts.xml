@@ -7,4 +7,18 @@
     <package name="default" extends="struts-default">
         
     </package>
+    
+    <package name="productos" extends="struts-default">
+        
+    </package>
+    <package name="reclamaciones" extends="struts-default">
+        
+    </package>
+    <package name="usuarios" extends="struts-default">
+        
+    </package>
+    <package name="ventas" extends="struts-default">
+        
+    </package>
+    
 </struts>
