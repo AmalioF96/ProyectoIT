@@ -21,9 +21,18 @@
     <package name="reclamaciones" extends="struts-default">
         
     </package>
+    
     <package name="usuarios" extends="struts-default">
-        
+        <action name="signUp" class="cotrolador.usuarios.AccionSignUp">
+            <result name="success"></result>
+            <result name="error">signUp.jsp</result>
+        </action>
+        <action name="accionLogin" class="controlador.usuarios.AccionLogin">
+            <result name="success">/principal.html</result>
+            <result name="input">/views/usuarios/login.jsp</result>
+        </action>
     </package>
+    
     <package name="ventas" extends="struts-default">
         
     </package>
