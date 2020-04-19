@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Registro - UPOMarket</title>
         <link href="../../css/login.css" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <s:head/>
     </head>
     <body id="body">
@@ -16,7 +16,7 @@
                     <div class="card card-signin my-5">
                         <div class="card-body">
                             <a href="">
-                                <img id="logo" src="../../imagenes/UPOMediaMarket.jpg" alt="Logo de UPOMarket"/>
+                                <img id="logo" src="/upomm/imagenes/UPOMediaMarket.jpg" alt="Logo de UPOMarket"/>
                             </a>
                             <h4 class="card-title text-center">Registro</h4>
                             <div class="contenedor">

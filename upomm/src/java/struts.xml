@@ -30,7 +30,11 @@
         </action>
         <action name="accionLogin" class="controlador.usuarios.AccionLogin">
             <result name="success">/views/principal.jsp</result>
+            <result name="error">/views/usuarios/login.jsp</result>
             <result name="input">/views/usuarios/login.jsp</result>
+        </action>
+        <action name="accionLogout" class="controlador.usuarios.AccionLogin" method="logout">
+            <result name="success">/views/principal.jsp</result>
         </action>
     </package>
     

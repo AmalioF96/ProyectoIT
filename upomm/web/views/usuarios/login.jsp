@@ -6,10 +6,13 @@
         <title>Iniciar Sesión - UPOMarket</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="../../css/login.css" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="/upomm/css/login.css" rel="stylesheet" type="text/css"/>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <s:head/>
+        <s:if test="#session.usuario!=null">
+            <jsp:forward page="/views/principal.jsp"/>
+        </s:if>
     </head>
     <body id="body">
         <div class="container">
@@ -18,9 +21,12 @@
                     <div class="card card-signin my-5">
                         <div class="card-body">
                             <s:a>
-                                <img id="logo" src="../../imagenes/UPOMediaMarket.jpg" alt="Logo de UPOMediaMarket"/>
+                                <img id="logo" src="/upomm/imagenes/UPOMediaMarket.jpg" alt="Logo de UPOMediaMarket"/>
                             </s:a>
                             <h4 class="card-title text-center">Inicio de sesión</h4>
+                            <s:if test="#request.error==true">
+                                <p class="errorMessage">Las credenciales no son válidas</p>
+                            </s:if>
                             <div class="contenedor">
                                 <s:form cssClass="form-signin" action="accionLogin" method="post">
                                     <s:textfield name="email" cssClass="form-control" id="inputEmail" label="Correo electrónico"   />

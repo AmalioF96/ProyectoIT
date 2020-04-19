@@ -19,7 +19,7 @@ a.nav-link {
     padding: 8px 16px !important;
     color: lightgray !important;
 }
-a.nav-link:hover {
+.nav-link:hover {
     color: white !important;
     font-size: 105%;
 }
@@ -31,4 +31,11 @@ a.nav-link:hover {
     margin-left: 0;
   }
 }
+
+input {
+    color: lightgray;
+    background-color: #24292e;
+    border: none;
+}
+
 
