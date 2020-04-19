@@ -8,6 +8,7 @@ package controlador.usuarios;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import modelo.DAO.UsuarioDAO;
 import modelo.Usuarios;
 
 /**
@@ -106,7 +107,17 @@ public class AccionSignUp extends ActionSupport {
             tipo = "cliente";
         }
         Usuarios newUser = new Usuarios(this.getEmail(), this.getUsuario(), this.getPassword(), "", tipo);
-        
+        if(UsuarioDAO.existeEmail(this.getEmail())){
+            addFieldError("email", "Ya existe un usuario asociado al Email");
+            salida = ERROR;
+        }else{
+            if(UsuarioDAO.existeNombre(this.getUsuario())){
+                addFieldError("usuario", "Ya existe un usuario asociado al nombre");
+            salida = ERROR;
+            }else{
+                UsuarioDAO.creaUsuario(newUser);
+            }
+        }
         return salida;
     }
 
