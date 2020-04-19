@@ -5,7 +5,14 @@
 <struts>
     <!-- Configuration for the default package. -->
     <package name="default" extends="struts-default">
-        
+        <action name="">
+            <result type="chain">
+                <param name="actionName">index</param>
+            </result>
+        </action>
+        <action name="index">
+            <result>/views/principal.jsp</result>
+        </action>
     </package>
     
     <package name="productos" extends="struts-default">
