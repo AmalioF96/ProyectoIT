@@ -20,7 +20,7 @@
                             </a>
                             <h4 class="card-title text-center">Registro</h4>
                             <div class="contenedor">
-                                <s:form action="" cssClass="form-signin">
+                                <s:form action="signUp" cssClass="form-signin" method="post">
                                 <s:textfield name="usuario" label="Usuario" cssClass="form-control" ></s:textfield>
                                 <s:textfield name="email" label="Email" cssClass="form-control" ></s:textfield>
                                 <s:password name="password" label="Contraseña" cssClass="form-control" ></s:password>
