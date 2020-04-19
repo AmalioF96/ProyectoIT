@@ -26,7 +26,7 @@
                                 <s:password name="password" label="Contraseña" cssClass="form-control" ></s:password>
                                 <s:password name="passwordConfirm" label="Confirmar Contraseña" cssClass="form-control" ></s:password>
                                 <s:checkbox name="vendedor" label="¿Desea ser vendedor?"></s:checkbox>
-                                <s:submit name="btnReistrar" label="Resgistrarse" id="inputVendedor" cssClass="btn btn-md btn-primary btn-block text-uppercase"></s:submit>
+                                <s:submit name="btnReistrar" value="Resgistrarse" id="inputVendedor" cssClass="btn btn-md btn-primary btn-block text-uppercase"></s:submit>
                             </s:form>
                             </div>
                             <p class="text-center">¿Ya tienes una cuenta? <a href="login.php">¡Inicia sesión!</a></p>
