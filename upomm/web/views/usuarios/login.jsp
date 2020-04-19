@@ -1,3 +1,11 @@
+<%-- 
+    Document   : login
+    Created on : 19-abr-2020, 18:00:03
+    Author     : Amalio
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="s"  uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,23 +22,22 @@
                     <div class="card card-signin my-5">
                         <div class="card-body">
 
-                            <img id="logo" src="../Images/UPOMediaMarket.jpg" alt="Logo de UPOMediaMarket"/>
+                            <img id="logo" src="../../imagenes/UPOMediaMarket.jpg" alt="Logo de UPOMediaMarket"/>
 
                             <h4 class="card-title text-center">Inicio de sesión</h4>
-                            <form class="form-signin" action="#" method="post">
+                            <s:form cssClass="form-signin" action="#" method="post">
                                 <div class="form-label-group">
-                                    <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Correo electrónico" required autofocus>
-
+                                    <s:textfield name="email" cssClass="form-control" label="Correo electrónico"   />
                                 </div>
                                 <br />
                                 <div class="form-label-group">
-                                    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required />
+                                    <s:password name="password" cssClass="form-control" label="Contraseña"/>
                                 </div>
                                 <br />
-                                <input class="btn btn-md btn-primary btn-block text-uppercase" type="submit" value="Iniciar Sesión" name="iniciarSesion" />
+                                <s:submit class="btn btn-md btn-primary btn-block text-uppercase" name="btnLogin" value="Iniciar Sesión"/>
                                 <br />
-                                <p class="text-center">¿Aún no tienes una cuenta? <a href="signUp.php">¡Regístrate!</a></p>
-                            </form>
+                                <p class="text-center">¿Aún no tienes una cuenta? <s:a href="signUp.php">¡Regístrate!</s:a></p>
+                            </s:form>
                         </div>
                     </div>
                 </div>
