@@ -1,0 +1,14 @@
+#body{
+    background-image: url("../Images/bg.png");
+}
+
+#logo{
+    align-self: center;
+    display: block;
+    margin: auto;
+    width: 50%;
+}
+
+.container{
+		align-self: center;
+}
