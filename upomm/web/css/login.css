@@ -13,3 +13,9 @@
 .container{
     align-self: center;
 }
+
+.contenedor{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
