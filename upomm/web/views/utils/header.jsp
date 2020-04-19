@@ -9,10 +9,10 @@
             <ul class="navbar-nav ml-auto">
                 <s:if test="#session.usuario==null">
                     <li class="nav-item">
-                        <a class="nav-link" href="/upomm/views/usuarios/login.html">Iniciar Sesión</a>
+                        <a class="nav-link" href="/upomm/views/usuarios/login.jsp">Iniciar Sesión</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/upomm/views/usuarios/signUp.html">Registrarse</a>
+                        <a class="nav-link" href="/upomm/views/usuarios/signUp.jsp">Registrarse</a>
                     </li>
                 </s:if>
                 <s:elseif test="#session.tipo=='admin'">
@@ -20,9 +20,7 @@
                         <a class="nav-link" href="">Conflictos</a>
                     </li>
                     <li id="profile" class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-user"></i> <?php
-                            echo $_SESSION['nombre'];
-                            ?></a>
+                        <a class="nav-link" href=""><i class="fas fa-user"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Cerrar Sesión</a>
@@ -36,9 +34,7 @@
                         <a class="nav-link" href=""><i class="fa fa-shopping-cart"></i> Cesta <span id="num-productos"></span></a>
                     </li>
                     <li id="profile" class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-user"></i> <?php
-                            echo $_SESSION['nombre'];
-                            ?></a>
+                        <a class="nav-link" href=""><i class="fas fa-user"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Cerrar Sesión</a>
@@ -55,9 +51,7 @@
                         <a class="nav-link" href=""><i class="fa fa-shopping-cart"></i> Cesta <span id="num-productos"></span></a>
                     </li>
                     <li id="profile" class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-user"></i> <?php
-                            echo $_SESSION['nombre'];
-                            ?></a>
+                        <a class="nav-link" href=""><i class="fas fa-user"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Cerrar Sesión</a>

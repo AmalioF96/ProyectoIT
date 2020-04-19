@@ -24,12 +24,12 @@
     
     <package name="usuarios" extends="struts-default">
         <action name="signUp" class="controlador.usuarios.AccionSignUp">
-            <result name="success">/principal.html</result>
+            <result name="success">/views/principal.jsp</result>
             <result name="error">/views/usuarios/signUp.jsp</result>
             <result name="input">/views/usuarios/signUp.jsp</result>
         </action>
         <action name="accionLogin" class="controlador.usuarios.AccionLogin">
-            <result name="success">/principal.html</result>
+            <result name="success">/views/principal.jsp</result>
             <result name="input">/views/usuarios/login.jsp</result>
         </action>
     </package>
