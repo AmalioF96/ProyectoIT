@@ -29,7 +29,7 @@
                                 <s:submit name="btnReistrar" value="Resgistrarse" id="inputVendedor" cssClass="btn btn-md btn-primary btn-block text-uppercase"></s:submit>
                             </s:form>
                             </div>
-                            <p class="text-center">¿Ya tienes una cuenta? <a href="login.php">¡Inicia sesión!</a></p>
+                            <p class="text-center">¿Ya tienes una cuenta? <s:a href="login.jsp">¡Inicia sesión!</s:a></p>
                         </div>
                     </div>
                 </div>
