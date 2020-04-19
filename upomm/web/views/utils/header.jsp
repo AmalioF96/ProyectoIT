@@ -15,18 +15,22 @@
                         <a class="nav-link" href="/upomm/views/usuarios/signUp.jsp">Registrarse</a>
                     </li>
                 </s:if>
-                <s:elseif test="#session.tipo=='admin'">
+                <s:elseif test="#session.usuario.tipo=='admin'">
                     <li class="nav-item">
                         <a class="nav-link" href="">Conflictos</a>
                     </li>
                     <li id="profile" class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-user"></i></a>
+                        <a class="nav-link" href=""><i class="fas fa-user"></i>
+                            <s:property value="#session.usuario.nombre"/>
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Cerrar Sesión</a>
+                  <li class="nav-item">
+                        <s:form action="accionLogout">
+                            <s:submit cssClass="nav-link" value="Cerrar Sesión"/>
+                        </s:form>
                     </li>
                 </s:elseif>
-                <s:elseif test="#session.tipo=='cliente'">
+                <s:elseif test="#session.usuario.tipo=='cliente'">
                     <li class="nav-item">
                         <a class="nav-link" href="">Compras</a>
                     </li>
@@ -34,13 +38,17 @@
                         <a class="nav-link" href=""><i class="fa fa-shopping-cart"></i> Cesta <span id="num-productos"></span></a>
                     </li>
                     <li id="profile" class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-user"></i></a>
+                        <a class="nav-link" href=""><i class="fas fa-user"></i>
+                            <s:property value="#session.usuario.nombre"/>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Cerrar Sesión</a>
+                    <s:form action="accionLogout">
+                        <s:submit cssClass="nav-link" value="Cerrar Sesión"/>
+                    </s:form>
                     </li>
                 </s:elseif>
-                <s:elseif test="#session.tipo=='vendedor'">
+                <s:elseif test="#session.usuario.tipo=='vendedor'">
                     <li class="nav-item">
                         <a class="nav-link" href="">Compras</a>
                     </li>
@@ -51,10 +59,14 @@
                         <a class="nav-link" href=""><i class="fa fa-shopping-cart"></i> Cesta <span id="num-productos"></span></a>
                     </li>
                     <li id="profile" class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-user"></i></a>
+                        <a class="nav-link" href=""><i class="fas fa-user"></i>
+                            <s:property value="#session.usuario.nombre"/>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Cerrar Sesión</a>
+                    <s:form action="accionLogout">
+                        <s:submit cssClass="nav-link" value="Cerrar Sesión"/>
+                    </s:form>
                     </li>
                 </s:elseif>
             </ul>

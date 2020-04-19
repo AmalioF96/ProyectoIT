@@ -20,7 +20,6 @@
         <main class="container">
             <div class="row">
                 <div class="col-lg-3">
-                    <img id="logo_main" class="img-fluid" src="/upomm/imagenes/UPOMediaMarket_Logo2.jpg" alt="upomediamarket">
                     <nav id='categorias' class="list-group">
                         <h4 class="text-center">Categorías</h4>
                         <ul class="list-unstyled">
