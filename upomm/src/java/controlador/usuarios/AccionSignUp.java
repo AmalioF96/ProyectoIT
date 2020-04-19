@@ -8,6 +8,7 @@ package controlador.usuarios;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import modelo.DAO.UsuarioDAO;
 import modelo.Usuarios;
 
 /**
@@ -98,6 +99,7 @@ public class AccionSignUp extends ActionSupport {
     }
 
     public String execute() throws Exception {
+        UsuarioDAO userDao = new UsuarioDAO();
         String salida = SUCCESS;
         String tipo;
         if(this.isVendedor()){
