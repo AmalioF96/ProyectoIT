@@ -84,7 +84,7 @@ public class AccionSignUp extends ActionSupport {
         }
         
         if (this.getPasswordConfirm().equals("")) {
-            addFieldError("password", "La contraseña debe estar rellena");
+            addFieldError("passwordConfirm", "La contraseña debe estar rellena");
         } else if (this.getPasswordConfirm().length() < 8) {
             addFieldError("passwordConfirm", "La contraseña debe tener un mínimo de 8 caractares");
         }
