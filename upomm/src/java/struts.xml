@@ -19,6 +19,9 @@
         <action name="listarCategorias" class="controlador.productos.AccionCategorias" method="listar">
             <result name="success">/views/principal.jsp</result>
         </action>
+        <action name="listarProductos" class="controlador.productos.AccionProductos" method="listar">
+            <result name="success">/views/principal.jsp</result>
+        </action>
     </package>
     <package name="reclamaciones" extends="struts-default">
         

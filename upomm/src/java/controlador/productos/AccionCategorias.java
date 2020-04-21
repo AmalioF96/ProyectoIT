@@ -20,7 +20,7 @@ public class AccionCategorias extends ActionSupport {
     }
 
     public String listar() {
-        List<Categorias> listaCategorias = modelo.DAO.CategoriaDAO.listaCategorias();
+        List<Categorias> listaCategorias = modelo.DAO.CategoriaDAO.listarCategorias();
         setCategorias(listaCategorias);
         return SUCCESS;
     }

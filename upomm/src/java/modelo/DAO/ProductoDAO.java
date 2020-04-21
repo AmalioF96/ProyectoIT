@@ -1,24 +1,24 @@
 package modelo.DAO;
 
 import java.util.List;
-import modelo.Categorias;
+import modelo.Productos;
 import org.hibernate.Session;
 
 /**
  *
  * @author marwi
  */
-public class CategoriaDAO {
+public class ProductoDAO {
 
-    public static List<Categorias> listarCategorias() {
+    public static List<Productos> listarProductos() {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Categorias> listaCategorias = sesion.createQuery("from Categorias order by nombre ASC").list();
+        List<Productos> listaProductos = sesion.createQuery("from Productos").list();
 
         sesion.getTransaction().commit();
 
-        return listaCategorias;
+        return listaProductos;
     }
 
 }
