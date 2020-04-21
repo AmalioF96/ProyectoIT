@@ -15,7 +15,7 @@ import modelo.Valoraciones;
 public class AccionProductos extends ActionSupport {
 
     private List<Productos> productos = null;
-    private Map<Integer,Float> puntuaciones;
+    private Map<Integer, Float> puntuaciones;
     private int id;
     private Productos producto = null;
 
@@ -43,7 +43,6 @@ public class AccionProductos extends ActionSupport {
                     puntuacion /= lv.size();
                 }
                 puntuaciones.put(id, puntuacion);
-                System.out.println("id=>" + id + "  puntuacion=>" + puntuacion);
             }
         }
         setProductos(lp);
@@ -69,15 +68,21 @@ public class AccionProductos extends ActionSupport {
     public String seleccionarProducto() {
 
         String salida = ERROR;
-        int i = 0;
-        while (i < productos.size() && salida.equals(ERROR)) {
-            if (this.productos.get(i).getIdProducto() == this.id) {
-                this.producto = this.productos.get(i);
-                salida = SUCCESS;
+        
+        /*if (productos != null) {
+            int i = 0;
+            while (i < productos.size() && salida.equals(ERROR)) {
+                if (this.productos.get(i).getIdProducto() == this.id) {
+                    this.producto = this.productos.get(i);
+                    salida = SUCCESS;
+                }
+                i++;
             }
-            i++;
+        }*/
+        Productos p = modelo.DAO.ProductoDAO.obtenerProducto(id);
+        if(p != null) {
+            salida = SUCCESS;
         }
-
         return salida;
     }
 
