@@ -16,27 +16,36 @@
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     </head>
     <body>
-        <%@include file="utils/header.jsp" %>
-        <main class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <nav id='categorias' class="list-group">
-                        <h4 class="text-center">Categorías</h4>
-                        <ul class="list-unstyled">
+        <s:if test="categorias==null">
+            <s:action executeResult="true" name="listarCategorias"/>
+        </s:if>
+        <s:if test="productos==null">
+           <s:action executeResult="true" name="listarProductos"/> 
+        </s:if>
+        <s:else>
+            <%@include file="utils/header.jsp" %>
+            <main class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <nav id='categorias' class="list-group">
+                            <h4 class="text-center">Categorías</h4>
+                            <ul class="list-unstyled">
+                                <s:iterator value="categorias">
+                                    <li class="list-group-item"><a class="categoria" href=""><s:property value="nombre"/></a></li>
+                                    </s:iterator>
+                            </ul>
+                        </nav>
+                    </div>
 
-                        </ul>
-                    </nav>
 
-                </div>
-
-
-                <div class="col-lg-9">
-
-                    <div class="row">
+                    <div class="col-lg-9">
+                        <div class="row">
+                            
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
-        <%@include file="utils/footer.html" %>
+            </main>
+            <%@include file="utils/footer.html" %>
+        </s:else>
     </body>
 </html>
