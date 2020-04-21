@@ -16,9 +16,9 @@
                 <div class="col-md-6 col-md-offset-3">
                     <div class="card card-signin my-5">
                         <div class="card-body">
-                            <a href="">
-                                <img id="logo" src="/upomm/imagenes/UPOMediaMarket.jpg" alt="Logo de UPOMarket"/>
-                            </a>
+                            <s:a href="../principal.jsp">
+                                <img id="logo" src="/upomm/imagenes/UPOMediaMarket.jpg" alt="Logo de UPOMediaMarket"/>
+                            </s:a>
                             <h4 class="card-title text-center">Registro</h4>
                             <div class="contenedor">
                                 <s:form action="signUp" cssClass="form-signin" method="post">
