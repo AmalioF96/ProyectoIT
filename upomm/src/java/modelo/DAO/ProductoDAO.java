@@ -2,6 +2,7 @@ package modelo.DAO;
 
 import java.util.List;
 import modelo.Productos;
+import modelo.Valoraciones;
 import org.hibernate.Session;
 
 /**
@@ -19,6 +20,17 @@ public class ProductoDAO {
         sesion.getTransaction().commit();
 
         return listaProductos;
+    }
+
+    public static List<Valoraciones> obtenerValoracionesProducto(int idProducto) {
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        sesion.beginTransaction();
+        
+        List<Valoraciones> listaValoraciones = sesion.createQuery("from Valoraciones where id.idProducto= :id").setParameter("id", idProducto).list();
+        
+        sesion.getTransaction().commit();
+        
+        return listaValoraciones;
     }
 
 }
