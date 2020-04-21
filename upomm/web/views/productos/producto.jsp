@@ -62,12 +62,12 @@
         } else {
                     alert("Debe puntuar el producto");
             retu            rn false;
-                    }
-                    
-                    });
             }
-            /*            Animación de            la valoració                n*/
-        function animaEstrellas(                    ) {
+
+        });
+        }
+        /*            Animación de            la valoració                n*/
+        function animaEstrellas(                                ) {
                     $(".            fa-s            tar").click(functi            on () {
             var id = $(this).attr('id');
             var puntuacion = parseInt(id.substring(id.length - 1, id.length));
@@ -76,16 +76,16 @@
             if (i < puntuacion) {
             $(estrellas[i]).addClass("checked");
             $(estrellas[i]).removeClass("unchecked");
-            } else {
+        } else {
                     $(estrellas[i]).removeClass("checked");
             $(estrellas[i]).addClass("unchecked");
-            }
-            }
-                    });
-                    }
-        /*            Controlar la e            dici                    ón de la valor            ación*/
-                    func            tion mostrarEditab            le() {
-                    $("#miValorac            ion").hide();
+        }
+        }
+        });
+        }
+        /*            Controlar la e                  dici                          ón de la valor              ación*/
+        func            tion mostrarEditab            le() {
+                    $("#miV            alorac            ion").hide();
             var desc            ripcion = $("#miValoracion p").text();
             var puntuacion = $("#miValoracion span").text().l            ength;
             var form = $("<form id='formValoracionProducto' method='get'></form>");
@@ -97,23 +97,23 @@
             var valora = $("<span class='review fa fa-star unchecked'></span>");
             $(valora).attr("id", "puntuacion-" + i);
             $(form).append(valora);
-            }
-            var btn = $("<input type='submit' class='btn btn-sm btn-success' value='Guarda            r' name='editarVal            oracion'>");
-            $(btn).css("margin", "10px 10px 10px 0");
-                    $(form).append        ($("<br>"));        
-        $(form).appe            nd(btn)        ;
-        btn = $("<bu        tto        n t        ype='bu        tton' class='btn btn-sm           btn-warning'>C        anc        elar        </button>");
+        }
+        var btn = $("<input type='submit' class='btn btn-sm btn-success' value='Guarda            r' name='editarVal            oracion'>");
+        $(btn).css("margin", "10px 10px 10px 0");
+        $(form).append        ($("<br>"));        
+               $(form).appe            nd(btn)        ;
+        btn         = $("<bu        tto        n t        ype='bu        tton' class='btn btn-sm           btn-warning'>C        anc        elar        </button>");
             $(form).append(        btn);
-            $(form).        append($("<input id='puntuacion' type=             'number' nam        e        ='puntuacion' hid        den>"                 ));
+            $(form).        append($("<input id='puntuacion' type=             'num        ber' nam        e        ='puntuacion' hi        d        den>"                 ));
             var idP        r        oducto = $("<input na        me='idProducto' type='number' hidden>");
-            $(        idProducto).        val(<?php echo $_GET        ["idProducto        "] ?>)        ;
-            $(form).append(idP        rodu        cto);
+            $(            idProducto).        val(<?php echo $_GET        ["idProducto        "] ?>)        ;
+            $(form        ).append(idP        rodu        cto);
             $("#miValoraci        on")        .after(form);
-            animaEst        rell        as();
-            obtenerValorac        ion(        );
-            $(btn).click(function () {
-                    $("#formValo        racionProduc          to        ").remove();
-            $("#m        iValoracion").show();
+                animaEst        rell        as();
+            obtene        rValorac        ion(        );
+            $(btn).click(func        tion () {
+                    $("#formValo            racionProduc          to        ").remove();
+        $("#m        iValoracion").show();
             });
             }
             </s        cript>
@@ -227,7 +227,7 @@
                                     Opiniones del producto
                                 </div>
                                 <div class="card-body">
-                                   
+
                                     <%--<?php
                                     if (empty($miValoracion) && empty($valoraciones)) {
                                     echo "<p>Aún no hay opiniones para este producto.</p>";
