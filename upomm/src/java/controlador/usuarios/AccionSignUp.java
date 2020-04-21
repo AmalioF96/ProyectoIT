@@ -5,7 +5,9 @@
  */
 package controlador.usuarios;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import modelo.DAO.UsuarioDAO;
@@ -82,18 +84,18 @@ public class AccionSignUp extends ActionSupport {
         } else if (this.getPassword().length() < 8) {
             addFieldError("password", "La contraseña debe tener un mínimo de 8 caractares");
         }
-        
+
         if (this.getPasswordConfirm().equals("")) {
             addFieldError("passwordConfirm", "La contraseña debe estar rellena");
         } else if (this.getPasswordConfirm().length() < 8) {
             addFieldError("passwordConfirm", "La contraseña debe tener un mínimo de 8 caractares");
         }
-        
-        if (!this.getPassword().equals(this.getPasswordConfirm())){
+
+        if (!this.getPassword().equals(this.getPasswordConfirm())) {
             addFieldError("passwordConfirm", "las contraseñas no coinciden");
         }
-        
-        if(!matcher.matches()){
+
+        if (!matcher.matches()) {
             addFieldError("email", "El formato del email no es correcto");
         }
     }
@@ -101,21 +103,25 @@ public class AccionSignUp extends ActionSupport {
     public String execute() throws Exception {
         String salida = SUCCESS;
         String tipo;
-        if(this.isVendedor()){
+        if (this.isVendedor()) {
             tipo = "vendedor";
-        }else{
+        } else {
             tipo = "cliente";
         }
         Usuarios newUser = new Usuarios(this.getEmail(), this.getUsuario(), this.getPassword(), "", tipo);
-        if(UsuarioDAO.existeEmail(this.getEmail())){
+        if (UsuarioDAO.existeEmail(this.getEmail())) {
             addFieldError("email", "Ya existe un usuario asociado al Email");
             salida = ERROR;
-        }else{
-            if(UsuarioDAO.existeNombre(this.getUsuario())){
+        } else {
+            if (UsuarioDAO.existeNombre(this.getUsuario())) {
                 addFieldError("usuario", "Ya existe un usuario asociado al nombre");
-            salida = ERROR;
-            }else{
+                salida = ERROR;
+            } else {
                 UsuarioDAO.creaUsuario(newUser);
+                Map session = (Map) ActionContext.getContext().get("session");
+                session.put("usuario", newUser);
+                Map request = (Map) ActionContext.getContext().get("request");
+                request.put("error", false);
             }
         }
         return salida;

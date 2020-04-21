@@ -16,6 +16,8 @@ public class AccionProductos extends ActionSupport {
 
     private List<Productos> productos = null;
     private Map<Integer,Float> puntuaciones;
+    private int id;
+    private Productos producto = null;
 
     public AccionProductos() {
         this.puntuaciones = new HashMap();
@@ -64,4 +66,34 @@ public class AccionProductos extends ActionSupport {
         this.puntuaciones = puntuaciones;
     }
 
+    public String seleccionarProducto() {
+
+        String salida = ERROR;
+        int i = 0;
+        while (i < productos.size() && salida.equals(ERROR)) {
+            if (this.productos.get(i).getIdProducto() == this.id) {
+                this.producto = this.productos.get(i);
+                salida = SUCCESS;
+            }
+            i++;
+        }
+
+        return salida;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Productos getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Productos producto) {
+        this.producto = producto;
+    }
 }
