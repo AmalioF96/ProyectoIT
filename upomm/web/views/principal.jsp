@@ -14,29 +14,83 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
+        <script>
+            $(document).ready(function () {
+                var estrellas = $(".stars");
+                for (var i = 0; i < estrellas.length; i++) {
+                    var puntuacion = parseFloat($(estrellas[i]).first().text());
+                    if (isNaN(puntuacion)) {
+                        puntuacion = 0;
+                    }
+                    var k = 0;
+                    for (k = 0; k < puntuacion; k++) {
+                        if (k < puntuacion && k + 1 > puntuacion)
+                            $(estrellas[i]).append($("<i class='fas fa-star-half-alt'></i>"));
+                        else
+                            $(estrellas[i]).append($("<i class='fas fa-star'></i>"));
+                    }
+                    for (var j = k; j < 5; j++) {
+                        $(estrellas[i]).append($("<i class='far fa-star'></i>"));
+                    }
+                }
+                $("img").onerror = function () {
+                    $(this).attr("src", "../img/productDefaultImage.jpg");
+                };
+
+                $("img.lazyload").lazyload();
+            });
+        </script>
     </head>
     <body>
-        <%@include file="utils/header.jsp" %>
-        <main class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <nav id='categorias' class="list-group">
-                        <h4 class="text-center">Categorías</h4>
-                        <ul class="list-unstyled">
+        <s:if test="categorias==null">
+            <s:action executeResult="true" name="listarCategorias"/>
+        </s:if>
+        <s:if test="productos==null">
+            <s:action executeResult="true" name="listarProductos"/> 
+        </s:if>
+        <s:else>
+            <%@include file="utils/header.jsp" %>
+            <main class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <nav id='categorias' class="list-group">
+                            <h4 class="text-center">Categorías</h4>
+                            <ul class="list-unstyled">
+                                <s:iterator value="categorias">
+                                    <li class="list-group-item"><a class="categoria" href=""><s:property value="nombre"/></a></li>
+                                    </s:iterator>
+                            </ul>
+                        </nav>
+                    </div>
 
-                        </ul>
-                    </nav>
 
-                </div>
-
-
-                <div class="col-lg-9">
-
-                    <div class="row">
+                    <div class="col-lg-9">
+                        <div class="row">
+                            <s:iterator value="productos">
+                                <div class = "col-lg-4 col-md-6 mb-4">
+                                    <div class = "card h-100">
+                                        <a href = ""><img class = "card-img-top lazyload" data-src = "" alt = ""></a>
+                                        <div class = "card-body">
+                                            <h4 class = "card-title">
+                                                <a href = ""><s:property value="nombre"/></a>
+                                            </h4>
+                                            <h5><s:property value="precio"/>&euro;</h5>
+                                            <p class = "card-text">
+                                                <s:property value="descripcion"/>
+                                            </p>
+                                        </div>
+                                        <div class = "card-footer">
+                                            <small class = "text-muted stars"><span hidden><s:property value="puntuacion"/></span></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </s:iterator>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
-        <%@include file="utils/footer.html" %>
+            </main>
+            <%@include file="utils/footer.html" %>
+        </s:else>
     </body>
 </html>
