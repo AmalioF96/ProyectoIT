@@ -56,19 +56,19 @@
             cont                ++;
                     }
                     }
-        $("#                puntuaci            on").val(cont);
-                    if (cont > 0) {
+        $("#            puntuaci            on").val(cont);
+                    if (            cont > 0) {
                     return true;
-                    } else {
+        } else {
                     alert("Debe puntuar el producto");
             retu            rn false;
                     }
                     
-            });
+                    });
             }
             /*            Animación de            la valoració                n*/
         function animaEstrellas(                    ) {
-                    $(".fa-s            tar").click(functi            on () {
+                    $(".            fa-s            tar").click(functi            on () {
             var id = $(this).attr('id');
             var puntuacion = parseInt(id.substring(id.length - 1, id.length));
             var estrellas = $(".review");
@@ -81,9 +81,9 @@
             $(estrellas[i]).addClass("unchecked");
             }
             }
-            });
+                    });
                     }
-                    /*            Controlar la e            dici                    ón de la valor            ación*/
+        /*            Controlar la e            dici                    ón de la valor            ación*/
                     func            tion mostrarEditab            le() {
                     $("#miValorac            ion").hide();
             var desc            ripcion = $("#miValoracion p").text();
@@ -101,24 +101,24 @@
             var btn = $("<input type='submit' class='btn btn-sm btn-success' value='Guarda            r' name='editarVal            oracion'>");
             $(btn).css("margin", "10px 10px 10px 0");
                     $(form).append        ($("<br>"));        
-                    $(form).appe            nd(btn)          ;
-                    btn = $("<bu        tto        n type='bu        tton' class='btn btn-sm           btn-warning'>Canc        elar        </button>");
-            $(form).append(btn);
-            $(form).        append($("<input id='puntuacion' type=             'number' nam        e        ='puntuacion' hid        den>"          ));
-            var idP        roducto = $("<input na        me='idProducto' type='number' hidden>");
-            $(        idProducto).        val(<?php echo $_GET        ["idProducto"] ?>)        ;
+        $(form).appe            nd(btn)        ;
+        btn = $("<bu        tto        n t        ype='bu        tton' class='btn btn-sm           btn-warning'>C        anc        elar        </button>");
+            $(form).append(        btn);
+            $(form).        append($("<input id='puntuacion' type=             'number' nam        e        ='puntuacion' hid        den>"                 ));
+            var idP        r        oducto = $("<input na        me='idProducto' type='number' hidden>");
+            $(        idProducto).        val(<?php echo $_GET        ["idProducto        "] ?>)        ;
             $(form).append(idP        rodu        cto);
-            $("#miValoracion")        .after(form);
+            $("#miValoraci        on")        .after(form);
             animaEst        rell        as();
-            obtenerValoracion(        );
+            obtenerValorac        ion(        );
             $(btn).click(function () {
-                    $("#formValo        racionProduc        to        ").remove();
-            $("#m         iValoracion").show();
+                    $("#formValo        racionProduc          to        ").remove();
+            $("#m        iValoracion").show();
             });
             }
             </s        cript>
-            
-            <script src="https://code.jquery.com/jqu        ery-3.4.1.min.js" integrity="sha25        6-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo        =" crossorigin="anonymous"></script>
+                    
+                    <script src="https://code.jquery.com/jqu        ery-3.4.1.min.js" integrity="sha25        6-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo        =" crossorigin="anonymous"></script>
             <s:head/>
             <s:if test="#session.usuario!=null">
                 <jsp:forward page="/views/principal.jsp"/>
@@ -126,10 +126,7 @@
             </head>
 
             <body>
-                <?php
-                $categorias = listarCategorias();
-                include './header.php';
-                ?>
+
                 <!-- Page Content -->
                 <main class="container">
                     <div class="row">
@@ -213,13 +210,13 @@
                                 </div>
                                 <div class="card-body">
                                     <ul class="list-group list-group-flush">
-                                        
+
                                         <s:iterator var="i" value="producto.caracteristicasProductoses" step="1">
 
                                             <li class="list-group-item"><strong><s:property value="id.nombre" /></strong><s:property value="valor" /></li>'
 
                                         </s:iterator>
-                                        
+
                                     </ul>
                                 </div>
                             </div>
@@ -230,7 +227,8 @@
                                     Opiniones del producto
                                 </div>
                                 <div class="card-body">
-                                    <?php
+                                   
+                                    <%--<?php
                                     if (empty($miValoracion) && empty($valoraciones)) {
                                     echo "<p>Aún no hay opiniones para este producto.</p>";
                                     } else {
@@ -274,20 +272,19 @@
                                     if (isset($_SESSION["email"]) && empty($miValoracion) && compradoPorMi($_SESSION["email"], $idProducto)) {
                                     mostrarValorar();
                                     }
-                                    ?>
+                                    ?>--%>
                                 </div>
                             </div>
                             <!-- fin /.card Opiniones-->
                         </div>
                         <!-- /.col-lg-9 -->
-                        <?php }
-                        ?>
+                        <%--<?php }
+                        ?>--%>
                     </div>
                 </main>
                 <!-- /.container -->
-                <?php
-                include '../html/footer.html';
-                ?>
+
+                <%@include file="../utils/footer.html" %>
                 <form id='formEliminarValoracion' method='GET'>
                     <button id="eliminarSubmit" type="submit" name="eliminarValoracion" hidden></button>
                 </form>
