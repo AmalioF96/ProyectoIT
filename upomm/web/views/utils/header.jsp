@@ -25,9 +25,9 @@
                         </a>
                     </li>
                   <li class="nav-item">
-                        <s:form action="accionLogout">
-                            <s:submit cssClass="nav-link" value="Cerrar Sesión"/>
-                        </s:form>
+                    <s:a action="accionLogout" cssClass="nav-link">
+                        Cerrar Sessión
+                    </s:a>
                     </li>
                 </s:elseif>
                 <s:elseif test="#session.usuario.tipo=='cliente'">
@@ -43,9 +43,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                    <s:form action="accionLogout">
-                        <s:submit cssClass="nav-link" value="Cerrar Sesión"/>
-                    </s:form>
+                    <s:a action="accionLogout" cssClass="nav-link">
+                        Cerrar Sessión
+                    </s:a>
                     </li>
                 </s:elseif>
                 <s:elseif test="#session.usuario.tipo=='vendedor'">
@@ -64,9 +64,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                    <s:form action="accionLogout">
-                        <s:submit cssClass="nav-link" value="Cerrar Sesión"/>
-                    </s:form>
+                    <s:a action="accionLogout" cssClass="nav-link">
+                        Cerrar Sessión
+                    </s:a>
                     </li>
                 </s:elseif>
             </ul>
