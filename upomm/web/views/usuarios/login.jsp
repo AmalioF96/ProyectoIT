@@ -21,7 +21,7 @@
                 <div id="card" class="col-md-6 col-md-offset-3">
                     <div class="card card-signin my-5">
                         <div class="card-body">
-                            <s:a>
+                            <s:a href="../principal.jsp">
                                 <img id="logo" src="/upomm/imagenes/UPOMediaMarket.jpg" alt="Logo de UPOMediaMarket"/>
                             </s:a>
                             <h4 class="card-title text-center">Inicio de sesión</h4>
@@ -35,7 +35,7 @@
                                     <s:submit cssClass="btn btn-md btn-primary btn-block text-uppercase" name="btnLogin" value="Iniciar Sesión"/>
                                 </s:form>
                             </div>
-                            <p class="text-center">¿Aún no tienes una cuenta? <s:a href="signUp.jsp">¡Regístrate!</s:a></p>
+                            <p class="text-center">¿Aún no tienes una cuenta? <s:a href="./signUp.jsp">¡Regístrate!</s:a></p>
                         </div>
                     </div>
                 </div>
