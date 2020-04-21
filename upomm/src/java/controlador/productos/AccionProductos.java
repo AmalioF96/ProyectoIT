@@ -69,6 +69,7 @@ public class AccionProductos extends ActionSupport {
 
         String salida = ERROR;
         
+        //La lista de productos al venir de una accion distinta es null, así que la búsqueda esta no funciona. He intentado ver si en el enlace se podían reenviar los parametros de la accion anterior pero no lo he conseguido, así que cargo de nuevo el producto de la BD con el id que si funciona. Dejo esto por si lo consigues sacar pero creo que por seguridad y por si hubiera algún cambio en el producto desde que se cargó la página principal hasta que accedes a él, es mejor hacer la consulta ad-hoc.
         /*if (productos != null) {
             int i = 0;
             while (i < productos.size() && salida.equals(ERROR)) {
