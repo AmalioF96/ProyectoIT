@@ -62,7 +62,7 @@
                             <p>
                                 <s:property value="#session.usuario.tipo"/>
                             </p>
-                            <button type="button" class="btn btn-primary">Editar Perfil</button>
+                            <s:a href="./editarPerfil.jsp" cssClass="btn btn-primary">Editar Perfil</s:a>
                         </div>
                     </div>
 
