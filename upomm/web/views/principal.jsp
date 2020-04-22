@@ -70,7 +70,7 @@
                         <div class="col-lg-9">
                             <div class="row">
                                 <s:iterator value="productos">
-                                    <s:url var="testUrlId" action="seleccionarProducto">
+                                    <s:url var="idProductoUrl" action="seleccionarProducto">
                                         <s:param name="id" value="idProducto"/>
                                     </s:url>
                                     <div class = "col-lg-4 col-md-6 mb-4">
@@ -78,7 +78,7 @@
                                             <a href = ""><img class = "card-img-top lazyload" data-src = "" alt = ""></a>
                                             <div class = "card-body">
                                                 <h4 class = "card-title">
-                                                    <s:a href="%{testUrlId}"><s:property value="nombre"/></s:a>
+                                                    <s:a href="%{idProductoUrl}" cssClass="productoLink"><s:property value="nombre"/></s:a>
                                                     </h4>
                                                     <h5><s:property value="precio"/>&euro;</h5>
                                                 <p class = "card-text">

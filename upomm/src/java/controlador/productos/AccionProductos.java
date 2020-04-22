@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.transaction.Transactional;
 import modelo.Productos;
 import modelo.Valoraciones;
@@ -35,8 +36,9 @@ public class AccionProductos extends ActionSupport {
         if (lp != null && !lp.isEmpty()) {
             Iterator<Productos> it = lp.iterator();
             while (it.hasNext()) {
-                int id = it.next().getIdProducto();
-                List<Valoraciones> lv = modelo.DAO.ProductoDAO.obtenerValoracionesProducto(id);
+                Productos p = it.next();
+                int id = p.getIdProducto();
+                Set<Valoraciones> lv = p.getValoracioneses();
                 float puntuacion = 0;
                 if (lv != null && !lv.isEmpty()) {
                     Iterator<Valoraciones> it2 = lv.iterator();
@@ -46,6 +48,7 @@ public class AccionProductos extends ActionSupport {
                     puntuacion /= lv.size();
                 }
                 puntuaciones.put(id, puntuacion);
+
             }
         }
         setProductos(lp);
@@ -72,13 +75,12 @@ public class AccionProductos extends ActionSupport {
 
         String salida = ERROR;
 
-        //La lista de productos al venir de una accion distinta es null, así que la búsqueda esta no funciona. He intentado ver si en el enlace se podían reenviar los parametros de la accion anterior pero no lo he conseguido, así que cargo de nuevo el producto de la BD con el id que si funciona. Dejo esto por si lo consigues sacar pero creo que por seguridad y por si hubiera algún cambio en el producto desde que se cargó la página principal hasta que accedes a él, es mejor hacer la consulta ad-hoc.
         Productos p = modelo.DAO.ProductoDAO.obtenerProducto(id);
         if (p != null) {
             this.producto = p;
             salida = SUCCESS;
 
-            List<Valoraciones> lv = modelo.DAO.ProductoDAO.obtenerValoracionesProducto(this.id);
+            Set<Valoraciones> lv = p.getValoracioneses();
             float puntuacion = 0;
             if (lv != null && !lv.isEmpty()) {
                 Iterator<Valoraciones> it2 = lv.iterator();
