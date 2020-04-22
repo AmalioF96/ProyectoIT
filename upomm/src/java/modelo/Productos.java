@@ -145,10 +145,7 @@ public class Productos  implements java.io.Serializable {
     public void setLineasDeCompras(Set lineasDeCompras) {
         this.lineasDeCompras = lineasDeCompras;
     }
-
-
-
-
+    
 }
 
 

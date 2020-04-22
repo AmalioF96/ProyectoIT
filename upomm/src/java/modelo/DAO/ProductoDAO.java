@@ -18,7 +18,6 @@ public class ProductoDAO {
         Productos p = (Productos) sesion.createQuery("from Productos where idProducto= :id").setParameter("id", idProducto).uniqueResult();
 
         sesion.getTransaction().commit();
-
         return p;
     }
 
