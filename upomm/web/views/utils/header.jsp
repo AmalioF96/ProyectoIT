@@ -20,7 +20,7 @@
                         <a class="nav-link" href="">Conflictos</a>
                     </li>
                     <li id="profile" class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-user"></i>
+                        <a class="nav-link" href="/upomm/views/usuarios/perfil.jsp"><i class="fas fa-user"></i>
                             <s:property value="#session.usuario.nombre"/>
                         </a>
                     </li>
@@ -38,7 +38,7 @@
                         <a class="nav-link" href=""><i class="fa fa-shopping-cart"></i> Cesta <span id="num-productos"></span></a>
                     </li>
                     <li id="profile" class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-user"></i>
+                        <a class="nav-link" href="/upomm/views/usuarios/perfil.jsp"><i class="fas fa-user"></i>
                             <s:property value="#session.usuario.nombre"/>
                         </a>
                     </li>
@@ -59,7 +59,7 @@
                         <a class="nav-link" href=""><i class="fa fa-shopping-cart"></i> Cesta <span id="num-productos"></span></a>
                     </li>
                     <li id="profile" class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-user"></i>
+                        <a class="nav-link" href="/upomm/views/usuarios/perfil.jsp"><i class="fas fa-user"></i>
                             <s:property value="#session.usuario.nombre"/>
                         </a>
                     </li>
