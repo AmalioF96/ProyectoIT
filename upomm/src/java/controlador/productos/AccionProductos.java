@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.transaction.Transactional;
 import modelo.Productos;
 import modelo.Valoraciones;
 
@@ -66,7 +67,7 @@ public class AccionProductos extends ActionSupport {
     public void setPuntuaciones(Map puntuaciones) {
         this.puntuaciones = puntuaciones;
     }
-
+    @Transactional
     public String seleccionarProducto() {
 
         String salida = ERROR;

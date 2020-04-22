@@ -13,8 +13,6 @@
             <link href="/upomm/css/login.css" rel="stylesheet" type="text/css"/>
             <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
             <link rel="icon" type="image/png" href="/upomm/imagenes/icono.png">
-
-
             <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
             <link href="/upomm/css/header.css" rel="stylesheet">
             <link href="/upomm/css/footer.css" rel="stylesheet">
@@ -49,10 +47,10 @@
                  */
                 function obtenerValor acion() {
                 $("#formValoracionProducto").submit(function() {
-                var estrellas = $("#formValoracionProducto .fa-star");
+                var estrellas = $("#formValoracionProducto.fa-star");
                 var cont = 0;
                 for (var i = 0; i < estrellas.length; i++) {
-                if ($(estrellas[i]).hasClass("checked                ")) {
+                if ($(estrellas[i]).hasClass("checked")) {
                 cont++;
                 }
                 }
@@ -105,7 +103,7 @@
                 btn = $("<button type='button' class='btn btn-sm btn-warning'>C        anc        elar        </button>");
                 $(form).append(btn);
                 $(form).append($("<input id='puntuacion' type='number' name='puntuacion' hidden>"));
-                var idP r oducto = $("<input na        me='idProducto' type='number' hidden>");
+                var idP r oducto = $("<input name='idProducto' type='number' hidden>");
                 $(idProducto).val(<s:property value="producto.idProducto"/>);
                 $(form).append(idP r odu cto);
                 $("#miValoracion").after(form);
@@ -137,14 +135,14 @@
                             <ul class="list-unstyled">
                                 <h4 class="text-center">Categorías</h4>
 
-                                <%--<s:iterator var="i" value="producto.categoriasProductoses" step="1">
 
-                                            <li><s:property value="nombre" />cat</li>
-
-                                        </s:iterator>--%>
-
-                                <li><a href="./categoria.php?categoria=' . $c[0] . '" class="list-group-item"> cat</a></li>
-
+                                <s:iterator var="i" value="producto.categoriasProductoses" step="1">
+                                    <s:url var="urlCategoria" action="#">
+                                        <s:param name="categoria" value="nombre"/>
+                                    </s:url>
+                                    <li><s:a href="%{urlCategoria}" cssClass="list-group-item"> <s:property value="id.nombre"/></s:a></li>
+                                    <s:property value="nombre"/>
+                                </s:iterator>
 
                             </ul>
                         </nav>
@@ -157,12 +155,11 @@
                         <div class="card mt-4">
                             <img id='imgProducto' class="card-img-top img-fluid" src='<?php echo $img ?>' alt="">
                             <div class="card-body">
-                                <h3 class="card-title"><s:property value="producto.nombre" /></h3>
+                                <h3 class="card-title"><s:property value="producto.nombre"/></h3>
                                 <h4><s:property value="producto.precio" />€</h4>
-                                <p class="card-text"><s:property value="producto.descripcion" /></p>
+                                <p class="card-text"><s:property value="producto.descripcion"/></p>
                                 <div id="productRating" class="text-warning"></div>
                                 <s:property value="puntuaciones[producto.idProducto]"/>estrellas
-                                <%--<?php echo number_format($puntuacion, 1) ?> estrellas--%>
                                 <br />
                                 <br />
 
@@ -219,11 +216,11 @@
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
 
-                                    <%--<s:iterator var="i" value="producto.caracteristicasProductoses" step="1">
+                                    <s:iterator var="i" value="producto.caracteristicasProductoses" step="1">
 
-                                            <li class="list-group-item"><strong><s:property value="id.nombre" /></strong><s:property value="valor" /></li>'
+                                        <li class="list-group-item"><strong><s:property value="id.nombre" /></strong><s:property value="valor" /></li>
 
-                                        </s:iterator>--%>
+                                    </s:iterator>
 
                                 </ul>
                             </div>
