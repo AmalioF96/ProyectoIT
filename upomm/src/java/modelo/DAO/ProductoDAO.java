@@ -31,16 +31,4 @@ public class ProductoDAO {
 
         return listaProductos;
     }
-
-    public static List<Valoraciones> obtenerValoracionesProducto(int idProducto) {
-        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-        sesion.beginTransaction();
-
-        List<Valoraciones> listaValoraciones = sesion.createQuery("from Valoraciones where id.idProducto= :id").setParameter("id", idProducto).list();
-
-        sesion.getTransaction().commit();
-
-        return listaValoraciones;
-    }
-
 }
