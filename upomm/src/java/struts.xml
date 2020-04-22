@@ -45,6 +45,11 @@
         <action name="accionLogout" class="controlador.usuarios.AccionLogin" method="logout">
             <result name="success">/views/principal.jsp</result>
         </action>
+        <action name="editarPerfil" class="controlador.usuarios.AccionEditarPerfil">
+            <result name="success">/views/usuarios/perfil.jsp</result>
+            <result name="error">/views/usuarios/editarPerfil.jsp</result>
+            <result name="input">/views/usuarios/editarPerfil.jsp</result>
+        </action>
     </package>
     
     <package name="ventas" extends="struts-default">

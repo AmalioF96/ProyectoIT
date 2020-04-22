@@ -49,15 +49,16 @@
 
 
                             <img id="logo_main" class="img-fluid" src="/upomm/imagenes/UPOMediaMarket_Logo2.jpg" alt="Imagen de perfil">
-
+                            <br />
                             <s:form action="editarPerfil" method="post">
                                 <s:textfield name="nombre" label="Nombre" cssClass="form-control" value="%{#session.usuario.nombre}"></s:textfield>
-                                <s:textfield name="email" label="Email" cssClass="form-control"  value="%{#session.usuario.email}" ></s:textfield>
                                 <s:password name="password" label="Contraseña" cssClass="form-control" ></s:password>
+                                <s:password name="newPassword" label="Nueva Contraseña" cssClass="form-control" ></s:password>
                                 <s:password name="passwordConfirm" label="Confirmar Contraseña" cssClass="form-control" ></s:password>
                                 <s:checkbox name="vendedor" label="¿Desea ser vendedor?"></s:checkbox>
                                 <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary"></s:submit>
                             </s:form>
+                            <s:a href="./perfil.jsp" cssClass="btn btn-danger">Cancelar</s:a>
                         </div>
                     </div>
 
