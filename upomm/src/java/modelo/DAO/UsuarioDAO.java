@@ -63,4 +63,16 @@ public class UsuarioDAO {
             return false;
         }
     }
+    
+    public static boolean actualizaUsuario(Usuarios user){
+        try{
+        sesion=HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx=sesion.beginTransaction();
+        sesion.update(user);
+        tx.commit();
+        return true;
+        }catch(Exception ex){
+            return false;
+        }
+    }
 }
