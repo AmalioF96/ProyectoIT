@@ -12,10 +12,10 @@
                 <column name="id_producto" />
             </key-property>
         </composite-id>
-        <many-to-one name="compras" class="modelo.Compras" update="false" insert="false" fetch="select">
+        <many-to-one name="compras" class="modelo.Compras" update="false" insert="false" fetch="join" lazy="false">
             <column name="id_compra" not-null="true" />
         </many-to-one>
-        <many-to-one name="productos" class="modelo.Productos" update="false" insert="false" fetch="select">
+        <many-to-one name="productos" class="modelo.Productos" update="false" insert="false" fetch="join" lazy="false">
             <column name="id_producto" not-null="true" />
         </many-to-one>
         <property name="cantidad" type="int">
