@@ -60,7 +60,7 @@
                                 <h4 class="text-center">Categorías</h4>
                                 <ul class="list-unstyled">
                                     <s:iterator value="categorias">
-                                        <li class="list-group-item"><a class="categoria" href=""><s:property value="nombre"/></a></li>
+                                        <li class="list-group-item cat"><a class="categoria" href=""><s:property value="nombre"/></a></li>
                                         </s:iterator>
                                 </ul>
                             </nav>
