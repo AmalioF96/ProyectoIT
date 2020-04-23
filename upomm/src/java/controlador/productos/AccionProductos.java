@@ -102,14 +102,7 @@ public class AccionProductos extends ActionSupport {
                 puntuacion /= lv.size();
             }
             puntuaciones.put(id, puntuacion);
-
-            /*Map session = (Map) ActionContext.getContext().get("session");
-            List<Productos> carrito = (List<Productos>) session.get("carrito");
-            if (carrito != null && carrito.contains(p)) {
-                this.estaEnCarrito = true;
-            } else {
-                this.estaEnCarrito = false;
-            }*/
+            
         }
         ActionContext.getContext().setLocale(Locale.US);
         return salida;
