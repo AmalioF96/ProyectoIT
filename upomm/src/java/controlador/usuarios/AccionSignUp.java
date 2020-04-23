@@ -108,7 +108,7 @@ public class AccionSignUp extends ActionSupport {
         } else {
             tipo = "cliente";
         }
-        Usuarios newUser = new Usuarios(this.getEmail(), this.getUsuario(), this.getPassword(), "", tipo);
+        Usuarios newUser = new Usuarios(this.getEmail(), this.getUsuario(), this.getPassword(), "/upomm/imagenes/defaultProfile.png", tipo);
         if (UsuarioDAO.existeEmail(this.getEmail())) {
             addFieldError("email", "Ya existe un usuario asociado al Email");
             salida = ERROR;
