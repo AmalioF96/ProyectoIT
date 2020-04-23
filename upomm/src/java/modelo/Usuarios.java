@@ -108,7 +108,12 @@ public class Usuarios  implements java.io.Serializable {
         this.valoracioneses = valoracioneses;
     }
 
-
+     @Override
+    public boolean equals(Object o) {
+        Usuarios u = (Usuarios) o;
+        
+        return this.getEmail().equals(u.getEmail());
+    }
 
 
 }
