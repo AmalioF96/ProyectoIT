@@ -71,7 +71,7 @@
                             <div class="row">
                                 <s:iterator value="productos">
                                     <s:url var="idProductoUrl" action="seleccionarProducto">
-                                        <s:param name="id" value="idProducto"/>
+                                        <s:param name="idProducto" value="idProducto"/>
                                     </s:url>
                                     <div class = "col-lg-4 col-md-6 mb-4">
                                         <div class = "card h-100">
