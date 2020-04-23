@@ -1,10 +1,12 @@
 package controlador.usuarios;
 
 import com.opensymphony.xwork2.ActionContext;
-import modelo.DAO.UsuarioDAO;
 import com.opensymphony.xwork2.ActionSupport;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import static modelo.DAO.UsuarioDAO.comprobarUsuario;
+import modelo.Productos;
 import modelo.Usuarios;
 
 /**
@@ -58,6 +60,8 @@ public class AccionLogin extends ActionSupport {
         if (u != null) {
             Map session = (Map) ActionContext.getContext().get("session");
             session.put("usuario", u);
+            List<Productos> carrito = new ArrayList();
+            session.put("carrito", carrito);
             Map request = (Map) ActionContext.getContext().get("request");
             request.put("error", false);
             return SUCCESS;
