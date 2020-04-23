@@ -35,7 +35,7 @@
                         <a class="nav-link" href="">Compras</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""><i class="fa fa-shopping-cart"></i> Cesta <span id="num-productos"></span></a>
+                        <a class="nav-link" href=""><i class="fa fa-shopping-cart"></i> Cesta (<s:property value="#session.carrito.size"/>)</a>
                     </li>
                     <li id="profile" class="nav-item">
                         <a class="nav-link" href="/upomm/views/usuarios/perfil.jsp"><i class="fas fa-user"></i>

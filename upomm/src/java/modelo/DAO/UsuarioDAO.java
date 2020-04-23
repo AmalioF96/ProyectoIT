@@ -1,6 +1,7 @@
 package modelo.DAO;
 
 import modelo.Usuarios;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,10 +17,14 @@ public class UsuarioDAO {
     public static Usuarios comprobarUsuario(String email, String password) {
         Usuarios usu = null;
         sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = sesion.beginTransaction();
-        Query q = sesion.createQuery("From Usuarios where email='" + email + "' and password='" + password + "'");
-        usu = (Usuarios) q.uniqueResult();
-        tx.commit();
+        
+        try {
+            Transaction tx = sesion.beginTransaction();
+            Query q = sesion.createQuery("From Usuarios where email='" + email + "' and password='" + password + "'");
+            usu = (Usuarios) q.uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+        }
 
         return usu;
     }
@@ -28,10 +33,15 @@ public class UsuarioDAO {
         Boolean salida = false;
         Usuarios usu = null;
         sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = sesion.beginTransaction();
-        Query q = sesion.createQuery("From Usuarios where email='" + email + "'");
-        usu = (Usuarios) q.uniqueResult();
-        tx.commit();
+        
+        try {
+            Transaction tx = sesion.beginTransaction();
+            Query q = sesion.createQuery("From Usuarios where email='" + email + "'");
+            usu = (Usuarios) q.uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+        }
+
         if (usu != null) {
             salida = true;
         }
@@ -42,10 +52,15 @@ public class UsuarioDAO {
         Boolean salida = false;
         Usuarios usu = null;
         sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = sesion.beginTransaction();
-        Query q = sesion.createQuery("From Usuarios where nombre='" + nombre + "'");
-        usu = (Usuarios) q.uniqueResult();
-        tx.commit();
+
+        try {
+            Transaction tx = sesion.beginTransaction();
+            Query q = sesion.createQuery("From Usuarios where nombre='" + nombre + "'");
+            usu = (Usuarios) q.uniqueResult();
+            tx.commit();
+        } catch (HibernateException e) {
+        }
+        
         if (usu != null) {
             salida = true;
         }
@@ -53,25 +68,25 @@ public class UsuarioDAO {
     }
 
     public static boolean creaUsuario(Usuarios user) {
-        try{
-        sesion=HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx=sesion.beginTransaction();
-        sesion.save(user);
-        tx.commit();
-        return true;
-        }catch(Exception ex){
+        try {
+            sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = sesion.beginTransaction();
+            sesion.save(user);
+            tx.commit();
+            return true;
+        } catch (Exception ex) {
             return false;
         }
     }
-    
-    public static boolean actualizaUsuario(Usuarios user){
-        try{
-        sesion=HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx=sesion.beginTransaction();
-        sesion.update(user);
-        tx.commit();
-        return true;
-        }catch(Exception ex){
+
+    public static boolean actualizaUsuario(Usuarios user) {
+        try {
+            sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = sesion.beginTransaction();
+            sesion.update(user);
+            tx.commit();
+            return true;
+        } catch (Exception ex) {
             return false;
         }
     }
