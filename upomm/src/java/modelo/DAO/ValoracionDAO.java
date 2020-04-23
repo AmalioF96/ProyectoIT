@@ -1,6 +1,8 @@
 package modelo.DAO;
 
 import modelo.Valoraciones;
+import modelo.ValoracionesId;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -10,15 +12,20 @@ import org.hibernate.Transaction;
  */
 public class ValoracionDAO {
 
-    public static void eliminarValoracion(Valoraciones v) {
+    public static void eliminarValoracion(ValoracionesId vid) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
 
-        tx = sesion.beginTransaction();
-        System.out.println(v.getProductos().getIdProducto() + " " + v.getUsuarios().getEmail());
-        sesion.delete(v);
-        sesion.flush();
-        tx.commit();
+        try {
+            tx = sesion.beginTransaction();
+            Valoraciones v = (Valoraciones) sesion.load(Valoraciones.class, vid);
+            sesion.delete(v);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
     }
 
 }

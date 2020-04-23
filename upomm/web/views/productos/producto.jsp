@@ -245,6 +245,7 @@
                                 <s:else>
                                     <s:iterator value="producto.valoracioneses">
                                         <s:if test="%{usuarios==#session.usuario}">
+                                            <s:set scope="page" value="true" var="valorado"/>
                                             <div id=miValoracion>
                                             </s:if>
                                             <s:else>
@@ -268,6 +269,9 @@
                                             <hr>
                                         </s:iterator>
                                     </s:else>
+                                    <s:if test="%{#valorado==null && #session.usuario.comprases.contains(producto)}">
+
+                                    </s:if>
 
                                     <%--<?php
                                     if (empty($miValoracion) && empty($valoraciones)) {

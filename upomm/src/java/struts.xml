@@ -27,11 +27,11 @@
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="agregarCarrito" class="controlador.productos.AccionProductos" method="agregarCarrito">
-            <result name="success">/views/principal.jsp</result>
+            <result name="success">/views/productos/producto.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="eliminarCarrito" class="controlador.productos.AccionProductos" method="eliminarCarrito">
-            <result name="success">/views/principal.jsp</result>
+            <result name="success">/views/productos/producto.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="eliminarValoracion" class="controlador.productos.AccionValoraciones" method="eliminar">

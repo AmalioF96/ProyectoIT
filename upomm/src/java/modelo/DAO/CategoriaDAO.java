@@ -15,15 +15,13 @@ public class CategoriaDAO {
     public static List<Categorias> listarCategorias() {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         List<Categorias> listaCategorias = null;
-        Transaction tx = null;
+
         try{
-        sesion.beginTransaction();
+        Transaction tx = sesion.beginTransaction();
         listaCategorias = sesion.createQuery("from Categorias order by nombre ASC").list();
         sesion.getTransaction().commit();
         }catch(HibernateException e) {
-            if(tx != null) {
-                tx.rollback();
-            }
+
         }
 
         return listaCategorias;
