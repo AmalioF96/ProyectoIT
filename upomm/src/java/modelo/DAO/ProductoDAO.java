@@ -2,8 +2,9 @@ package modelo.DAO;
 
 import java.util.List;
 import modelo.Productos;
-import modelo.Valoraciones;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -13,11 +14,20 @@ public class ProductoDAO {
 
     public static Productos obtenerProducto(int idProducto) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-        sesion.beginTransaction();
+        Transaction tx = null;
+        Productos p = null;
+        try{
+        tx = sesion.beginTransaction();
 
-        Productos p = (Productos) sesion.createQuery("from Productos where idProducto= :id").setParameter("id", idProducto).uniqueResult();
+        p = (Productos) sesion.createQuery("from Productos where idProducto= :id").setParameter("id", idProducto).uniqueResult();
 
-        sesion.getTransaction().commit();
+        tx.commit();
+        }catch(HibernateException e){
+            if(tx != null) {
+                tx.rollback();
+            }
+        }
+            
         return p;
     }
 

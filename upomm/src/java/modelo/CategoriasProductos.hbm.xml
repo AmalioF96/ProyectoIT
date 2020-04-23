@@ -12,7 +12,7 @@
                 <column name="id_producto" />
             </key-property>
         </composite-id>
-        <many-to-one name="productos" class="modelo.Productos" update="false" insert="false" fetch="join" lazy="false" >
+        <many-to-one name="productos" class="modelo.Productos" update="false" insert="false" fetch="join" lazy="proxy" >
             <column name="id_producto" not-null="true" />
         </many-to-one>
     </class>

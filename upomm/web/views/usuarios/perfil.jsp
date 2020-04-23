@@ -48,7 +48,7 @@
                         <div class="card-body">
 
 
-                            <img id="logo_main" class="img-fluid" src="/upomm/imagenes/UPOMediaMarket_Logo2.jpg" alt="Imagen de perfil">
+                            <img id="logo_main" class="img-fluid" src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
 
                             <h6 class="labelPerfil"><b>Nombre:</b></h6>
                             <p>
