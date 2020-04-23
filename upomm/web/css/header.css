@@ -37,10 +37,9 @@ a.categoria {
     font-weight: 600;
     display: block;
     padding: 12px 20px;
-    text-decoration: none !important;
 }
 
-.list-group-item:hover {
+.list-group-item.cat:hover {
     background-color: #ee3124;
 }
 
@@ -63,4 +62,12 @@ a.categoria:hover {
     color: #7a1600;
 }
 
+h4{
+    font-variant: all-small-caps;
+    color: #5a6268;
+}
+
+a {
+    text-decoration: none !important;
+}
 
