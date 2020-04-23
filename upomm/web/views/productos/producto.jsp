@@ -12,8 +12,8 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
             <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-            <link href="/upomm/css/header.css" rel="stylesheet">
-            <link href="/upomm/css/footer.css" rel="stylesheet">
+            <link href="/upomm/css/header.css" rel="stylesheet" type="text/css"/>
+            <link href="/upomm/css/footer.css" rel="stylesheet" type="text/css"/>
             <link href="/upomm/css/producto.css" rel="stylesheet" type="text/css"/>
             <script src="https://kit.fontawesome.com/a076d05399.js"></script><!-- Para que se vean los logos -->
             <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -115,7 +115,7 @@
                 }
             </script>
             <s:head/>
-            <s:if test="#session.usuario!=null">
+            <s:if test="producto==null">
                 <jsp:forward page="/views/principal.jsp"/>
             </s:if>
         </head>
@@ -131,9 +131,7 @@
                         <nav id='categorias' class="list-group">
                             <ul class="list-unstyled">
                                 <h4 class="text-center">Categorías</h4>
-
-
-                                <s:iterator var="i" value="producto.categoriasProductoses" step="1">
+                                <s:iterator value="producto.categoriasProductoses" step="1">
                                     <s:url var="urlCategoria" action="#">
                                         <s:param name="categoria" value="nombre"/>
                                     </s:url>
@@ -150,25 +148,33 @@
                         include './barraBusqueda.php';
                         ?>--%>
                         <div class="card mt-4">
-                            <img id='imgProducto' class="card-img-top img-fluid" src='<?php echo $img ?>' alt="">
+                            <img id='imgProducto' class="card-img-top img-fluid" src='' alt="">
                             <div class="card-body">
                                 <h3 class="card-title"><s:property value="producto.nombre"/></h3>
-                                <h4><s:property value="producto.precio" />€</h4>
+                                <h4><s:number name="producto.precio" maximumFractionDigits="2" minimumFractionDigits="2"/>€</h4>
                                 <p class="card-text"><s:property value="producto.descripcion"/></p>
-                                <div id="productRating" class="text-warning"></div>
-                                <s:property value="getText('{0,number,#,##0.0}',{puntuaciones[producto.idProducto]})"/>estrellas
+                                <div class="text-warning">
+                                    <span id="productRating"></span>
+                                    <s:number name="puntuaciones[producto.idProducto]" maximumFractionDigits="1" minimumFractionDigits="1"/>
+                                </div>
+                                <div><a href="#valoraciones"><s:property value="producto.valoracioneses.size"/> opiniones</a></div>
                                 <br />
-                                <br />
-
-                                <s:if test="#session.carrito==null">
-                                    <s:form action="#">
-                                        <s:submit cssClass="btn btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
-                                    </s:form>
+                                <s:if test="#session.usuario != null">
+                                    <s:if test="%{!#session.carrito.contains(producto)}">
+                                        <s:form action="agregarCarrito">
+                                            <s:textfield name="id" value="%{producto.idProducto}" hidden="true"/>
+                                            <s:submit cssClass="btn btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
+                                        </s:form>
+                                    </s:if>
+                                    <s:else>
+                                        <s:form action="eliminarCarrito">
+                                            <s:textfield name="id" value="%{producto.idProducto}" hidden="true"/>
+                                            <s:submit cssClass="btn btn-primary" name="btnEliminarCarrito" value="Eliminar del carrito" />
+                                        </s:form>
+                                    </s:else>
                                 </s:if>
                                 <s:else>
-                                    <s:form action="#">
-                                        <s:submit cssClass="btn btn-primary" name="btnEliminarCarrito" value="Eliminar del carrito" />
-                                    </s:form>
+                                    <div class="alert alert-info"><a href="/upomm/views/usuarios/login.jsp">Inicia sesión</a> o <a href="/upomm/views/usuarios/signUp.jsp">regístrate</a> para comprar este producto</div>
                                 </s:else>
                                 <%--<?php
                                 if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
@@ -207,104 +213,89 @@
                         </div>
                         <!-- /.card caracteristicas -->
                         <div class="card card-outline-secondary my-4">
-                            <div class="card-header">
-                                Características
-                            </div>
+                            <div class="card-header">Características</div>
                             <div class="card-body">
-                                <ul class="list-group list-group-flush">
-
+                                <table class="list-group list-group-flush table">
                                     <s:iterator var="i" value="producto.caracteristicasProductoses" step="1">
 
-                                        <li class="list-group-item"><strong><s:property value="id.nombre" /></strong><s:property value="valor" /></li>
+                                        <tr class="list-group-item d-flex">
+                                            <td class="col-3">
+                                                <strong><s:property value="id.nombre" /></strong>
+                                            </td>
+                                            <td class="col-9">
+                                                <s:property value="valor" />
+                                            </td>
+                                        </tr>
 
                                     </s:iterator>
 
-                                </ul>
+                                </table>
                             </div>
                         </div>
                         <!-- fin /.card caracteristicas-->
                         <!-- /.card Opiniones-->
                         <div class="card card-outline-secondary my-4">
-                            <div class="card-header">
+                            <div class="card-header" id="valoraciones">
                                 Opiniones del producto
                             </div>
                             <div class="card-body">
-                                <s:iterator value="producto.valoracioneses">
-                                    <div>
-                                        <span class='text-warning'>
-                                            <s:iterator begin="0" end="puntuacion-1" >
-                                                &#9733;
-                                            </s:iterator>
-                                        </span>
-                                        <br>
-                                        <p><s:property value="descripcion"/></p>
-                                        <small>Por: <s:property value="Usuarios.email"/></small>
-                                        <br>
-                                        <small>Fecha: <s:date name="fecha" format="dd/MM/yyyy" /></small>
-                                    </div>
-                                    <hr>
-                            </s:iterator>
+                                <s:if test="producto.valoracioneses.isEmpty()">
+                                    <p>Aún no hay opiniones para este producto.</p>
+                                </s:if>
+                                <s:else>
+                                    <s:iterator value="producto.valoracioneses">
+                                        <div>
+                                            <span class='text-warning'>
+                                                <s:iterator begin="0" end="puntuacion-1" >
+                                                    &#9733;
+                                                </s:iterator>
+                                            </span>
+                                            <br>
+                                            <p><s:property value="descripcion"/></p>
+                                            <small>Por: <s:property value="Usuarios.email"/></small>
+                                            <br>
+                                            <small>Fecha: <s:date name="fecha" format="dd/MM/yyyy" /></small>
+                                        </div>
+                                        <hr>
+                                    </s:iterator>
+                                </s:else>
 
-                            <%--<?php
-                            if (empty($miValoracion) && empty($valoraciones)) {
-                            echo "<p>Aún no hay opiniones para este producto.</p>";
-                            } else {
-                            if (!empty($miValoracion)) {
-                            echo "<div id=miValoracion>";
-                            echo "<span class='text-warning'>";
-                            $nota = $miValoracion["puntuacion"];
-                            for ($i = 0; $i < $nota; $i++) {
-                            echo "&#9733;";
-                            }
-                            echo "</span>";
-                            if ($miValoracion["email_cliente"] == $_SESSION["email"]) {
-                            echo "<button id='btnEliminar' class='btn btn-sm btn-danger pull-right btn-valoracion'>Eliminar</button>";
-                            echo "<button class='btn btn-sm btn-warning pull-right btn-valoracion' onclick='mostrarEditable()'>Editar</button>";
-                            }
-                            echo "<br>";
-                            echo '<p>' . $miValoracion['descripcion'] . '</p>';
-                            echo '<small>Por: ' . $miValoracion['email_cliente'] . '</small>';
-                            echo "<br>";
-                            echo '<small>Fecha: ' . $miValoracion['fecha'] . '</small>';
-                            echo "</div>";
-                            echo "<hr>";
-                            }
-                            foreach ($valoraciones as $v) {
-                            echo "<div>";
-                            echo "<span class='text-warning'>";
-                            $nota = $v["puntuacion"];
-                            for ($i = 0; $i < $nota; $i++) {
-                            echo "&#9733;";
-                            }
-                            echo "</span>";
-                            echo "<br>";
-                            echo '<p>' . $v['descripcion'] . '</p>';
-                            echo '<small>Por: ' . $v['email_cliente'] . '</small>';
-                            echo "<br>";
-                            echo '<small>Fecha: ' . $v['fecha'] . '</small>';
-                            echo "</div>";
-                            echo "<hr>";
-                            }
-                            }
-                            if (isset($_SESSION["email"]) && empty($miValoracion) && compradoPorMi($_SESSION["email"], $idProducto)) {
-                            mostrarValorar();
-                            }
-                            ?>--%>
+                                <%--<?php
+                                if (empty($miValoracion) && empty($valoraciones)) {
+                                echo "<p>Aún no hay opiniones para este producto.</p>";
+                                } else {
+                                if (!empty($miValoracion)) {
+                                echo "<div id=miValoracion>";
+                                echo "<span class='text-warning'>";
+                                $nota = $miValoracion["puntuacion"];
+                                for ($i = 0; $i < $nota; $i++) {
+                                echo "&#9733;";
+                                }
+                                echo "</span>";
+                                if ($miValoracion["email_cliente"] == $_SESSION["email"]) {
+                                echo "<button id='btnEliminar' class='btn btn-sm btn-danger pull-right btn-valoracion'>Eliminar</button>";
+                                echo "<button class='btn btn-sm btn-warning pull-right btn-valoracion' onclick='mostrarEditable()'>Editar</button>";
+                                }
+
+                                if (isset($_SESSION["email"]) && empty($miValoracion) && compradoPorMi($_SESSION["email"], $idProducto)) {
+                                mostrarValorar();
+                                }
+                                ?>--%>
+                            </div>
                         </div>
+                        <!-- fin /.card Opiniones-->
                     </div>
-                    <!-- fin /.card Opiniones-->
+                    <!-- /.col-lg-9 -->
+                    <%--<?php }
+                    ?>--%>
                 </div>
-                <!-- /.col-lg-9 -->
-                <%--<?php }
-                ?>--%>
-            </div>
-        </main>
-        <!-- /.container -->
+            </main>
+            <!-- /.container -->
 
-        <%@include file="../utils/footer.html" %>
-        <form id='formEliminarValoracion' method='GET'>
-            <button id="eliminarSubmit" type="submit" name="eliminarValoracion" hidden></button>
-        </form>
-    </body>
-</html>
+            <%@include file="../utils/footer.html" %>
+            <form id='formEliminarValoracion' method='GET'>
+                <button id="eliminarSubmit" type="submit" name="eliminarValoracion" hidden></button>
+            </form>
+        </body>
+    </html>
 </s:else>

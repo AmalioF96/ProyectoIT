@@ -2,12 +2,17 @@ package controlador.productos;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import javax.transaction.Transactional;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import modelo.CaracteristicasProductos;
+import modelo.CategoriasProductos;
 import modelo.Productos;
 import modelo.Valoraciones;
 
@@ -19,9 +24,9 @@ public class AccionProductos extends ActionSupport {
 
     private List<Productos> productos = null;
     private Map<Integer, Float> puntuaciones;
-    private int id;
+    private Integer id;
     private Productos producto = null;
-    private boolean estaEnCarrito = false;
+    //private boolean estaEnCarrito = false;
 
     public AccionProductos() {
         this.puntuaciones = new HashMap();
@@ -52,6 +57,7 @@ public class AccionProductos extends ActionSupport {
             }
         }
         setProductos(lp);
+        ActionContext.getContext().setLocale(Locale.US);
         return SUCCESS;
     }
 
@@ -70,7 +76,7 @@ public class AccionProductos extends ActionSupport {
     public void setPuntuaciones(Map puntuaciones) {
         this.puntuaciones = puntuaciones;
     }
-    @Transactional
+
     public String seleccionarProducto() {
 
         String salida = ERROR;
@@ -78,6 +84,12 @@ public class AccionProductos extends ActionSupport {
         Productos p = modelo.DAO.ProductoDAO.obtenerProducto(id);
         if (p != null) {
             this.producto = p;
+            Set<CategoriasProductos> s1 = p.getCategoriasProductoses();
+            SortedSet ss1 = new TreeSet((Set) s1);
+            p.setCategoriasProductoses(ss1);
+            Set<CaracteristicasProductos> s2 = p.getCaracteristicasProductoses();
+            SortedSet ss2 = new TreeSet((Set) s2);
+            p.setCaracteristicasProductoses(ss2);
             salida = SUCCESS;
 
             Set<Valoraciones> lv = p.getValoracioneses();
@@ -91,23 +103,60 @@ public class AccionProductos extends ActionSupport {
             }
             puntuaciones.put(id, puntuacion);
 
-            Map session = (Map) ActionContext.getContext().get("session");
+            /*Map session = (Map) ActionContext.getContext().get("session");
             List<Productos> carrito = (List<Productos>) session.get("carrito");
             if (carrito != null && carrito.contains(p)) {
                 this.estaEnCarrito = true;
             } else {
                 this.estaEnCarrito = false;
+            }*/
+        }
+        ActionContext.getContext().setLocale(Locale.US);
+        return salida;
+    }
+
+    public String agregarCarrito() {
+
+        String salida = ERROR;
+        if (this.getId() != null) {
+            System.out.println(this.getId());
+            Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getId());
+            if (p != null) {
+                Map session = (Map) ActionContext.getContext().get("session");
+                List<Productos> carrito = (List<Productos>) session.get("carrito");
+                if (carrito == null) {
+                    carrito = new ArrayList();
+                    session.put("carrito", carrito);
+                }
+                carrito.add(p);
+                salida = SUCCESS;
+            }
+        }
+        return salida;
+    }
+
+    public String eliminarCarrito() {
+
+        String salida = ERROR;
+
+        if (this.getId() != null) {
+            Map session = (Map) ActionContext.getContext().get("session");
+            List<Productos> carrito = (List<Productos>) session.get("carrito");
+            Productos p = new Productos();
+            p.setIdProducto(this.getId());
+            if (carrito.remove(p)) {
+                salida = SUCCESS;
             }
         }
 
         return salida;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
