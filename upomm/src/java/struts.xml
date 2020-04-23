@@ -31,6 +31,10 @@
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="eliminarCarrito" class="controlador.productos.AccionProductos" method="eliminarCarrito">
+<<<<<<< Updated upstream
+=======
+            <result name="carrito">/views/ventas/carrito.jsp</result>
+>>>>>>> Stashed changes
             <result name="success">/views/productos/producto.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
