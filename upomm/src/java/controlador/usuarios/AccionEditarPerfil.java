@@ -69,6 +69,7 @@ public class AccionEditarPerfil extends ActionSupport {
     public void setVendedor(boolean vendedor) {
         this.vendedor = vendedor;
     }
+    
 
     public void validate() {
 
@@ -101,6 +102,7 @@ public class AccionEditarPerfil extends ActionSupport {
         }
 
     }
+    
 
     public String execute() throws Exception {
         String salida = SUCCESS;
@@ -130,7 +132,7 @@ public class AccionEditarPerfil extends ActionSupport {
                     Map request = (Map) ActionContext.getContext().get("request");
                     request.put("error", false);
                 } else {
-                    salida = ERROR;
+                    addFieldError("password", ERROR);
                 }
 
             }

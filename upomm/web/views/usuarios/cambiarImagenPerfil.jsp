@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Editar Perfil - UPOMediaMarket</title>
+        <title>Perfil - UMM</title>
         <link href="/upomm/css/header.css" rel="stylesheet" type="text/css"/>
         <link href="/upomm/css/footer.css" rel="stylesheet" type="text/css"/>
         <link href="/upomm/css/principal.css" rel="stylesheet" type="text/css"/>
@@ -34,8 +34,8 @@
                     <nav class="list-group">
                         <h4 class="text-center">Perfil De Usuario</h4>
                         <ul class="list-unstyled">
-                            <li><a href="/upomm/views/usuarios/perfil.jsp" class="list-group-item active">Ver Perfil</a></li>
-                            <li><a href="/upomm/views/usuarios/cambiarImagenPerfil.jsp" class="list-group-item">Cambiar Imagen</a></li>
+                            <li><a href="/upomm/views/usuarios/perfil.jsp" class="list-group-item">Ver Perfil</a></li>
+                            <li><a href="/upomm/views/usuarios/cambiarImagenPerfil.jsp" class="list-group-item active">Cambiar Imagen</a></li>
 
                         </ul>
                     </nav>
@@ -49,16 +49,11 @@
 
 
                             <img id="logo_main" class="img-fluid" src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
-                            <br />
-                            <s:form action="editarPerfil" method="post">
-                                <s:textfield name="nombre" label="Nombre" cssClass="form-control" value="%{#session.usuario.nombre}"></s:textfield>
-                                <s:password name="password" label="Contraseña" cssClass="form-control" ></s:password>
-                                <s:password name="newPassword" label="Nueva Contraseña" cssClass="form-control" ></s:password>
-                                <s:password name="passwordConfirm" label="Confirmar Contraseña" cssClass="form-control" ></s:password>
-                                <s:checkbox name="vendedor" label="¿Desea ser vendedor?"></s:checkbox>
+
+                            <s:form action="cambiarImagenPerfil" method="post" enctype="multipart/form-data">
+                                <s:file name="imagenPerfil" accept="image/jpeg, image/png"></s:file>
                                 <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary"></s:submit>
                             </s:form>
-                            <s:a href="./perfil.jsp" cssClass="btn btn-danger">Cancelar</s:a>
                         </div>
                     </div>
 
@@ -72,7 +67,5 @@
         <%@include file="../utils/footer.html" %>
     </body>
 </html>
-
-
 
 

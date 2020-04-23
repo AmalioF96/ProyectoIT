@@ -25,7 +25,7 @@
 
             <div class="row">
                 
-                <div class="col-lg-3">
+                <div class="col-lg-2">
 
                 </div>
                 
@@ -34,15 +34,15 @@
                     <nav class="list-group">
                         <h4 class="text-center">Perfil De Usuario</h4>
                         <ul class="list-unstyled">
-                            <li><a href="perfil.php" class="list-group-item active">Ver Perfil</a></li>
-                            <li><a href="cambiarImagenDePerfil.php" class="list-group-item">Cambiar Imagen</a></li>
+                            <li><a href="/upomm/views/usuarios/perfil.jsp" class="list-group-item active">Ver Perfil</a></li>
+                            <li><a href="/upomm/views/usuarios/cambiarImagenPerfil.jsp" class="list-group-item">Cambiar Imagen</a></li>
 
                         </ul>
                     </nav>
                 </div>
 
 
-                <div class="col-lg-3">
+                <div class="col-lg-4">
 
                     <div class="card mt-4">
                         <div class="card-body">
