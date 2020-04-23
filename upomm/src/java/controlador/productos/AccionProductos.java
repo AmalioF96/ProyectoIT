@@ -26,7 +26,9 @@ public class AccionProductos extends ActionSupport {
     private Map<Integer, Float> puntuaciones;
     private Integer id;
     private Productos producto = null;
-    
+    private String origin = null;
+    //private boolean estaEnCarrito = false;
+
     public AccionProductos() {
         this.puntuaciones = new HashMap();
     }
@@ -111,6 +113,7 @@ public class AccionProductos extends ActionSupport {
                 puntuacion /= lv.size();
             }
             puntuaciones.put(id, puntuacion);
+
         }
         ActionContext.getContext().setLocale(Locale.US);
         return salida;
@@ -142,7 +145,7 @@ public class AccionProductos extends ActionSupport {
     public String eliminarCarrito() {
 
         String salida = ERROR;
-
+        
         if (this.getId() != null) {
             Map session = (Map) ActionContext.getContext().get("session");
             List<Productos> carrito = (List<Productos>) session.get("carrito");
@@ -150,7 +153,11 @@ public class AccionProductos extends ActionSupport {
             p.setIdProducto(this.getId());
             
             if (carrito.remove(p)) {
-                salida = SUCCESS;
+                if(origin!=null && origin.equals("carrito")){
+                    salida = "carrito";
+                }else{
+                    salida=SUCCESS;
+                }
             }
         }
 
@@ -172,4 +179,13 @@ public class AccionProductos extends ActionSupport {
     public void setProducto(Productos producto) {
         this.producto = producto;
     }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
 }
