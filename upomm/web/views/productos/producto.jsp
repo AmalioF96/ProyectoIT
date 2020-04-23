@@ -34,10 +34,10 @@
                         $("#productRating").append($("<i class='far fa-star'></i>"));
                     }
                     $("#btnEliminar").click(function () {
-                        var idProducto = $("<input name='idProducto' type='number' hidden>");
+                        var idProducto = $('<input name="idProducto" type="number" hidden="true"/>');
                         $(idProducto).val(<s:property value="producto.idProducto"/>);
                         $("#formEliminarValoracion").append(idProducto);
-                        $("#eliminarSubmit").click();
+                        $("#formEliminarValoracion").submit();
                     });
                 });
                 /*
@@ -101,7 +101,7 @@
                     btn = $("<button type='button' class='btn btn-sm btn-warning'>Cancelar</button>");
                     $(form).append(btn);
                     $(form).append($("<input id='puntuacion' type='number' name='puntuacion' hidden>"));
-                    var idProducto = $("<input name='idProducto' type='number' hidden>");
+                    var idProducto = $('<input name="idProducto" type="number" hidden>');
                     $(idProducto).val(<s:property value="producto.idProducto"/>);
                     $(form).append(idProducto);
                     $("#miValoracion").after(form);
@@ -244,58 +244,71 @@
                                 </s:if>
                                 <s:else>
                                     <s:iterator value="producto.valoracioneses">
-                                        <div>
-                                            <span class='text-warning'>
-                                                <s:iterator begin="0" end="puntuacion-1" >
-                                                    &#9733;
-                                                </s:iterator>
-                                            </span>
-                                            <br>
-                                            <p><s:property value="descripcion"/></p>
-                                            <small>Por: <s:property value="Usuarios.email"/></small>
-                                            <br>
-                                            <small>Fecha: <s:date name="fecha" format="dd/MM/yyyy" /></small>
-                                        </div>
-                                        <hr>
-                                    </s:iterator>
-                                </s:else>
+                                        <s:if test="%{usuarios==#session.usuario}">
+                                            <s:set scope="page" value="true" var="valorado"/>
+                                            <div id=miValoracion>
+                                            </s:if>
+                                            <s:else>
+                                                <div>
+                                                </s:else>
+                                                <span class='text-warning'>
+                                                    <s:iterator begin="0" end="puntuacion-1" >
+                                                        &#9733;
+                                                    </s:iterator>
+                                                </span>
+                                                <br>
+                                                <p><s:property value="descripcion"/></p>
+                                                <small>Por: <s:property value="usuarios.email"/></small>
+                                                <br>
+                                                <small>Fecha: <s:date name="fecha" format="dd/MM/yyyy" /></small>
+                                                <s:if test="%{usuarios==#session.usuario}">
+                                                    <button id="btnEliminar" class="btn btn-sm btn-danger pull-right btn-valoracion">Eliminar</button>
+                                                    <button class="btn btn-sm btn-warning pull-right btn-valoracion" onclick="mostrarEditable()">Editar</button>
+                                                </s:if>
+                                            </div>
+                                            <hr>
+                                        </s:iterator>
+                                    </s:else>
+                                    <s:if test="%{#valorado==null && #session.usuario.comprases.contains(producto)}">
 
-                                <%--<?php
-                                if (empty($miValoracion) && empty($valoraciones)) {
-                                echo "<p>Aún no hay opiniones para este producto.</p>";
-                                } else {
-                                if (!empty($miValoracion)) {
-                                echo "<div id=miValoracion>";
-                                echo "<span class='text-warning'>";
-                                $nota = $miValoracion["puntuacion"];
-                                for ($i = 0; $i < $nota; $i++) {
-                                echo "&#9733;";
-                                }
-                                echo "</span>";
-                                if ($miValoracion["email_cliente"] == $_SESSION["email"]) {
-                                echo "<button id='btnEliminar' class='btn btn-sm btn-danger pull-right btn-valoracion'>Eliminar</button>";
-                                echo "<button class='btn btn-sm btn-warning pull-right btn-valoracion' onclick='mostrarEditable()'>Editar</button>";
-                                }
+                                    </s:if>
+
+                                    <%--<?php
+                                    if (empty($miValoracion) && empty($valoraciones)) {
+                                    echo "<p>Aún no hay opiniones para este producto.</p>";
+                                    } else {
+                                    if (!empty($miValoracion)) {
+                                    echo "<div id=miValoracion>";
+                                    echo "<span class='text-warning'>";
+                                    $nota = $miValoracion["puntuacion"];
+                                    for ($i = 0; $i < $nota; $i++) {
+                                    echo "&#9733;";
+                                    }
+                                    echo "</span>";
+                                    if ($miValoracion["email_cliente"] == $_SESSION["email"]) {
+                                    echo "<button id='btnEliminar' class='btn btn-sm btn-danger pull-right btn-valoracion'>Eliminar</button>";
+                                    echo "<button class='btn btn-sm btn-warning pull-right btn-valoracion' onclick='mostrarEditable()'>Editar</button>";
+                                    }
 
                                 if (isset($_SESSION["email"]) && empty($miValoracion) && compradoPorMi($_SESSION["email"], $idProducto)) {
                                 mostrarValorar();
                                 }
                                 ?>--%>
+                                </div>
                             </div>
+                            <!-- fin /.card Opiniones-->
                         </div>
-                        <!-- fin /.card Opiniones-->
+                        <!-- /.col-lg-9 -->
+                        <%--<?php }
+                        ?>--%>
                     </div>
-                    <!-- /.col-lg-9 -->
-                    <%--<?php }
-                    ?>--%>
-                </div>
             </main>
             <!-- /.container -->
 
             <%@include file="../utils/footer.html" %>
-            <form id='formEliminarValoracion' method='GET'>
-                <button id="eliminarSubmit" type="submit" name="eliminarValoracion" hidden></button>
-            </form>
+            <s:form id="formEliminarValoracion" action="eliminarValoracion">
+                <s:submit hidden="true"/>
+            </s:form>
         </body>
     </html>
 </s:else>

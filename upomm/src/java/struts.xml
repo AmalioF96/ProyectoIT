@@ -27,11 +27,19 @@
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="agregarCarrito" class="controlador.productos.AccionProductos" method="agregarCarrito">
-            <result name="success">/views/principal.jsp</result>
+            <result name="success">/views/productos/producto.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="eliminarCarrito" class="controlador.productos.AccionProductos" method="eliminarCarrito">
-            <result name="success">/views/principal.jsp</result>
+<<<<<<< Updated upstream
+=======
+            <result name="carrito">/views/ventas/carrito.jsp</result>
+>>>>>>> Stashed changes
+            <result name="success">/views/productos/producto.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="eliminarValoracion" class="controlador.productos.AccionValoraciones" method="eliminar">
+            <result name="success">/views/productos/producto.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
     </package>
@@ -58,6 +66,23 @@
             <result name="error">/views/usuarios/editarPerfil.jsp</result>
             <result name="input">/views/usuarios/editarPerfil.jsp</result>
         </action>
+        
+        
+        <action name="cambiarImagenPerfil" class="controlador.usuarios.AccionImagenPerfil">
+            <interceptor-ref name="fileUpload">
+                <param name="saveDir">/imagenes</param>
+                <param name="allowedTypes">image/jpeg, image/png</param>
+                <param name="maximumSize">2000000</param>
+                <param name="allowedExtensions">jpg, jpeg, png</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack" />
+            
+            <result name="success">/views/usuarios/perfil.jsp</result>
+            <result name="error">/views/usuarios/cambiarImagenPerfil.jsp</result>
+            <result name="input">/views/usuarios/cambiarImagenPerfil.jsp</result>
+        </action>
+        
+        
     </package>
     
     <package name="ventas" extends="struts-default">
