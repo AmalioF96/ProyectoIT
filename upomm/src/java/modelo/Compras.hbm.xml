@@ -8,7 +8,7 @@
             <column name="id_compra" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="usuarios" class="modelo.Usuarios" fetch="join" lazy="proxy">
+        <many-to-one name="usuarios" class="modelo.Usuarios" fetch="join" lazy="false">
             <column name="email_cliente" length="50" not-null="true" />
         </many-to-one>
         <property name="fecha" type="timestamp">
