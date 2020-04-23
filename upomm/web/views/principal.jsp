@@ -80,13 +80,13 @@
                                                 <h4 class = "card-title">
                                                     <s:a href="%{idProductoUrl}" cssClass="productoLink"><s:property value="nombre"/></s:a>
                                                     </h4>
-                                                    <h5><s:property value="precio"/>&euro;</h5>
+                                                    <h5><s:number name="precio" maximumFractionDigits="2" minimumFractionDigits="2"/>&euro;</h5>
                                                 <p class = "card-text">
                                                     <s:property value="descripcion"/>
                                                 </p>
                                             </div>
                                             <div class = "card-footer">
-                                                <small class = "text-muted stars"><span hidden><s:property value="puntuaciones[idProducto]"/></span></small>
+                                                <small class = "text-muted stars"><span hidden><s:number  name="puntuaciones[idProducto]" maximumFractionDigits="1" /></span></small>
                                             </div>
                                         </div>
                                     </div>
