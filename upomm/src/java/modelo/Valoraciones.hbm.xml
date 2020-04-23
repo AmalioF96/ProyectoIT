@@ -25,7 +25,7 @@
             <column name="descripcion" length="500" not-null="true" />
         </property>
         <property name="fecha" type="timestamp">
-            <column name="fecha" length="19" not-null="true" />
+            <column name="fecha" length="19" not-null="false" />
         </property>
     </class>
 </hibernate-mapping>

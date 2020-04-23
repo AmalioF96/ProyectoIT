@@ -12,7 +12,7 @@
             <column name="email_cliente" length="50" not-null="true" />
         </many-to-one>
         <property name="fecha" type="timestamp">
-            <column name="fecha" length="19" not-null="true" />
+            <column name="fecha" length="19" not-null="false" />
         </property>
         <set name="reclamacioneses" table="reclamaciones" inverse="true" lazy="true" fetch="select">
             <key>
