@@ -8,7 +8,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <%@include file="/views/utils/includes.jsp" %>
         <link href="/upomm/css/carrito.css" rel="stylesheet" type="text/css"/>
-        <link href="/upomm/css/principal.css" rel="stylesheet" type="text/css"/>
 
         <script>
             $(document).ready(function () {
