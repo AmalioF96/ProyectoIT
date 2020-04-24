@@ -162,13 +162,13 @@
                                 <s:if test="#session.usuario != null">
                                     <s:if test="%{!#session.carrito.contains(producto)}">
                                         <s:form action="agregarCarrito">
-                                            <s:textfield name="id" value="%{producto.idProducto}" hidden="true"/>
+                                            <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
                                             <s:submit cssClass="btn btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
                                         </s:form>
                                     </s:if>
                                     <s:else>
                                         <s:form action="eliminarCarrito">
-                                            <s:textfield name="id" value="%{producto.idProducto}" hidden="true"/>
+                                            <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
                                             <s:submit cssClass="btn btn-primary" name="btnEliminarCarrito" value="Eliminar del carrito" />
                                         </s:form>
                                     </s:else>
