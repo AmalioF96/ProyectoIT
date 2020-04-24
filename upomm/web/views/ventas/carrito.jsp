@@ -19,50 +19,33 @@
                 });
                 $("input.cantidad").change(function () {
                     console.log("Aqui estamos");
-                    var cantidad = parseInt($(this).val());
-                    if (isNaN(cantidad) || cantidad <= 0) {
-                        cantidad = 1;
-                        $(this).val(cantidad);
-                    }
-                    var id = $(this).attr("id");
-                    var index = parseInt(id.split("-")[1]);
-                    var rows = $("tr.producto");
-                    var modificada = $(rows)[index];
-                    var cells = $(modificada).children();
-                    var precio = parseFloat($(cells[2]).text());
-                    $(cells[4]).text(precio * cantidad);
+                    var inputsCantidad = $("input.cantidad");
+                    var precios = $(".precio")
                     var total = 0;
-                    for (var i = 0; i < rows.length; i++) {
-                        var cell = $(rows[i]).children()[4];
-                        total += parseFloat($(cell).text());
+                    for (var i = 0, max = inputsCantidad.length; i < max; i++) {
+                        var input = $(inputsCantidad).get(i);
+                        var precio = $($(precios).get(i)).text();
+                        if (isNaN(input.value) || input.value <= 0) {
+                            input.value = 1;
+                        }
+                            total += parseFloat(input.value) * parseFloat(precio);
+                        
+
+
                     }
+                    console.log(total);
                     $("#precioTotalCarrito").text(total.toFixed(2));
 
                 });
 
 
                 var inputsCantidad = $("input.cantidad");
-                var btnsEliminar = $("a.btnEliminar");
-                var filas = $("tr.producto");
-                var tdCantidad = $("td.tdCantidad");
-                var tdBtnEliminar = $("td.tdBtnEliminar");
 
-                var event = new Event('change');
-
-                for (var i = 0, max = filas.length; i < max; i++) {
-                    var btn = $(btnsEliminar).get(i);
-                    var tdc = $(tdCantidad).get(i);
-                    var tdb = $(tdBtnEliminar).get(i);
+                for (var i = 0, max = inputsCantidad.length; i < max; i++) {
                     var input = $(inputsCantidad).get(i);
-
                     input.value = 1;
-
-                    $(input).appendTo(tdc);
-                    $(btn).appendTo(tdb);
-
                     $(input).change();
                 }
-                $($("td.tdLabel").parent("tr")).remove();
 
 
             });
@@ -104,7 +87,7 @@
                     <div class='alert alert-success'>El carrito está vacío.</div>
                 </s:elseif>
                 <s:else>
-                    <s:form id="a" action="">
+                    <s:form action="accionProcesarCarrito" method="post" theme="simple">
                         <div class='table-responsive-sm'>
                             <table id="tableProductos" class="table table-light">
                                 <thead>
@@ -135,19 +118,18 @@
                                                 <s:property value="descripcion"/>
                                             </td>
                                             <td class='text-center'>
-                                                <s:property value="precio"/>
+                                                <span class="precio"><s:property value="precio"/></span>
                                             </td>
                                             <td class='text-center tdCantidad'>
-
+                                                <s:textfield  cssClass="form-control cantidad" name="cantidad" type="number"/>
                                             </td>
                                             <td class='text-center tdSubtotal'>
                                                 <s:property value="precio" />
                                             </td>
                                             <td class='text-center tdBtnEliminar'>
+                                                <s:a href="%{productoId}" name='btnEliminarCarrito' cssClass='btn btn-sm btn-danger btnEliminar'  value="Eliminar" >Eliminar</s:a>
 
-                                            </td>
-                                            <s:textfield  cssClass="form-control cantidad" name="cantidad%{cont}" type="number" id="cantidad-%{cont}"/>
-                                            <s:a href="%{productoId}" name='btnEliminarCarrito' cssClass='btn btn-sm btn-danger btnEliminar'  value="Eliminar" >Eliminar</s:a>
+                                                </td>
 
                                             </tr>
                                         <s:set var="total" value="%{#total+precio}" />
