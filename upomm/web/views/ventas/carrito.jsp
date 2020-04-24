@@ -1,8 +1,3 @@
-<%-- 
-    Document   : carrito
-    Created on : 23-abr-2020, 17:34:47
-    Author     : Amalio
---%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s"  uri="/struts-tags" %>
 <!DOCTYPE html>
@@ -12,7 +7,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
         <link href="/upomm/css/carrito.css" rel="stylesheet" type="text/css"/>
         <link href="/upomm/css/header.css" rel="stylesheet" type="text/css"/>
         <link href="/upomm/css/footer.css" rel="stylesheet" type="text/css"/>
@@ -27,28 +22,8 @@
                         $(error).remove();
                     }
                 });
-
-                var inputsCantidad = $("input.cantidad");
-                var btnsEliminar = $("a.btnEliminar");
-                var filas = $("tr.producto");
-                var tdCantidad = $("td.tdCantidad");
-                var tdBtnEliminar = $("td.tdBtnEliminar");
-
-                for (var i = 0, max = filas.length; i < max; i++) {
-                    var btn = $(btnsEliminar).get(i);
-                    var tdc = $(tdCantidad).get(i);
-                    var tdb = $(tdBtnEliminar).get(i);
-                    var input = $(inputsCantidad).get(i);
-
-                    $(input).appendTo(tdc);
-                    $(btn).appendTo(tdb);
-
-                }
-
-                $("table").remove($("td.tdLabel").parent("tr"));
-
-
                 $("input.cantidad").change(function () {
+                    console.log("Aqui estamos");
                     var cantidad = parseInt($(this).val());
                     if (isNaN(cantidad) || cantidad <= 0) {
                         cantidad = 1;
@@ -69,6 +44,32 @@
                     $("#precioTotalCarrito").text(total.toFixed(2));
 
                 });
+
+
+                var inputsCantidad = $("input.cantidad");
+                var btnsEliminar = $("a.btnEliminar");
+                var filas = $("tr.producto");
+                var tdCantidad = $("td.tdCantidad");
+                var tdBtnEliminar = $("td.tdBtnEliminar");
+
+                var event = new Event('change');
+
+                for (var i = 0, max = filas.length; i < max; i++) {
+                    var btn = $(btnsEliminar).get(i);
+                    var tdc = $(tdCantidad).get(i);
+                    var tdb = $(tdBtnEliminar).get(i);
+                    var input = $(inputsCantidad).get(i);
+
+                    input.value = 1;
+
+                    $(input).appendTo(tdc);
+                    $(btn).appendTo(tdb);
+
+                    $(input).change();
+                }
+                $($("td.tdLabel").parent("tr")).remove();
+
+
             });
             function validaDireccion() {
                 var direccion = $("#inputDireccion");
@@ -123,6 +124,7 @@
                                 </thead>
                                 <tbody>
                                     <s:set var="cont" value="0" />
+                                    <s:set var="total" value="0"/>
                                     <s:iterator var="i" value="#session.carrito">
                                         <s:url var="productoId" action="eliminarCarrito">
                                             <s:param name="idProducto" value="idProducto"/>
@@ -153,6 +155,7 @@
                                             <s:a href="%{productoId}" name='btnEliminarCarrito' cssClass='btn btn-sm btn-danger btnEliminar'  value="Eliminar" >Eliminar</s:a>
 
                                             </tr>
+                                        <s:set var="total" value="%{#total+precio}" />
                                         <s:set var="cont" value="%{#cont+1}" />
                                     </s:iterator>
 
@@ -163,7 +166,7 @@
                                             </strong>
                                         </td>
                                         <td class="text-center">
-                                            <span id="precioTotalCarrito"></span>€
+                                            <span id="precioTotalCarrito"></span> €
                                         </td>
                                     </tr>
                                 </tbody>
