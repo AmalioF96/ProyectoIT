@@ -1,5 +1,6 @@
 package modelo.DAO;
 
+import java.io.Serializable;
 import modelo.Valoraciones;
 import modelo.ValoracionesId;
 import org.hibernate.HibernateException;
@@ -11,6 +12,18 @@ import org.hibernate.Transaction;
  * @author marwi
  */
 public class ValoracionDAO {
+
+    public static Serializable insertarValoracion(Valoraciones v) {
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Serializable s = null;
+
+        tx = sesion.beginTransaction();
+        s = sesion.save(v);
+        tx.commit();
+
+        return s;
+    }
 
     public static void eliminarValoracion(ValoracionesId vid) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();

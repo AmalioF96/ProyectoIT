@@ -64,7 +64,7 @@
                 }
                 /*Animación de la valoración*/
                 function animaEstrellas() {
-                    $(".fa-star").click(function () {
+                    $(".review").click(function () {
                         var id = $(this).attr('id');
                         var puntuacion = parseInt(id.substring(id.length - 1, id.length));
                         var estrellas = $(".review");
@@ -162,13 +162,13 @@
                                 <s:if test="#session.usuario != null">
                                     <s:if test="%{!#session.carrito.contains(producto)}">
                                         <s:form action="agregarCarrito">
-                                            <s:textfield name="id" value="%{producto.idProducto}" hidden="true"/>
+                                            <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
                                             <s:submit cssClass="btn btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
                                         </s:form>
                                     </s:if>
                                     <s:else>
                                         <s:form action="eliminarCarrito">
-                                            <s:textfield name="id" value="%{producto.idProducto}" hidden="true"/>
+                                            <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
                                             <s:submit cssClass="btn btn-primary" name="btnEliminarCarrito" value="Eliminar del carrito" />
                                         </s:form>
                                     </s:else>
@@ -245,7 +245,7 @@
                                 <s:else>
                                     <s:iterator value="producto.valoracioneses">
                                         <s:if test="%{usuarios==#session.usuario}">
-                                            <s:set scope="page" value="true" var="valorado"/>
+                                            <s:set value="true" var="valorado"/>
                                             <div id=miValoracion>
                                             </s:if>
                                             <s:else>
@@ -269,8 +269,24 @@
                                             <hr>
                                         </s:iterator>
                                     </s:else>
-                                    <s:if test="%{#valorado==null && #session.usuario.comprases.contains(producto)}">
-
+                                    <s:iterator value="#session.usuario.comprases">
+                                        <s:iterator value="lineasDeCompras">
+                                            <s:if test="productos.equals(producto)">
+                                                <s:set value="true" var="comprado"/>
+                                            </s:if>
+                                        </s:iterator>
+                                    </s:iterator>
+                                    <s:if test="#valorado==null && #comprado!=null">
+                                        <s:form id='formValoracionProducto' cssClass="md-form mr-auto mb-4" action="insertarValoracion" theme="simple">
+                                            <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"></s:textarea>
+                                            <s:iterator begin="1" end="5" step="1" var="index">
+                                                <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
+                                            </s:iterator>
+                                            <s:textfield id="puntuacion" name="puntuacion" hidden="true"/>
+                                                <s:textfield name="idProducto" type="number" value="%{producto.idProducto}" hidden="true"/>
+                                            <br>
+                                            <s:submit id="btn-coment" name="enviarValoracion" value="Enviar" cssClass="btn btn-success"/>
+                                        </s:form>
                                     </s:if>
 
                                     <%--<?php
