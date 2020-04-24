@@ -1,4 +1,3 @@
-<link rel="icon" type="image/png" href="/upomm/imagenes/icono.png">
 <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
         <a class="navbar-brand" href="/upomm/views/principal.jsp"><img height="40" src="/upomm/imagenes/UPOMediaMarket.jpg" alt="upomediamarket_nav"></a>
@@ -24,7 +23,7 @@
                             <s:property value="#session.usuario.nombre"/>
                         </a>
                     </li>
-                  <li class="nav-item">
+                    <li class="nav-item">
                     <s:a action="accionLogout" cssClass="nav-link">
                         Cerrar Sessión
                     </s:a>

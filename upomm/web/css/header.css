@@ -43,7 +43,7 @@ a.categoria {
     background-color: #ee3124;
 }
 
-.list-group-item {
+.list-group-item.cat {
     padding: 0;
 }
 .list-group-item:hover a.categoria {
