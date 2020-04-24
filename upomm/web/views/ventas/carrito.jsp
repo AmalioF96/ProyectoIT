@@ -93,7 +93,7 @@
 <script src="https://www.paypal.com/sdk/js?client-id=Aag_BV9saCzCn3jZU7nRT-_qMd-sJuXnc9VKSeM5li-IXLAGDi2zUsiRtPpTu3Tvr46fIq9Ce6KSjkug"></script>
         --%>
         <%@include file="../utils/header.jsp" %>
-        <h1>Hello World!</h1>
+
         <!-- Page Content -->
         <main class="container">
 
@@ -144,7 +144,7 @@
 
                                             </td>
                                             <td class='text-center tdSubtotal'>
-                                                <s:property value="precio*3" />
+                                                <s:property value="precio" />
                                             </td>
                                             <td class='text-center tdBtnEliminar'>
 
@@ -157,34 +157,40 @@
                                     </s:iterator>
 
                                     <tr>
-                                        <td colspan="5"><strong>Total:</strong></td>
-                                        <td class="text-center"><span id="precioTotalCarrito"><?php echo number_format($total, 2); ?></span>€</td>
+                                        <td colspan="5">
+                                            <strong>
+                                                Total:
+                                            </strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <span id="precioTotalCarrito"></span>€
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <hr>
 
-                        <div class="divCarrito">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for='inputDireccion'><strong>Dirección de envio:</strong></label>
-                                </div>
-                                <select name="direccion" id="inputDireccion" class="custom-select">
-                                    <option value="" disabled selected>--Seleccionar--</option>
-                                    <?php
-                                    foreach ($direcciones as $d) {
-                                    echo "<option value='" . $d["id"] . "'>" . $d["nombre"] . "</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                            <a class="btn btn-sm btn-secondary" href="./aniadirDireccion.php" role="button">Añadir una dirección nueva</a>
-                        </div>
-                        <hr>
+                        <%-- <div class="divCarrito">
+                             <div class="input-group mb-3">
+                                 <div class="input-group-prepend">
+                                     <label class="input-group-text" for='inputDireccion'><strong>Dirección de envio:</strong></label>
+                                 </div>
+                                 <select name="direccion" id="inputDireccion" class="custom-select">
+                                     <option value="" disabled selected>--Seleccionar--</option>
+                                     <?php
+                                     foreach ($direcciones as $d) {
+                                     echo "<option value='" . $d["id"] . "'>" . $d["nombre"] . "</option>";
+                                     }
+                                     ?>
+                                 </select>
+                             </div>
+                             <a class="btn btn-sm btn-secondary" href="./aniadirDireccion.php" role="button">Añadir una dirección nueva</a>
+                         </div>
+                         <hr>--%>
 
                         <div class="divCarrito">
-                            <input id="btnProcesarCompra" class="btn btn-md btn-primary btn-block text-uppercase form-control" type="submit" onclick="return validaDireccion()" value="Procesar Compra" name="procesarCompra">
+                            <input id="btnProcesarCompra" class="btn btn-md btn-primary btn-block text-uppercase form-control" type="submit" onclick="" value="Procesar Compra" name="procesarCompra">
                         </div>
 
                     </s:form>
