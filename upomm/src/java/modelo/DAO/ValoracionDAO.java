@@ -13,19 +13,38 @@ import org.hibernate.Transaction;
  */
 public class ValoracionDAO {
 
-    public static Serializable insertarValoracion(Valoraciones v) {
+    public static boolean insertarValoracion(Valoraciones v) {
+        boolean correcto = true;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
-        Serializable s = null;
 
-        tx = sesion.beginTransaction();
-        s = sesion.save(v);
-        tx.commit();
-
-        return s;
+        try {
+            tx = sesion.beginTransaction();
+            sesion.save(v);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+                correcto = false;
+            }
+        }
+        return correcto;
     }
 
-    public static void eliminarValoracion(ValoracionesId vid) {
+    public static boolean modificarValoracion(Valoraciones v) {
+        boolean correcto = true;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        tx = sesion.beginTransaction();
+        sesion.update(v);
+        tx.commit();
+
+        return correcto;
+    }
+
+    public static boolean eliminarValoracion(ValoracionesId vid) {
+        boolean correcto = true;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
 
@@ -37,8 +56,10 @@ public class ValoracionDAO {
         } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
+                correcto = false;
             }
         }
+        return correcto;
     }
 
 }
