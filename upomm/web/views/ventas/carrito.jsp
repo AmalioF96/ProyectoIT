@@ -104,7 +104,7 @@
                     <div class='alert alert-success'>El carrito está vacío.</div>
                 </s:elseif>
                 <s:else>
-                    <s:form id="a" action="">
+                    <s:form action="accionProcesarCarrito" method="post">
                         <div class='table-responsive-sm'>
                             <table id="tableProductos" class="table table-light">
                                 <thead>
@@ -146,7 +146,7 @@
                                             <td class='text-center tdBtnEliminar'>
 
                                             </td>
-                                            <s:textfield  cssClass="form-control cantidad" name="cantidad%{cont}" type="number" id="cantidad-%{cont}"/>
+                                            <s:textfield  cssClass="form-control cantidad" name="cantidad" type="number"/>
                                             <s:a href="%{productoId}" name='btnEliminarCarrito' cssClass='btn btn-sm btn-danger btnEliminar'  value="Eliminar" >Eliminar</s:a>
 
                                             </tr>
