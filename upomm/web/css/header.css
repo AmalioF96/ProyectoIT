@@ -1,3 +1,6 @@
+html {
+    background-color: #24292e;
+}
 .navbar {
     background-color: #24292e !important;
     padding-left: 5% !important;
@@ -43,7 +46,7 @@ a.categoria {
     background-color: #ee3124;
 }
 
-.list-group-item {
+.list-group-item.cat {
     padding: 0;
 }
 .list-group-item:hover a.categoria {
@@ -69,5 +72,20 @@ h4{
 
 a {
     text-decoration: none !important;
+}
+
+main.container {
+    width: 90%;
+    margin: 0 auto;
+    min-height: 50vh !important;
+}
+@media only screen and (max-width: 600px) {
+    #categorias {
+        margin-top: 1% !important;
+    }
+}
+
+#mensajeErrores{
+    color: red;
 }
 

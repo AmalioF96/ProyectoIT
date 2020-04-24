@@ -93,6 +93,10 @@
     </package>
     
     <package name="ventas" extends="struts-default">
+        <action name="accionProcesarCarrito" class="controlador.ventas.AccionCarrito">
+            <result name="success">/views/ventas/finalizarCompra.jsp</result>
+            <result name="input">/views/ventas/carrito.jsp</result>
+        </action>
         
     </package>
     
