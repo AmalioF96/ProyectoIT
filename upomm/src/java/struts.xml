@@ -35,6 +35,12 @@
             <result name="success">/views/productos/producto.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
+        <action name="insertarValoracion" class="controlador.productos.AccionValoraciones" method="insertar">
+            <result name="success" type="chain">
+                <param name="actionName">seleccionarProducto</param>
+            </result>
+            <result name="error">/views/productos/producto.jsp</result>
+        </action>
         <action name="eliminarValoracion" class="controlador.productos.AccionValoraciones" method="eliminar">
             <result name="success">/views/productos/producto.jsp</result>
             <result name="error">/views/principal.jsp</result>

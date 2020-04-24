@@ -24,10 +24,9 @@ public class AccionProductos extends ActionSupport {
 
     private List<Productos> productos = null;
     private Map<Integer, Float> puntuaciones;
-    private Integer id;
+    private Integer idProducto;
     private Productos producto = null;
     private String origin = null;
-    //private boolean estaEnCarrito = false;
 
     public AccionProductos() {
         this.puntuaciones = new HashMap();
@@ -84,7 +83,7 @@ public class AccionProductos extends ActionSupport {
 
         String salida = ERROR;
 
-        Productos p = modelo.DAO.ProductoDAO.obtenerProducto(id);
+        Productos p = modelo.DAO.ProductoDAO.obtenerProducto(idProducto);
         
         if (p != null) {
             this.producto = p;
@@ -112,10 +111,10 @@ public class AccionProductos extends ActionSupport {
                 }
                 puntuacion /= lv.size();
             }
-            puntuaciones.put(id, puntuacion);
-
+            puntuaciones.put(idProducto, puntuacion);
         }
         ActionContext.getContext().setLocale(Locale.US);
+        
         return salida;
     }
 
@@ -123,9 +122,9 @@ public class AccionProductos extends ActionSupport {
 
         String salida = ERROR;
         
-        if (this.getId() != null) {
-            System.out.println(this.getId());
-            Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getId());
+        if (this.getIdProducto() != null) {
+            System.out.println(this.getIdProducto());
+            Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
             
             if (p != null) {
                 Map session = (Map) ActionContext.getContext().get("session");
@@ -145,12 +144,13 @@ public class AccionProductos extends ActionSupport {
     public String eliminarCarrito() {
 
         String salida = ERROR;
-        
-        if (this.getId() != null) {
+
+        if (this.getIdProducto() != null) {
+
             Map session = (Map) ActionContext.getContext().get("session");
             List<Productos> carrito = (List<Productos>) session.get("carrito");
             Productos p = new Productos();
-            p.setIdProducto(this.getId());
+            p.setIdProducto(this.getIdProducto());
             
             if (carrito.remove(p)) {
                 if(origin!=null && origin.equals("carrito")){
@@ -164,12 +164,12 @@ public class AccionProductos extends ActionSupport {
         return salida;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdProducto() {
+        return idProducto;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdProducto(Integer idProducto) {
+        this.idProducto = idProducto;
     }
 
     public Productos getProducto() {

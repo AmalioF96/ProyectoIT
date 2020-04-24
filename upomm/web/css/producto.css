@@ -1,3 +1,22 @@
 table td {
     border: none !important;
 }
+#btn-coment {
+    margin-top: 1%;
+}
+.checked {
+    color: #ffc107;
+}
+.review:hover {
+    cursor: pointer;
+    color: #ffc107;
+}
+.unchecked{
+    color: lightgray;
+}
+button.btn-valoracion {
+    margin: 5px;
+}
+form textarea {
+    margin-bottom: 10px;
+}
