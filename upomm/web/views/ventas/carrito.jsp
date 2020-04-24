@@ -125,8 +125,8 @@
                                     <s:set var="cont" value="0" />
                                     <s:iterator var="i" value="#session.carrito">
                                         <s:url var="productoId" action="eliminarCarrito">
-                                            <s:param name="id" value="idProducto"/>
-                                            <s:param name="origin" value="carrito"/>
+                                            <s:param name="idProducto" value="idProducto"/>
+                                            <s:param name="origin" value="'carrito'"/>
                                         </s:url>
                                         <tr class='producto'>
                                             <td>
