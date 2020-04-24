@@ -42,6 +42,7 @@ public class AccionLogin extends ActionSupport {
         this.password = password;
     }
 
+    @Override
     public void validate() {
         if (this.getEmail() != null && this.getPassword() != null) {
             if (this.email.trim().length() < 1) {
