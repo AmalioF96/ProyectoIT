@@ -18,6 +18,7 @@
     <package name="productos" extends="struts-default">
         <action name="listarCategorias" class="controlador.productos.AccionCategorias" method="listar">
             <result name="success">/views/principal.jsp</result>
+            <result name="crearProducto">/views/productos/crearProducto.jsp</result>
         </action>
         <action name="listarProductos" class="controlador.productos.AccionProductos" method="listar">
             <result name="success">/views/principal.jsp</result>

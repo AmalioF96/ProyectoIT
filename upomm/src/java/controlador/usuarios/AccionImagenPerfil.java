@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador.usuarios;
 
 import static com.opensymphony.xwork2.Action.ERROR;
@@ -14,10 +9,7 @@ import modelo.DAO.UsuarioDAO;
 import modelo.Usuarios;
 import org.apache.struts2.ServletActionContext;
 
-/**
- *
- * @author Propietario
- */
+
 public class AccionImagenPerfil extends ActionSupport {
 
     private File imagenPerfil;
