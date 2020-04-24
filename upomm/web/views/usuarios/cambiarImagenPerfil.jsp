@@ -42,10 +42,10 @@
                         <div class="card-body">
 
 
-                            <img id="logo_main" class="img-fluid" src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
+                            <img id="imgPerfil" class="img-fluid" src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
 
                             <s:form action="cambiarImagenPerfil" method="post" enctype="multipart/form-data">
-                                <s:file name="imagenPerfil" accept="image/jpeg, image/png"></s:file>
+                                <s:file id="imgPerfilInput" name="imagenPerfil" accept="image/jpeg, image/png"></s:file>
                                 <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary"></s:submit>
                             </s:form>
                         </div>
