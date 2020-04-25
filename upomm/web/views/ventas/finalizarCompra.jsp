@@ -30,8 +30,8 @@
                 </s:elseif>
                 <s:else>
                     <div class="table-responsive-sm">
-                        <table id="tableProductos" class="table table-light">
-                            <s:form method="post" action="finalizarCompra.php" id="finalizarCompra" theme="simple">
+                        <s:form method="post" action="finalizarCompra" id="finalizarCompra" theme="simple">
+                            <table id="tableProductos" class="table table-light">
                                 <input type="hidden" name="email" value="<?php echo base64_encode(encriptar($_SESSION['email'])); ?>"/>
                                 <input type="hidden" name="direccion" value="<?php echo base64_encode(encriptar($_SESSION['direccion'])); ?>"/>
                                 <thead>
@@ -82,17 +82,21 @@
                                         <td colspan="4"><strong>Total:</strong></td>
                                         <td id="precioTotalCarrito" class='text-center'><s:property  value="#total"/>&euro;</td>
                                     </tr>
+
                                 </tbody>
+
                                 <button type="submit" name="submitButton" value="finalizarCompra" id="botonFinalizar" hidden></button>
-                            </s:form>
-                        </table>
+
+                            </table>
+                            <s:submit cssClass="btn btn btn-warning text-uppercase" name="submitButton" value="Comprar" id="botonFinalizar" /> 
+                        </s:form>
                     </div>
                 </div>
                 <hr>
-                
+
 
                 <script src="https://www.paypal.com/sdk/js?client-id=Aag_BV9saCzCn3jZU7nRT-_qMd-sJuXnc9VKSeM5li-IXLAGDi2zUsiRtPpTu3Tvr46fIq9Ce6KSjkug&currency=EUR"></script>
-                <hr>
+                <%-- <hr>--%>
                 <div id="paypal-button-container"></div>
 
                 <script>
@@ -110,21 +114,19 @@
                             size: 'small',
                             color: 'gold',
                             shape: 'pill'
-                    },
-                    createOrder: function (data, actions) {
+                        },
+                        createOrder: function (data, actions) {
+                            return actions.order.create("<?php echo json_encode(buildRequestBody(round($total, 2), $array_productos, $direccion)); ?>");
+                        },
+                        onApprove: function (data, actions) {
 
-
-                            return actions.order.create(<?php echo json_encode(buildRequestBody(round($total, 2), $array_productos, $direccion)); ?>);
-                },
-                onApprove: function (data, actions) {
-
-                                    return actions.order.capture().then(function (details) {
+                            return actions.order.capture().then(function (details) {
 
                                 var formCompra = document.getElementById("finalizarCompra");
                                 formCompra.submit();
                             });
-                            }
-                            }).render('#paypal-button-container');
+                        }
+                    }).render('#paypal-button-container');
                 </script>
 
             </s:else>
@@ -135,7 +137,7 @@
 
 </main>
 <!-- /.container -->
-        <%@include file="../utils/footer.html" %>
+<%@include file="../utils/footer.html" %>
 
 
 </body>
