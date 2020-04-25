@@ -63,8 +63,6 @@ public class AccionImagenPerfil extends ActionSupport {
                     + getImagenPerfilContentType().substring(getImagenPerfilContentType().indexOf("/") + 1);
             
             imagenPerfil.renameTo(new File(nuevaRuta + nuevoNombre));
-            File f = new File(nuevaRuta + ".jpg");
-            ServletActionContext.getServletContext().getRealPath("/");
             user.setFoto("/upomm/imagenes" + nuevoNombre);
 
             if (UsuarioDAO.actualizaUsuario(user)) {
