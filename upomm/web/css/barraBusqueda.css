@@ -1,0 +1,27 @@
+#searchForm,#ordenar {
+    margin-top: 3% !important;
+}
+.input-group {
+    width: 60% !important;
+}
+.ordenacion {
+    padding: 0 !important;
+}
+.col-xl-9 {
+    padding: 0 !important;
+}
+.container-fluid {
+    padding: 0 !important;
+}
+select {
+    margin-right: 10px;
+}
+@media only screen and (max-width: 600px) {
+    .input-group, select {
+        width: 100% !important;
+        margin: 5px 0;
+    }
+    .mb-4 {
+        margin-bottom: 0 !important;
+    }
+}

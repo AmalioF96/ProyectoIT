@@ -63,22 +63,6 @@ public class AccionProductos extends ActionSupport {
         return SUCCESS;
     }
 
-    public List<Productos> getProductos() {
-        return productos;
-    }
-
-    public void setProductos(List<Productos> productos) {
-        this.productos = productos;
-    }
-
-    public Map getPuntuaciones() {
-        return puntuaciones;
-    }
-
-    public void setPuntuaciones(Map puntuaciones) {
-        this.puntuaciones = puntuaciones;
-    }
-
     public String seleccionarProducto() {
 
         String salida = ERROR;
@@ -164,6 +148,22 @@ public class AccionProductos extends ActionSupport {
         return salida;
     }
 
+        public List<Productos> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Productos> productos) {
+        this.productos = productos;
+    }
+
+    public Map getPuntuaciones() {
+        return puntuaciones;
+    }
+
+    public void setPuntuaciones(Map puntuaciones) {
+        this.puntuaciones = puntuaciones;
+    }
+    
     public Integer getIdProducto() {
         return idProducto;
     }

@@ -125,7 +125,7 @@
 
                     <!-- LISTA DE CATEGORÍAS -->
                     <div class="col-lg-3">
-                        <nav id='categorias' class="list-group">
+                        <nav id='categorias' class="list-group make-me-sticky">
                             <ul class="list-unstyled">
                                 <h4 class="text-center">Categorías</h4>
                                 <s:iterator value="producto.categoriasProductoses" step="1">
@@ -235,7 +235,7 @@
                                     </s:else>
                                     <s:iterator value="#session.usuario.comprases">
                                         <s:iterator value="lineasDeCompras">
-                                            <s:if test="productos.equals(producto)">
+                                            <s:if test="productos==producto">
                                                 <s:set value="true" var="comprado"/>
                                             </s:if>
                                         </s:iterator>
