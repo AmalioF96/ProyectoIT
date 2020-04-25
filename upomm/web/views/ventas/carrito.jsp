@@ -91,7 +91,7 @@
                         <div class='alert alert-success'>El carrito está vacío.</div>
                     </s:elseif>
                     <s:else>
-                        <s:form action="accionProcesarCarrito" method="post" theme="simple">
+                        <s:form action="accionProcesarCarrito" method="post" theme="css_xhtml">
                             <div class='table-responsive-sm'>
                                 <table id="tableProductos" class="table table-light">
                                     <thead>
