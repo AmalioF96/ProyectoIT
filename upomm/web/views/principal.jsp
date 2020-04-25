@@ -86,7 +86,7 @@
                                 </s:else>
                                 <s:sort source="productos" comparator="#comparador">
                                     <s:iterator>
-                                        <s:url var="idProductoUrl" action="seleccionarProducto">
+                                        <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
                                             <s:param name="idProducto" value="idProducto"/>
                                         </s:url>
                                         <div class = "col-lg-4 col-md-6 mb-4">
