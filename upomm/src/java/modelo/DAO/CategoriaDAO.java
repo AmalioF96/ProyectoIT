@@ -27,4 +27,18 @@ public class CategoriaDAO {
         return listaCategorias;
     }
 
+    public static List<Categorias> listarCategoriasCoincidentes(List<String> lista) {
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        List<Categorias> listaCategorias = null;
+
+        try{
+        Transaction tx = sesion.beginTransaction();
+        listaCategorias = sesion.createQuery("from Categorias where nombre in :lista order by nombre ASC").setParameterList("lista", lista).list();
+        sesion.getTransaction().commit();
+        }catch(HibernateException e) {
+
+        }
+
+        return listaCategorias;
+    }
 }

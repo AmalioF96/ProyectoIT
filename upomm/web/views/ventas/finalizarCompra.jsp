@@ -12,6 +12,7 @@
         <script src="../frameworks/jquery/jquery.min.js"></script>
         <script src="../frameworks/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="https://kit.fontawesome.com/a076d05399.js"></script><!-- Para que se vean los logos -->
+        <s:head/>
     </head>
 
     <body>
@@ -30,7 +31,7 @@
                 </s:elseif>
                 <s:else>
                     <div class="table-responsive-sm">
-                        <s:form method="post" action="finalizarCompra" id="finalizarCompra" theme="simple">
+                        <s:form method="post" action="accionFinalizarCompra" id="finalizarCompra" theme="css_xhtml">
                             <table id="tableProductos" class="table table-light">
                                 <input type="hidden" name="email" value="<?php echo base64_encode(encriptar($_SESSION['email'])); ?>"/>
                                 <input type="hidden" name="direccion" value="<?php echo base64_encode(encriptar($_SESSION['direccion'])); ?>"/>
@@ -64,14 +65,14 @@
                                                 <s:property value="precio"/>
                                             </td>
                                             <td class='text-center tdCantidad'>
-                                                <s:property  value="cantidad.get(#cont)"/>
+                                                <s:property  value="#session.cantidad.get(#cont)"/>
                                             </td>
                                             <td class='text-center tdSubtotal'>
                                                 <s:property value="precio" />
                                             </td>
 
                                         </tr>
-                                        <s:set var="total" value="%{#total+(precio*cantidad.get(#cont))}" />
+                                        <s:set var="total" value="%{#total+(precio*#session.cantidad.get(#cont))}" />
                                         <s:set var="cont" value="%{#cont+1}" />
                                     </s:iterator>
                                     <%--
@@ -88,7 +89,9 @@
                                 <button type="submit" name="submitButton" value="finalizarCompra" id="botonFinalizar" hidden></button>
 
                             </table>
-                            <s:submit cssClass="btn btn btn-warning text-uppercase" name="submitButton" value="Comprar" id="botonFinalizar" /> 
+                            <s:checkbox name="terminosYCondiciones" fieldValue="true" label=" Acepto los términos y condiciones del servicio."/>
+                            
+                            <br><s:submit cssClass="btn btn btn-warning text-uppercase" name="submitButton" value="Comprar" id="botonFinalizar" /> 
                         </s:form>
                     </div>
                 </div>

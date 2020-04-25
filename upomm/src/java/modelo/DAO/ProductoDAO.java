@@ -1,6 +1,8 @@
 package modelo.DAO;
 
 import java.util.List;
+import modelo.CaracteristicasProductos;
+import modelo.CaracteristicasProductosId;
 import modelo.Productos;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -11,6 +13,8 @@ import org.hibernate.Transaction;
  * @author marwi
  */
 public class ProductoDAO {
+
+    private static Session sesion = null;
 
     public static Productos obtenerProducto(int idProducto) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -74,4 +78,57 @@ public class ProductoDAO {
 
         return listaProductos;
     }
+
+    public static boolean crearProducto(Productos p) {
+        boolean salida = true;
+        try {
+            sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = sesion.beginTransaction();
+            sesion.save(p);
+            tx.commit();
+        } catch (Exception ex) {
+            salida = false;
+        }
+        return salida;
+    }
+    
+    public static boolean actualizaProducto(Productos p) {
+        boolean salida = true;
+        try {
+            sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = sesion.beginTransaction();
+            sesion.update(p);
+            tx.commit();
+        } catch (Exception ex) {
+            salida = false;
+        }
+        return salida;
+    }
+    
+    public static boolean crearCaracteristicaId(CaracteristicasProductosId cid){
+        boolean salida = true;
+        try {
+            sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = sesion.beginTransaction();
+            sesion.update(cid);
+            tx.commit();
+        } catch (Exception ex) {
+            salida = false;
+        }
+        return salida;
+    }
+    
+    public static boolean crearCaracteristica(CaracteristicasProductos c){
+        boolean salida = true;
+        try {
+            sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction tx = sesion.beginTransaction();
+            sesion.update(c);
+            tx.commit();
+        } catch (Exception ex) {
+            salida = false;
+        }
+        return salida;
+    }
+
 }

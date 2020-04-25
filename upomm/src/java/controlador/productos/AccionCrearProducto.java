@@ -1,23 +1,236 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador.productos;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import java.io.File;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
+import modelo.CaracteristicasProductos;
+import modelo.CaracteristicasProductosId;
+import modelo.Categorias;
+import modelo.DAO.CategoriaDAO;
+import modelo.DAO.ProductoDAO;
+import modelo.Productos;
+import modelo.Usuarios;
+import org.apache.struts2.ServletActionContext;
 
-/**
- *
- * @author Propietario
- */
 public class AccionCrearProducto extends ActionSupport {
-    
+
+    private String nombre;
+    private String descripcion;
+    private List<String> categorias;
+    private File imagen;
+    private String imagenFileName;
+    private String imagenContentType;
+    private String precio;
+    private List<String> nombreCaracteristica;
+    private List<String> descripcionCaracteristica;
+    private File archivoVenta;
+    private String archivoVentaFileName;
+    private String archivoVentaContentType;
+    private boolean terminos;
+
     public AccionCrearProducto() {
     }
-    
-    public String execute() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+    public String getNombre() {
+        return nombre;
     }
-    
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public List<String> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<String> categorias) {
+        this.categorias = categorias;
+    }
+
+    public File getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(File imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getImagenFileName() {
+        return imagenFileName;
+    }
+
+    public void setImagenFileName(String imagenFileName) {
+        this.imagenFileName = imagenFileName;
+    }
+
+    public String getImagenContentType() {
+        return imagenContentType;
+    }
+
+    public void setImagenContentType(String imagenContentType) {
+        this.imagenContentType = imagenContentType;
+    }
+
+    public String getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(String precio) {
+        this.precio = precio;
+    }
+
+    public List<String> getNombreCaracteristica() {
+        return nombreCaracteristica;
+    }
+
+    public void setNombreCaracteristica(List<String> nombreCaracteristica) {
+        this.nombreCaracteristica = nombreCaracteristica;
+    }
+
+    public List<String> getDescripcionCaracteristica() {
+        return descripcionCaracteristica;
+    }
+
+    public void setDescripcionCaracteristica(List<String> descripcionCaracteristica) {
+        this.descripcionCaracteristica = descripcionCaracteristica;
+    }
+
+    public File getArchivoVenta() {
+        return archivoVenta;
+    }
+
+    public void setArchivoVenta(File archivoVenta) {
+        this.archivoVenta = archivoVenta;
+    }
+
+    public String getArchivoVentaFileName() {
+        return archivoVentaFileName;
+    }
+
+    public void setArchivoVentaFileName(String archivoVentaFileName) {
+        this.archivoVentaFileName = archivoVentaFileName;
+    }
+
+    public String getArchivoVentaContentType() {
+        return archivoVentaContentType;
+    }
+
+    public void setArchivoVentaContentType(String archivoVentaContentType) {
+        this.archivoVentaContentType = archivoVentaContentType;
+    }
+
+    public boolean isTerminos() {
+        return terminos;
+    }
+
+    public void setTerminos(boolean terminos) {
+        this.terminos = terminos;
+    }
+
+    public void validate() {
+        if (this.getNombre() == null || this.getNombre().equals("")) {
+            addFieldError("nombre", "El nombre debe estar relleno");
+        }
+        if (this.getDescripcion() == null || this.getDescripcion().equals("")) {
+            addFieldError("descripcion", "La descripción debe estar rellena");
+        }
+        if (this.categorias == null || this.categorias.isEmpty()) {
+            System.out.println("-------------------------------" + this.categorias);
+            addFieldError("categorias", "Debe seleccionar al menos una categoría");
+        }
+        if (this.getImagen() == null) {
+            addFieldError("imagen", "Debe incluir una imagen");
+        }
+        if (Pattern.matches("\\d+", this.getPrecio())) {
+            addFieldError("precio", "El precio debe ser numérico");
+        } else {
+            if (Float.parseFloat(this.precio) < 0) {
+                addFieldError("precio", "El precio debe ser mayor que 0");
+            }
+        }
+        if(this.nombreCaracteristica == null || this.nombreCaracteristica.isEmpty()
+                || this.descripcionCaracteristica == null || this.descripcionCaracteristica.isEmpty()
+                || this.nombreCaracteristica.size() != this.descripcionCaracteristica.size()){
+            addFieldError("nombreCaracteristica", "Las características deben estar rellenas");
+        }else{
+            String nc;
+            String dc;
+
+            for(int i = 0; i < this.nombreCaracteristica.size(); i++){
+                nc = this.nombreCaracteristica.get(i);
+                dc = this.descripcionCaracteristica.get(i);
+                if(nc == null || nc.equals("")){
+                    addFieldError("nombreCaracteristica", "Los nombres de las características deben estar rellenos");
+                }
+                if(dc == null || dc.equals("")){
+                    addFieldError("descripcionCaracteristica", "Las descripciones de las características deben estar rellenas");
+                }
+            }
+        }
+        
+        if(this.archivoVenta == null){
+            addFieldError("archivoVenta", "Debe subir el archivo a vender");
+        }
+        
+        if(!isTerminos()){
+            addFieldError("terminos", "Debe aceptar los términos y condiciones");
+        }
+    }
+
+    public String execute() throws Exception {
+        String salida = SUCCESS;
+        try{
+        Productos prod = new Productos();
+        prod.setNombre(this.getNombre());
+        prod.setDescripcion(this.getDescripcion());
+        prod.setPrecio(Float.parseFloat(this.getPrecio()));
+        
+        String nuevaRuta;
+        String nuevoNombre;
+        
+        Map session = (Map) ActionContext.getContext().get("session");
+        Usuarios user = (Usuarios) session.get("usuario");
+        
+        nuevaRuta = ServletActionContext.getServletContext().getRealPath("/imagenes");
+        
+        nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
+                    + getImagenContentType().substring(getImagenContentType().indexOf("/") + 1);
+        imagen.renameTo(new File(nuevaRuta + nuevoNombre));
+        prod.setImagen("/upomm/imagenes" + nuevoNombre);
+        Set setCat = new HashSet(CategoriaDAO.listarCategoriasCoincidentes(this.getCategorias()));
+        prod.setCategoriasProductoses(setCat);
+        if(ProductoDAO.crearProducto(prod)){
+            salida = ERROR;
+        }
+        CaracteristicasProductos c;
+        CaracteristicasProductosId cId;
+        for(int i = 0; i < this.getNombreCaracteristica().size(); i++){
+            cId = new CaracteristicasProductosId(prod.getIdProducto(), this.getNombreCaracteristica().get(i));
+            c = new CaracteristicasProductos(cId, prod, this.getDescripcionCaracteristica().get(i));
+            if(ProductoDAO.crearCaracteristicaId(cId)){
+                salida = ERROR;
+            }
+            if(ProductoDAO.crearCaracteristica(c)){
+                salida = ERROR;
+            }
+        }
+        }catch(Exception ex){
+            salida = ERROR;
+        }
+        return salida;
+    }
+
 }
