@@ -25,7 +25,7 @@
 
                 <!-- LISTA DE CATEGORÍAS -->
                 <div class="col-lg-3">
-                    <nav id="categorias" class="list-group">
+                    <nav id="categorias" class="list-group make-me-sticky">
                         <h4 class="text-center">Perfil De Usuario</h4>
                         <ul class="list-unstyled">
                             <li><a href="/upomm/views/usuarios/perfil.jsp" class="list-group-item active">Ver Perfil</a></li>
