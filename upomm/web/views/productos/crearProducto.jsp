@@ -56,16 +56,16 @@
 
                     </div>
                     <div class="col-lg-8">
-                        <s:form action="crearProducto" method="post" enctype="multipart/form-data" theme="simple">
+                        <s:form action="crearProducto" method="post" enctype="multipart/form-data" theme="css_xhtml">
                             <div class="form-group">
                                 <label for="producto">Nombre del producto</label>
-                                <s:textfield name="nombre" label="Nombre" cssClass="form-control" ></s:textfield>
+                                <s:textfield name="nombre" cssClass="form-control" ></s:textfield>
                                     <label for="descripcion">Descripción</label>
-                                <s:textfield name="descripcion" label="Descripción" cssClass="form-control" ></s:textfield>
+                                <s:textfield name="descripcion" cssClass="form-control" ></s:textfield>
                                 </div>
                                 <div id="miSelect" class="form-row">
                                     <label>Categorias</label>
-                                <s:select id="select" name="categorias" headerValue="Categorias" list="categorias" listValue="nombre" multiple="true" cssClass="form-control chosen-select" tabindex="-1" />
+                                <s:select id="select" name="categorias" headerValue="Categorias" list="categorias" listKey="nombre" listValue="nombre" multiple="true" cssClass="form-control chosen-select" tabindex="-1" />
                             </div>
                             <br/>
                             <div class="form-group">
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Precio:</label>
-                                <s:textfield name="precio" label="Precio" cssClass="form-control"></s:textfield>
+                                <s:textfield name="precio" cssClass="form-control"></s:textfield>
                                 </div>
                                 <br/>
                                 <div id="caracteristicas">
@@ -96,7 +96,7 @@
                             <s:file name="archivoVenta" accept="image/jpeg, image/png"></s:file>
                                 <br/>
                                 <br/>
-                            <s:checkbox name="terminos" label="Acepto los términos y condiciones"></s:checkbox><label class="">&nbsp;<a href="">Acepto los términos y condiciones</a></label>
+                            <s:checkbox name="terminos"></s:checkbox><label class="">&nbsp;<a href="">Acepto los términos y condiciones</a></label>
                                 <br/>
                             <s:submit name="btnCrearProducto" value="Crear" cssClass="btn btn-primary"></s:submit>
                         </s:form>
