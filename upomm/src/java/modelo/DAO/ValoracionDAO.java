@@ -1,6 +1,5 @@
 package modelo.DAO;
 
-import java.io.Serializable;
 import modelo.Valoraciones;
 import modelo.ValoracionesId;
 import org.hibernate.HibernateException;
@@ -35,10 +34,17 @@ public class ValoracionDAO {
         boolean correcto = true;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
-
-        tx = sesion.beginTransaction();
-        sesion.update(v);
-        tx.commit();
+        
+        try {
+            tx = sesion.beginTransaction();
+            sesion.update(v);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+                correcto = false;
+            }
+        }
 
         return correcto;
     }

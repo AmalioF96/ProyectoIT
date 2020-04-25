@@ -54,8 +54,23 @@
                                 <h4 class="text-center">Categorías</h4>
                                 <ul class="list-unstyled">
                                     <s:iterator value="categorias">
-                                        <li class="list-group-item cat"><a class="categoria" href=""><s:property value="nombre"/></a></li>
-                                        </s:iterator>
+                                        <s:url var="categoriaUrl" action="listarProductos">
+                                            <s:param name="categoria" value="nombre"/>
+                                        </s:url>
+                                        <li class="list-group-item cat">
+                                            <s:if test="nombre==#parameters.categoria[0]">
+                                                <s:a cssClass="categoria active" href="%{categoriaUrl}">
+                                                    <s:property value="nombre"/>
+                                                </s:a>
+                                            </s:if>
+                                            <s:else>
+                                                <s:a cssClass="categoria" href="%{categoriaUrl}">
+                                                    <s:property value="nombre"/>
+                                                </s:a>
+
+                                            </s:else>
+                                        </li>
+                                    </s:iterator>
                                 </ul>
                             </nav>
                         </div>
@@ -91,7 +106,9 @@
                                         </s:url>
                                         <div class = "col-lg-4 col-md-6 mb-4">
                                             <div class = "card h-100">
-                                                <a href = ""><img class = "card-img-top lazyload" data-src = "" alt = ""></a>
+                                                <s:a href = "%{idProductoUrl}">
+                                                    <img class = "card-img-top lazyload" data-src = "/upomm/imagenes/productDefaultImage.jpg" alt = "">
+                                                </s:a>
                                                 <div class = "card-body">
                                                     <h4 class = "card-title">
                                                         <s:a href="%{idProductoUrl}" cssClass="productoLink"><s:property value="nombre"/></s:a>
