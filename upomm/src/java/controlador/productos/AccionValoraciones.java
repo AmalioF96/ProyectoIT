@@ -2,7 +2,6 @@ package controlador.productos;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import modelo.Productos;

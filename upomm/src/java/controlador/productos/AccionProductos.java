@@ -27,6 +27,8 @@ public class AccionProductos extends ActionSupport {
     private Integer idProducto;
     private Productos producto = null;
     private String origin = null;
+    private String categoria = null;
+    private String busqueda = null;
 
     public AccionProductos() {
         this.puntuaciones = new HashMap();
@@ -37,8 +39,17 @@ public class AccionProductos extends ActionSupport {
     }
 
     public String listar() {
-
-        List<Productos> lp = modelo.DAO.ProductoDAO.listarProductos();
+        System.out.println("------------------------------------------------------------" + this.getCategoria()+"--"+this.getBusqueda());
+        List<Productos> lp = null;
+        if ((this.getCategoria() == null || this.getCategoria().trim().length() < 1) && (this.getBusqueda() == null || this.getBusqueda().trim().length() < 1)) {
+            lp = modelo.DAO.ProductoDAO.listarProductos();
+        } else if (this.getCategoria() !=null && this.getCategoria().trim().length()>0 && this.getBusqueda() != null && this.getBusqueda().trim().length()>0) {
+            lp = modelo.DAO.ProductoDAO.buscarProductosPorCategoria(this.getBusqueda(), this.getCategoria());
+        } else if (this.getBusqueda() != null && this.getBusqueda().trim().length()>0) {
+            lp = modelo.DAO.ProductoDAO.buscarProductos(this.getBusqueda());
+        } else {
+            lp = modelo.DAO.ProductoDAO.listarProductosPorCategoria(this.getCategoria());
+        }
 
         if (lp != null && !lp.isEmpty()) {
             Iterator<Productos> it = lp.iterator();
@@ -148,7 +159,7 @@ public class AccionProductos extends ActionSupport {
         return salida;
     }
 
-        public List<Productos> getProductos() {
+    public List<Productos> getProductos() {
         return productos;
     }
 
@@ -163,7 +174,7 @@ public class AccionProductos extends ActionSupport {
     public void setPuntuaciones(Map puntuaciones) {
         this.puntuaciones = puntuaciones;
     }
-    
+
     public Integer getIdProducto() {
         return idProducto;
     }
@@ -186,6 +197,22 @@ public class AccionProductos extends ActionSupport {
 
     public String getOrigin() {
         return origin;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getBusqueda() {
+        return busqueda;
+    }
+
+    public void setBusqueda(String busqueda) {
+        this.busqueda = busqueda;
     }
 
 }
