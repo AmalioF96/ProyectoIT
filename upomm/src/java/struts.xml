@@ -45,10 +45,25 @@
                 <param name="actionName">seleccionarProducto</param>
             </result>
             <result name="error">/views/productos/producto.jsp</result>
+            <result name="input" type="chain">
+                <param name="actionName">seleccionarProducto</param>
+            </result>
+        </action>
+        <action name="modificarValoracion" class="controlador.productos.AccionValoraciones" method="modificar">
+            <result name="success" type="chain">
+                <param name="actionName">seleccionarProducto</param>
+            </result>
+            <result name="error">/views/productos/producto.jsp</result>
+            <result name="input" type="chain">
+                <param name="actionName">seleccionarProducto</param>
+            </result>
         </action>
         <action name="eliminarValoracion" class="controlador.productos.AccionValoraciones" method="eliminar">
-            <result name="success">/views/productos/producto.jsp</result>
+            <result name="success">/views/principal.jsp</result>
             <result name="error">/views/principal.jsp</result>
+            <result name="input" type="chain">
+                <param name="actionName">seleccionarProducto</param>
+            </result>
         </action>
     </package>
     <package name="reclamaciones" extends="struts-default">
