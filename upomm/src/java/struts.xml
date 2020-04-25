@@ -28,41 +28,57 @@
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="agregarCarrito" class="controlador.productos.AccionProductos" method="agregarCarrito">
-            <result name="success" type="chain">
-                <param name="actionName">seleccionarProducto</param>
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
             </result>
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="eliminarCarrito" class="controlador.productos.AccionProductos" method="eliminarCarrito">
             <result name="carrito">/views/ventas/carrito.jsp</result>
-            <result name="success" type="chain">
-                <param name="actionName">seleccionarProducto</param>
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
             </result>
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="insertarValoracion" class="controlador.productos.AccionValoraciones" method="insertar">
-            <result name="success" type="chain">
-                <param name="actionName">seleccionarProducto</param>
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
+                <param name="anchor">valoraciones</param>
             </result>
-            <result name="error">/views/productos/producto.jsp</result>
-            <result name="input" type="chain">
-                <param name="actionName">seleccionarProducto</param>
+            <result name="error">/views/principal.jsp</result>
+            <result name="input" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
+                <param name="anchor">valoraciones</param>
             </result>
         </action>
         <action name="modificarValoracion" class="controlador.productos.AccionValoraciones" method="modificar">
-            <result name="success" type="chain">
-                <param name="actionName">seleccionarProducto</param>
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
+                <param name="anchor">valoraciones</param>
             </result>
-            <result name="error">/views/productos/producto.jsp</result>
-            <result name="input" type="chain">
-                <param name="actionName">seleccionarProducto</param>
+            <result name="error">/views/principal.jsp</result>
+            <result name="input" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
+                <param name="anchor">valoraciones</param>
             </result>
         </action>
         <action name="eliminarValoracion" class="controlador.productos.AccionValoraciones" method="eliminar">
-            <result name="success">/views/principal.jsp</result>
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
+                <param name="anchor">valoraciones</param>
+            </result>
             <result name="error">/views/principal.jsp</result>
-            <result name="input" type="chain">
-                <param name="actionName">seleccionarProducto</param>
+            <result name="input" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
+                <param name="anchor">valoraciones</param>
             </result>
         </action>
     </package>
@@ -113,7 +129,10 @@
             <result name="success">/views/ventas/finalizarCompra.jsp</result>
             <result name="input">/views/ventas/carrito.jsp</result>
         </action>
-        
+        <action name="accionFinalizarCompra" class="controlador.ventas.AccionVenta">
+            <result name="input">/views/ventas/finalizarCompra.jsp</result>
+            <result name="success">/views/ventas/carrito.jsp</result>
+        </action>
     </package>
     
 </struts>

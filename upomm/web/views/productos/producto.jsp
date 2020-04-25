@@ -1,9 +1,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s"  uri="/struts-tags" %>
 <!DOCTYPE html>
-<s:if test="%{producto==null}">
+<s:if test="%{#parameters.idProducto==null}">
     <jsp:forward page="/views/principal.jsp"/>
 </s:if>
+<s:elseif test="producto==null">
+    <s:action executeResult="true" name="seleccionarProducto">
+        <s:param name="idProducto" value="#parameters.idProducto"/>
+    </s:action>
+</s:elseif>
 <s:else>
     <html>
         <head>
@@ -242,7 +247,7 @@
                                     </s:iterator>
                                     <s:if test="#valorado==null && #comprado!=null">
                                         <s:form id='formValoracionProducto' cssClass="md-form mr-auto mb-4" action="insertarValoracion" theme="simple">
-                                            <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"></s:textarea>
+                                            <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
                                             <s:iterator begin="1" end="5" step="1" var="index">
                                                 <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
                                             </s:iterator>
