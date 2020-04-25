@@ -129,7 +129,10 @@
             <result name="success">/views/ventas/finalizarCompra.jsp</result>
             <result name="input">/views/ventas/carrito.jsp</result>
         </action>
-        
+        <action name="accionFinalizarCompra" class="controlador.ventas.AccionVenta">
+            <result name="input">/views/ventas/finalizarCompra.jsp</result>
+            <result name="success">/views/ventas/carrito.jsp</result>
+        </action>
     </package>
     
 </struts>
