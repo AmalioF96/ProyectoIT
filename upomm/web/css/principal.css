@@ -29,12 +29,11 @@
 .fa-star, .fa-star-half-alt {
     color: #7a1600 !important;
 }
-
-#categorias {
-    margin-top: 3%;
-}
-
 .active {
     color: white !important;
     background-color: #ee3124 !important;
+}
+
+.highlight {
+    font-weight: bold;
 }

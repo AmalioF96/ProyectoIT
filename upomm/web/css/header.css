@@ -94,4 +94,7 @@ main.container {
 	position: sticky;
 	top: 0;
 }
+#categorias {
+    margin-top: 3%;
+}
 

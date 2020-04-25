@@ -46,6 +46,19 @@
                         $("img.lazyload").lazyload();
                     });
                 </script>
+                <s:if test="%{#parameters.busqueda!=null && #parameters.busqueda[0].trim()!=''}">
+                    <script>
+                        $(document).ready(function () {
+                            var results = $(".busca");
+                            for (var i = 0; i < results.length; i++) {
+                                var text = $(results[i]).text();
+                                var busca = "<s:property value="#parameters.busqueda"/>";
+                                var re = new RegExp(busca, 'gi');
+                                results[i].innerHTML = results[i].innerHTML.replace(re, "<span class='highlight'>" + busca + "</span>");
+                            }
+                        });
+                    </script>
+                </s:if>
                 <%@include file="utils/header.jsp" %>
                 <main class="container">
                     <div class="row">
@@ -110,12 +123,19 @@
                                                     <img class = "card-img-top lazyload" data-src = "/upomm/imagenes/productDefaultImage.jpg" alt = "">
                                                 </s:a>
                                                 <div class = "card-body">
-                                                    <h4 class = "card-title">
-                                                        <s:a href="%{idProductoUrl}" cssClass="productoLink"><s:property value="nombre"/></s:a>
-                                                        </h4>
-                                                        <h5><s:number name="precio" maximumFractionDigits="2" minimumFractionDigits="2"/>&euro;</h5>
-                                                    <p class = "card-text">
+                                                    <h4 class = "card-title busca">
+                                                        <s:a href="%{idProductoUrl}" cssClass="productoLink">
+                                                            <s:property value="nombre"/>
+                                                        </s:a>
+                                                    </h4>
+                                                    <h5><s:number name="precio" maximumFractionDigits="2" minimumFractionDigits="2"/>&euro;</h5>
+                                                    <p class = "card-text busca">
+                                                        <s:if test="descripcion.length()>50">
+                                                            <s:property value="%{descripcion.substring(0,50)+'(...)'}"/>
+                                                        </s:if>
+                                                        <s:else>
                                                         <s:property value="descripcion"/>
+                                                        </s:else>
                                                     </p>
                                                 </div>
                                                 <div class = "card-footer">
