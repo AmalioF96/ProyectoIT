@@ -17,7 +17,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/producto.css" rel="stylesheet" type="text/css"/>
-            
+
             <script>
                 $(document).ready(function () {
                     animaEstrellas();
@@ -132,14 +132,18 @@
                     <div class="col-lg-3">
                         <nav id='categorias' class="list-group make-me-sticky">
                             <ul class="list-unstyled">
-                                <h4 class="text-center">Categorías</h4>
-                                <s:iterator value="producto.categoriasProductoses" step="1">
-                                    <s:url var="urlCategoria" action="#">
-                                        <s:param name="categoria" value="nombre"/>
+                                <h4 class="text-center">Categorías del producto</h4>
+                                <s:iterator value="producto.categoriasProductoses" >
+                                    <s:url var="categoriaUrl" action="listarProductos">
+                                        <s:param name="categoria" value="id.nombre"/>
                                     </s:url>
-                                    <li class="list-group-item cat"><s:a href="%{urlCategoria}" cssClass="categoria"> <s:property value="id.nombre"/></s:a></li>
-                                        <s:property value="nombre"/>
-                                    </s:iterator>
+                                    <li class="list-group-item cat">
+                                        <s:a href="%{categoriaUrl}" cssClass="categoria">
+                                            <s:property value="id.nombre"/>
+
+                                        </s:a>
+                                    </li>
+                                </s:iterator>
 
                             </ul>
                         </nav>

@@ -33,3 +33,8 @@
 #categorias {
     margin-top: 3%;
 }
+
+.active {
+    color: white !important;
+    background-color: #ee3124 !important;
+}
