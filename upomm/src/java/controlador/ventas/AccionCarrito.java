@@ -24,7 +24,6 @@ public class AccionCarrito extends ActionSupport {
 
     List<String> cantidad = null;
     List<Productos> carrito = null;
-    float total;
 
     public AccionCarrito() {
     }
@@ -75,11 +74,8 @@ public class AccionCarrito extends ActionSupport {
     public String execute() throws Exception {
         Map session = (Map) ActionContext.getContext().get("session");
         carrito = (List<Productos>) session.get("carrito");
-        this.total = 0;
-        for (int i = 0; i < carrito.size(); i++) {
-            total += this.carrito.get(i).getPrecio() * Integer.parseInt(this.cantidad.get(i));
-        }
-
+        session.put("cantidad", this.getCantidad());
+        
         return SUCCESS;
     }
 }
