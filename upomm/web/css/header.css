@@ -89,3 +89,9 @@ main.container {
     color: red;
 }
 
+.make-me-sticky {
+  position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+}
+
