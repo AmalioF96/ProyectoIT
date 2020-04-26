@@ -7,10 +7,13 @@ package controlador.usuarios;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import modelo.DAO.UsuarioDAO;
+import modelo.Productos;
 import modelo.Usuarios;
 
 /**
@@ -120,6 +123,8 @@ public class AccionSignUp extends ActionSupport {
                 UsuarioDAO.creaUsuario(newUser);
                 Map session = (Map) ActionContext.getContext().get("session");
                 session.put("usuario", newUser);
+                List<Productos> carrito = new ArrayList();
+                session.put("carrito", carrito);
                 Map request = (Map) ActionContext.getContext().get("request");
                 request.put("error", false);
             }

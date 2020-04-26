@@ -78,7 +78,10 @@ public class AccionVenta extends ActionSupport {
                 salida = ERROR;
             }
         }
-
+        if (salida.equals(SUCCESS)) {
+            List<Productos> carrito = (List<Productos>) session.get("carrito");
+            carrito.clear();
+        }
         return salida;
     }
 
