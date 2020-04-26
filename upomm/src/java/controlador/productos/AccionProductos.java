@@ -69,7 +69,6 @@ public class AccionProductos extends ActionSupport {
             }
         }
         setProductos(lp);
-        ActionContext.getContext().setLocale(Locale.US);
         return SUCCESS;
     }
 
@@ -107,7 +106,6 @@ public class AccionProductos extends ActionSupport {
             }
             puntuaciones.put(idProducto, puntuacion);
         }
-        ActionContext.getContext().setLocale(Locale.US);
 
         return salida;
     }
