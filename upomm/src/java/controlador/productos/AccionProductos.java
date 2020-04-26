@@ -41,9 +41,9 @@ public class AccionProductos extends ActionSupport {
         List<Productos> lp = null;
         if ((this.getCategoria() == null || this.getCategoria().trim().length() < 1) && (this.getBusqueda() == null || this.getBusqueda().trim().length() < 1)) {
             lp = modelo.DAO.ProductoDAO.listarProductos();
-        } else if (this.getCategoria() !=null && this.getCategoria().trim().length()>0 && this.getBusqueda() != null && this.getBusqueda().trim().length()>0) {
+        } else if (this.getCategoria() != null && this.getCategoria().trim().length() > 0 && this.getBusqueda() != null && this.getBusqueda().trim().length() > 0) {
             lp = modelo.DAO.ProductoDAO.buscarProductosPorCategoria(this.getBusqueda(), this.getCategoria());
-        } else if (this.getBusqueda() != null && this.getBusqueda().trim().length()>0) {
+        } else if (this.getBusqueda() != null && this.getBusqueda().trim().length() > 0) {
             lp = modelo.DAO.ProductoDAO.buscarProductos(this.getBusqueda());
         } else {
             lp = modelo.DAO.ProductoDAO.listarProductosPorCategoria(this.getCategoria());
@@ -104,6 +104,10 @@ public class AccionProductos extends ActionSupport {
                 puntuacion /= lv.size();
             }
             puntuaciones.put(idProducto, puntuacion);
+        } else {
+            Map request = (Map) ActionContext.getContext().get("request");
+            request.put("error", true);
+            this.setIdProducto(null);
         }
 
         return salida;
@@ -176,7 +180,10 @@ public class AccionProductos extends ActionSupport {
     }
 
     public void setIdProducto(Integer idProducto) {
-        this.idProducto = idProducto;
+        try {
+            this.idProducto = idProducto;
+        } catch (Exception e) {
+        }
     }
 
     public Productos getProducto() {

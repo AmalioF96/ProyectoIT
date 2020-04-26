@@ -4,7 +4,7 @@
 <s:if test="%{#parameters.idProducto==null}">
     <jsp:forward page="/views/principal.jsp"/>
 </s:if>
-<s:elseif test="producto==null">
+<s:elseif test="%{producto==null && #request.error==null}">
     <s:action executeResult="true" name="seleccionarProducto">
         <s:param name="idProducto" value="#parameters.idProducto"/>
     </s:action>
@@ -143,7 +143,7 @@
                 }
             </script>
             <s:head/>
-            <s:if test="producto==null">
+            <s:if test="%{producto==null && #request.error==null}">
                 <jsp:forward page="/views/principal.jsp"/>
             </s:if>
         </head>
@@ -153,169 +153,172 @@
             <!-- Page Content -->
             <main class="container">
                 <div class="row">
+                    <s:if test="#request.error">
+                        <div class="alert alert-warning">Este producto no está disponible.</div>
+                    </s:if>
+                    <s:else>
+                        <!-- LISTA DE CATEGORÍAS -->
+                        <div class="col-lg-3">
+                            <nav id='categorias' class="list-group make-me-sticky">
+                                <ul class="list-unstyled">
+                                    <h4 class="text-center">Categorías del producto</h4>
+                                    <s:iterator value="producto.categoriasProductoses" >
+                                        <s:url var="categoriaUrl" action="listarProductos">
+                                            <s:param name="categoria" value="id.nombre"/>
+                                        </s:url>
+                                        <li class="list-group-item cat">
+                                            <s:a href="%{categoriaUrl}" cssClass="categoria">
+                                                <s:property value="id.nombre"/>
 
-                    <!-- LISTA DE CATEGORÍAS -->
-                    <div class="col-lg-3">
-                        <nav id='categorias' class="list-group make-me-sticky">
-                            <ul class="list-unstyled">
-                                <h4 class="text-center">Categorías del producto</h4>
-                                <s:iterator value="producto.categoriasProductoses" >
-                                    <s:url var="categoriaUrl" action="listarProductos">
-                                        <s:param name="categoria" value="id.nombre"/>
-                                    </s:url>
-                                    <li class="list-group-item cat">
-                                        <s:a href="%{categoriaUrl}" cssClass="categoria">
-                                            <s:property value="id.nombre"/>
+                                            </s:a>
+                                        </li>
+                                    </s:iterator>
 
-                                        </s:a>
-                                    </li>
-                                </s:iterator>
-
-                            </ul>
-                        </nav>
-                    </div>
-                    <!-- /.col-lg-3 -->
-                    <div class="col-lg-9">
-                        <%--<?php
-                        include './barraBusqueda.php';
-                        ?>--%>
-                        <div class="card mt-4">
-                            <img id='imgProducto' class="card-img-top img-fluid" src='' alt="">
-                            <div class="card-body">
-                                <h3 class="card-title"><s:property value="producto.nombre"/></h3>
-                                <h4><s:number name="producto.precio" maximumFractionDigits="2" minimumFractionDigits="2"/>&euro;</h4>
-                                <p class="card-text"><s:property value="producto.descripcion"/></p>
-                                <div class="text-warning">
-                                    <span id="productRating"></span>
-                                    <s:number name="puntuaciones[producto.idProducto]" maximumFractionDigits="1" minimumFractionDigits="1"/>
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- /.col-lg-3 -->
+                        <div class="col-lg-9">
+                            <%--<?php
+                            include './barraBusqueda.php';
+                            ?>--%>
+                            <div class="card mt-4">
+                                <img id='imgProducto' class="card-img-top img-fluid" src='' alt="">
+                                <div class="card-body">
+                                    <h3 class="card-title"><s:property value="producto.nombre"/></h3>
+                                    <h4><s:number name="producto.precio" maximumFractionDigits="2" minimumFractionDigits="2"/>&euro;</h4>
+                                    <p class="card-text"><s:property value="producto.descripcion"/></p>
+                                    <div class="text-warning">
+                                        <span id="productRating"></span>
+                                        <s:number name="puntuaciones[producto.idProducto]" maximumFractionDigits="1" minimumFractionDigits="1"/>
+                                    </div>
+                                    <div><a href="#valoraciones"><s:property value="producto.valoracioneses.size"/> opiniones</a></div>
+                                    <br />
+                                    <s:if test="#session.usuario != null">
+                                        <s:if test="%{!#session.carrito.contains(producto)}">
+                                            <s:form action="agregarCarrito">
+                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:submit cssClass="btn btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
+                                            </s:form>
+                                        </s:if>
+                                        <s:else>
+                                            <s:form action="eliminarCarrito">
+                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:submit cssClass="btn btn-primary" name="btnEliminarCarrito" value="Eliminar del carrito" />
+                                            </s:form>
+                                        </s:else>
+                                    </s:if>
+                                    <s:else>
+                                        <div class="alert alert-info">
+                                            <s:url var="idProductoLoginUrl" value="/views/usuarios/login.jsp">
+                                                <s:param name="idProducto" value="producto.idProducto"/>
+                                            </s:url>
+                                            <s:url var="idProductoSignUpUrl" value="/views/usuarios/signUp.jsp">
+                                                <s:param name="idProducto" value="producto.idProducto"/>
+                                            </s:url>
+                                            <s:a href="%{idProductoLoginUrl}">Inicia sesión</s:a> o 
+                                            <s:a href="%{idProductoSignUpUrl}">regístrate</s:a> para comprar este producto
+                                            </div>
+                                    </s:else>
                                 </div>
-                                <div><a href="#valoraciones"><s:property value="producto.valoracioneses.size"/> opiniones</a></div>
-                                <br />
-                                <s:if test="#session.usuario != null">
-                                    <s:if test="%{!#session.carrito.contains(producto)}">
-                                        <s:form action="agregarCarrito">
-                                            <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
-                                            <s:submit cssClass="btn btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
+                            </div>
+                            <!-- /.card caracteristicas -->
+                            <div class="card card-outline-secondary my-4">
+                                <div class="card-header">Características</div>
+                                <div class="card-body">
+                                    <table class="list-group list-group-flush table">
+                                        <s:iterator var="i" value="producto.caracteristicasProductoses" step="1">
+
+                                            <tr class="list-group-item d-flex">
+                                                <td class="col-5">
+                                                    <strong><s:property value="id.nombre" /></strong>
+                                                </td>
+                                                <td class="col-7">
+                                                    <s:property value="valor" />
+                                                </td>
+                                            </tr>
+
+                                        </s:iterator>
+
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- fin /.card caracteristicas-->
+                            <!-- /.card Opiniones-->
+                            <div id="valoraciones" class="card card-outline-secondary my-4">
+                                <div class="card-header">
+                                    Opiniones del producto
+                                </div>
+                                <div class="card-body">
+                                    <s:if test="producto.valoracioneses.isEmpty()">
+                                        <p>Aún no hay opiniones para este producto.</p>
+                                        <s:form id='formValoracionProducto' cssStyle="display:none" cssClass="formValoracion" action="insertarValoracion" theme="simple">
+                                            <hr>
+                                            <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
+                                            <s:iterator begin="1" end="5" step="1" var="index">
+                                                <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
+                                            </s:iterator>
+                                            <s:textfield id="puntuacion" name="puntuacion" hidden="true"/>
+                                            <s:textfield name="idProducto" type="number" value="%{producto.idProducto}" hidden="true"/>
+                                            <s:textfield value="insertar" name="operacion" hidden="true"/>
+                                            <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
+                                            <hr>
                                         </s:form>
                                     </s:if>
                                     <s:else>
-                                        <s:form action="eliminarCarrito">
-                                            <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
-                                            <s:submit cssClass="btn btn-primary" name="btnEliminarCarrito" value="Eliminar del carrito" />
-                                        </s:form>
-                                    </s:else>
-                                </s:if>
-                                <s:else>
-                                    <div class="alert alert-info">
-                                        <s:url var="idProductoLoginUrl" value="/views/usuarios/login.jsp">
-                                            <s:param name="idProducto" value="producto.idProducto"/>
-                                        </s:url>
-                                        <s:url var="idProductoSignUpUrl" value="/views/usuarios/signUp.jsp">
-                                            <s:param name="idProducto" value="producto.idProducto"/>
-                                        </s:url>
-                                        <s:a href="%{idProductoLoginUrl}">Inicia sesión</s:a> o 
-                                        <s:a href="%{idProductoSignUpUrl}">regístrate</s:a> para comprar este producto
-                                    </div>
-                                </s:else>
-                            </div>
-                        </div>
-                        <!-- /.card caracteristicas -->
-                        <div class="card card-outline-secondary my-4">
-                            <div class="card-header">Características</div>
-                            <div class="card-body">
-                                <table class="list-group list-group-flush table">
-                                    <s:iterator var="i" value="producto.caracteristicasProductoses" step="1">
-
-                                        <tr class="list-group-item d-flex">
-                                            <td class="col-5">
-                                                <strong><s:property value="id.nombre" /></strong>
-                                            </td>
-                                            <td class="col-7">
-                                                <s:property value="valor" />
-                                            </td>
-                                        </tr>
-
-                                    </s:iterator>
-
-                                </table>
-                            </div>
-                        </div>
-                        <!-- fin /.card caracteristicas-->
-                        <!-- /.card Opiniones-->
-                        <div id="valoraciones" class="card card-outline-secondary my-4">
-                            <div class="card-header">
-                                Opiniones del producto
-                            </div>
-                            <div class="card-body">
-                                <s:if test="producto.valoracioneses.isEmpty()">
-                                    <p>Aún no hay opiniones para este producto.</p>
-                                    <s:form id='formValoracionProducto' cssStyle="display:none" cssClass="formValoracion" action="insertarValoracion" theme="simple">
-                                        <hr>
-                                        <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
-                                        <s:iterator begin="1" end="5" step="1" var="index">
-                                            <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
-                                        </s:iterator>
-                                        <s:textfield id="puntuacion" name="puntuacion" hidden="true"/>
-                                        <s:textfield name="idProducto" type="number" value="%{producto.idProducto}" hidden="true"/>
-                                        <s:textfield value="insertar" name="operacion" hidden="true"/>
-                                        <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
-                                        <hr>
-                                    </s:form>
-                                </s:if>
-                                <s:else>
-                                    <s:bean name="modelo.comparators.ComparadorValoraciones" var="comparador">
-                                        <s:param name="emailCliente" value="#session.usuario.email"/>
-                                    </s:bean>
-                                    <s:sort source="producto.valoracioneses" comparator="#comparador">
-                                        <s:iterator>
-                                            <s:if test="%{usuarios==#session.usuario}">
-                                                <s:set value="true" var="valorado"/>
-                                                <div id=miValoracion>
-                                                </s:if>
-                                                <s:else>
-                                                    <div>
-                                                    </s:else>
-                                                    <span class='text-warning'>
-                                                        <s:iterator begin="0" end="puntuacion-1" >
-                                                            <span>&#9733;</span>
-                                                        </s:iterator>
-                                                    </span>
-                                                    <br>
-                                                    <p><s:property value="descripcion"/></p>
-                                                    <small>Por: <s:property value="usuarios.email"/></small>
-                                                    <br>
-                                                    <small>Fecha: <s:date name="fecha" format="dd/MM/yyyy" /></small>
-                                                    <s:if test="%{usuarios==#session.usuario}">
-                                                        <button id="btnEliminar" class="btn btn-sm btn-danger pull-right btn-valoracion">Eliminar</button>
-                                                        <button class="btn btn-sm btn-warning pull-right btn-valoracion" onclick="mostrarEditable()">Editar</button>
+                                        <s:bean name="modelo.comparators.ComparadorValoraciones" var="comparador">
+                                            <s:param name="emailCliente" value="#session.usuario.email"/>
+                                        </s:bean>
+                                        <s:sort source="producto.valoracioneses" comparator="#comparador">
+                                            <s:iterator>
+                                                <s:if test="%{usuarios==#session.usuario}">
+                                                    <s:set value="true" var="valorado"/>
+                                                    <div id=miValoracion>
                                                     </s:if>
-                                                </div>
-                                                <hr>
+                                                    <s:else>
+                                                        <div>
+                                                        </s:else>
+                                                        <span class='text-warning'>
+                                                            <s:iterator begin="0" end="puntuacion-1" >
+                                                                <span>&#9733;</span>
+                                                            </s:iterator>
+                                                        </span>
+                                                        <br>
+                                                        <p><s:property value="descripcion"/></p>
+                                                        <small>Por: <s:property value="usuarios.email"/></small>
+                                                        <br>
+                                                        <small>Fecha: <s:date name="fecha" format="dd/MM/yyyy" /></small>
+                                                        <s:if test="%{usuarios==#session.usuario}">
+                                                            <button id="btnEliminar" class="btn btn-sm btn-danger pull-right btn-valoracion">Eliminar</button>
+                                                            <button class="btn btn-sm btn-warning pull-right btn-valoracion" onclick="mostrarEditable()">Editar</button>
+                                                        </s:if>
+                                                    </div>
+                                                    <hr>
+                                                </s:iterator>
+                                            </s:sort>
+                                        </s:else>
+                                        <s:iterator value="#session.usuario.comprases">
+                                            <s:iterator value="lineasDeCompras">
+                                                <s:if test="productos==producto">
+                                                    <s:set value="true" var="comprado"/>
+                                                </s:if>
                                             </s:iterator>
-                                        </s:sort>
-                                    </s:else>
-                                    <s:iterator value="#session.usuario.comprases">
-                                        <s:iterator value="lineasDeCompras">
-                                            <s:if test="productos==producto">
-                                                <s:set value="true" var="comprado"/>
-                                            </s:if>
                                         </s:iterator>
-                                    </s:iterator>
-                                    <s:if test="#valorado==null && #comprado!=null">
-                                        <script>
-                                            $(document).ready(function () {
-                                                $("#formValoracionProducto").show();
-                                            });
-                                        </script>
-                                    </s:if>
+                                        <s:if test="#valorado==null && #comprado!=null">
+                                            <script>
+                                                $(document).ready(function () {
+                                                    $("#formValoracionProducto").show();
+                                                });
+                                            </script>
+                                        </s:if>
+                                    </div>
                                 </div>
+                                <!-- fin /.card Opiniones-->
                             </div>
-                            <!-- fin /.card Opiniones-->
+                            <!-- /.col-lg-9 -->
                         </div>
-                        <!-- /.col-lg-9 -->
-                        <%--<?php }
-                        ?>--%>
-                    </div>
+                    </s:else>
+                </div>
             </main>
             <!-- /.container -->
             <s:form id="formEliminarValoracion" action="eliminarValoracion" theme="simple">
