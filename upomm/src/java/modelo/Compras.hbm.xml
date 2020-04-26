@@ -6,7 +6,7 @@
     <class name="modelo.Compras" table="compras" catalog="upomm" optimistic-lock="version">
         <id name="idCompra" type="int">
             <column name="id_compra" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="usuarios" class="modelo.Usuarios" fetch="join" lazy="false">
             <column name="email_cliente" length="50" not-null="true" />
