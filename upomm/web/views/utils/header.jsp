@@ -52,7 +52,7 @@
                         <a class="nav-link" href="/upomm/views/ventas/compras.jsp">Compras</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Ventas</a>
+                        <a class="nav-link" href="/upomm/views/ventas/menuVentas.jsp">Ventas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/upomm/views/ventas/carrito.jsp"><i class="fa fa-shopping-cart"></i> Cesta (<s:property value="#session.carrito.size"/>)</a>
