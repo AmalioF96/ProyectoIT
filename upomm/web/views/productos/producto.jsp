@@ -183,7 +183,7 @@
                             <img id='imgProducto' class="card-img-top img-fluid" src='' alt="">
                             <div class="card-body">
                                 <h3 class="card-title"><s:property value="producto.nombre"/></h3>
-                                <h4><s:number name="producto.precio" maximumFractionDigits="2" minimumFractionDigits="2"/>€</h4>
+                                <h4><s:number name="producto.precio" maximumFractionDigits="2" minimumFractionDigits="2"/>&euro;</h4>
                                 <p class="card-text"><s:property value="producto.descripcion"/></p>
                                 <div class="text-warning">
                                     <span id="productRating"></span>

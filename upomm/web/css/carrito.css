@@ -5,9 +5,6 @@ input.cantidad {
     margin: auto;
     max-width: 100px;
 }
-#inputDireccion {
-    max-width: 200px;
-}
 #btnProcesarCompra {
     width: auto !important;
 }

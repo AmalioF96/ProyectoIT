@@ -15,34 +15,24 @@
 
             <script>
                 $(document).ready(function () {
-                    $("#inputDireccion").change(function () {
-                        var error = $("#error-direccion");
-                        if (error != null) {
-                            $(error).remove();
-                        }
-                    });
                     $("input.cantidad").change(function () {
-                        console.log("Aqui estamos");
-                        var inputsCantidad = $("input.cantidad");
-                        var precios = $(".precio")
                         var total = 0;
-                        for (var i = 0, max = inputsCantidad.length; i < max; i++) {
-                            var input = $(inputsCantidad).get(i);
-                            var precio = $($(precios).get(i)).text();
-                            if (isNaN(input.value) || input.value <= 0) {
-                                input.value = 1;
-                            }
-                            total += parseFloat(input.value) * parseFloat(precio);
+                        var id = $(this).attr("id");
+                        var pos = id.indexOf("-");
+                        var idProducto = parseInt(id.substring(pos + 1, id.length));
+                        var cantidad = $(this).val();
+                        var precio = parseFloat($("#precio-" + idProducto).text());
+                        var subtotal = cantidad * precio;
+                        $("#subtotal-" + idProducto).text(subtotal.toFixed(2));
 
-
-
+                        var subtotales = $(".subtotal");
+                        for (var i = 0; i < subtotales.length; i++) {
+                            total += parseFloat($(subtotales[i]).text());
                         }
-                        console.log(total);
+
                         $("#precioTotalCarrito").text(total.toFixed(2));
 
                     });
-
-
                     var inputsCantidad = $("input.cantidad");
 
                     for (var i = 0, max = inputsCantidad.length; i < max; i++) {
@@ -50,26 +40,8 @@
                         input.value = 1;
                         $(input).change();
                     }
-
-
                 });
-                function validaDireccion() {
-                    var direccion = $("#inputDireccion");
-                    var val = $("#inputDireccion option:selected").val();
-                    if (val == "") {
-                        var a = document.getElementById("error-direccion");
-                        if (a == null) {
-                            direccion.parent().after($("<div id='error-direccion' class='alert alert-danger' role='alert'>Debe seleccionar una dirección para continuar con la compra</div>"));
-                        }
-                        return false;
-                    } else {
-                        $("#formCarrito").submit();
-                    }
-                }
             </script>
-
-
-
         </head>
         <body>
             <%--SCRIPT PAYPAL QUE NO SE QUE HACE
@@ -108,30 +80,37 @@
                                         <s:set var="cont" value="0" />
                                         <s:set var="total" value="0"/>
                                         <s:iterator var="i" value="#session.carrito">
-                                            <s:url var="productoId" action="eliminarCarrito">
+                                            <s:url var="eliminarProducto" action="eliminarCarrito">
                                                 <s:param name="idProducto" value="idProducto"/>
                                                 <s:param name="origin" value="'carrito'"/>
                                             </s:url>
+                                            <s:url var="productoId" value="/views/productos/producto.jsp">
+                                                <s:param name="idProducto" value="idProducto"/>
+                                            </s:url>
                                             <tr class='producto'>
                                                 <td>
-                                                    <a href=producto.php?idProducto='"> 
+                                                    <s:a href="%{productoId}"> 
                                                         <s:property value="nombre"/>
-                                                    </a>
+                                                    </s:a>
                                                 </td>
                                                 <td> 
                                                     <s:property value="descripcion"/>
                                                 </td>
                                                 <td class='text-center'>
-                                                    <span class="precio"><s:property value="precio"/></span>
+                                                    <span id="precio-<s:property value="idProducto"/>" class="precio">
+                                                        <s:property value="precio"/>
+                                                    </span>
                                                 </td>
                                                 <td class='text-center tdCantidad'>
-                                                    <s:textfield  cssClass="form-control cantidad" name="cantidad" type="number"/>
+                                                    <s:textfield id="cantidad-%{idProducto}"  cssClass="form-control cantidad" name="cantidad" type="number"/>
                                                 </td>
                                                 <td class='text-center tdSubtotal'>
-                                                    <s:property value="precio" />
+                                                    <span id="subtotal-<s:property value="idProducto"/>" class="subtotal">
+                                                        <s:number name="precio" maximumFractionDigits="2" minimumFractionDigits="2"/>
+                                                    </span>
                                                 </td>
                                                 <td class='text-center tdBtnEliminar'>
-                                                    <s:a href="%{productoId}" name='btnEliminarCarrito' cssClass='btn btn-sm btn-danger btnEliminar'  value="Eliminar" >Eliminar</s:a>
+                                                    <s:a href="%{eliminarProducto}" name='btnEliminarCarrito' cssClass='btn btn-sm btn-danger btnEliminar'  value="Eliminar" >Eliminar</s:a>
 
                                                     </td>
 
@@ -147,32 +126,13 @@
                                                 </strong>
                                             </td>
                                             <td class="text-center">
-                                                <span id="precioTotalCarrito"></span> €
+                                                <span id="precioTotalCarrito" class="font-weight-bold"></span> €
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <hr>
-
-                            <%-- <div class="divCarrito">
-                                 <div class="input-group mb-3">
-                                     <div class="input-group-prepend">
-                                         <label class="input-group-text" for='inputDireccion'><strong>Dirección de envio:</strong></label>
-                                     </div>
-                                     <select name="direccion" id="inputDireccion" class="custom-select">
-                                         <option value="" disabled selected>--Seleccionar--</option>
-                                         <?php
-                                         foreach ($direcciones as $d) {
-                                         echo "<option value='" . $d["id"] . "'>" . $d["nombre"] . "</option>";
-                                         }
-                                         ?>
-                                     </select>
-                                 </div>
-                                 <a class="btn btn-sm btn-secondary" href="./aniadirDireccion.php" role="button">Añadir una dirección nueva</a>
-                             </div>
-                             <hr>--%>
-
                             <div class="divCarrito">
                                 <input id="btnProcesarCompra" class="btn btn-md btn-primary btn-block text-uppercase form-control" type="submit" onclick="" value="Procesar Compra" name="procesarCompra">
                             </div>
