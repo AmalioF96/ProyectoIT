@@ -49,7 +49,7 @@
                 </s:elseif>
                 <s:elseif test="#session.usuario.tipo=='vendedor'">
                     <li class="nav-item">
-                        <a class="nav-link" href="">Compras</a>
+                        <a class="nav-link" href="/upomm/views/ventas/compras.jsp">Compras</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Ventas</a>
