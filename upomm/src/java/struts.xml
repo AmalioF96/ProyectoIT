@@ -6,12 +6,9 @@
     <!-- Configuration for the default package. -->
     <package name="default" extends="struts-default">
         <action name="">
-            <result type="chain">
-                <param name="actionName">index</param>
+            <result type="redirect">
+                <param name="location">/views/principal.jsp</param>
             </result>
-        </action>
-        <action name="index">
-            <result>/views/principal.jsp</result>
         </action>
     </package>
     <package name="productos" extends="struts-default">
@@ -28,7 +25,7 @@
         </action>
         <action name="agregarCarrito" class="controlador.productos.AccionProductos" method="agregarCarrito">
             <result name="success" type="redirect">
-                <param name="location"></param>
+                <param name="location">/views/productos/producto.jsp</param>
                 <param name="idProducto">${idProducto}</param>
             </result>
             <result name="error">/views/principal.jsp</result>
