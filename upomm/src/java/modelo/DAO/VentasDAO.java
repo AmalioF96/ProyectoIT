@@ -7,6 +7,7 @@ package modelo.DAO;
 
 import java.io.Serializable;
 import modelo.Compras;
+import modelo.LineasDeCompra;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -17,24 +18,40 @@ import org.hibernate.Transaction;
  */
 public class VentasDAO {
 
-    public static boolean insertarCompra(Compras c) {
-        boolean correcto = true;
+    public static int insertarCompra(Compras c) {
+        int x = -1;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
 
         try {
             tx = sesion.beginTransaction();
-            int x =(int)sesion.save(c);
-            System.out.println("\n\n\nSERIALIZABLE\n"+x+"\n--\n--\n--");
+            x = (int) sesion.save(c);
             tx.commit();
-            
+
         } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
-                correcto = false;
             }
         }
-        return correcto;
+        return x;
+    }
+
+    public static boolean insertarLineaDeCompra(LineasDeCompra ldc) {
+        boolean x = false;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = sesion.beginTransaction();
+            sesion.save(ldc);
+            tx.commit();
+            x = true;
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return x;
     }
 
 }
