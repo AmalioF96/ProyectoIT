@@ -15,31 +15,11 @@ import modelo.Usuarios;
  */
 public class AccionLogin extends ActionSupport {
 
-    String email;
-    String password;
+    private String email;
+    private String password;
+    private Integer idProducto;
 
     public AccionLogin() {
-    }
-
-    public AccionLogin(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override
@@ -58,6 +38,7 @@ public class AccionLogin extends ActionSupport {
     @Override
     public String execute() throws Exception {
         Usuarios u = comprobarUsuario(email, password);
+        String salida = ERROR;
         if (u != null) {
             Map session = (Map) ActionContext.getContext().get("session");
             session.put("usuario", u);
@@ -65,12 +46,16 @@ public class AccionLogin extends ActionSupport {
             session.put("carrito", carrito);
             Map request = (Map) ActionContext.getContext().get("request");
             request.put("error", false);
-            return SUCCESS;
+            if(this.getIdProducto() != null && this.getIdProducto() > 0) {
+                salida = "producto";
+            }else {
+            salida = SUCCESS;
+            }
         } else {
             Map request = (Map) ActionContext.getContext().get("request");
             request.put("error", true);
-            return ERROR;
         }
+        return salida;
     }
 
     public String logout() {
@@ -78,5 +63,32 @@ public class AccionLogin extends ActionSupport {
         session.clear();
         return SUCCESS;
     }
+    
+        public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(Integer idProducto) {
+        this.idProducto = idProducto;
+    }
+
+
+    
 
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador.usuarios;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -27,48 +22,9 @@ public class AccionSignUp extends ActionSupport {
     private String password;
     private String passwordConfirm;
     private boolean vendedor;
+    private Integer idProducto;
 
     public AccionSignUp() {
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
-
-    public boolean isVendedor() {
-        return vendedor;
-    }
-
-    public void setVendedor(boolean vendedor) {
-        this.vendedor = vendedor;
     }
 
     public void validate() {
@@ -127,9 +83,60 @@ public class AccionSignUp extends ActionSupport {
                 session.put("carrito", carrito);
                 Map request = (Map) ActionContext.getContext().get("request");
                 request.put("error", false);
+                if(this.getIdProducto() != null && this.getIdProducto() > 0) {
+                    salida = "producto";
+                }
             }
         }
         return salida;
+    }
+    
+        public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
+    public boolean isVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(boolean vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public Integer getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(Integer idProducto) {
+        this.idProducto = idProducto;
     }
 
 }
