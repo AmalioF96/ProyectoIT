@@ -84,7 +84,7 @@ public class Compras implements java.io.Serializable {
     }
 
     public String compraToJson() {
-        String salida = "{\"ID\":" + this.getIdCompra() + ",\"Fecha\":" + this.getFecha() + ",\"Importe\":" + this.getImporte() + "}";
+        String salida = "{\"ID\":\"" + this.getIdCompra() + "\",\"Fecha\":\"" + this.getFecha() + "\",\"Importe\":\"" + this.getImporte() + "\"}";
 
         return salida;
     }

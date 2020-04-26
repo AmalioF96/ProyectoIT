@@ -82,7 +82,7 @@
                                 <button type="submit" name="submitButton" value="finalizarCompra" id="botonFinalizar" hidden></button>
 
                             </table>
-                            <s:checkbox name="terminosYCondiciones" fieldValue="true" label=" Acepto los términos y condiciones del servicio."/>
+                                            <s:checkbox name="terminosYCondiciones" fieldValue="true" label=" Acepto los términos y condiciones del servicio." labelposition="right"/>
 
                             <br><s:submit cssClass="btn btn btn-warning text-uppercase" name="submitButton" value="Comprar" id="botonFinalizar" /> 
                         </s:form>

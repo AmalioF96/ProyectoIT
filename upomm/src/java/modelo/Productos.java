@@ -151,7 +151,7 @@ public class Productos  implements java.io.Serializable {
     public boolean equals(Object o) {
         Productos p = (Productos) o;
         
-        return this.idProducto==p.idProducto;
+        return this.idProducto==p.getIdProducto();
     }
     
 }

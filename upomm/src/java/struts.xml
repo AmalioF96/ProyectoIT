@@ -82,7 +82,7 @@
             </result>
         </action>
         <action name="crearProducto" class="controlador.productos.AccionCrearProducto">
-            <result name="success">/views/usuarios/perfil.jsp</result>
+            <result name="success">/views/ventas/menuVentas.jsp</result>
             <result name="error">/views/productos/crearProducto.jsp</result>
             <result name="input">/views/productos/crearProducto.jsp</result>
         </action>
@@ -96,11 +96,19 @@
             <result name="success">/views/principal.jsp</result>
             <result name="error">/views/usuarios/signUp.jsp</result>
             <result name="input">/views/usuarios/signUp.jsp</result>
+            <result name="producto" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
+            </result>
         </action>
         <action name="accionLogin" class="controlador.usuarios.AccionLogin">
             <result name="success">/views/principal.jsp</result>
             <result name="error">/views/usuarios/login.jsp</result>
             <result name="input">/views/usuarios/login.jsp</result>
+            <result name="producto" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
+            </result>
         </action>
         <action name="accionLogout" class="controlador.usuarios.AccionLogin" method="logout">
             <result name="success">/views/principal.jsp</result>

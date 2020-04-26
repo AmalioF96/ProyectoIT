@@ -1,13 +1,13 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s"  uri="/struts-tags" %>
 <s:if test="#session.usuario==null">
-    <jsp:forward page="/views/principal.jsp"/>
+    <%--<jsp:forward page="/views/principal.jsp"/>--%>
 </s:if>
 <s:elseif test="listaCompras==null">
-    <s:action executeResult="true" name="seleccionarCompras">
-        <%--<s:param name="idProducto" value="#parameters.idProducto"/>--%>
-    </s:action>
+    <s:action executeResult="true" name="seleccionarCompras"/>
+
 </s:elseif>
 <s:else>
     <html>
@@ -18,41 +18,47 @@
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
             <link href="/upomm/css/misReclamaciones.css" rel="stylesheet">
+            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
             <script>
                 //Creación del data Table
                 $(document).ready(function () {
-                    var data = "";
-                    $('#pedidos').DataTable({
-                        "language": {
-                            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-                        },
-                        "data": data,
-                        "paging": true,
-                        "order": [[1, "desc"]],
-                        "ordering": true,
-                        "columns": [
-                            {"data": "idPedido"},
-                            {"data": "fecha"},
-                            {"data": "precio"}
-                        ],
-                        "drawCallback": function () {
-                            var table = $('#pedidos').DataTable();
-
-                            $('#pedidos tbody').on('click', 'tr', function () {
-                                var id = table.row(this).data().idPedido;
-                                var input = $("<input type='text' name='idPedido'/>");
-                                $(input).val(id);
-                                $("#formPedido").append(input);
-                                $("#formPedido").submit();
-                            });
-                        }
-                    });
+                    var table = $('#pedidos').DataTable();
                 });
-                function reemplazarImg(img) {
-                    $(img).attr("src", "../img/productDefaultImage.jpg");
-                }
+                /* $(document).ready(function () {
+                 var data = $("#prueba").text();
+                 console.log("data",data);
+                 $('#pedidos').DataTable({
+                 "language": {
+                 "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+                 },
+                 "data": data,
+                 "paging": true,
+                 "order": [[1, "desc"]],
+                 "ordering": true,
+                 "columns": [
+                 {"data": "ID1"},
+                 {"data": "ID"},
+                 {"data": "Fecha"},
+                 {"data": "Importe"}
+                 ],
+                 "drawCallback": function () {
+                 var table = $('#pedidos').DataTable();
+                 /*
+                 $('#pedidos tbody').on('click', 'tr', function () {
+                 var id = table.row(this).data().idPedido;
+                 var input = $("<input type='text' name='idPedido'/>");
+                 $(input).val(id);
+                 $("#formPedido").append(input);
+                 $("#formPedido").submit();
+                 });
+                 }
+                 });
+                 }); */
+                /* function reemplazarImg(img) {
+                 $(img).attr("src", "../img/productDefaultImage.jpg");
+                 } */
             </script>
         </head>
         <body>
@@ -63,7 +69,7 @@
             <main class="container-fluid">
                 <div class="row">
                     <div class="col-lg-3">
-                        <img id="logo_main" class="img-fluid" src="../img/upomarket.png" alt="upomarket">
+                        <!--<img id="logo_main" class="img-fluid" src="../img/upomarket.png" alt="upomarket">-->
                         <nav class="list-group">
                             <h4 class="text-center">Gestión de Compras</h4>
                             <ul class="list-unstyled">
@@ -82,6 +88,17 @@
                                     <th>Importe(&euro;)</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                
+                                <s:iterator value="listaCompras">
+                                    <tr>
+                                        <td><s:property value="idCompra"/></td>
+                                        <td><s:property value="fecha"/></td>
+                                        <td><s:property value="getImporte()"/></td>
+                                        
+                                    </tr>
+                                </s:iterator>
+                            </tbody>
                         </table>
                     </div>
                     <!-- /.col-lg-9 -->

@@ -22,13 +22,14 @@
                             <h4 class="card-title text-center">Registro</h4>
                             <div class="contenedor">
                                 <s:form action="signUp" cssClass="form-signin" method="post">
-                                <s:textfield name="usuario" label="Usuario" cssClass="form-control" ></s:textfield>
-                                <s:textfield name="email" label="Email" cssClass="form-control" ></s:textfield>
-                                <s:password name="password" label="Contraseña" cssClass="form-control" ></s:password>
-                                <s:password name="passwordConfirm" label="Confirmar Contraseña" cssClass="form-control" ></s:password>
-                                <s:checkbox name="vendedor" label="¿Desea ser vendedor?"></s:checkbox>
-                                <s:submit name="btnRegistrar" value="Resgistrarse" id="inputVendedor" cssClass="btn btn-md btn-primary btn-block text-uppercase"></s:submit>
-                            </s:form>
+                                    <s:textfield name="usuario" label="Usuario" cssClass="form-control" ></s:textfield>
+                                    <s:textfield name="email" label="Email" cssClass="form-control" ></s:textfield>
+                                    <s:password name="password" label="Contraseña" cssClass="form-control" ></s:password>
+                                    <s:password name="passwordConfirm" label="Confirmar Contraseña" cssClass="form-control" ></s:password>
+                                    <s:checkbox name="vendedor" label="¿Desea ser vendedor?"></s:checkbox>
+                                    <s:textfield name="idProducto" value="%{#parameters.idProducto}" hidden="true"/>
+                                    <s:submit name="btnRegistrar" value="Resgistrarse" id="inputVendedor" cssClass="btn btn-md btn-primary btn-block text-uppercase"></s:submit>
+                                </s:form>
                             </div>
                             <p class="text-center">¿Ya tienes una cuenta? <s:a href="login.jsp">¡Inicia sesión!</s:a></p>
                         </div>

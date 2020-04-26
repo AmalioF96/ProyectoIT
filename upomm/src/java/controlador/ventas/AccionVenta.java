@@ -4,11 +4,9 @@ import static com.opensymphony.xwork2.Action.ERROR;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import modelo.Compras;
 import static modelo.DAO.VentasDAO.insertarLineaDeCompra;
 import modelo.LineasDeCompra;
@@ -56,7 +54,6 @@ public class AccionVenta extends ActionSupport {
         LineasDeCompra ldc;
         //Seteamos atributos a compra
         c.setUsuarios(u);
-        c.setFecha(new Date());
         //Guardamos Compra
         c.setIdCompra(modelo.DAO.VentasDAO.insertarCompra(c));
 
@@ -77,11 +74,13 @@ public class AccionVenta extends ActionSupport {
             if (!insertarLineaDeCompra(ldc)) {
                 salida = ERROR;
             }
+            c.getLineasDeCompras().add(ldc);
         }
         if (salida.equals(SUCCESS)) {
-            List<Productos> carrito = (List<Productos>) session.get("carrito");
-            carrito.clear();
+            session.put("carrito", new ArrayList());
         }
+        Usuarios usuario = (Usuarios) session.get("usuario");
+        usuario.getComprases().add(c);
         return salida;
     }
 
