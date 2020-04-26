@@ -1,22 +1,35 @@
 table td {
     border: none !important;
 }
-#btn-coment {
-    margin-top: 1%;
-}
+
 .checked {
     color: #ffc107;
 }
+
+.unchecked{
+    color: lightgray;
+}
+.clicked {
+    color: #ffc107;
+}
+
+.unclicked{
+    color: lightgray;
+}
+
 .review:hover {
     cursor: pointer;
     color: #ffc107;
 }
-.unchecked{
-    color: lightgray;
-}
-button.btn-valoracion {
+
+.btn-valoracion {
     margin-right: 10px;
 }
 form textarea {
     margin-bottom: 10px;
+}
+
+#valoraciones {
+    max-height: 120vh;
+    overflow-y: auto;
 }

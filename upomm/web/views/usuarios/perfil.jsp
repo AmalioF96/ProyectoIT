@@ -5,43 +5,31 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Perfil - UPOMediaMarket</title>
+        <link href="/upomm/css/perfil.css" rel="stylesheet" type="text/css"/>
         <%@include file="/views/utils/includes.jsp" %>
-
         <s:head />
     </head>
     <body>
-
         <%@include file="../utils/header.jsp" %>
         <!-- Page Content -->
         <main class="container">
-
             <div class="row">
-                
-                <div class="col-lg-2">
-
+                <div class="col-lg-1">
                 </div>
-                
                 <!-- LISTA DE CATEGORÍAS -->
                 <div class="col-lg-3">
-                    <nav class="list-group">
+                    <nav id="categorias" class="list-group make-me-sticky">
                         <h4 class="text-center">Perfil De Usuario</h4>
                         <ul class="list-unstyled">
                             <li><a href="/upomm/views/usuarios/perfil.jsp" class="list-group-item active">Ver Perfil</a></li>
                             <li><a href="/upomm/views/usuarios/cambiarImagenPerfil.jsp" class="list-group-item">Cambiar Imagen</a></li>
-
                         </ul>
                     </nav>
                 </div>
-
-
                 <div class="col-lg-4">
-
                     <div class="card mt-4">
                         <div class="card-body">
-
-
                             <img id="logo_main" class="img-fluid" src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
-
                             <h6 class="labelPerfil"><b>Nombre:</b></h6>
                             <p>
                                 <s:property value="#session.usuario.nombre"/>
@@ -55,16 +43,11 @@
                                 <s:property value="#session.usuario.tipo"/>
                             </p>
                             <s:a href="./editarPerfil.jsp" cssClass="btn btn-primary">Editar Perfil</s:a>
+                            </div>
                         </div>
                     </div>
-
                 </div>
-
-                
-
-            </div>
-
-        </main>
+            </main>
         <%@include file="../utils/footer.html" %>
     </body>
 </html>

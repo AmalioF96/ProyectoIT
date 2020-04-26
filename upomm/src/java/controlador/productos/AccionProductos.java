@@ -39,7 +39,6 @@ public class AccionProductos extends ActionSupport {
     }
 
     public String listar() {
-        System.out.println("------------------------------------------------------------" + this.getCategoria()+"--"+this.getBusqueda());
         List<Productos> lp = null;
         if ((this.getCategoria() == null || this.getCategoria().trim().length() < 1) && (this.getBusqueda() == null || this.getBusqueda().trim().length() < 1)) {
             lp = modelo.DAO.ProductoDAO.listarProductos();

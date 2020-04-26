@@ -45,15 +45,15 @@
                  * Obtenemos la valoración actual de un producto
                  */
                 function obtenerValoracion() {
-                    $("#formValoracionProducto").submit(function () {
-                        var estrellas = $("#formValoracionProducto .fa-star");
+                    $(".formValoracion").submit(function () {
+                        var estrellas = $(this).find(".review");
                         var cont = 0;
                         for (var i = 0; i < estrellas.length; i++) {
-                            if ($(estrellas[i]).hasClass("checked")) {
+                            if ($(estrellas[i]).hasClass("clicked")) {
                                 cont++;
                             }
                         }
-                        $("#puntuacion").val(cont);
+                        $(this).find("#puntuacion").val(cont);
                         if (cont > 0) {
                             return true;
                         } else {
@@ -65,16 +65,38 @@
                 }
                 /*Animación de la valoración*/
                 function animaEstrellas() {
-                    $(".review").click(function () {
+                    $(".review").mouseenter(function () {
                         var id = $(this).attr('id');
                         var puntuacion = parseInt(id.substring(id.length - 1, id.length));
-                        var estrellas = $(".review");
+                        var estrellas = $(this).parent().find(".review");
                         for (var i = 0; i < estrellas.length; i++) {
                             if (i < puntuacion) {
                                 $(estrellas[i]).addClass("checked");
                                 $(estrellas[i]).removeClass("unchecked");
                             } else {
                                 $(estrellas[i]).removeClass("checked");
+                                //$(estrellas[i]).removeClass("clicked");
+                                $(estrellas[i]).addClass("unchecked");
+                            }
+                        }
+                    });
+                    $(".review").mouseleave(function () {
+                        var estrellas = $(this).parent().find(".review");
+                        for (var i = 0; i < estrellas.length; i++) {
+                            $(estrellas[i]).removeClass("checked");
+                            $(estrellas[i]).addClass("unchecked");
+
+                        }
+                    });
+                    $(".review").click(function () {
+                        var id = $(this).attr('id');
+                        var puntuacion = parseInt(id.substring(id.length - 1, id.length));
+                        var estrellas = $(this).parent().find(".review");
+                        for (var i = 0; i < estrellas.length; i++) {
+                            if (i < puntuacion) {
+                                $(estrellas[i]).addClass("clicked");
+                            } else {
+                                $(estrellas[i]).removeClass("clicked");
                                 $(estrellas[i]).addClass("unchecked");
                             }
                         }
@@ -84,14 +106,18 @@
                 function mostrarEditable() {
                     $("#miValoracion").hide();
                     var descripcion = $("#miValoracion p").text();
-                    var puntuacion = $("#miValoracion span").text().length;
-                    var form = $("<form id='formValoracionProducto' method='post' action='/upomm/views/modificarValoracion.action'></form>");
+                    var puntuacion = $("#miValoracion span.text-warning").children().length;
+                    var form = $("<form id='formValoracionProductoEditable' class='formValoracion' method='post' action='/upomm/views/modificarValoracion.action'></form>");
                     var text = $("<textarea class='form-control' name='valoracion'></textarea>");
                     $(text).css("width", "100%");
                     $(text).val(descripcion);
                     $(form).append(text);
                     for (var i = 1; i <= 5; i++) {
-                        var valora = $("<span class='review fa fa-star unchecked'></span>");
+                        if (i <= puntuacion) {
+                            var valora = $("<span class='review fa fa-star clicked'></span>");
+                        } else {
+                            var valora = $("<span class='review fa fa-star unchecked'></span>");
+                        }
                         $(valora).attr("id", "puntuacion-" + i);
                         $(form).append(valora);
                     }
@@ -110,7 +136,7 @@
                     animaEstrellas();
                     obtenerValoracion();
                     $(btn).click(function () {
-                        $("#formValoracionProducto").remove();
+                        $("#formValoracionProductoEditable").remove();
                         $("#miValoracion").show();
 
                     });
@@ -212,35 +238,51 @@
                                 Opiniones del producto
                             </div>
                             <div class="card-body">
+                                <s:form id='formValoracionProducto' cssStyle="display:none" cssClass="formValoracion" action="insertarValoracion" theme="simple">
+                                    <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
+                                    <s:iterator begin="1" end="5" step="1" var="index">
+                                        <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
+                                    </s:iterator>
+                                    <s:textfield id="puntuacion" name="puntuacion" hidden="true"/>
+                                    <s:textfield name="idProducto" type="number" value="%{producto.idProducto}" hidden="true"/>
+                                    <s:textfield value="insertar" name="operacion" hidden="true"/>
+                                    <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
+                                    <hr>
+                                </s:form>
                                 <s:if test="producto.valoracioneses.isEmpty()">
                                     <p>Aún no hay opiniones para este producto.</p>
                                 </s:if>
                                 <s:else>
-                                    <s:iterator value="producto.valoracioneses">
-                                        <s:if test="%{usuarios==#session.usuario}">
-                                            <s:set value="true" var="valorado"/>
-                                            <div id=miValoracion>
-                                            </s:if>
-                                            <s:else>
-                                                <div>
-                                                </s:else>
-                                                <span class='text-warning'>
-                                                    <s:iterator begin="0" end="puntuacion-1" >
-                                                        &#9733;
-                                                    </s:iterator>
-                                                </span>
-                                                <br>
-                                                <p><s:property value="descripcion"/></p>
-                                                <small>Por: <s:property value="usuarios.email"/></small>
-                                                <br>
-                                                <small>Fecha: <s:date name="fecha" format="dd/MM/yyyy" /></small>
-                                                <s:if test="%{usuarios==#session.usuario}">
-                                                    <button id="btnEliminar" class="btn btn-sm btn-danger pull-right btn-valoracion">Eliminar</button>
-                                                    <button class="btn btn-sm btn-warning pull-right btn-valoracion" onclick="mostrarEditable()">Editar</button>
+                                    <s:bean name="modelo.comparators.ComparadorValoraciones" var="comparador">
+                                        <s:param name="emailCliente" value="#session.usuario.email"/>
+                                    </s:bean>
+                                    <s:sort source="producto.valoracioneses" comparator="#comparador">
+                                        <s:iterator>
+                                            <s:if test="%{usuarios==#session.usuario}">
+                                                <s:set value="true" var="valorado"/>
+                                                <div id=miValoracion>
                                                 </s:if>
-                                            </div>
-                                            <hr>
-                                        </s:iterator>
+                                                <s:else>
+                                                    <div>
+                                                    </s:else>
+                                                    <span class='text-warning'>
+                                                        <s:iterator begin="0" end="puntuacion-1" >
+                                                            <span>&#9733;</span>
+                                                        </s:iterator>
+                                                    </span>
+                                                    <br>
+                                                    <p><s:property value="descripcion"/></p>
+                                                    <small>Por: <s:property value="usuarios.email"/></small>
+                                                    <br>
+                                                    <small>Fecha: <s:date name="fecha" format="dd/MM/yyyy" /></small>
+                                                    <s:if test="%{usuarios==#session.usuario}">
+                                                        <button id="btnEliminar" class="btn btn-sm btn-danger pull-right btn-valoracion">Eliminar</button>
+                                                        <button class="btn btn-sm btn-warning pull-right btn-valoracion" onclick="mostrarEditable()">Editar</button>
+                                                    </s:if>
+                                                </div>
+                                                <hr>
+                                            </s:iterator>
+                                        </s:sort>
                                     </s:else>
                                     <s:iterator value="#session.usuario.comprases">
                                         <s:iterator value="lineasDeCompras">
@@ -250,17 +292,11 @@
                                         </s:iterator>
                                     </s:iterator>
                                     <s:if test="#valorado==null && #comprado!=null">
-                                        <s:form id='formValoracionProducto' cssClass="md-form mr-auto mb-4" action="insertarValoracion" theme="simple">
-                                            <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
-                                            <s:iterator begin="1" end="5" step="1" var="index">
-                                                <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
-                                            </s:iterator>
-                                            <s:textfield id="puntuacion" name="puntuacion" hidden="true"/>
-                                            <s:textfield name="idProducto" type="number" value="%{producto.idProducto}" hidden="true"/>
-                                            <s:textfield value="insertar" name="operacion" hidden="true"/>
-                                            <br>
-                                            <s:submit id="btn-coment" name="enviarValoracion" value="Enviar" cssClass="btn btn-success"/>
-                                        </s:form>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#formValoracionProducto").show();
+                                            });
+                                        </script>
                                     </s:if>
                                 </div>
                             </div>
