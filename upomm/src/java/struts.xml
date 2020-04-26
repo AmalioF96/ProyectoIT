@@ -137,6 +137,7 @@
         <action name="accionFinalizarCompra" class="controlador.ventas.AccionVenta">
             <result name="input">/views/ventas/finalizarCompra.jsp</result>
             <result name="success">/views/ventas/carrito.jsp</result>
+            <result name="error">/views/principal.jsp</result>
         </action>
     </package>
     

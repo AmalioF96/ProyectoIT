@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador.ventas;
 
 import static com.opensymphony.xwork2.Action.ERROR;
@@ -19,7 +14,6 @@ import modelo.LineasDeCompra;
 import modelo.LineasDeCompraId;
 import modelo.Productos;
 import modelo.Usuarios;
-import modelo.Valoraciones;
 
 /**
  *
@@ -50,6 +44,7 @@ public class AccionVenta extends ActionSupport {
 
     @Override
     public String execute() {
+        System.out.println("===========================================================");
         //Variable de salida
         String salida = ERROR;
         //Recogida de datos
@@ -63,14 +58,14 @@ public class AccionVenta extends ActionSupport {
         for (int i = 0; i < this.getCarrito().size(); i++) {
             ldc = new LineasDeCompra();
             int cantidad = Integer.parseInt(this.getListaCantidad().get(i));
-
-            ldcid.setIdProducto(this.getCarrito().get(i).getIdProducto());
+            Productos p = this.getCarrito().get(i);
+            //ldcid.setIdProducto(p.getIdProducto());
             //ldcid.setIdCompra(c.getIdCompra());
 
             ldc.setCantidad(cantidad);
-            //ldc.setCompras(c);
-            ldc.setProductos(this.getCarrito().get(i));
-            //ldc.setId(ldcid);
+            ldc.setCompras(c);
+            ldc.setProductos(p);
+            ldc.setId(ldcid);
 
             listaldc.add(ldc);
         }

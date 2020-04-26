@@ -25,7 +25,6 @@ public class VentasDAO {
         try {
             tx = sesion.beginTransaction();
             int x =(int)sesion.save(c);
-            System.out.println("\n\n\nSERIALIZABLE\n"+x+"\n--\n--\n--");
             tx.commit();
             
         } catch (HibernateException e) {

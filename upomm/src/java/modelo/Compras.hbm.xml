@@ -14,13 +14,13 @@
         <property name="fecha" type="timestamp">
             <column name="fecha" length="19" not-null="false" />
         </property>
-        <set name="reclamacioneses" table="reclamaciones" inverse="true" lazy="true" fetch="select">
+        <set name="reclamacioneses"  cascade="save-update" table="reclamaciones" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_compra" not-null="true" />
             </key>
             <one-to-many class="modelo.Reclamaciones" />
         </set>
-        <set name="lineasDeCompras" table="lineas_de_compra" inverse="true" lazy="true" fetch="select">
+        <set name="lineasDeCompras"  cascade="save-update" table="lineas_de_compra" inverse="false" lazy="true" fetch="select">
             <key>
                 <column name="id_compra" not-null="true" />
             </key>
