@@ -20,3 +20,8 @@ button.btn-valoracion {
 form textarea {
     margin-bottom: 10px;
 }
+
+#valoraciones {
+    max-height: 120vh;
+    overflow-y: auto;
+}

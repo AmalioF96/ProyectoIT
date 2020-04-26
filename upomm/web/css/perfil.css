@@ -1,0 +1,18 @@
+.tdLabel{
+    text-align: left !important;
+}
+#imgPerfilInput{
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+.btn {
+    margin-top: 20px !important;
+}
+.fa-window-close {
+    padding: 10px;
+    color: red;
+    font-size: 20pt;
+}
+.fa-window-close:hover{
+    font-size: 21pt;
+}
