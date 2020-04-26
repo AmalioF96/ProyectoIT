@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import modelo.Compras;
+import static modelo.DAO.VentasDAO.insertarLineaDeCompra;
 import modelo.LineasDeCompra;
 import modelo.LineasDeCompraId;
 import modelo.Productos;
@@ -44,41 +45,43 @@ public class AccionVenta extends ActionSupport {
 
     @Override
     public String execute() {
-        System.out.println("===========================================================");
         //Variable de salida
-        String salida = ERROR;
+        String salida = SUCCESS;
         //Recogida de datos
         Map session = (Map) ActionContext.getContext().get("session");
         //Declaracion de variables
-        Set<LineasDeCompra> listaldc = new HashSet<>();
         Usuarios u = (Usuarios) session.get("usuario");
         Compras c = new Compras();
         LineasDeCompraId ldcid = new LineasDeCompraId();
         LineasDeCompra ldc;
+        //Seteamos atributos a compra
+        c.setUsuarios(u);
+        c.setFecha(new Date());
+        //Guardamos Compra
+        c.setIdCompra(modelo.DAO.VentasDAO.insertarCompra(c));
+
+        //Creamos lineas de compra
         for (int i = 0; i < this.getCarrito().size(); i++) {
             ldc = new LineasDeCompra();
             int cantidad = Integer.parseInt(this.getListaCantidad().get(i));
             Productos p = this.getCarrito().get(i);
-            //ldcid.setIdProducto(p.getIdProducto());
-            //ldcid.setIdCompra(c.getIdCompra());
+            ldcid.setIdProducto(p.getIdProducto());
+            ldcid.setIdCompra(c.getIdCompra());
 
             ldc.setCantidad(cantidad);
             ldc.setCompras(c);
             ldc.setProductos(p);
             ldc.setId(ldcid);
 
-            listaldc.add(ldc);
+            //Guardamos lineas de compra
+            if (!insertarLineaDeCompra(ldc)) {
+                salida = ERROR;
+            }
         }
-
-        c.setLineasDeCompras(listaldc);
-        c.setUsuarios(u);
-        c.setFecha(new Date());
-
-        if (modelo.DAO.VentasDAO.insertarCompra(c)) {
-            System.out.println("\n\n\n\nID:" + c.getIdCompra() + "\n-\n-\n-\n-\n-");
-            salida = SUCCESS;
+        if (salida.equals(SUCCESS)) {
+            List<Productos> carrito = (List<Productos>) session.get("carrito");
+            carrito.clear();
         }
-
         return salida;
     }
 
