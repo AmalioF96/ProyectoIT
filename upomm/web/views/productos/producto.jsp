@@ -206,7 +206,16 @@
                                     </s:else>
                                 </s:if>
                                 <s:else>
-                                    <div class="alert alert-info"><a href="/upomm/views/usuarios/login.jsp">Inicia sesión</a> o <a href="/upomm/views/usuarios/signUp.jsp">regístrate</a> para comprar este producto</div>
+                                    <div class="alert alert-info">
+                                        <s:url var="idProductoLoginUrl" value="/views/usuarios/login.jsp">
+                                            <s:param name="idProducto" value="producto.idProducto"/>
+                                        </s:url>
+                                        <s:url var="idProductoSignUpUrl" value="/views/usuarios/signUp.jsp">
+                                            <s:param name="idProducto" value="producto.idProducto"/>
+                                        </s:url>
+                                        <s:a href="%{idProductoLoginUrl}">Inicia sesión</s:a> o 
+                                        <s:a href="%{idProductoSignUpUrl}">regístrate</s:a> para comprar este producto
+                                    </div>
                                 </s:else>
                             </div>
                         </div>
@@ -238,19 +247,20 @@
                                 Opiniones del producto
                             </div>
                             <div class="card-body">
-                                <s:form id='formValoracionProducto' cssStyle="display:none" cssClass="formValoracion" action="insertarValoracion" theme="simple">
-                                    <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
-                                    <s:iterator begin="1" end="5" step="1" var="index">
-                                        <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
-                                    </s:iterator>
-                                    <s:textfield id="puntuacion" name="puntuacion" hidden="true"/>
-                                    <s:textfield name="idProducto" type="number" value="%{producto.idProducto}" hidden="true"/>
-                                    <s:textfield value="insertar" name="operacion" hidden="true"/>
-                                    <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
-                                    <hr>
-                                </s:form>
                                 <s:if test="producto.valoracioneses.isEmpty()">
                                     <p>Aún no hay opiniones para este producto.</p>
+                                    <s:form id='formValoracionProducto' cssStyle="display:none" cssClass="formValoracion" action="insertarValoracion" theme="simple">
+                                        <hr>
+                                        <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
+                                        <s:iterator begin="1" end="5" step="1" var="index">
+                                            <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
+                                        </s:iterator>
+                                        <s:textfield id="puntuacion" name="puntuacion" hidden="true"/>
+                                        <s:textfield name="idProducto" type="number" value="%{producto.idProducto}" hidden="true"/>
+                                        <s:textfield value="insertar" name="operacion" hidden="true"/>
+                                        <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
+                                        <hr>
+                                    </s:form>
                                 </s:if>
                                 <s:else>
                                     <s:bean name="modelo.comparators.ComparadorValoraciones" var="comparador">
