@@ -1,10 +1,7 @@
 package modelo.DAO;
 
-import java.util.Iterator;
 import java.util.List;
 import modelo.CaracteristicasProductos;
-import modelo.CaracteristicasProductosId;
-import modelo.Categorias;
 import modelo.CategoriasProductos;
 import modelo.Productos;
 import org.hibernate.HibernateException;
@@ -26,7 +23,7 @@ public class ProductoDAO {
         try {
             tx = sesion.beginTransaction();
 
-            p = (Productos) sesion.createQuery("from Productos where idProducto= :id").setParameter("id", idProducto).uniqueResult();
+            p = (Productos) sesion.createQuery("from Productos where idProducto= :id and disponible=true").setParameter("id", idProducto).uniqueResult();
 
             tx.commit();
         } catch (HibernateException e) {
@@ -42,7 +39,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Productos> listaProductos = sesion.createQuery("from Productos").list();
+        List<Productos> listaProductos = sesion.createQuery("from Productos where disponible=true").list();
 
         sesion.getTransaction().commit();
 

@@ -33,3 +33,7 @@ form textarea {
     max-height: 120vh;
     overflow-y: auto;
 }
+.alert-warning {
+    margin: 3%;
+    width: 100%;
+}
