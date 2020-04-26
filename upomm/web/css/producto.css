@@ -5,13 +5,23 @@ table td {
 .checked {
     color: #ffc107;
 }
+
+.unchecked{
+    color: lightgray;
+}
+.clicked {
+    color: #ffc107;
+}
+
+.unclicked{
+    color: lightgray;
+}
+
 .review:hover {
     cursor: pointer;
     color: #ffc107;
 }
-.unchecked{
-    color: lightgray;
-}
+
 .btn-valoracion {
     margin-right: 10px;
 }

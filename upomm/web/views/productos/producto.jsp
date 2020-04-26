@@ -49,7 +49,7 @@
                         var estrellas = $(this).find(".review");
                         var cont = 0;
                         for (var i = 0; i < estrellas.length; i++) {
-                            if ($(estrellas[i]).hasClass("checked")) {
+                            if ($(estrellas[i]).hasClass("clicked")) {
                                 cont++;
                             }
                         }
@@ -65,7 +65,7 @@
                 }
                 /*Animación de la valoración*/
                 function animaEstrellas() {
-                    $(".review").click(function () {
+                    $(".review").mouseenter(function () {
                         var id = $(this).attr('id');
                         var puntuacion = parseInt(id.substring(id.length - 1, id.length));
                         var estrellas = $(this).parent().find(".review");
@@ -75,6 +75,28 @@
                                 $(estrellas[i]).removeClass("unchecked");
                             } else {
                                 $(estrellas[i]).removeClass("checked");
+                                //$(estrellas[i]).removeClass("clicked");
+                                $(estrellas[i]).addClass("unchecked");
+                            }
+                        }
+                    });
+                    $(".review").mouseleave(function () {
+                        var estrellas = $(this).parent().find(".review");
+                        for (var i = 0; i < estrellas.length; i++) {
+                            $(estrellas[i]).removeClass("checked");
+                            $(estrellas[i]).addClass("unchecked");
+
+                        }
+                    });
+                    $(".review").click(function () {
+                        var id = $(this).attr('id');
+                        var puntuacion = parseInt(id.substring(id.length - 1, id.length));
+                        var estrellas = $(this).parent().find(".review");
+                        for (var i = 0; i < estrellas.length; i++) {
+                            if (i < puntuacion) {
+                                $(estrellas[i]).addClass("clicked");
+                            } else {
+                                $(estrellas[i]).removeClass("clicked");
                                 $(estrellas[i]).addClass("unchecked");
                             }
                         }
@@ -84,14 +106,18 @@
                 function mostrarEditable() {
                     $("#miValoracion").hide();
                     var descripcion = $("#miValoracion p").text();
-                    var puntuacion = $("#miValoracion span").text().length;
+                    var puntuacion = $("#miValoracion span.text-warning").children().length;
                     var form = $("<form id='formValoracionProductoEditable' class='formValoracion' method='post' action='/upomm/views/modificarValoracion.action'></form>");
                     var text = $("<textarea class='form-control' name='valoracion'></textarea>");
                     $(text).css("width", "100%");
                     $(text).val(descripcion);
                     $(form).append(text);
                     for (var i = 1; i <= 5; i++) {
-                        var valora = $("<span class='review fa fa-star unchecked'></span>");
+                        if (i <= puntuacion) {
+                            var valora = $("<span class='review fa fa-star clicked'></span>");
+                        } else {
+                            var valora = $("<span class='review fa fa-star unchecked'></span>");
+                        }
                         $(valora).attr("id", "puntuacion-" + i);
                         $(form).append(valora);
                     }
@@ -241,7 +267,7 @@
                                                     </s:else>
                                                     <span class='text-warning'>
                                                         <s:iterator begin="0" end="puntuacion-1" >
-                                                            &#9733;
+                                                            <span>&#9733;</span>
                                                         </s:iterator>
                                                     </span>
                                                     <br>
