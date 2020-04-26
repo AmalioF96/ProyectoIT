@@ -59,12 +59,12 @@ public class AccionVenta extends ActionSupport {
             ldc = new LineasDeCompra();
             int cantidad = Integer.parseInt(this.getListaCantidad().get(i));
             Productos p = this.getCarrito().get(i);
-            ldcid.setIdProducto(p.getIdProducto());
+            //ldcid.setIdProducto(p.getIdProducto());
             //ldcid.setIdCompra(c.getIdCompra());
 
             ldc.setCantidad(cantidad);
             ldc.setCompras(c);
-            ldc.setProductos(this.getCarrito().get(i));
+            ldc.setProductos(p);
             ldc.setId(ldcid);
 
             listaldc.add(ldc);
