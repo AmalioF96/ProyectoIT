@@ -33,6 +33,7 @@
                                     <s:textfield name="email" cssClass="form-control" id="inputEmail" label="Correo electrónico"   />
                                     <s:password name="password" cssClass="form-control" id="inputPassword" label="Contraseña"/><br>
                                     <s:submit cssClass="btn btn-md btn-primary btn-block text-uppercase" name="btnLogin" value="Iniciar Sesión"/>
+                                    <s:textfield name="idProducto" value="%{#parameters.idProducto}" hidden="true"/>
                                 </s:form>
                             </div>
                             <p class="text-center">¿Aún no tienes una cuenta? <s:a href="./signUp.jsp">¡Regístrate!</s:a></p>
