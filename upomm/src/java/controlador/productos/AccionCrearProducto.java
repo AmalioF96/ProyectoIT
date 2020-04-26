@@ -4,6 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,8 +12,11 @@ import java.util.regex.Pattern;
 import modelo.CaracteristicasProductos;
 import modelo.CaracteristicasProductosId;
 import modelo.Categorias;
+import modelo.CategoriasProductos;
+import modelo.CategoriasProductosId;
 import modelo.DAO.CategoriaDAO;
 import modelo.DAO.ProductoDAO;
+import modelo.DAO.UsuarioDAO;
 import modelo.Productos;
 import modelo.Usuarios;
 import org.apache.struts2.ServletActionContext;
@@ -161,73 +165,82 @@ public class AccionCrearProducto extends ActionSupport {
                 addFieldError("precio", "El precio debe ser mayor que 0");
             }
         }
-        if(this.nombreCaracteristica == null || this.nombreCaracteristica.isEmpty()
+        if (this.nombreCaracteristica == null || this.nombreCaracteristica.isEmpty()
                 || this.descripcionCaracteristica == null || this.descripcionCaracteristica.isEmpty()
-                || this.nombreCaracteristica.size() != this.descripcionCaracteristica.size()){
+                || this.nombreCaracteristica.size() != this.descripcionCaracteristica.size()) {
             addFieldError("nombreCaracteristica", "Las características deben estar rellenas");
-        }else{
+        } else {
             String nc;
             String dc;
 
-            for(int i = 0; i < this.nombreCaracteristica.size(); i++){
+            for (int i = 0; i < this.nombreCaracteristica.size(); i++) {
                 nc = this.nombreCaracteristica.get(i);
                 dc = this.descripcionCaracteristica.get(i);
-                if(nc == null || nc.equals("")){
+                if (nc == null || nc.equals("")) {
                     addFieldError("nombreCaracteristica", "Los nombres de las características deben estar rellenos");
                 }
-                if(dc == null || dc.equals("")){
+                if (dc == null || dc.equals("")) {
                     addFieldError("descripcionCaracteristica", "Las descripciones de las características deben estar rellenas");
                 }
             }
         }
-        
-        if(this.archivoVenta == null){
+
+        if (this.archivoVenta == null) {
             addFieldError("archivoVenta", "Debe subir el archivo a vender");
         }
-        
-        if(!isTerminos()){
+
+        if (!isTerminos()) {
             addFieldError("terminos", "Debe aceptar los términos y condiciones");
         }
     }
 
     public String execute() throws Exception {
         String salida = SUCCESS;
-        try{
-        Productos prod = new Productos();
-        prod.setNombre(this.getNombre());
-        prod.setDescripcion(this.getDescripcion());
-        prod.setPrecio(Float.parseFloat(this.getPrecio()));
-        
         String nuevaRuta;
         String nuevoNombre;
-        
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
-        
-        nuevaRuta = ServletActionContext.getServletContext().getRealPath("/imagenes");
-        
-        nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
+        try {
+            Productos prod = new Productos();
+            prod.setNombre(this.getNombre());
+            prod.setDescripcion(this.getDescripcion());
+            prod.setPrecio(Float.parseFloat(this.getPrecio()));
+            prod.setUsuarios(user);
+            prod.setDisponible(true);
+            nuevaRuta = ServletActionContext.getServletContext().getRealPath("/imagenes");
+
+            nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
                     + getImagenContentType().substring(getImagenContentType().indexOf("/") + 1);
-        imagen.renameTo(new File(nuevaRuta + nuevoNombre));
-        prod.setImagen("/upomm/imagenes" + nuevoNombre);
-        Set setCat = new HashSet(CategoriaDAO.listarCategoriasCoincidentes(this.getCategorias()));
-        prod.setCategoriasProductoses(setCat);
-        if(ProductoDAO.crearProducto(prod)){
-            salida = ERROR;
-        }
-        CaracteristicasProductos c;
-        CaracteristicasProductosId cId;
-        for(int i = 0; i < this.getNombreCaracteristica().size(); i++){
-            cId = new CaracteristicasProductosId(prod.getIdProducto(), this.getNombreCaracteristica().get(i));
-            c = new CaracteristicasProductos(cId, prod, this.getDescripcionCaracteristica().get(i));
-            if(ProductoDAO.crearCaracteristicaId(cId)){
+            imagen.renameTo(new File(nuevaRuta + nuevoNombre));
+
+            prod.setImagen("/upomm/imagenes" + nuevoNombre);
+            Set setCat = new HashSet(CategoriaDAO.listarCategoriasCoincidentes(this.getCategorias()));
+            prod.setCategoriasProductoses(setCat);
+            prod.setIdProducto(ProductoDAO.crearProducto(prod));
+            if (prod.getIdProducto() < 0) {
                 salida = ERROR;
             }
-            if(ProductoDAO.crearCaracteristica(c)){
-                salida = ERROR;
+            Iterator it = prod.getCategoriasProductoses().iterator();
+            Categorias categoria;
+            while (it.hasNext()) {
+                categoria = (Categorias) it.next();
+                CategoriasProductosId cpId = new CategoriasProductosId(categoria.getNombre(), prod.getIdProducto());
+                CategoriasProductos cp = new CategoriasProductos(cpId, prod);
+                ProductoDAO.crearRelacionCategoriaProduto(cp);
             }
-        }
-        }catch(Exception ex){
+
+            CaracteristicasProductos c;
+            CaracteristicasProductosId cId;
+            for (int i = 0; i < this.getNombreCaracteristica().size(); i++) {
+                cId = new CaracteristicasProductosId(prod.getIdProducto(), this.getNombreCaracteristica().get(i));
+                c = new CaracteristicasProductos(cId, prod, this.getDescripcionCaracteristica().get(i));
+
+                if (!ProductoDAO.crearCaracteristica(c)) {
+                    salida = ERROR;
+                }
+            }
+
+        } catch (Exception ex) {
             salida = ERROR;
         }
         return salida;

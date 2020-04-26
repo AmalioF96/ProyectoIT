@@ -1,8 +1,11 @@
 package modelo.DAO;
 
+import java.util.Iterator;
 import java.util.List;
 import modelo.CaracteristicasProductos;
 import modelo.CaracteristicasProductosId;
+import modelo.Categorias;
+import modelo.CategoriasProductos;
 import modelo.Productos;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -79,17 +82,18 @@ public class ProductoDAO {
         return listaProductos;
     }
 
-    public static boolean crearProducto(Productos p) {
-        boolean salida = true;
+    public static int crearProducto(Productos p) {
+        int id = -1;
         try {
             sesion = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = sesion.beginTransaction();
-            sesion.save(p);
+            id = (int)sesion.save(p);
+            sesion.flush();
             tx.commit();
         } catch (Exception ex) {
-            salida = false;
+            id = -1;
         }
-        return salida;
+        return id;
     }
     
     public static boolean actualizaProducto(Productos p) {
@@ -104,13 +108,14 @@ public class ProductoDAO {
         }
         return salida;
     }
+
     
-    public static boolean crearCaracteristicaId(CaracteristicasProductosId cid){
+    public static boolean crearCaracteristica(CaracteristicasProductos c){
         boolean salida = true;
         try {
             sesion = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = sesion.beginTransaction();
-            sesion.update(cid);
+            sesion.save(c);
             tx.commit();
         } catch (Exception ex) {
             salida = false;
@@ -118,12 +123,14 @@ public class ProductoDAO {
         return salida;
     }
     
-    public static boolean crearCaracteristica(CaracteristicasProductos c){
+    
+    
+    public static boolean crearRelacionCategoriaProduto(CategoriasProductos cp){
         boolean salida = true;
         try {
             sesion = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = sesion.beginTransaction();
-            sesion.update(c);
+            sesion.save(cp);
             tx.commit();
         } catch (Exception ex) {
             salida = false;
