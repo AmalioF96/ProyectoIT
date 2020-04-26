@@ -20,7 +20,7 @@
             </key>
             <one-to-many class="modelo.Reclamaciones" />
         </set>
-        <set name="lineasDeCompras"  cascade="save-update" table="lineas_de_compra" inverse="true" lazy="true" fetch="select">
+        <set name="lineasDeCompras"  cascade="save-update" table="lineas_de_compra" inverse="false" lazy="true" fetch="select">
             <key>
                 <column name="id_compra" not-null="true" />
             </key>
