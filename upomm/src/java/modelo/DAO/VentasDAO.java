@@ -6,6 +6,7 @@
 package modelo.DAO;
 
 import java.io.Serializable;
+import java.util.List;
 import modelo.Compras;
 import modelo.LineasDeCompra;
 import org.hibernate.HibernateException;
@@ -52,6 +53,18 @@ public class VentasDAO {
             }
         }
         return x;
+    }
+
+    public static List<Compras> listarCompras() {
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        sesion.beginTransaction();
+
+        List<Compras> listaCompras = sesion.createQuery("from Compras").list();
+
+        sesion.getTransaction().commit();
+
+        return listaCompras;
+
     }
 
 }
