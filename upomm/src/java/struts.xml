@@ -82,7 +82,7 @@
             </result>
         </action>
         <action name="crearProducto" class="controlador.productos.AccionCrearProducto">
-            <result name="success">/views/productos/producto.jsp</result>
+            <result name="success">/views/usuarios/perfil.jsp</result>
             <result name="error">/views/productos/crearProducto.jsp</result>
             <result name="input">/views/productos/crearProducto.jsp</result>
         </action>
