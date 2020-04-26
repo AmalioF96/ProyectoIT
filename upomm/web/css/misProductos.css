@@ -1,0 +1,29 @@
+tr :first-child {
+    display: none;
+}
+#ventas_wrapper {
+    margin: 3% !important;
+}
+#pedidos_wrapper{
+    margin: 3% !important;
+}
+#ventas th,td {
+    text-align: center;
+    vertical-align: middle;
+}
+tbody tr:hover {
+    cursor: pointer;
+    opacity: 0.75;
+}
+span.highlight {
+    display: inline;
+    background-color: yellow;
+}
+img.mostrarImagen {
+    display:inline-table;
+    max-width: 100px;
+}
+#btn-aniadir-producto {
+    margin: 3% 0 1% 0;
+}
+table thead th {text-align: center !important;}
