@@ -44,6 +44,7 @@ public class AccionVenta extends ActionSupport {
 
     @Override
     public String execute() {
+        System.out.println("===========================================================");
         //Variable de salida
         String salida = ERROR;
         //Recogida de datos
@@ -57,14 +58,14 @@ public class AccionVenta extends ActionSupport {
         for (int i = 0; i < this.getCarrito().size(); i++) {
             ldc = new LineasDeCompra();
             int cantidad = Integer.parseInt(this.getListaCantidad().get(i));
-
-            ldcid.setIdProducto(this.getCarrito().get(i).getIdProducto());
+            Productos p = this.getCarrito().get(i);
+            ldcid.setIdProducto(p.getIdProducto());
             //ldcid.setIdCompra(c.getIdCompra());
 
             ldc.setCantidad(cantidad);
-            //ldc.setCompras(c);
+            ldc.setCompras(c);
             ldc.setProductos(this.getCarrito().get(i));
-            //ldc.setId(ldcid);
+            ldc.setId(ldcid);
 
             listaldc.add(ldc);
         }
