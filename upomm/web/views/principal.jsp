@@ -123,9 +123,9 @@
                                                     <img class = "card-img-top lazyload" data-src = "/upomm/imagenes/productDefaultImage.jpg" alt = "">
                                                 </s:a>
                                                 <div class = "card-body">
-                                                    <h4 class = "card-title busca">
+                                                    <h4 class = "card-title">
                                                         <s:a href="%{idProductoUrl}" cssClass="productoLink">
-                                                            <s:property value="nombre"/>
+                                                            <span class="busca"><s:property value="nombre"/></span>
                                                         </s:a>
                                                     </h4>
                                                     <h5><s:number name="precio" maximumFractionDigits="2" minimumFractionDigits="2"/>&euro;</h5>
