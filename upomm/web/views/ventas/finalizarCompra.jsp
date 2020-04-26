@@ -7,11 +7,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <%@include file="/views/utils/includes.jsp"%>
-
         <link href="/upomm/css/carrito.css" rel="stylesheet" type="text/css"/>
-        <script src="../frameworks/jquery/jquery.min.js"></script>
-        <script src="../frameworks/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="https://kit.fontawesome.com/a076d05399.js"></script><!-- Para que se vean los logos -->
         <s:head/>
     </head>
 
@@ -48,15 +44,14 @@
                                     <s:set var="cont" value="0" />
                                     <s:set var="total" value="0"/>
                                     <s:iterator var="i" value="#session.carrito">
-                                        <s:url var="productoId" action="eliminarCarrito">
+                                        <s:url var="productoId" value="/views/productos/producto.jsp">
                                             <s:param name="idProducto" value="idProducto"/>
-                                            <s:param name="origin" value="'carrito'"/>
                                         </s:url>
                                         <tr class='producto'>
                                             <td>
-                                                <a href=producto.php?idProducto='"> 
+                                                <s:a href="%{productoId}"> 
                                                     <s:property value="nombre"/>
-                                                </a>
+                                                </s:a>
                                             </td>
                                             <td> 
                                                 <s:property value="descripcion"/>
@@ -68,20 +63,18 @@
                                                 <s:property  value="#session.cantidad.get(#cont)"/>
                                             </td>
                                             <td class='text-center tdSubtotal'>
-                                                <s:property value="precio" />
+                                                <s:property value="%{precio*#session.cantidad.get(#cont)}" />
                                             </td>
 
                                         </tr>
                                         <s:set var="total" value="%{#total+(precio*#session.cantidad.get(#cont))}" />
                                         <s:set var="cont" value="%{#cont+1}" />
                                     </s:iterator>
-                                    <%--
-                                        <input type="hidden" name="producto<?php echo $i; ?>" value="<?php echo base64_encode(encriptar($producto['id'])); ?>"/>
-                                        <input type="hidden" name="cantidad<?php echo $i; ?>" value="<?php echo base64_encode(encriptar($producto['cantidad'])); ?>"/>
-                                    --%>
                                     <tr>
                                         <td colspan="4"><strong>Total:</strong></td>
-                                        <td id="precioTotalCarrito" class='text-center'><s:property  value="#total"/>&euro;</td>
+                                        <td id="precioTotalCarrito" class='text-center font-weight-bold'>
+                                            <s:property  value="#total"/>&euro;
+                                        </td>
                                     </tr>
 
                                 </tbody>
@@ -90,7 +83,7 @@
 
                             </table>
                             <s:checkbox name="terminosYCondiciones" fieldValue="true" label=" Acepto los términos y condiciones del servicio."/>
-                            
+
                             <br><s:submit cssClass="btn btn btn-warning text-uppercase" name="submitButton" value="Comprar" id="botonFinalizar" /> 
                         </s:form>
                     </div>
@@ -141,8 +134,6 @@
 </main>
 <!-- /.container -->
 <%@include file="../utils/footer.html" %>
-
-
 </body>
 
 </html>
