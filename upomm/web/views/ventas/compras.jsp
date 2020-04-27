@@ -3,7 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s"  uri="/struts-tags" %>
 <s:if test="#session.usuario==null">
-    <%--<jsp:forward page="/views/principal.jsp"/>--%>
+    <jsp:forward page="/views/principal.jsp"/>
 </s:if>
 <s:elseif test="listaCompras==null">
     <s:action executeResult="true" name="seleccionarCompras"/>
@@ -86,16 +86,17 @@
                                     <th>ID</th>
                                     <th>Fecha</th>
                                     <th>Importe(&euro;)</th>
+                                    <th>Numero de artículos</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
                                 <s:iterator value="listaCompras">
                                     <tr>
                                         <td><s:property value="idCompra"/></td>
-                                        <td><s:property value="fecha"/></td>
+                                        <td><s:property value="getFechaFormateada()"/></td>
                                         <td><s:property value="getImporte()"/></td>
-                                        
+                                        <td><s:property value="getNumeroArticulos()"/></td>
+
                                     </tr>
                                 </s:iterator>
                             </tbody>
