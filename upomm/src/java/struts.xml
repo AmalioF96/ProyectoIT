@@ -6,15 +6,11 @@
     <!-- Configuration for the default package. -->
     <package name="default" extends="struts-default">
         <action name="">
-            <result type="chain">
-                <param name="actionName">index</param>
+            <result type="redirect">
+                <param name="location">/views/principal.jsp</param>
             </result>
         </action>
-        <action name="index">
-            <result>/views/principal.jsp</result>
-        </action>
     </package>
-    
     <package name="productos" extends="struts-default">
         <action name="listarCategorias" class="controlador.productos.AccionCategorias" method="listar">
             <result name="success">/views/principal.jsp</result>
@@ -25,7 +21,7 @@
         </action>
         <action name="seleccionarProducto" class="controlador.productos.AccionProductos" method="seleccionarProducto">
             <result name="success">/views/productos/producto.jsp</result>
-            <result name="error">/views/principal.jsp</result>
+            <result name="error">/views/productos/producto.jsp</result>
         </action>
         <action name="agregarCarrito" class="controlador.productos.AccionProductos" method="agregarCarrito">
             <result name="success" type="redirect">
@@ -90,7 +86,6 @@
     <package name="reclamaciones" extends="struts-default">
         
     </package>
-    
     <package name="usuarios" extends="struts-default">
         <action name="signUp" class="controlador.usuarios.AccionSignUp">
             <result name="success">/views/principal.jsp</result>
@@ -118,8 +113,6 @@
             <result name="error">/views/usuarios/editarPerfil.jsp</result>
             <result name="input">/views/usuarios/editarPerfil.jsp</result>
         </action>
-        
-        
         <action name="cambiarImagenPerfil" class="controlador.usuarios.AccionImagenPerfil">
             <interceptor-ref name="fileUpload">
                 <param name="saveDir">/imagenes</param>
@@ -128,15 +121,11 @@
                 <param name="allowedExtensions">jpg, jpeg, png</param>
             </interceptor-ref>
             <interceptor-ref name="defaultStack" />
-            
             <result name="success">/views/usuarios/perfil.jsp</result>
             <result name="error">/views/usuarios/cambiarImagenPerfil.jsp</result>
             <result name="input">/views/usuarios/cambiarImagenPerfil.jsp</result>
         </action>
-        
-        
     </package>
-    
     <package name="ventas" extends="struts-default">
         <action name="accionProcesarCarrito" class="controlador.ventas.AccionCarrito">
             <result name="success">/views/ventas/finalizarCompra.jsp</result>
@@ -152,5 +141,4 @@
             <result name="error">/views/principal.jsp</result>
         </action>
     </package>
-    
 </struts>
