@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador.ventas;
 
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
-import java.util.List;
 import modelo.Compras;
 
 /**
@@ -17,6 +11,8 @@ import modelo.Compras;
 public class AccionComprasUsuario extends ActionSupport {
 
     private ArrayList<Compras> listaCompras = null;
+    private Compras compra = null;
+    private Integer idCompra = null;
 
     public String listarCompras() {
         String salida = SUCCESS;
@@ -29,6 +25,19 @@ public class AccionComprasUsuario extends ActionSupport {
         return salida;
     }
 
+    public String seleccionarCompra() {
+        String salida = ERROR;
+
+        if (this.getIdCompra() != null) {
+            Compras c = modelo.DAO.VentasDAO.obtenerCompra(this.getIdCompra());
+            if (c != null) {
+                this.setCompra(c);
+                salida = SUCCESS;
+            }
+        }
+        return salida;
+    }
+
     public ArrayList<Compras> getListaCompras() {
         return listaCompras;
     }
@@ -37,4 +46,19 @@ public class AccionComprasUsuario extends ActionSupport {
         this.listaCompras = listaCompras;
     }
 
+    public Compras getCompra() {
+        return compra;
+    }
+
+    public void setCompra(Compras compra) {
+        this.compra = compra;
+    }
+
+    public Integer getIdCompra() {
+        return idCompra;
+    }
+
+    public void setIdCompra(Integer idCompra) {
+        this.idCompra = idCompra;
+    }
 }

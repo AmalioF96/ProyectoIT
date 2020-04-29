@@ -31,7 +31,7 @@
                 </s:elseif>
                 <s:elseif test="#session.usuario.tipo=='cliente'">
                     <li class="nav-item">
-                        <a class="nav-link" href="/upomm/views/ventas/compras.jsp">Compras</a>
+                        <a class="nav-link" href="/upomm/views/ventas/misCompras.jsp">Compras</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/upomm/views/ventas/carrito.jsp"><i class="fa fa-shopping-cart"></i> Cesta (<s:property value="#session.carrito.size"/>)</a>
@@ -49,7 +49,7 @@
                 </s:elseif>
                 <s:elseif test="#session.usuario.tipo=='vendedor'">
                     <li class="nav-item">
-                        <a class="nav-link" href="/upomm/views/ventas/compras.jsp">Compras</a>
+                        <a class="nav-link" href="/upomm/views/ventas/misCompras.jsp">Compras</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/upomm/views/ventas/menuVentas.jsp">Ventas</a>
