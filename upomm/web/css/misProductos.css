@@ -26,4 +26,10 @@ img.mostrarImagen {
 #btn-aniadir-producto {
     margin: 3% 0 1% 0;
 }
-table thead th {text-align: center !important;}
+table thead th {
+    text-align: center !important;
+}
+
+#pedidos th {
+    width: 33% !important;
+}

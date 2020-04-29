@@ -1,7 +1,6 @@
 package modelo;
 // Generated 18-abr-2020 20:41:47 by Hibernate Tools 4.3.1
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -53,10 +52,6 @@ public class Compras implements java.io.Serializable {
 
     public Date getFecha() {
         return this.fecha;
-    }
-
-    public String getFechaFormateada() {
-        return new SimpleDateFormat("dd-MM-yyyy").format(this.getFecha());
     }
 
     public void setFecha(Date fecha) {
