@@ -59,7 +59,7 @@
                     </div>
                     <!-- /.col-lg-3 -->
                     <s:if test="listaVentas.size > 0">
-                        <div class="col-lg-8 table-responsive-sm">
+                        <div class="col-lg-9 table-responsive-sm">
                             <table id="pedidos" class="table table-striped table-bordered dataTable" style="width:100%">
                                 <thead>
                                     <tr>
