@@ -10,6 +10,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
 import java.util.Map;
 import modelo.Compras;
+import modelo.LineasDeCompra;
 import modelo.Usuarios;
 
 /**
@@ -19,8 +20,17 @@ import modelo.Usuarios;
 public class AccionVentasUsuario extends ActionSupport {
 
     private ArrayList<Object[]> listaVentas = null;
-    private Compras compra = null;
-    private Integer idCompra = null;
+    private LineasDeCompra venta = null;
+    private Integer idVenta = null;
+    private Integer idProducto = null;
+
+    public Integer getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(Integer idProducto) {
+        this.idProducto = idProducto;
+    }
 
     public AccionVentasUsuario() {
     }
@@ -38,6 +48,19 @@ public class AccionVentasUsuario extends ActionSupport {
         return salida;
     }
 
+    public String seleccionarVenta() {
+        String salida = ERROR;
+
+        if (this.getIdVenta() != null) {
+            LineasDeCompra c = modelo.DAO.VentasDAO.obtenerVenta(this.getIdVenta(), this.getIdProducto());
+            if (c != null) {
+                this.setVenta(c);
+                salida = SUCCESS;
+            }
+        }
+        return salida;
+    }
+
     public ArrayList<Object[]> getListaVentas() {
         return listaVentas;
     }
@@ -46,20 +69,20 @@ public class AccionVentasUsuario extends ActionSupport {
         this.listaVentas = listaVentas;
     }
 
-    public Compras getCompra() {
-        return compra;
+    public LineasDeCompra getVenta() {
+        return venta;
     }
 
-    public void setCompra(Compras compra) {
-        this.compra = compra;
+    public void setVenta(LineasDeCompra venta) {
+        this.venta = venta;
     }
 
-    public Integer getIdCompra() {
-        return idCompra;
+    public Integer getIdVenta() {
+        return this.idVenta;
     }
 
-    public void setIdCompra(Integer idCompra) {
-        this.idCompra = idCompra;
+    public void setIdVenta(Integer idCompra) {
+        this.idVenta = idCompra;
     }
 
 }
