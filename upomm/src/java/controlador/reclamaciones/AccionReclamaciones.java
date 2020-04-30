@@ -25,14 +25,22 @@ public class AccionReclamaciones extends ActionSupport {
     }
 
     public void validate() {
+        boolean errores = false;
         if (this.getIdCompra() == null) {
             addFieldError("idCompra", ERROR);
+            errores = true;
         }
         if (this.getIdProducto() == null) {
             addFieldError("idProducto", ERROR);
+            errores = true;
         }
         if (this.getDescripcion() == null || this.getDescripcion().length() <= 0) {
             addFieldError("descripcion", ERROR);
+            errores = true;
+        }
+        if (errores) {
+            Map request = (Map) ActionContext.getContext().get("request");
+            request.put("error", true);
         }
     }
 

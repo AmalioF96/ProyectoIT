@@ -51,7 +51,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button id="send" type="button" class="btn btn-primary">Enviar</button>
+                            <button id="send" class="btn btn-primary">Enviar</button>
                         </div>
                     </div>
                 </div>
@@ -61,8 +61,11 @@
             <main class="container-fluid">
                 <div class="row">
                     <s:if test="#request.error!=null && !#request.error">
-                        <div class="alert alert-succes">Se ha creado la reclamación.</div> 
+                        <div class="alert alert-success" role="alert">Se ha creado la reclamación.</div> 
                     </s:if>
+                    <s:elseif test="#request.error">
+                        <div class="alert alert-danger" role="alert">ERROR: no se pudo crear la reclamación.</div> 
+                    </s:elseif>
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group">
                             <h4 class="text-center">Gestión de Compras</h4>
