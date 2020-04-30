@@ -60,7 +60,17 @@ public class VentasDAO {
         return listaCompras;
 
     }
-    
+    public static List<Compras> listarVentas(int id) {
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        sesion.beginTransaction();
+
+        List<Compras> listaCompras = sesion.createQuery("from Compras, lineas_de_compra where").list();
+
+        sesion.getTransaction().commit();
+
+        return listaCompras;
+
+    }
     public static Compras obtenerCompra(int idCompra) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
