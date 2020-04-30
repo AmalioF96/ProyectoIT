@@ -136,8 +136,12 @@
             <result name="success">/views/ventas/carrito.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
-        <action name="seleccionarCompras" class="controlador.ventas.AccionComprasUsuario" method="listarCompras">
-            <result name="success">/views/ventas/compras.jsp</result>
+        <action name="listarCompras" class="controlador.ventas.AccionComprasUsuario" method="listarCompras">
+            <result name="success">/views/ventas/misCompras.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="seleccionarCompra" class="controlador.ventas.AccionComprasUsuario" method="seleccionarCompra">
+            <result name="success">/views/ventas/compra.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
     </package>
