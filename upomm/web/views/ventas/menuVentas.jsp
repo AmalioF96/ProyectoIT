@@ -29,9 +29,13 @@
                             var table = $('#pedidos').DataTable();
                             $('#pedidos tbody').on('click', 'tr', function () {
                                 var id = table.row(this).data()[0];
-                                var input = $("<input type='text' name='idCompra'/>");
+                                var prod = table.row(this).data()[1];
+                                var input = $("<input type='text' name='idVenta'/>");
+                                var input2 = $("<input type='text' name='idProducto'/>");
                                 $(input).val(id);
+                                $(input2).val(prod);
                                 $("#formPedido").append(input);
+                                $("#formPedido").append(input2);
                                 $("#formPedido").submit();
                             });
                         }
@@ -49,7 +53,7 @@
                             <h4 class="text-center">Menú de Vendedor</h4>
                             <ul class="list-unstyled">
                                 <li><a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item active">Mis Ventas</a></li>
-                                <li><a href="#" class="list-group-item">Mis Productos</a></li>
+                                <li><a href="/upomm/views/productos/misProductos.jsp" class="list-group-item">Mis Productos</a></li>
                                 <li><a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item">Crear Producto</a></li>
                             </ul>
                         </nav>
@@ -61,6 +65,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>IDProd</th>
                                         <th>Email Cliente</th>
                                         <th>Producto</th>
                                         <th>Cantidad de productos</th>
@@ -76,7 +81,8 @@
                                             <td><s:property value="#lv[2]"/></td>
                                             <td><s:property value="#lv[3]"/></td>
                                             <td><s:property value="#lv[4]" /></td>
-                                            <td><s:date name="#lv[5]" format="dd/MM/yyyy"/></td>
+                                            <td><s:property value="#lv[5]" /></td>
+                                            <td><s:date name="#lv[6]" format="dd/MM/yyyy"/></td>
                                         </tr>
                                     </s:iterator>
                                 </tbody>
@@ -91,6 +97,12 @@
                 </div>
             </main>
             <%@include file="../utils/footer.html" %>
+<<<<<<< HEAD
+=======
+            <s:form id="formPedido" action="venta.jsp" method="GET" hidden="true">
+            </s:form>
+
+>>>>>>> master
         </body>
     </html>
 </s:else>
