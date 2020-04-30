@@ -3,7 +3,7 @@
 <s:if test="#session.usuario==null">
     <jsp:forward page="/views/principal.jsp"/>
 </s:if>
-<s:elseif test="listaVentas!=null">
+<s:elseif test="listaVentas==null">
     <s:action executeResult="true" name="listarVentas"/>
 </s:elseif>
 <s:else>
@@ -75,19 +75,21 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Email Cliente</th>
-                                    <th>Número de productos</th>
+                                    <th>Producto</th>
+                                    <th>Cantidad de productos</th>
                                     <th>Importe(&euro;)</th>
                                     <th>Fecha</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <s:iterator value="listaVentas">
+                                <s:iterator value="listaVentas" var="lv">
                                     <tr>
-                                        <td><s:property value="idCompra"/></td>
-                                        <td><s:date name="email" /></td>
-                                        <td><s:property value="getNumeroArticulos()"/></td>
-                                        <td><s:property value="getImporte()"/></td>
-                                        <td><s:date name="fecha" format="dd/MM/yyyy"/></td>
+                                        <td><s:property value="#lv[0]"/></td>
+                                        <td><s:property value="#lv[1]" /></td>
+                                        <td><s:property value="#lv[2]"/></td>
+                                        <td><s:property value="#lv[3]"/></td>
+                                        <td><s:property value="#lv[4]" /></td>
+                                        <td><s:date name="#lv[5]" format="dd/MM/yyyy"/></td>
                                     </tr>
                                 </s:iterator>
                             </tbody>
