@@ -156,5 +156,9 @@
             <result name="success">/views/ventas/compra.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
+        <action name="seleccionarVenta" class="controlador.ventas.AccionVentasUsuario" method="seleccionarVenta">
+            <result name="success">/views/ventas/venta.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
     </package>
 </struts>
