@@ -1,8 +1,11 @@
 package controlador.ventas;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
+import java.util.Map;
 import modelo.Compras;
+import modelo.Usuarios;
 
 /**
  *
@@ -16,8 +19,9 @@ public class AccionComprasUsuario extends ActionSupport {
 
     public String listarCompras() {
         String salida = SUCCESS;
-
-        this.listaCompras = (ArrayList<Compras>) modelo.DAO.VentasDAO.listarCompras();
+        Map session = (Map) ActionContext.getContext().get("session");
+        Usuarios user = (Usuarios) session.get("usuario");
+        this.listaCompras = (ArrayList<Compras>) modelo.DAO.VentasDAO.listarCompras(user.getEmail());
         if (listaCompras.size() <= 0) {
             salida = ERROR;
         }
