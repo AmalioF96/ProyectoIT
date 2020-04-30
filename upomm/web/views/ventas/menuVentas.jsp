@@ -45,11 +45,8 @@
         </head>
         <body>
             <%@include file="../utils/header.jsp" %>
-            <main class="container">
-                <div class="row m-5">
-                    <div class="col-lg-1"> 
-                    </div>
-
+            <main class="container-fluid">
+                <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Menú de Vendedor</h4>

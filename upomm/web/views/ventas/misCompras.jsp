@@ -47,7 +47,7 @@
             <main class="container-fluid">
                 <div class="row">
                     <div class="col-lg-3">
-                        <nav id="categorias" class="list-group">
+                        <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Gestión de Compras</h4>
                             <ul class="list-unstyled">
                                 <li><s:a href="misCompras.jsp" cssClass="list-group-item active">Mis Compras</s:a></li>
