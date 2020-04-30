@@ -82,6 +82,10 @@
             <result name="error">/views/productos/crearProducto.jsp</result>
             <result name="input">/views/productos/crearProducto.jsp</result>
         </action>
+        <action name="listarProductosDeUsuario" class="controlador.productos.AccionProductosUsuario" method="listarProductos">
+            <result name="success">/views/productos/misProductos.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
     </package>
     <package name="reclamaciones" extends="struts-default">
         <action name="crearReclamacion" class="controlador.reclamaciones.AccionReclamaciones" method="crear">
@@ -150,6 +154,10 @@
         </action>
         <action name="seleccionarCompra" class="controlador.ventas.AccionComprasUsuario" method="seleccionarCompra">
             <result name="success">/views/ventas/compra.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="seleccionarVenta" class="controlador.ventas.AccionVentasUsuario" method="seleccionarVenta">
+            <result name="success">/views/ventas/venta.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
     </package>
