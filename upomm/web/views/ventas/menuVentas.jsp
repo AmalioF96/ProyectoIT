@@ -3,7 +3,7 @@
 <s:if test="#session.usuario==null">
     <jsp:forward page="/views/principal.jsp"/>
 </s:if>
-<s:elseif test="listaVentas==null">
+<s:elseif test="listaVentas!=null">
     <s:action executeResult="true" name="listarVentas"/>
 </s:elseif>
 <s:else>

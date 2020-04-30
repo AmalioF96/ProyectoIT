@@ -73,11 +73,11 @@ public class VentasDAO {
 
     }
 
-    public static List<Compras> listarVentas(int id) {
+    public static List<Object> listarVentas(String emailVendedor) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Compras> listaCompras = sesion.createQuery("from Compras, lineas_de_compra where").list();
+        List<Object> listaCompras = sesion.createQuery(" SELECT p.idCompra as id, p.usuarios.email as comprador, count(p.id) as num_productos, sum(lp.cantidad*prod.precio) as importe, p.fecha FROM Compras as  p, LineasDeCompra as lp, Productos as prod WHERE prod.usuarios='"+emailVendedor+"' AND lp.compras = p.idCompra AND lp.productos = prod.idProducto GROUP BY lp ").list();
 
         sesion.getTransaction().commit();
 
