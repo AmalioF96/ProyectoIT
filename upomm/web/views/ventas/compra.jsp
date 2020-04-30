@@ -47,7 +47,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <textarea id="descripcion" name="descripcion" class="form-control" placeholder="Describe brevemente el motivo de la reclamación"></textarea>
+                            <textarea id="descripcion" name="descripcion" class="form-control" placeholder="Describe brevemente el motivo de la reclamación*"></textarea>
+                            <small><strong>*Este campo es obligatorio</strong></small>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
