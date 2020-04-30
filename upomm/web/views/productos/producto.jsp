@@ -40,6 +40,9 @@
                         $("#formEliminarValoracion").append(idProducto);
                         $("#formEliminarValoracion").submit();
                     });
+                    $("img").on("error", function () {
+                        $(this).attr("src", "/upomm/imagenes/productDefaultImage.jpg");
+                    });
                 });
                 /*
                  * Obtenemos la valoración actual de un producto
@@ -179,11 +182,8 @@
                         </div>
                         <!-- /.col-lg-3 -->
                         <div class="col-lg-9">
-                            <%--<?php
-                            include './barraBusqueda.php';
-                            ?>--%>
                             <div class="card mt-4">
-                                <img id='imgProducto' class="card-img-top img-fluid" src='' alt="">
+                                <img id='imgProducto' class="card-img-top img-fluid" src="producto.imagen" alt="Imagen del producto">
                                 <div class="card-body">
                                     <h3 class="card-title"><s:property value="producto.nombre"/></h3>
                                     <h4><s:number name="producto.precio" maximumFractionDigits="2" minimumFractionDigits="2"/>&euro;</h4>
