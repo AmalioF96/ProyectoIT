@@ -5,7 +5,6 @@
 </s:if>
 <s:elseif test="listaCompras==null">
     <s:action executeResult="true" name="listarCompras"/>
-
 </s:elseif>
 <s:else>
     <!DOCTYPE html>
@@ -53,32 +52,38 @@
                             <ul class="list-unstyled">
                                 <li><s:a href="misCompras.jsp" cssClass="list-group-item active">Mis Compras</s:a></li>
                                 <li><s:a href="" cssClass="list-group-item">Mis Reclamaciones</s:a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <!-- /.col-lg-3 -->
-                    <div class="col-lg-8 table-responsive-sm">
-                        <table id="pedidos" class="table table-striped table-bordered dataTable" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Nº Pedido</th>
-                                    <th>Fecha</th>
-                                    <th>Importe(&euro;)</th>
-                                    <th>Numero de artículos</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <s:iterator value="listaCompras">
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- /.col-lg-3 -->
+                    <s:if test="listaCompras.size > 0">
+                        <div class="col-lg-8 table-responsive-sm">
+                            <table id="pedidos" class="table table-striped table-bordered dataTable" style="width:100%">
+                                <thead>
                                     <tr>
-                                        <td><s:property value="idCompra"/></td>
-                                        <td><s:date name="fecha" format="dd/MM/yyyy"/></td>
-                                        <td><s:property value="getImporte()"/></td>
-                                        <td><s:property value="getNumeroArticulos()"/></td>
+                                        <th>Nº Pedido</th>
+                                        <th>Fecha</th>
+                                        <th>Importe(&euro;)</th>
+                                        <th>Numero de artículos</th>
                                     </tr>
-                                </s:iterator>
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    <s:iterator value="listaCompras">
+                                        <tr>
+                                            <td><s:property value="idCompra"/></td>
+                                            <td><s:date name="fecha" format="dd/MM/yyyy"/></td>
+                                            <td><s:property value="getImporte()"/></td>
+                                            <td><s:property value="getNumeroArticulos()"/></td>
+                                        </tr>
+                                    </s:iterator>
+                                </tbody>
+                            </table>
+                        </div>
+                    </s:if>
+                    <s:else>
+
+                        <div class='alert alert-success'>Aún no has realizado ninguna compra.</div>
+                    </s:else>
                     <!-- /.col-lg-9 -->
                 </div>
                 <!-- /.row -->
