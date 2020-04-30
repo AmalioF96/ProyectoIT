@@ -30,6 +30,7 @@
                             var table = $('#pedidos').DataTable();
 
                             $('#pedidos tbody').on('click', 'tr', function () {
+                                $("input").remove(); //Para que no se envie mas de un campo con el id al reenviar el form
                                 var id = table.row(this).data()[0];
                                 var input = $("<input type='text' name='idCompra'/>");
                                 $(input).val(id);
@@ -42,14 +43,11 @@
             </script>
         </head>
         <body>
-            <form id="formPedido" action="compra.jsp" method="get" hidden>
-            </form>
             <%@include file="../utils/header.jsp" %>
             <!-- Page Content -->
             <main class="container-fluid">
                 <div class="row">
                     <div class="col-lg-3">
-                        <!--<img id="logo_main" class="img-fluid" src="../img/upomarket.png" alt="upomarket">-->
                         <nav id="categorias" class="list-group">
                             <h4 class="text-center">Gestión de Compras</h4>
                             <ul class="list-unstyled">
@@ -63,7 +61,7 @@
                         <table id="pedidos" class="table table-striped table-bordered dataTable" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Nº Pedido</th>
                                     <th>Fecha</th>
                                     <th>Importe(&euro;)</th>
                                     <th>Numero de artículos</th>
@@ -87,8 +85,8 @@
             </main>
             <!-- /.container -->
             <%@include file="../utils/footer.html" %>
-            <form id="formPedido" action="mostrarPedido.php" method="get" hidden>
-            </form>
+            <s:form id="formPedido" action="compra.jsp" method="GET" hidden="true">
+            </s:form>
         </body>
     </html>
 </s:else>

@@ -97,3 +97,7 @@ main.container,main.container-fluid {
 #categorias {
     margin-top: 3%;
 }
+.alert {
+    margin-top: 3%;
+    width: 100%;
+}

@@ -84,7 +84,11 @@
         </action>
     </package>
     <package name="reclamaciones" extends="struts-default">
-        
+        <action name="crearReclamacion" class="controlador.reclamaciones.AccionReclamaciones" method="crear">
+            <result name="success">/views/ventas/compra.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+            <result name="input">/views/ventas/compra.jsp</result>
+        </action>
     </package>
     <package name="usuarios" extends="struts-default">
         <action name="signUp" class="controlador.usuarios.AccionSignUp">
