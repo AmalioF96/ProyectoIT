@@ -12,17 +12,9 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <title>Ventas - UMM</title>
-            <link href="/upomm/css/carrito.css" rel="stylesheet" type="text/css"/>
-            <link href="/upomm/css/header.css" rel="stylesheet" type="text/css"/>
-            <link href="/upomm/css/footer.css" rel="stylesheet" type="text/css"/>
+            <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
-            <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
-            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-            <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
-
+            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
             <script>
@@ -53,11 +45,8 @@
 
 
             <%@include file="../utils/header.jsp" %>
-            <main class="container">
-                <div class="row m-5">
-                    <div class="col-lg-1"> 
-                    </div>
-
+            <main class="container-fluid">
+                <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Menú de Vendedor</h4>
@@ -69,7 +58,7 @@
                         </nav>
                     </div>
                     <!-- /.col-lg-3 -->
-                    <div class="col-lg-8 table-responsive-sm">
+                    <div class="col-lg-9 table-responsive-sm">
                         <table id="pedidos" class="table table-striped table-bordered dataTable" style="width:100%">
                             <thead>
                                 <tr>

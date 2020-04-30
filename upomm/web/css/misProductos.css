@@ -11,7 +11,6 @@
 tbody tr:hover {
     cursor: pointer;
     color: #7a1600;
-    font-weight: 600;
 }
 img.mostrarImagen {
     display:inline-table;
