@@ -18,7 +18,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Productos p = null;
-        
+
         try {
             tx = sesion.beginTransaction();
 
@@ -36,6 +36,17 @@ public class ProductoDAO {
         sesion.beginTransaction();
 
         List<Productos> listaProductos = sesion.createQuery("from Productos where disponible=true").list();
+
+        sesion.getTransaction().commit();
+
+        return listaProductos;
+    }
+
+    public static List<Productos> listarProductos(String emailPropietario) {
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        sesion.beginTransaction();
+
+        List<Productos> listaProductos = sesion.createQuery("from Productos as p where p.usuarios='" + emailPropietario + "'").list();
 
         sesion.getTransaction().commit();
 
@@ -97,7 +108,7 @@ public class ProductoDAO {
         boolean salida = true;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
-        
+
         try {
             tx = sesion.beginTransaction();
             sesion.update(p);
