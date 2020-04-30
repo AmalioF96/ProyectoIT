@@ -5,9 +5,12 @@
  */
 package controlador.ventas;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
+import java.util.Map;
 import modelo.Compras;
+import modelo.Usuarios;
 
 /**
  *
@@ -15,7 +18,7 @@ import modelo.Compras;
  */
 public class AccionVentasUsuario extends ActionSupport {
 
-    private ArrayList<Compras> listaCompras = null;
+    private ArrayList<Object> listaCompras = null;
     private Compras compra = null;
     private Integer idCompra = null;
 
@@ -24,8 +27,15 @@ public class AccionVentasUsuario extends ActionSupport {
 
     public String listarVentas() {
         String salida = SUCCESS;
-
-        this.listaCompras = (ArrayList<Compras>) modelo.DAO.VentasDAO.listarVentas();
+        Map session = (Map) ActionContext.getContext().get("session");
+        Usuarios user = (Usuarios) session.get("usuario");
+        this.listaCompras = (ArrayList<Object>) modelo.DAO.VentasDAO.listarVentas(user.getEmail());
+        System.out.println("\n\n\nLISTAAAAAA");
+        for (Object l : listaCompras) {
+            System.out.println(l);
+            System.out.println(l.toString());
+        }
+        System.out.println("\n\n\n");
         if (listaCompras.size() <= 0) {
             salida = ERROR;
         }
@@ -33,11 +43,11 @@ public class AccionVentasUsuario extends ActionSupport {
         return salida;
     }
 
-    public ArrayList<Compras> getListaCompras() {
+    public ArrayList<Object> getListaCompras() {
         return listaCompras;
     }
 
-    public void setListaCompras(ArrayList<Compras> listaCompras) {
+    public void setListaCompras(ArrayList<Object> listaCompras) {
         this.listaCompras = listaCompras;
     }
 
