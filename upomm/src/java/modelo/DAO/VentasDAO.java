@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo.DAO;
 
-import java.io.Serializable;
 import java.util.List;
 import modelo.Compras;
 import modelo.LineasDeCompra;
@@ -66,5 +60,29 @@ public class VentasDAO {
         return listaCompras;
 
     }
+    public static List<Compras> listarVentas(int id) {
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        sesion.beginTransaction();
+
+        List<Compras> listaCompras = sesion.createQuery("from Compras, lineas_de_compra where").list();
+
+        sesion.getTransaction().commit();
+
+        return listaCompras;
+
+    }
+    public static Compras obtenerCompra(int idCompra) {
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        sesion.beginTransaction();
+
+        Compras c = (Compras) sesion.load(Compras.class, idCompra);
+
+        sesion.getTransaction().commit();
+
+        return c;
+
+    }
+    
+    
 
 }

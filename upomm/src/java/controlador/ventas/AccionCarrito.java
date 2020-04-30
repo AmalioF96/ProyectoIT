@@ -4,7 +4,6 @@ import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import modelo.Productos;
 

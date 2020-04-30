@@ -96,7 +96,10 @@
                             <s:file name="archivoVenta" accept="image/jpeg, image/png"></s:file>
                                 <br/>
                                 <br/>
-                            <s:checkbox name="terminos"></s:checkbox><label class="">&nbsp;<a href="">Acepto los términos y condiciones</a></label>
+                                <s:checkbox name="terminos"></s:checkbox>
+                                <label class="">&nbsp;
+                                        <a href="">Acepto los términos y condiciones</a>
+                                    </label>
                                 <br/>
                             <s:submit name="btnCrearProducto" value="Crear" cssClass="btn btn-primary"></s:submit>
                         </s:form>

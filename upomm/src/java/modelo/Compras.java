@@ -83,6 +83,14 @@ public class Compras implements java.io.Serializable {
         return resultado;
     }
 
+    public int getNumeroArticulos() {
+        int resultado = 0;
+        for (LineasDeCompra ldc : this.lineasDeCompras) {
+            resultado += ldc.getCantidad();
+        }
+        return resultado;
+    }
+
     public String compraToJson() {
         String salida = "{\"ID\":\"" + this.getIdCompra() + "\",\"Fecha\":\"" + this.getFecha() + "\",\"Importe\":\"" + this.getImporte() + "\"}";
 
