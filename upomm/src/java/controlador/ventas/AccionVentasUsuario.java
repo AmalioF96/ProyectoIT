@@ -18,7 +18,7 @@ import modelo.Usuarios;
  */
 public class AccionVentasUsuario extends ActionSupport {
 
-    private ArrayList<Object> listaCompras = null;
+    private ArrayList<Object[]> listaVentas = null;
     private Compras compra = null;
     private Integer idCompra = null;
 
@@ -29,26 +29,26 @@ public class AccionVentasUsuario extends ActionSupport {
         String salida = SUCCESS;
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
-        this.listaCompras = (ArrayList<Object>) modelo.DAO.VentasDAO.listarVentas(user.getEmail());
-        System.out.println("\n\n\nLISTAAAAAA");
-        for (Object l : listaCompras) {
-            System.out.println(l);
-            System.out.println(l.toString());
+        this.listaVentas = (ArrayList<Object[]>) modelo.DAO.VentasDAO.listarVentas(user.getEmail());
+        for (Object[] lv : listaVentas) {
+            System.out.println("-----------------------------------------");
+            for (Object l : lv) {
+                System.out.print("\t" + l);
+            }
         }
-        System.out.println("\n\n\n");
-        if (listaCompras.size() <= 0) {
+        if (listaVentas.size() <= 0) {
             salida = ERROR;
         }
 
         return salida;
     }
 
-    public ArrayList<Object> getListaCompras() {
-        return listaCompras;
+    public ArrayList<Object[]> getListaVentas() {
+        return listaVentas;
     }
 
-    public void setListaCompras(ArrayList<Object> listaCompras) {
-        this.listaCompras = listaCompras;
+    public void setListaVentas(ArrayList<Object[]> listaVentas) {
+        this.listaVentas = listaVentas;
     }
 
     public Compras getCompra() {
