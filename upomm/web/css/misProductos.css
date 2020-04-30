@@ -4,14 +4,17 @@
 #pedidos_wrapper{
     margin: 3% !important;
 }
+#reclamaciones_wrapper {
+    margin: 3% !important;
+}
+
 #ventas th,td {
     text-align: center;
     vertical-align: middle;
 }
-tbody tr:hover {
+#pedidos tbody tr:hover {
     cursor: pointer;
     color: #7a1600;
-    font-weight: 600;
 }
 img.mostrarImagen {
     display:inline-table;

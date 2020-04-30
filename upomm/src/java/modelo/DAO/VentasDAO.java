@@ -52,11 +52,17 @@ public class VentasDAO {
 
     public static List<Compras> listarCompras() {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-        sesion.beginTransaction();
-
-        List<Compras> listaCompras = sesion.createQuery("from Compras").list();
-
-        sesion.getTransaction().commit();
+        Transaction tx = null;
+        List<Compras> listaCompras = null;
+        try {
+            tx = sesion.beginTransaction();
+            listaCompras = sesion.createQuery("from Compras").list();
+            tx.commit();
+        } catch (HibernateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
 
         return listaCompras;
 
@@ -64,14 +70,20 @@ public class VentasDAO {
 
     public static List<Compras> listarCompras(String emailCliente) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-        sesion.beginTransaction();
+        Transaction tx = null;
+        List<Compras> listaCompras = null;
 
-        List<Compras> listaCompras = sesion.createQuery("From Compras as c where c.usuarios='" + emailCliente + "'").list();
-
-        sesion.getTransaction().commit();
+        try {
+            tx = sesion.beginTransaction();
+            listaCompras = sesion.createQuery("From Compras as c where c.usuarios='" + emailCliente + "'").list();
+            tx.commit();
+        } catch (HibernateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
 
         return listaCompras;
-
     }
 
     public static List<Object[]> listarVentas(String emailVendedor) {
