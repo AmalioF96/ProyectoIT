@@ -30,14 +30,9 @@ public class AccionVentasUsuario extends ActionSupport {
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
         this.listaVentas = (ArrayList<Object[]>) modelo.DAO.VentasDAO.listarVentas(user.getEmail());
-        for (Object[] lv : listaVentas) {
-            System.out.println("-----------------------------------------");
-            for (Object l : lv) {
-                System.out.print("\t" + l);
-            }
-        }
+
         if (listaVentas.size() <= 0) {
-            salida = ERROR;
+            this.listaVentas = new ArrayList<Object[]>();
         }
 
         return salida;
