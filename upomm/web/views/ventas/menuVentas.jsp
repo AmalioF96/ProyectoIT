@@ -52,7 +52,7 @@
                             <h4 class="text-center">Menú de Vendedor</h4>
                             <ul class="list-unstyled">
                                 <li><a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item active">Mis Ventas</a></li>
-                                <li><a href="#" class="list-group-item">Mis Productos</a></li>
+                                <li><a href="/upomm/views/productos/misProductos.jsp" class="list-group-item">Mis Productos</a></li>
                                 <li><a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item">Crear Producto</a></li>
                             </ul>
                         </nav>
