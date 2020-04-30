@@ -14,12 +14,11 @@ import org.hibernate.Transaction;
  */
 public class ProductoDAO {
 
-    private static Session sesion = null;
-
     public static Productos obtenerProducto(int idProducto) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
         Productos p = null;
+        
         try {
             tx = sesion.beginTransaction();
 
@@ -27,9 +26,6 @@ public class ProductoDAO {
 
             tx.commit();
         } catch (HibernateException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
         }
 
         return p;
@@ -81,56 +77,72 @@ public class ProductoDAO {
 
     public static int crearProducto(Productos p) {
         int id = -1;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
         try {
-            sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction tx = sesion.beginTransaction();
-            id = (int)sesion.save(p);
+            tx = sesion.beginTransaction();
+            id = (int) sesion.save(p);
             sesion.flush();
             tx.commit();
         } catch (Exception ex) {
             id = -1;
+            if (tx != null) {
+                tx.rollback();
+            }
         }
         return id;
     }
-    
+
     public static boolean actualizaProducto(Productos p) {
         boolean salida = true;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        
         try {
-            sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction tx = sesion.beginTransaction();
+            tx = sesion.beginTransaction();
             sesion.update(p);
             tx.commit();
         } catch (Exception ex) {
             salida = false;
+            if (tx != null) {
+                tx.rollback();
+            }
         }
         return salida;
     }
 
-    
-    public static boolean crearCaracteristica(CaracteristicasProductos c){
+    public static boolean crearCaracteristica(CaracteristicasProductos c) {
         boolean salida = true;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
         try {
-            sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction tx = sesion.beginTransaction();
+            tx = sesion.beginTransaction();
             sesion.save(c);
             tx.commit();
         } catch (Exception ex) {
             salida = false;
+            if (tx != null) {
+                tx.rollback();
+            }
         }
         return salida;
     }
-    
-    
-    
-    public static boolean crearRelacionCategoriaProduto(CategoriasProductos cp){
+
+    public static boolean crearRelacionCategoriaProduto(CategoriasProductos cp) {
         boolean salida = true;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
         try {
-            sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction tx = sesion.beginTransaction();
+            tx = sesion.beginTransaction();
             sesion.save(cp);
             tx.commit();
         } catch (Exception ex) {
             salida = false;
+            if (tx != null) {
+                tx.rollback();
+            }
         }
         return salida;
     }

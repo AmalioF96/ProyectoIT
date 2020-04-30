@@ -154,7 +154,7 @@
             <main class="container">
                 <div class="row">
                     <s:if test="#request.error">
-                        <div class="alert alert-warning">Este producto no está disponible.</div>
+                        <div class="alert alert-warning" role="alert">Este producto no está disponible.</div>
                     </s:if>
                     <s:else>
                         <!-- LISTA DE CATEGORÍAS -->
