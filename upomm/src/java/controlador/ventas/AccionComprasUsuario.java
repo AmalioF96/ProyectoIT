@@ -22,8 +22,8 @@ public class AccionComprasUsuario extends ActionSupport {
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
         this.listaCompras = (ArrayList<Compras>) modelo.DAO.VentasDAO.listarCompras(user.getEmail());
-        if (listaCompras.size() <= 0) {
-            salida = ERROR;
+        if (this.listaCompras.size() <= 0) {
+            this.listaCompras = new ArrayList<>();
         }
 
         return salida;
