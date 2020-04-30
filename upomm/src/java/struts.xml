@@ -144,6 +144,10 @@
             <result name="success">/views/ventas/misCompras.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
+        <action name="listarVentas" class="controlador.ventas.AccionVentasUsuario" method="listarVentas">
+            <result name="success">/views/ventas/menuVentas.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
         <action name="seleccionarCompra" class="controlador.ventas.AccionComprasUsuario" method="seleccionarCompra">
             <result name="success">/views/ventas/compra.jsp</result>
             <result name="error">/views/principal.jsp</result>
