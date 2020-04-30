@@ -44,6 +44,9 @@
                         };
 
                         $("img.lazyload").lazyload();
+                        $("img").on("error", function () {
+                            $(this).attr("src", "/upomm/imagenes/productDefaultImage.jpg");
+                        });
                     });
                 </script>
                 <s:if test="%{#parameters.busqueda!=null && #parameters.busqueda[0].trim()!=''}">
@@ -120,7 +123,7 @@
                                         <div class = "col-lg-4 col-md-6 mb-4">
                                             <div class = "card h-100">
                                                 <s:a href = "%{idProductoUrl}">
-                                                    <img class = "card-img-top lazyload" data-src = "/upomm/imagenes/productDefaultImage.jpg" alt = "">
+                                                    <img class = "card-img-top lazyload" data-src = "imagen" alt = "Imagen producto">
                                                 </s:a>
                                                 <div class = "card-body">
                                                     <h4 class = "card-title">
@@ -134,7 +137,7 @@
                                                             <s:property value="%{descripcion.substring(0,50)+'(...)'}"/>
                                                         </s:if>
                                                         <s:else>
-                                                        <s:property value="descripcion"/>
+                                                            <s:property value="descripcion"/>
                                                         </s:else>
                                                     </p>
                                                 </div>

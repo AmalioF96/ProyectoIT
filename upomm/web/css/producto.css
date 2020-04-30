@@ -33,3 +33,7 @@ form textarea {
     max-height: 120vh;
     overflow-y: auto;
 }
+
+#imgProducto {
+    max-height: 300px !important;
+}
