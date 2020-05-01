@@ -93,6 +93,10 @@
             <result name="error">/views/principal.jsp</result>
             <result name="input">/views/ventas/compra.jsp</result>
         </action>
+        <action name="listarReclamaciones" class="controlador.reclamaciones.AccionReclamaciones" method="listarCliente">
+            <result name="success">/views/reclamaciones/reclamacionesCliente.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
     </package>
     <package name="usuarios" extends="struts-default">
         <action name="signUp" class="controlador.usuarios.AccionSignUp">

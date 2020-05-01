@@ -16,7 +16,6 @@ import modelo.CategoriasProductos;
 import modelo.CategoriasProductosId;
 import modelo.DAO.CategoriaDAO;
 import modelo.DAO.ProductoDAO;
-import modelo.DAO.UsuarioDAO;
 import modelo.Productos;
 import modelo.Usuarios;
 import org.apache.struts2.ServletActionContext;
