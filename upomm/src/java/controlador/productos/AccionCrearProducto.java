@@ -36,6 +36,8 @@ public class AccionCrearProducto extends ActionSupport {
     private String archivoVentaContentType;
     private boolean disponible;
     private boolean terminos;
+    private Integer idProducto;
+    private String operacion;
 
     public AccionCrearProducto() {
     }
@@ -51,7 +53,7 @@ public class AccionCrearProducto extends ActionSupport {
             System.out.println("-------------------------------" + this.categorias);
             addFieldError("categorias", "Debe seleccionar al menos una categoría");
         }
-        if (this.getImagen() == null) {
+        if (this.getImagen() == null && this.getOperacion().equals("crear")) {
             addFieldError("imagen", "Debe incluir una imagen");
         }
         if (!Pattern.matches("^\\d+([,.]\\d+)?$", this.getPrecio())) {
@@ -81,7 +83,7 @@ public class AccionCrearProducto extends ActionSupport {
             }
         }
 
-        if (this.archivoVenta == null) {
+        if (this.archivoVenta == null && this.getOperacion().equals("crear")) {
             addFieldError("archivoVenta", "Debe subir el archivo a vender");
         }
 
@@ -141,15 +143,22 @@ public class AccionCrearProducto extends ActionSupport {
         }
         return salida;
     }
-    
+
     public String modificar() {
         String salida = ERROR;
-        
+        if (this.getOperacion() != null && this.getIdProducto() != null && this.getOperacion().equals("modificar")) {
+            Productos p = modelo.DAO.ProductoDAO.obtenerProductoVendido(this.getIdProducto());
+            p.setNombre(this.getNombre());
+            if (modelo.DAO.ProductoDAO.actualizaProducto(p)) {
+                salida = SUCCESS;
+            }
+        }
+
         return salida;
-    
+
     }
-    
-        public String getNombre() {
+
+    public String getNombre() {
         return nombre;
     }
 
@@ -259,5 +268,21 @@ public class AccionCrearProducto extends ActionSupport {
 
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
+    }
+
+    public String getOperacion() {
+        return operacion;
+    }
+
+    public void setOperacion(String operacion) {
+        this.operacion = operacion;
+    }
+
+    public Integer getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(Integer idProducto) {
+        this.idProducto = idProducto;
     }
 }

@@ -35,8 +35,8 @@
                         <div class="card-body">
                             <img id="imgPerfil" class="img-fluid" src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
                             <s:form action="cambiarImagenPerfil" method="post" enctype="multipart/form-data" theme="simple">
-                                <s:file id="imgPerfilInput" name="imagenPerfil" accept="image/jpeg, image/png"></s:file>
-                                <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary"></s:submit>
+                                <s:file id="imgPerfilInput" name="imagenPerfil" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
+                                <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary"/>
                             </s:form>
                         </div>
                     </div>

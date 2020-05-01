@@ -158,6 +158,7 @@
                             <br/>
                             <s:file name="archivoVenta" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
                             <br/>
+                            <br/>
                             <s:if test="%{producto!=null}">
                                 <div class="custom-control custom-switch">
                                     <s:textfield id="disponible" type="checkbox" name="disponible" cssClass="custom-control-input" checked="%{producto.disponible}" theme="simple"/>
@@ -171,7 +172,6 @@
                                 </div>     
                             </s:else>
                             <br/>
-                            <br/>
                             <div class="custom-control custom-switch">
                                 <s:textfield id="terminos" type="checkbox" name="terminos" cssClass="custom-control-input" theme="simple"/>
                                 <label class="custom-control-label" for="terminos">
@@ -180,9 +180,12 @@
                             </div>
                             <br/>
                             <s:if test="%{producto!=null}">
+                                <s:textfield name="operacion" value="modificar" hidden="true"/>
+                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
                                 <s:submit name="btnCrearProducto" value="Modificar" cssClass="btn btn-warning"></s:submit>
                             </s:if>
                             <s:else>
+                                <s:textfield name="operacion" value="crear" hidden="true"/>
                                 <s:submit name="btnCrearProducto" value="Crear" cssClass="btn btn-primary"></s:submit>
                             </s:else>
                         </s:form>

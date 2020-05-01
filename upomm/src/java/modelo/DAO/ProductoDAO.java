@@ -30,7 +30,7 @@ public class ProductoDAO {
 
         return p;
     }
-    
+
     public static Productos obtenerProductoVendido(int idProducto) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -43,9 +43,8 @@ public class ProductoDAO {
 
             tx.commit();
         } catch (HibernateException e) {
-            if(tx!=null) {
+            if (tx != null) {
                 tx.rollback();
-                System.out.println("----------------------------------------------"+e.getMessage());
             }
         }
 
@@ -121,6 +120,7 @@ public class ProductoDAO {
             if (tx != null) {
                 tx.rollback();
             }
+            System.out.println("------------------------------------" + ex.getMessage());
         }
         return id;
     }
