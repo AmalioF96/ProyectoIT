@@ -157,7 +157,7 @@ public class AccionCrearProducto extends ActionSupport {
         if (this.getImagen() == null) {
             addFieldError("imagen", "Debe incluir una imagen");
         }
-        if (Pattern.matches("\\d+", this.getPrecio())) {
+        if (!Pattern.matches("^\\d+([,.]\\d+)?$", this.getPrecio())) {
             addFieldError("precio", "El precio debe ser numérico");
         } else {
             if (Float.parseFloat(this.precio) < 0) {
