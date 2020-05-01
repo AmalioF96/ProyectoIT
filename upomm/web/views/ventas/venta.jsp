@@ -13,11 +13,12 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Compra - UPOMediaMarket</title>
+            <title>Venta - UPOMediaMarket</title>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/compra.css" rel="stylesheet">
+            <link href="/upomm/css/misProductos.css" rel="stylesheet" type="text/css"/>
             <script>
                 $(document).ready(function () {
                     var seleccionado = null;
@@ -32,32 +33,39 @@
                         $(seleccionado).append(descripcion);
                         $(seleccionado).submit();
                     });
+                    $("img").on("error", function () {
+                        $(this).attr("src", "/upomm/imagenes/productDefaultImage.jpg");
+                    });
                 });
             </script>
         </head>
         <body>
-            <main>
-                <div class="col-lg-3">
-                    <nav id="categorias" class="list-group make-me-sticky">
-                        <h4 class="text-center">Menú de Vendedor</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item">Mis Ventas</a></li>
-                            <li><a href="/upomm/views/productos/misProductos.jsp" class="list-group-item active">Mis Productos</a></li>
-                            <li><a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item">Crear Producto</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-9 contendor table-responsive-sm">
-                    <div class="row">
+            <%@include file="../utils/header.jsp" %>
+            <main class="container-fluid">
+
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <nav id="categorias" class="list-group make-me-sticky">
+                            <h4 class="text-center">Menú de Vendedor</h4>
+                            <ul class="list-unstyled">
+                                <li><a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item active">Mis Ventas</a></li>
+                                <li><a href="/upomm/views/productos/misProductos.jsp" class="list-group-item">Mis Productos</a></li>
+                                <li><a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item">Crear Producto</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="col-lg-9 contendor table-responsive-sm">
+
                         <div class="col-sm">
                             <table>
                                 <tr>
                                     <td><strong>Número de pedido:</strong></td>
-                                    <td class="text-left"><s:property value="compra.idProducto"/></td>
+                                    <td class="text-left"><s:property value="venta.productos.idProducto"/></td>
                                 </tr>
                                 <tr>
                                     <td><strong>Número de productos:</strong></td>
-                                    <td class="text-left"><s:property value="compra.lineasDeCompras.size"/></td>
+                                    <td class="text-left"><s:property value="venta.cantidad"/></td>
                                 </tr>
                             </table>
                         </div>
@@ -65,71 +73,61 @@
                             <table class="pull-right">
                                 <tr>
                                     <td class="text-left"><strong>Fecha:</strong></td>
-                                    <td><s:date name="compra.fecha" format="dd/MM/yyyy"/></td>
+                                    <td><s:date name="venta.compras.fecha" format="dd/MM/yyyy"/></td>
                                 </tr>
                                 <tr>
                                     <td class="text-left"><strong>Importe:</strong></td>
-                                    <td><s:property value="compra.getImporte()"/>&euro;</td>
+                                    <td><s:property value="venta.getImporte()"/>&euro;</td>
                                 </tr>
                             </table>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col" style="margin-top:1%">
                             <h3>Productos comprados</h3>
                             <table class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Producto</th>
-                                        <th>Vendedor</th>
+                                        <th>Descripcion</th>
+                                        <th>Imagen</th>
                                         <th>Precio</th>
                                         <th>Cantidad</th>
-                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <s:iterator value="compra.lineasDeCompras">
-                                        <s:iterator value="compra.reclamacioneses">
-                                            <s:if test="id.idCompra==compra.idCompra && id.idProducto==productos.idProducto">
-                                                <s:set var="reclamado" value="true"/>                                        
-                                            </s:if>
-                                        </s:iterator>
-                                        <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
-                                            <s:param name="idProducto" value="productos.idProducto"/>
-                                        </s:url>
-                                        <tr>
+                                    <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
+                                        <s:param name="idProducto" value="productos.idProducto"/>
+                                    </s:url>
+                                    <tr>
+                                        <td>
+                                            <s:a href = "%{idProductoUrl}">
+                                                <s:property value="venta.productos.nombre"/>
+                                            </s:a>
+                                        </td>
+                                        <td><s:property value="venta.productos.descripcion"/></td>
+                                        <s:if test="venta.productos.imagen.length()>0">
                                             <td>
-                                                <s:a href = "%{idProductoUrl}">
-                                                    <s:property value="productos.nombre"/>
-                                                </s:a>
+                                                <img data-src = "<s:property value="venta.productos.imagen"/>" alt = "Imagen producto">
                                             </td>
-                                            <td><s:property value="productos.usuarios.nombre"/></td>
-                                            <td><s:property value="productos.precio"/></td>
-                                            <td><s:property value="cantidad"/></td>
+                                        </s:if>
+                                        <s:else>
                                             <td>
-                                                <s:form action="crearReclamacion" cssClass="formReclamacion" theme="simple">
-                                                    <s:textfield name="idProducto" value="%{productos.idProducto}" hidden="true"/>
-                                                    <s:textfield name="idCompra" value="%{idCompra}" hidden="true"/>
-                                                    <s:if test="#reclamado!=null">
-                                                        <s:textfield type="button" cssClass="btn btn-danger reclamar" value="Reclamar" disabled="true"/>
-                                                    </s:if>
-                                                    <s:else>
-                                                        <s:textfield type="button" cssClass="btn btn-danger reclamar" value="Reclamar"/>  
-                                                    </s:else>
-                                                </s:form>
+                                                <img class="mostrarImagen little" src="/upomm/imagenes/productDefaultImage.jpg" alt = "Imagen producto">
                                             </td>
-                                        </tr>
-                                    </s:iterator>
+                                        </s:else>
+
+                                        <td><s:property value="venta.productos.precio"/></td>
+                                        <td><s:property value="venta.cantidad"/></td>
+
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- /.row -->
-        </main>
-        <!-- /.container -->
-        <%@include file="../utils/footer.html" %>
-    </body>
-</html>
+                <!-- /.row -->
+            </main>
+            <!-- /.container -->
+            <%@include file="../utils/footer.html" %>
+        </body>
+    </html>
 </s:else>
