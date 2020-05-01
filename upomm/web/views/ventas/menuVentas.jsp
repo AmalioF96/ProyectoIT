@@ -98,12 +98,10 @@
                 </div>
             </main>
             <%@include file="../utils/footer.html" %>
-<<<<<<< HEAD
-=======
+
             <s:form id="formPedido" action="venta.jsp" method="GET" hidden="true">
             </s:form>
 
->>>>>>> master
         </body>
     </html>
 </s:else>
