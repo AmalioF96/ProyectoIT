@@ -39,11 +39,9 @@
                                 $(estrellas[i]).append($("<i class='far fa-star'></i>"));
                             }
                         }
-                        $("img").onerror = function () {
-                            $(this).attr("src", "../img/productDefaultImage.jpg");
-                        };
-
+                        
                         $("img.lazyload").lazyload();
+                        
                         $("img").on("error", function () {
                             $(this).attr("src", "/upomm/imagenes/productDefaultImage.jpg");
                         });
@@ -120,10 +118,16 @@
                                         <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
                                             <s:param name="idProducto" value="idProducto"/>
                                         </s:url>
+                                        <s:if test="%{imagen==''}">
+                                            <s:set var="img" value="'default'"/>
+                                        </s:if>
+                                        <s:else>
+                                            <s:set var="img" value="imagen"/>
+                                        </s:else>
                                         <div class = "col-lg-4 col-md-6 mb-4">
                                             <div class = "card h-100">
                                                 <s:a href = "%{idProductoUrl}">
-                                                    <img class = "card-img-top lazyload" data-src = "imagen" alt = "Imagen producto">
+                                                    <img class = "card-img-top lazyload" data-src = "<s:property value="#img"/>" alt = "Imagen producto">
                                                 </s:a>
                                                 <div class = "card-body">
                                                     <h4 class = "card-title">

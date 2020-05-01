@@ -28,6 +28,7 @@
                         "drawCallback": function () {
                             var table = $('#pedidos').DataTable();
                             $('#pedidos tbody').on('click', 'tr', function () {
+                                $("input").remove();
                                 var id = table.row(this).data()[0];
                                 var prod = table.row(this).data()[1];
                                 var input = $("<input type='text' name='idVenta'/>");
