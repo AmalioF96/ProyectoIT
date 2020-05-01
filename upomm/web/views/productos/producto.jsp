@@ -183,7 +183,13 @@
                         <!-- /.col-lg-3 -->
                         <div class="col-lg-9">
                             <div class="card mt-4">
-                                <img id='imgProducto' class="card-img-top img-fluid" src="producto.imagen" alt="Imagen del producto">
+                                <s:if test="%{producto.imagen==''}">
+                                    <s:set var="img" value="'default'"/>
+                                </s:if>
+                                <s:else>
+                                    <s:set var="img" value="producto.imagen"/>
+                                </s:else>
+                                <img id='imgProducto' class="card-img-top img-fluid" src="<s:property value="#img"/>" alt="Imagen del producto">
                                 <div class="card-body">
                                     <h3 class="card-title"><s:property value="producto.nombre"/></h3>
                                     <h4><s:number name="producto.precio" maximumFractionDigits="2" minimumFractionDigits="2"/>&euro;</h4>

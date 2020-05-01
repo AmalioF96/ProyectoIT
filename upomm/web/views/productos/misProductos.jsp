@@ -31,10 +31,43 @@
                             $('#pedidos tbody').on('click', 'tr', function () {
                                 $("input").remove(); //Para que no se envie mas de un campo con el id al reenviar el form
                                 var id = table.row(this).data()[0];
-                                var input = $("<input type='text' name='idCompra'/>");
+                                var input = $("<input type='text' name='idProducto'/>");
                                 $(input).val(id);
-                                $("#formPedido").append(input);
-                                $("#formPedido").submit();
+                                $("#formProducto").append(input);
+                                $("#formProducto").submit();
+                            });
+                            var imgs = table.column(3).data();
+                            var rows = $("tbody tr");
+                            /*modif acp*/
+                            for (var i = 0; i < imgs.length; i++) {
+                                var aux = $(rows[i]).children()[3];
+                                var path = imgs[i];
+                                if(path===""){
+                                    path="no_img";
+                                }
+                                var imagen = document.createElement("img");
+                                $(imagen).attr("src", path);
+                                $(imagen).attr("alt", "Imagen producto");
+                                $(imagen).addClass("mostrarImagen");
+                                if (aux.firstChild !== null) {
+                                    aux.replaceChild(imagen, aux.firstChild);
+                                }else {
+                                    aux.append(imagen);
+                                }
+                            }/*Fin modif acp*/
+                            var disponibles = table.column(4).data();
+                            for (var i = 0; i < disponibles.length; i++) {
+                                var aux = $(rows[i]).children()[4];
+                                var disponible = $(aux).text();
+                                if (disponible === "true") {
+                                    var text = document.createTextNode("Disponible");
+                                } else {
+                                    var text = document.createTextNode("No disponible");
+                                }
+                                aux.replaceChild(text, aux.firstChild);
+                            }
+                            $("img").on("error", function () {
+                                $(this).attr("src", "/upomm/imagenes/productDefaultImage.jpg");
                             });
                         }
                     });
@@ -64,10 +97,10 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Nombre</th>
-                                        <th>Descripción</th>
                                         <th>Precio(&euro;)</th>
                                         <th>Imagen</th>
                                         <th>Disponible</th>
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -75,10 +108,10 @@
                                         <tr>
                                             <td><s:property value="idProducto"/></td>
                                             <td><s:property value="nombre"/></td>
-                                            <td><s:property value="descripcion"/></td>
                                             <td><s:property value="precio"/></td>
                                             <td><s:property value="imagen"/></td>
                                             <td><s:property value="disponible"/></td>
+                                            <td>aa</td>
                                         </tr>
                                     </s:iterator>
                                 </tbody>
@@ -95,7 +128,7 @@
             </main>
             <!-- /.container -->
             <%@include file="../utils/footer.html" %>
-            <s:form id="formPedido" action="compra.jsp" method="GET" hidden="true">
+            <s:form id="formProducto" action="../productos/producto.jsp" method="GET" hidden="true">
             </s:form>
         </body>
     </html>
