@@ -27,23 +27,14 @@
                         },
                         "drawCallback": function () {
                             var table = $('#pedidos').DataTable();
-
-                            $('#pedidos tbody').on('click', 'tr', function () {
-                                $("input").remove(); //Para que no se envie mas de un campo con el id al reenviar el form
-                                var id = table.row(this).data()[0];
-                                var input = $("<input type='text' name='idProducto'/>");
-                                $(input).val(id);
-                                $("#formProducto").append(input);
-                                $("#formProducto").submit();
-                            });
                             var imgs = table.column(3).data();
                             var rows = $("tbody tr");
                             /*modif acp*/
                             for (var i = 0; i < imgs.length; i++) {
                                 var aux = $(rows[i]).children()[3];
                                 var path = imgs[i];
-                                if(path===""){
-                                    path="no_img";
+                                if (path === "") {
+                                    path = "no_img";
                                 }
                                 var imagen = document.createElement("img");
                                 $(imagen).attr("src", path);
@@ -51,7 +42,7 @@
                                 $(imagen).addClass("mostrarImagen");
                                 if (aux.firstChild !== null) {
                                     aux.replaceChild(imagen, aux.firstChild);
-                                }else {
+                                } else {
                                     aux.append(imagen);
                                 }
                             }/*Fin modif acp*/
@@ -83,9 +74,15 @@
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Menú de Vendedor</h4>
                             <ul class="list-unstyled">
-                                <li><a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item ">Mis Ventas</a></li>
-                                <li><a href="/upomm/views/productos/misProductos.jsp" class="list-group-item active">Mis Productos</a></li>
-                                <li><a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item">Crear Producto</a></li>
+                                <li>
+                                    <a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item ">Mis Ventas</a>
+                                </li>
+                                <li>
+                                    <a href="/upomm/views/productos/misProductos.jsp" class="list-group-item active">Mis Productos</a>
+                                </li>
+                                <li>
+                                    <a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item">Crear/Editar Producto</a>
+                                </li>
                             </ul>
                         </nav>
                     </div>
@@ -105,14 +102,22 @@
                                 </thead>
                                 <tbody>
                                     <s:iterator value="listaProductos">
+                                        <s:url var="editarProductoUrl" value="/views/productos/crearProducto.jsp">
+                                            <s:param name="idProducto" value="idProducto"/>
+                                        </s:url>
+                                        <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
+                                            <s:param name="idProducto" value="idProducto"/>
+                                        </s:url>
                                         <tr>
                                             <td><s:property value="idProducto"/></td>
-                                            <td><s:property value="nombre"/></td>
+                                            <td><s:a href="%{idProductoUrl}"><s:property value="nombre"/></s:a></td>
                                             <td><s:property value="precio"/></td>
                                             <td><s:property value="imagen"/></td>
                                             <td><s:property value="disponible"/></td>
-                                            <td>aa</td>
-                                        </tr>
+                                            <td>
+                                                <s:a href="%{editarProductoUrl}" cssClass="btn btn-warning btn-sm">Editar</s:a>
+                                                </td>
+                                            </tr>
                                     </s:iterator>
                                 </tbody>
                             </table>
@@ -128,8 +133,6 @@
             </main>
             <!-- /.container -->
             <%@include file="../utils/footer.html" %>
-            <s:form id="formProducto" action="../productos/producto.jsp" method="GET" hidden="true">
-            </s:form>
         </body>
     </html>
 </s:else>

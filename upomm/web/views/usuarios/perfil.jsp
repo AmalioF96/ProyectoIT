@@ -23,6 +23,7 @@
                         <ul class="list-unstyled">
                             <li><a href="/upomm/views/usuarios/perfil.jsp" class="list-group-item active">Ver Perfil</a></li>
                             <li><a href="/upomm/views/usuarios/cambiarImagenPerfil.jsp" class="list-group-item">Cambiar Imagen</a></li>
+                            <li><a href="/upomm/views/usuarios/deseos.jsp" class="list-group-item">Lista de deseos</a></li>
                         </ul>
                     </nav>
                 </div>

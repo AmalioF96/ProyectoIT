@@ -22,6 +22,9 @@
         <action name="seleccionarProducto" class="controlador.productos.AccionProductos" method="seleccionarProducto">
             <result name="success">/views/productos/producto.jsp</result>
             <result name="error">/views/productos/producto.jsp</result>
+            <result name="editar" type="chain">
+                <param name="actionName">listarCategorias</param>
+            </result>
         </action>
         <action name="agregarCarrito" class="controlador.productos.AccionProductos" method="agregarCarrito">
             <result name="success" type="redirect">
@@ -136,6 +139,10 @@
             <result name="success">/views/usuarios/perfil.jsp</result>
             <result name="error">/views/usuarios/cambiarImagenPerfil.jsp</result>
             <result name="input">/views/usuarios/cambiarImagenPerfil.jsp</result>
+        </action>
+        <action name="eliminarDeseo" class="controlador.usuarios.AccionListaDeseos" method="eliminarDeseo">
+            <result name="success">/views/usuarios/deseos.jsp</result>
+            <result name="error">/views/usuarios/deseos.jsp</result>
         </action>
     </package>
     <package name="ventas" extends="struts-default">

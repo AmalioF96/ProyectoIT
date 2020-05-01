@@ -34,12 +34,122 @@ public class AccionCrearProducto extends ActionSupport {
     private File archivoVenta;
     private String archivoVentaFileName;
     private String archivoVentaContentType;
+    private boolean disponible;
     private boolean terminos;
 
     public AccionCrearProducto() {
     }
 
-    public String getNombre() {
+    public void validate() {
+        if (this.getNombre() == null || this.getNombre().equals("")) {
+            addFieldError("nombre", "El nombre debe estar relleno");
+        }
+        if (this.getDescripcion() == null || this.getDescripcion().equals("")) {
+            addFieldError("descripcion", "La descripción debe estar rellena");
+        }
+        if (this.categorias == null || this.categorias.isEmpty()) {
+            System.out.println("-------------------------------" + this.categorias);
+            addFieldError("categorias", "Debe seleccionar al menos una categoría");
+        }
+        if (this.getImagen() == null) {
+            addFieldError("imagen", "Debe incluir una imagen");
+        }
+        if (!Pattern.matches("^\\d+([,.]\\d+)?$", this.getPrecio())) {
+            addFieldError("precio", "El precio debe ser numérico");
+        } else {
+            if (Float.parseFloat(this.precio) < 0) {
+                addFieldError("precio", "El precio debe ser mayor que 0");
+            }
+        }
+        if (this.nombreCaracteristica == null || this.nombreCaracteristica.isEmpty()
+                || this.descripcionCaracteristica == null || this.descripcionCaracteristica.isEmpty()
+                || this.nombreCaracteristica.size() != this.descripcionCaracteristica.size()) {
+            addFieldError("nombreCaracteristica", "Las características deben estar rellenas");
+        } else {
+            String nc;
+            String dc;
+
+            for (int i = 0; i < this.nombreCaracteristica.size(); i++) {
+                nc = this.nombreCaracteristica.get(i);
+                dc = this.descripcionCaracteristica.get(i);
+                if (nc == null || nc.equals("")) {
+                    addFieldError("nombreCaracteristica", "Los nombres de las características deben estar rellenos");
+                }
+                if (dc == null || dc.equals("")) {
+                    addFieldError("descripcionCaracteristica", "Las descripciones de las características deben estar rellenas");
+                }
+            }
+        }
+
+        if (this.archivoVenta == null) {
+            addFieldError("archivoVenta", "Debe subir el archivo a vender");
+        }
+
+        if (!isTerminos()) {
+            addFieldError("terminos", "Debe aceptar los términos y condiciones");
+        }
+    }
+
+    public String execute() throws Exception {
+        String salida = SUCCESS;
+        String nuevaRuta;
+        String nuevoNombre;
+        Map session = (Map) ActionContext.getContext().get("session");
+        Usuarios user = (Usuarios) session.get("usuario");
+        try {
+            Productos prod = new Productos();
+            prod.setNombre(this.getNombre());
+            prod.setDescripcion(this.getDescripcion());
+            prod.setPrecio(Float.parseFloat(this.getPrecio()));
+            prod.setUsuarios(user);
+            prod.setDisponible(this.isDisponible());
+            nuevaRuta = ServletActionContext.getServletContext().getRealPath("/imagenes");
+
+            nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
+                    + getImagenContentType().substring(getImagenContentType().indexOf("/") + 1);
+            imagen.renameTo(new File(nuevaRuta + nuevoNombre));
+
+            prod.setImagen("/upomm/imagenes" + nuevoNombre);
+            Set setCat = new HashSet(CategoriaDAO.listarCategoriasCoincidentes(this.getCategorias()));
+            prod.setCategoriasProductoses(setCat);
+            prod.setIdProducto(ProductoDAO.crearProducto(prod));
+            if (prod.getIdProducto() < 0) {
+                salida = ERROR;
+            }
+            Iterator it = prod.getCategoriasProductoses().iterator();
+            Categorias categoria;
+            while (it.hasNext()) {
+                categoria = (Categorias) it.next();
+                CategoriasProductosId cpId = new CategoriasProductosId(categoria.getNombre(), prod.getIdProducto());
+                CategoriasProductos cp = new CategoriasProductos(cpId, prod);
+                ProductoDAO.crearRelacionCategoriaProduto(cp);
+            }
+
+            CaracteristicasProductos c;
+            CaracteristicasProductosId cId;
+            for (int i = 0; i < this.getNombreCaracteristica().size(); i++) {
+                cId = new CaracteristicasProductosId(prod.getIdProducto(), this.getNombreCaracteristica().get(i));
+                c = new CaracteristicasProductos(cId, prod, this.getDescripcionCaracteristica().get(i));
+
+                if (!ProductoDAO.crearCaracteristica(c)) {
+                    salida = ERROR;
+                }
+            }
+
+        } catch (Exception ex) {
+            salida = ERROR;
+        }
+        return salida;
+    }
+    
+    public String modificar() {
+        String salida = ERROR;
+        
+        return salida;
+    
+    }
+    
+        public String getNombre() {
         return nombre;
     }
 
@@ -143,106 +253,11 @@ public class AccionCrearProducto extends ActionSupport {
         this.terminos = terminos;
     }
 
-    public void validate() {
-        if (this.getNombre() == null || this.getNombre().equals("")) {
-            addFieldError("nombre", "El nombre debe estar relleno");
-        }
-        if (this.getDescripcion() == null || this.getDescripcion().equals("")) {
-            addFieldError("descripcion", "La descripción debe estar rellena");
-        }
-        if (this.categorias == null || this.categorias.isEmpty()) {
-            System.out.println("-------------------------------" + this.categorias);
-            addFieldError("categorias", "Debe seleccionar al menos una categoría");
-        }
-        if (this.getImagen() == null) {
-            addFieldError("imagen", "Debe incluir una imagen");
-        }
-        if (!Pattern.matches("^\\d+([,.]\\d+)?$", this.getPrecio())) {
-            addFieldError("precio", "El precio debe ser numérico");
-        } else {
-            if (Float.parseFloat(this.precio) < 0) {
-                addFieldError("precio", "El precio debe ser mayor que 0");
-            }
-        }
-        if (this.nombreCaracteristica == null || this.nombreCaracteristica.isEmpty()
-                || this.descripcionCaracteristica == null || this.descripcionCaracteristica.isEmpty()
-                || this.nombreCaracteristica.size() != this.descripcionCaracteristica.size()) {
-            addFieldError("nombreCaracteristica", "Las características deben estar rellenas");
-        } else {
-            String nc;
-            String dc;
-
-            for (int i = 0; i < this.nombreCaracteristica.size(); i++) {
-                nc = this.nombreCaracteristica.get(i);
-                dc = this.descripcionCaracteristica.get(i);
-                if (nc == null || nc.equals("")) {
-                    addFieldError("nombreCaracteristica", "Los nombres de las características deben estar rellenos");
-                }
-                if (dc == null || dc.equals("")) {
-                    addFieldError("descripcionCaracteristica", "Las descripciones de las características deben estar rellenas");
-                }
-            }
-        }
-
-        if (this.archivoVenta == null) {
-            addFieldError("archivoVenta", "Debe subir el archivo a vender");
-        }
-
-        if (!isTerminos()) {
-            addFieldError("terminos", "Debe aceptar los términos y condiciones");
-        }
+    public boolean isDisponible() {
+        return disponible;
     }
 
-    public String execute() throws Exception {
-        String salida = SUCCESS;
-        String nuevaRuta;
-        String nuevoNombre;
-        Map session = (Map) ActionContext.getContext().get("session");
-        Usuarios user = (Usuarios) session.get("usuario");
-        try {
-            Productos prod = new Productos();
-            prod.setNombre(this.getNombre());
-            prod.setDescripcion(this.getDescripcion());
-            prod.setPrecio(Float.parseFloat(this.getPrecio()));
-            prod.setUsuarios(user);
-            prod.setDisponible(true);
-            nuevaRuta = ServletActionContext.getServletContext().getRealPath("/imagenes");
-
-            nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
-                    + getImagenContentType().substring(getImagenContentType().indexOf("/") + 1);
-            imagen.renameTo(new File(nuevaRuta + nuevoNombre));
-
-            prod.setImagen("/upomm/imagenes" + nuevoNombre);
-            Set setCat = new HashSet(CategoriaDAO.listarCategoriasCoincidentes(this.getCategorias()));
-            prod.setCategoriasProductoses(setCat);
-            prod.setIdProducto(ProductoDAO.crearProducto(prod));
-            if (prod.getIdProducto() < 0) {
-                salida = ERROR;
-            }
-            Iterator it = prod.getCategoriasProductoses().iterator();
-            Categorias categoria;
-            while (it.hasNext()) {
-                categoria = (Categorias) it.next();
-                CategoriasProductosId cpId = new CategoriasProductosId(categoria.getNombre(), prod.getIdProducto());
-                CategoriasProductos cp = new CategoriasProductos(cpId, prod);
-                ProductoDAO.crearRelacionCategoriaProduto(cp);
-            }
-
-            CaracteristicasProductos c;
-            CaracteristicasProductosId cId;
-            for (int i = 0; i < this.getNombreCaracteristica().size(); i++) {
-                cId = new CaracteristicasProductosId(prod.getIdProducto(), this.getNombreCaracteristica().get(i));
-                c = new CaracteristicasProductos(cId, prod, this.getDescripcionCaracteristica().get(i));
-
-                if (!ProductoDAO.crearCaracteristica(c)) {
-                    salida = ERROR;
-                }
-            }
-
-        } catch (Exception ex) {
-            salida = ERROR;
-        }
-        return salida;
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
     }
-
 }
