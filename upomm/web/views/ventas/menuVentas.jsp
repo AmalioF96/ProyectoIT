@@ -14,8 +14,6 @@
             <title>Ventas - UMM</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
-
-            <link href="/upomm/css/misProductos.css" rel="stylesheet">
             <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
@@ -29,8 +27,8 @@
                         },
                         "drawCallback": function () {
                             var table = $('#pedidos').DataTable();
-
                             $('#pedidos tbody').on('click', 'tr', function () {
+                                $("input").remove();
                                 var id = table.row(this).data()[0];
                                 var prod = table.row(this).data()[1];
                                 var input = $("<input type='text' name='idVenta'/>");
@@ -100,9 +98,12 @@
                 </div>
             </main>
             <%@include file="../utils/footer.html" %>
+<<<<<<< HEAD
+=======
             <s:form id="formPedido" action="venta.jsp" method="GET" hidden="true">
             </s:form>
 
+>>>>>>> master
         </body>
     </html>
 </s:else>

@@ -2,9 +2,11 @@ package controlador.reclamaciones;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import java.util.List;
 import java.util.Map;
 import modelo.Reclamaciones;
 import modelo.ReclamacionesId;
+import modelo.Usuarios;
 
 /**
  *
@@ -16,6 +18,8 @@ public class AccionReclamaciones extends ActionSupport {
     private Integer idProducto;
     private String descripcion;
     private String estado;
+    private String operacion;
+    private List<Reclamaciones> listaReclamaciones = null;
 
     public AccionReclamaciones() {
     }
@@ -25,22 +29,24 @@ public class AccionReclamaciones extends ActionSupport {
     }
 
     public void validate() {
-        boolean errores = false;
-        if (this.getIdCompra() == null) {
-            addFieldError("idCompra", ERROR);
-            errores = true;
-        }
-        if (this.getIdProducto() == null) {
-            addFieldError("idProducto", ERROR);
-            errores = true;
-        }
-        if (this.getDescripcion() == null || this.getDescripcion().length() <= 0) {
-            addFieldError("descripcion", ERROR);
-            errores = true;
-        }
-        if (errores) {
-            Map request = (Map) ActionContext.getContext().get("request");
-            request.put("error", true);
+        if (this.getOperacion() != null && this.getOperacion().equals("insertar")) {
+            boolean errores = false;
+            if (this.getIdCompra() == null) {
+                addFieldError("idCompra", ERROR);
+                errores = true;
+            }
+            if (this.getIdProducto() == null) {
+                addFieldError("idProducto", ERROR);
+                errores = true;
+            }
+            if (this.getDescripcion() == null || this.getDescripcion().length() <= 0) {
+                addFieldError("descripcion", ERROR);
+                errores = true;
+            }
+            if (errores) {
+                Map request = (Map) ActionContext.getContext().get("request");
+                request.put("error", true);
+            }
         }
     }
 
@@ -63,6 +69,20 @@ public class AccionReclamaciones extends ActionSupport {
         } else {
             request.put("error", true);
         }
+        return salida;
+    }
+
+    public String listarCliente() {
+        String salida = ERROR;
+
+        Map session = (Map) ActionContext.getContext().get("session");
+        Usuarios u = (Usuarios) session.get("usuario");
+        this.setListaReclamaciones(modelo.DAO.ReclamacionDAO.listarReclamacionesCliente(u));
+
+        if (this.getListaReclamaciones() != null) {
+            salida = SUCCESS;
+        }
+
         return salida;
     }
 
@@ -98,4 +118,19 @@ public class AccionReclamaciones extends ActionSupport {
         this.estado = estado;
     }
 
+    public List<Reclamaciones> getListaReclamaciones() {
+        return listaReclamaciones;
+    }
+
+    public void setListaReclamaciones(List<Reclamaciones> listaReclamaciones) {
+        this.listaReclamaciones = listaReclamaciones;
+    }
+
+    public String getOperacion() {
+        return operacion;
+    }
+
+    public void setOperacion(String operacion) {
+        this.operacion = operacion;
+    }
 }

@@ -16,7 +16,6 @@ import modelo.CategoriasProductos;
 import modelo.CategoriasProductosId;
 import modelo.DAO.CategoriaDAO;
 import modelo.DAO.ProductoDAO;
-import modelo.DAO.UsuarioDAO;
 import modelo.Productos;
 import modelo.Usuarios;
 import org.apache.struts2.ServletActionContext;
@@ -158,7 +157,7 @@ public class AccionCrearProducto extends ActionSupport {
         if (this.getImagen() == null) {
             addFieldError("imagen", "Debe incluir una imagen");
         }
-        if (Pattern.matches("\\d+", this.getPrecio())) {
+        if (!Pattern.matches("^\\d+([,.]\\d+)?$", this.getPrecio())) {
             addFieldError("precio", "El precio debe ser numérico");
         } else {
             if (Float.parseFloat(this.precio) < 0) {

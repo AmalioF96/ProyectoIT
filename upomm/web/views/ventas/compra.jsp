@@ -141,6 +141,7 @@
                                                 <td><s:property value="cantidad"/></td>
                                                 <td>
                                                     <s:form action="crearReclamacion" cssClass="formReclamacion" theme="simple">
+                                                        <s:textfield name="operacion" value="insertar" hidden="true"/>
                                                         <s:textfield name="idProducto" value="%{productos.idProducto}" hidden="true"/>
                                                         <s:textfield name="idCompra" value="%{idCompra}" hidden="true"/>
                                                         <s:if test="#reclamado!=null">
