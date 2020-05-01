@@ -140,6 +140,10 @@
             <result name="error">/views/usuarios/cambiarImagenPerfil.jsp</result>
             <result name="input">/views/usuarios/cambiarImagenPerfil.jsp</result>
         </action>
+        <action name="eliminarDeseo" class="controlador.usuarios.AccionListaDeseos" method="eliminarDeseo">
+            <result name="success">/views/usuarios/deseos.jsp</result>
+            <result name="error">/views/usuarios/deseos.jsp</result>
+        </action>
     </package>
     <package name="ventas" extends="struts-default">
         <action name="accionProcesarCarrito" class="controlador.ventas.AccionCarrito">
