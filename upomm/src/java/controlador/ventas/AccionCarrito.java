@@ -1,8 +1,9 @@
 package controlador.ventas;
-
+import com.google.gson.Gson;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import modelo.Productos;
@@ -66,7 +67,13 @@ public class AccionCarrito extends ActionSupport {
         Map session = (Map) ActionContext.getContext().get("session");
         carrito = (List<Productos>) session.get("carrito");
         session.put("cantidad", this.getCantidad());
-        
+        /*
+        PRUEBA PARA CONSTRUIR JSON
+        ArrayList compra = new ArrayList();
+        int[] numbers = {1, 2, 3, 4};
+        Gson gson = new Gson();
+        String numbersJson = gson.toJson(numbers);
+        */
         return SUCCESS;
     }
 }
