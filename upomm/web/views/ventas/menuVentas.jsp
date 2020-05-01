@@ -65,8 +65,8 @@
                             <table id="pedidos" class="table table-striped table-bordered dataTable" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>IDProd</th>
+                                        <th>Numero de Venta</th>
+                                        <th>Numero de Producto</th>
                                         <th>Email Cliente</th>
                                         <th>Producto</th>
                                         <th>Cantidad de productos</th>
