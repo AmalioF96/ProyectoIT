@@ -74,42 +74,50 @@ public class AccionProductos extends ActionSupport {
     public String seleccionarProducto() {
 
         String salida = ERROR;
-
-        Productos p = modelo.DAO.ProductoDAO.obtenerProducto(idProducto);
-
-        if (p != null) {
-            this.producto = p;
-            Set<CategoriasProductos> s1 = p.getCategoriasProductoses();
-            SortedSet ss1 = new TreeSet((Set) s1);
-            p.setCategoriasProductoses(ss1);
-
-            Set<CaracteristicasProductos> s2 = p.getCaracteristicasProductoses();
-            SortedSet ss2 = new TreeSet((Set) s2);
-            p.setCaracteristicasProductoses(ss2);
-
-            Set<CaracteristicasProductos> s3 = p.getValoracioneses();
-            SortedSet ss3 = new TreeSet((Set) s3);
-            p.setValoracioneses(ss3);
-
-            salida = SUCCESS;
-
-            Set<Valoraciones> lv = p.getValoracioneses();
-            float puntuacion = 0;
-
-            if (lv != null && !lv.isEmpty()) {
-                Iterator<Valoraciones> it2 = lv.iterator();
-                while (it2.hasNext()) {
-                    puntuacion += it2.next().getPuntuacion();
+        if (this.getIdProducto() != null) {
+            if (this.getOrigin() != null && this.getOrigin().equals("crearProducto")) {
+                Productos p = modelo.DAO.ProductoDAO.obtenerProductoVendido(this.getIdProducto());
+                if (p != null) {
+                    this.setProducto(p);
+                    salida = "editar";
                 }
-                puntuacion /= lv.size();
-            }
-            puntuaciones.put(idProducto, puntuacion);
-        } else {
-            Map request = (Map) ActionContext.getContext().get("request");
-            request.put("error", true);
-            this.setIdProducto(null);
-        }
+            } else {
+                Productos p = modelo.DAO.ProductoDAO.obtenerProducto(idProducto);
 
+                if (p != null) {
+                    this.producto = p;
+                    Set<CategoriasProductos> s1 = p.getCategoriasProductoses();
+                    SortedSet ss1 = new TreeSet((Set) s1);
+                    p.setCategoriasProductoses(ss1);
+
+                    Set<CaracteristicasProductos> s2 = p.getCaracteristicasProductoses();
+                    SortedSet ss2 = new TreeSet((Set) s2);
+                    p.setCaracteristicasProductoses(ss2);
+
+                    Set<CaracteristicasProductos> s3 = p.getValoracioneses();
+                    SortedSet ss3 = new TreeSet((Set) s3);
+                    p.setValoracioneses(ss3);
+
+                    salida = SUCCESS;
+
+                    Set<Valoraciones> lv = p.getValoracioneses();
+                    float puntuacion = 0;
+
+                    if (lv != null && !lv.isEmpty()) {
+                        Iterator<Valoraciones> it2 = lv.iterator();
+                        while (it2.hasNext()) {
+                            puntuacion += it2.next().getPuntuacion();
+                        }
+                        puntuacion /= lv.size();
+                    }
+                    puntuaciones.put(idProducto, puntuacion);
+                } else {
+                    Map request = (Map) ActionContext.getContext().get("request");
+                    request.put("error", true);
+                    this.setIdProducto(null);
+                }
+            }
+        }
         return salida;
     }
 
