@@ -122,6 +122,7 @@
                                     </thead>
                                     <tbody>
                                         <s:iterator value="compra.lineasDeCompras">
+                                            <s:set var="reclamado" value="false"/>
                                             <s:iterator value="compra.reclamacioneses">
                                                 <s:if test="id.idCompra==compra.idCompra && id.idProducto==productos.idProducto">
                                                     <s:set var="reclamado" value="true"/>                                        
@@ -144,7 +145,7 @@
                                                         <s:textfield name="operacion" value="insertar" hidden="true"/>
                                                         <s:textfield name="idProducto" value="%{productos.idProducto}" hidden="true"/>
                                                         <s:textfield name="idCompra" value="%{idCompra}" hidden="true"/>
-                                                        <s:if test="#reclamado!=null">
+                                                        <s:if test="#reclamado">
                                                             <s:textfield type="button" cssClass="btn btn-danger reclamar" value="Reclamar" disabled="true"/>
                                                         </s:if>
                                                         <s:else>

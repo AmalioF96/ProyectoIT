@@ -30,6 +30,27 @@ public class ProductoDAO {
 
         return p;
     }
+    
+    public static Productos obtenerProductoVendido(int idProducto) {
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        Productos p = null;
+
+        try {
+            tx = sesion.beginTransaction();
+
+            p = (Productos) sesion.load(Productos.class, idProducto);
+
+            tx.commit();
+        } catch (HibernateException e) {
+            if(tx!=null) {
+                tx.rollback();
+                System.out.println("----------------------------------------------"+e.getMessage());
+            }
+        }
+
+        return p;
+    }
 
     public static List<Productos> listarProductos() {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -95,7 +116,7 @@ public class ProductoDAO {
             id = (int) sesion.save(p);
             sesion.flush();
             tx.commit();
-        } catch (Exception ex) {
+        } catch (HibernateException ex) {
             id = -1;
             if (tx != null) {
                 tx.rollback();
@@ -113,7 +134,7 @@ public class ProductoDAO {
             tx = sesion.beginTransaction();
             sesion.update(p);
             tx.commit();
-        } catch (Exception ex) {
+        } catch (HibernateException ex) {
             salida = false;
             if (tx != null) {
                 tx.rollback();
@@ -131,7 +152,7 @@ public class ProductoDAO {
             tx = sesion.beginTransaction();
             sesion.save(c);
             tx.commit();
-        } catch (Exception ex) {
+        } catch (HibernateException ex) {
             salida = false;
             if (tx != null) {
                 tx.rollback();
@@ -149,7 +170,7 @@ public class ProductoDAO {
             tx = sesion.beginTransaction();
             sesion.save(cp);
             tx.commit();
-        } catch (Exception ex) {
+        } catch (HibernateException ex) {
             salida = false;
             if (tx != null) {
                 tx.rollback();
