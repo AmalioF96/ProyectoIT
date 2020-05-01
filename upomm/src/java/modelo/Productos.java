@@ -19,7 +19,7 @@ public class Productos  implements java.io.Serializable {
      private float precio;
      private String imagen;
      private boolean disponible;
-     private Set valoracioneses = new HashSet(0);
+     private Set<Valoraciones> valoracioneses = new HashSet(0);
      private Set categoriasProductoses = new HashSet();
      private Set reclamacioneses = new HashSet(0);
      private Set caracteristicasProductoses = new HashSet(0);
