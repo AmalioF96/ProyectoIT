@@ -15,7 +15,6 @@
         <action name="listarCategorias" class="controlador.productos.AccionCategorias" method="listar">
             <result name="success">/views/principal.jsp</result>
             <result name="crearProducto">/views/productos/crearProducto.jsp</result>
-            <result name="input">/views/productos/crearProducto.jsp</result>
         </action>
         <action name="listarProductos" class="controlador.productos.AccionProductos" method="listar">
             <result name="success">/views/principal.jsp</result>
@@ -82,13 +81,17 @@
             </result>
         </action>
         <action name="crearProducto" class="controlador.productos.AccionCrearProducto">
-            <result name="success">/views/productos/misProductos.jsp</result>
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/misProductos.jsp</param>
+            </result>
             <result name="error">/views/productos/crearProducto.jsp</result>
             <result name="input">/views/productos/crearProducto.jsp</result>
         </action>
         <action name="modificarProducto" class="controlador.productos.AccionCrearProducto" method="modificar">
-            <result name="success">/views/productos/misProductos.jsp</result>
-            <result name="error">/views/principal.jsp</result>
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/misProductos.jsp</param>
+            </result>
+            <result name="error">/views/productos/crearProducto.jsp</result>
             <result name="input">/views/productos/crearProducto.jsp</result>
         </action>
         <action name="listarProductosDeUsuario" class="controlador.productos.AccionProductosUsuario" method="listarProductos">

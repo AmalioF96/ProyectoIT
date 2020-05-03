@@ -303,13 +303,15 @@
                                                 </s:iterator>
                                             </s:sort>
                                         </s:else>
-                                        <s:iterator value="#session.usuario.comprases">
-                                            <s:iterator value="lineasDeCompras">
-                                                <s:if test="productos==producto">
-                                                    <s:set value="true" var="comprado"/>
-                                                </s:if>
+                                        <s:if test="%{#session.usuario.comprases !=null && !#session.usuario.comprases.empty}">
+                                            <s:iterator value="#session.usuario.comprases">
+                                                <s:iterator value="lineasDeCompras">
+                                                    <s:if test="productos==producto">
+                                                        <s:set value="true" var="comprado"/>
+                                                    </s:if>
+                                                </s:iterator>
                                             </s:iterator>
-                                        </s:iterator>
+                                        </s:if>
                                         <s:if test="#valorado==null && #comprado!=null">
                                             <script>
                                                 $(document).ready(function () {
