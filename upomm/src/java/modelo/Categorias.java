@@ -1,6 +1,9 @@
 package modelo;
 // Generated 18-abr-2020 20:41:47 by Hibernate Tools 4.3.1
 
+import java.util.Objects;
+
+
 
 
 /**
@@ -31,6 +34,35 @@ public class Categorias  implements java.io.Serializable,Comparable {
         Categorias c = (Categorias) o;
         
         return this.nombre.compareTo(c.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Categorias other = (Categorias) obj;
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Categorias{" + "nombre=" + nombre + '}';
     }
 }
 

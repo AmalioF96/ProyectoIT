@@ -2,6 +2,7 @@ package modelo.DAO;
 
 import java.util.List;
 import modelo.CaracteristicasProductos;
+import modelo.CaracteristicasProductosId;
 import modelo.CategoriasProductos;
 import modelo.Productos;
 import org.hibernate.HibernateException;
@@ -30,7 +31,7 @@ public class ProductoDAO {
 
         return p;
     }
-    
+
     public static Productos obtenerProductoVendido(int idProducto) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
@@ -43,9 +44,8 @@ public class ProductoDAO {
 
             tx.commit();
         } catch (HibernateException e) {
-            if(tx!=null) {
+            if (tx != null) {
                 tx.rollback();
-                System.out.println("----------------------------------------------"+e.getMessage());
             }
         }
 
@@ -160,6 +160,25 @@ public class ProductoDAO {
         }
         return salida;
     }
+    
+        public static boolean eliminarCaracteristicaProducto(CaracteristicasProductosId cpid) {
+        boolean salida = false;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = sesion.beginTransaction();
+            CaracteristicasProductos cp = (CaracteristicasProductos) sesion.load(CategoriasProductos.class, cpid);
+            sesion.delete(cp);
+            tx.commit();
+            salida = true;
+        } catch (HibernateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return salida;
+    }
 
     public static boolean crearRelacionCategoriaProduto(CategoriasProductos cp) {
         boolean salida = true;
@@ -170,7 +189,7 @@ public class ProductoDAO {
             tx = sesion.beginTransaction();
             sesion.save(cp);
             tx.commit();
-        } catch (HibernateException ex) {
+        } catch (Exception ex) {
             salida = false;
             if (tx != null) {
                 tx.rollback();

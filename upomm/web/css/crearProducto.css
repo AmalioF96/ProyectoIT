@@ -4,3 +4,9 @@
 i.fa-window-close {
     color:red;
 }
+.chosen-search-input {
+    width: 100% !important;
+}
+#select-cat {
+    display: inline;
+}

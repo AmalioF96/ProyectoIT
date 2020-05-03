@@ -10,7 +10,7 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Mis Compras - UPOMediaMarket</title>
+            <title>Mis Productos - UPOMediaMarket</title>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
@@ -21,12 +21,12 @@
             <script>
                 //Creación del data Table
                 $(document).ready(function () {
-                    var table = $('#pedidos').DataTable({
+                    var table = $('#productos').DataTable({
                         "language": {
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                         },
                         "drawCallback": function () {
-                            var table = $('#pedidos').DataTable();
+                            var table = $('#productos').DataTable();
                             var imgs = table.column(3).data();
                             var rows = $("tbody tr");
                             /*modif acp*/
@@ -89,7 +89,7 @@
                     <!-- /.col-lg-3 -->
                     <s:if test="listaProductos.size > 0">
                         <div class="col-lg-9 table-responsive-sm">
-                            <table id="pedidos" class="table table-striped table-bordered dataTable" style="width:100%">
+                            <table id="productos" class="table table-striped table-bordered dataTable" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -109,12 +109,12 @@
                                             <s:param name="idProducto" value="idProducto"/>
                                         </s:url>
                                         <tr>
-                                            <td><s:property value="idProducto"/></td>
-                                            <td><s:a href="%{idProductoUrl}"><s:property value="nombre"/></s:a></td>
-                                            <td><s:property value="precio"/></td>
-                                            <td><s:property value="imagen"/></td>
-                                            <td><s:property value="disponible"/></td>
-                                            <td>
+                                            <td class="align-middle"><s:property value="idProducto"/></td>
+                                            <td class="align-middle"><s:a href="%{idProductoUrl}"><s:property value="nombre"/></s:a></td>
+                                            <td class="align-middle"><s:property value="precio"/></td>
+                                            <td class="align-middle"><s:property value="imagen"/></td>
+                                            <td class="align-middle"><s:property value="disponible"/></td>
+                                            <td class="align-middle">
                                                 <s:a href="%{editarProductoUrl}" cssClass="btn btn-warning btn-sm">Editar</s:a>
                                                 </td>
                                             </tr>

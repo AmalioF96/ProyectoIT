@@ -3,6 +3,7 @@ package controlador.productos;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +25,9 @@ public class AccionCrearProducto extends ActionSupport {
 
     private String nombre;
     private String descripcion;
-    private List<String> categorias;
+    private List<String> categoriasProducto;
+    private List<Categorias> categorias;
+    private List<Categorias> categoriasActuales;
     private File imagen;
     private String imagenFileName;
     private String imagenContentType;
@@ -36,22 +39,30 @@ public class AccionCrearProducto extends ActionSupport {
     private String archivoVentaContentType;
     private boolean disponible;
     private boolean terminos;
+    private Integer idProducto;
+    private Productos producto;
+    private String operacion;
 
     public AccionCrearProducto() {
     }
 
     public void validate() {
+        this.setCategorias(CategoriaDAO.listarCategorias());
+        if (this.getOperacion() != null && this.getIdProducto() != null && this.getOperacion().equals("modificar")) {
+            this.setProducto(ProductoDAO.obtenerProductoVendido(this.getIdProducto()));
+        }
         if (this.getNombre() == null || this.getNombre().equals("")) {
             addFieldError("nombre", "El nombre debe estar relleno");
         }
         if (this.getDescripcion() == null || this.getDescripcion().equals("")) {
             addFieldError("descripcion", "La descripción debe estar rellena");
         }
-        if (this.categorias == null || this.categorias.isEmpty()) {
-            System.out.println("-------------------------------" + this.categorias);
-            addFieldError("categorias", "Debe seleccionar al menos una categoría");
+        if (this.getCategoriasProducto() == null || this.getCategoriasProducto().isEmpty()) {
+            addFieldError("categoriasProducto", "Debe seleccionar al menos una categoría");
+        } else if (this.getOperacion() != null && this.getOperacion().equals("crear")) {
+            this.categoriasActuales = CategoriaDAO.listarCategoriasCoincidentes(this.getCategoriasProducto());
         }
-        if (this.getImagen() == null) {
+        if (this.getImagen() == null && this.getOperacion().equals("crear")) {
             addFieldError("imagen", "Debe incluir una imagen");
         }
         if (!Pattern.matches("^\\d+([,.]\\d+)?$", this.getPrecio())) {
@@ -61,78 +72,79 @@ public class AccionCrearProducto extends ActionSupport {
                 addFieldError("precio", "El precio debe ser mayor que 0");
             }
         }
-        if (this.nombreCaracteristica == null || this.nombreCaracteristica.isEmpty()
-                || this.descripcionCaracteristica == null || this.descripcionCaracteristica.isEmpty()
-                || this.nombreCaracteristica.size() != this.descripcionCaracteristica.size()) {
-            addFieldError("nombreCaracteristica", "Las características deben estar rellenas");
-        } else {
-            String nc;
-            String dc;
-
-            for (int i = 0; i < this.nombreCaracteristica.size(); i++) {
-                nc = this.nombreCaracteristica.get(i);
-                dc = this.descripcionCaracteristica.get(i);
-                if (nc == null || nc.equals("")) {
-                    addFieldError("nombreCaracteristica", "Los nombres de las características deben estar rellenos");
-                }
-                if (dc == null || dc.equals("")) {
-                    addFieldError("descripcionCaracteristica", "Las descripciones de las características deben estar rellenas");
-                }
+        if (this.nombreCaracteristica == null || this.nombreCaracteristica.isEmpty()) {
+            this.setNombreCaracteristica(new ArrayList<>());
+            addFieldError("nombreCaracteristica", "Debe incluir al menos una característica");
+        }
+        if (this.descripcionCaracteristica == null || this.descripcionCaracteristica.isEmpty()) {
+            this.setDescripcionCaracteristica(new ArrayList<>());
+            addFieldError("descripcionCaracteristica", "Las descripciones deben estar rellenas");
+        }
+        if (this.nombreCaracteristica.size() > this.descripcionCaracteristica.size()) {
+            while (this.nombreCaracteristica.size() > this.descripcionCaracteristica.size()) {
+                this.descripcionCaracteristica.add("");
             }
+            addFieldError("descripcionCaracteristica", "Debe proporcionar una descripción para cada característica");
+        } else if (this.nombreCaracteristica.size() < this.descripcionCaracteristica.size()) {
+            while (this.nombreCaracteristica.size() < this.descripcionCaracteristica.size()) {
+                this.nombreCaracteristica.add("");
+            }
+            addFieldError("nombreCaracteristica", "Debe proporcionar un nombre para cada característica");
         }
 
-        if (this.archivoVenta == null) {
+        if (this.archivoVenta == null && this.getOperacion().equals("crear")) {
             addFieldError("archivoVenta", "Debe subir el archivo a vender");
         }
 
         if (!isTerminos()) {
-            addFieldError("terminos", "Debe aceptar los términos y condiciones");
+            Map request = (Map) ActionContext.getContext().get("request");
+            request.put("errorTerminos", true);
         }
     }
 
     public String execute() throws Exception {
-        String salida = SUCCESS;
+        String salida = ERROR;
         String nuevaRuta;
         String nuevoNombre;
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
         try {
             Productos prod = new Productos();
+            prod.setUsuarios(user);
             prod.setNombre(this.getNombre());
             prod.setDescripcion(this.getDescripcion());
             prod.setPrecio(Float.parseFloat(this.getPrecio()));
-            prod.setUsuarios(user);
             prod.setDisponible(this.isDisponible());
             nuevaRuta = ServletActionContext.getServletContext().getRealPath("/imagenes");
-
             nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
                     + getImagenContentType().substring(getImagenContentType().indexOf("/") + 1);
-            imagen.renameTo(new File(nuevaRuta + nuevoNombre));
-
+            this.getImagen().renameTo(new File(nuevaRuta + nuevoNombre));
             prod.setImagen("/upomm/imagenes" + nuevoNombre);
-            Set setCat = new HashSet(CategoriaDAO.listarCategoriasCoincidentes(this.getCategorias()));
-            prod.setCategoriasProductoses(setCat);
+
             prod.setIdProducto(ProductoDAO.crearProducto(prod));
-            if (prod.getIdProducto() < 0) {
-                salida = ERROR;
-            }
-            Iterator it = prod.getCategoriasProductoses().iterator();
-            Categorias categoria;
-            while (it.hasNext()) {
-                categoria = (Categorias) it.next();
-                CategoriasProductosId cpId = new CategoriasProductosId(categoria.getNombre(), prod.getIdProducto());
-                CategoriasProductos cp = new CategoriasProductos(cpId, prod);
-                ProductoDAO.crearRelacionCategoriaProduto(cp);
-            }
 
-            CaracteristicasProductos c;
-            CaracteristicasProductosId cId;
-            for (int i = 0; i < this.getNombreCaracteristica().size(); i++) {
-                cId = new CaracteristicasProductosId(prod.getIdProducto(), this.getNombreCaracteristica().get(i));
-                c = new CaracteristicasProductos(cId, prod, this.getDescripcionCaracteristica().get(i));
+            if (prod.getIdProducto() > 0) {
+                List<Categorias> lc = CategoriaDAO.listarCategoriasCoincidentes(this.getCategoriasProducto());
 
-                if (!ProductoDAO.crearCaracteristica(c)) {
-                    salida = ERROR;
+                Iterator it = lc.iterator();
+                Set<CategoriasProductos> cats = new HashSet();
+                while (it.hasNext()) {
+                    Categorias c = (Categorias) it.next();
+                    CategoriasProductosId cpId = new CategoriasProductosId(c.getNombre(), prod.getIdProducto());
+                    CategoriasProductos cp = new CategoriasProductos(cpId, prod);
+                    cats.add(cp);
+                }
+                prod.setCategoriasProductoses(cats);
+
+                Set<CaracteristicasProductos> cars = new HashSet();
+                for (int i = 0; i < this.getNombreCaracteristica().size(); i++) {
+                    CaracteristicasProductosId cId = new CaracteristicasProductosId(prod.getIdProducto(), this.getNombreCaracteristica().get(i));
+                    CaracteristicasProductos c = new CaracteristicasProductos(cId, prod, this.getDescripcionCaracteristica().get(i));
+                    cars.add(c);
+                }
+                prod.setCaracteristicasProductoses(cars);
+                if (ProductoDAO.actualizaProducto(prod)) {
+                    salida = SUCCESS;
                 }
             }
 
@@ -141,15 +153,58 @@ public class AccionCrearProducto extends ActionSupport {
         }
         return salida;
     }
-    
+
     public String modificar() {
         String salida = ERROR;
-        
+        if (this.getOperacion() != null && this.getIdProducto() != null && this.getOperacion().equals("modificar")) {
+            try {
+                Productos p = this.getProducto();
+                p.setNombre(this.getNombre());
+                p.setDescripcion(this.getDescripcion());
+                p.setPrecio(Float.parseFloat(this.getPrecio()));
+                p.setDisponible(this.isDisponible());
+
+                Iterator<CategoriasProductos> it = p.getCategoriasProductoses().iterator();
+                while (it.hasNext()) {
+                    CategoriasProductos cp = it.next();
+                    CategoriaDAO.eliminarCategoriasProducto(cp.getId());
+                }
+                List<Categorias> lc = CategoriaDAO.listarCategoriasCoincidentes(this.getCategoriasProducto());
+                Iterator<Categorias> it2 = lc.iterator();
+                Set<CategoriasProductos> nuevasCats = new HashSet();
+                while (it2.hasNext()) {
+                    Categorias c = it2.next();
+                    CategoriasProductosId cpId = new CategoriasProductosId(c.getNombre(), p.getIdProducto());
+                    CategoriasProductos cp = new CategoriasProductos(cpId, p);
+                    nuevasCats.add(cp);
+                }
+                p.setCategoriasProductoses(nuevasCats);
+
+                Iterator<CaracteristicasProductos> it3 = p.getCaracteristicasProductoses().iterator();
+                while (it3.hasNext()) {
+                    CaracteristicasProductos cp = it3.next();
+                    ProductoDAO.eliminarCaracteristicaProducto(cp.getId());
+                }
+
+                Set<CaracteristicasProductos> cars = new HashSet();
+                for (int i = 0; i < this.getNombreCaracteristica().size(); i++) {
+                    CaracteristicasProductosId cId = new CaracteristicasProductosId(p.getIdProducto(), this.getNombreCaracteristica().get(i));
+                    CaracteristicasProductos c = new CaracteristicasProductos(cId, p, this.getDescripcionCaracteristica().get(i));
+                    cars.add(c);
+                }
+                p.setCaracteristicasProductoses(cars);
+                if (ProductoDAO.actualizaProducto(p)) {
+                    salida = SUCCESS;
+                }
+            } catch (Exception e) {
+            }
+        }
+
         return salida;
-    
+
     }
-    
-        public String getNombre() {
+
+    public String getNombre() {
         return nombre;
     }
 
@@ -165,12 +220,12 @@ public class AccionCrearProducto extends ActionSupport {
         this.descripcion = descripcion;
     }
 
-    public List<String> getCategorias() {
-        return categorias;
+    public List<String> getCategoriasProducto() {
+        return categoriasProducto;
     }
 
-    public void setCategorias(List<String> categorias) {
-        this.categorias = categorias;
+    public void setCategoriasProducto(List<String> categoriasProductos) {
+        this.categoriasProducto = categoriasProductos;
     }
 
     public File getImagen() {
@@ -210,7 +265,13 @@ public class AccionCrearProducto extends ActionSupport {
     }
 
     public void setNombreCaracteristica(List<String> nombreCaracteristica) {
-        this.nombreCaracteristica = nombreCaracteristica;
+        List<String> l = new ArrayList();
+        for (String nc : nombreCaracteristica) {
+            if (nc.trim().length() > 0) {
+                l.add(nc.trim());
+            }
+        }
+        this.nombreCaracteristica = l;
     }
 
     public List<String> getDescripcionCaracteristica() {
@@ -218,7 +279,13 @@ public class AccionCrearProducto extends ActionSupport {
     }
 
     public void setDescripcionCaracteristica(List<String> descripcionCaracteristica) {
-        this.descripcionCaracteristica = descripcionCaracteristica;
+        List<String> l = new ArrayList();
+        for (String dc : descripcionCaracteristica) {
+            if (dc.trim().length() > 0) {
+                l.add(dc.trim());
+            }
+        }
+        this.descripcionCaracteristica = l;
     }
 
     public File getArchivoVenta() {
@@ -260,4 +327,45 @@ public class AccionCrearProducto extends ActionSupport {
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
+
+    public String getOperacion() {
+        return operacion;
+    }
+
+    public void setOperacion(String operacion) {
+        this.operacion = operacion;
+    }
+
+    public Integer getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(Integer idProducto) {
+        this.idProducto = idProducto;
+    }
+
+    public List<Categorias> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<Categorias> categorias) {
+        this.categorias = categorias;
+    }
+
+    public List<Categorias> getCategoriasActuales() {
+        return categoriasActuales;
+    }
+
+    public void setCategoriasActuales(List<Categorias> categoriasActuales) {
+        this.categoriasActuales = categoriasActuales;
+    }
+
+    public Productos getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Productos producto) {
+        this.producto = producto;
+    }
+
 }

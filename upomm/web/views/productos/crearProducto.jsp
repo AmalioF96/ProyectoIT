@@ -19,8 +19,11 @@
             <title>Crear Producto - UMM</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/crearProducto.css" rel="stylesheet" type="text/css"/>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" rel="stylesheet" type="text/css"/>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
             <script>
                 $(document).ready(function () {
+                    $(".chosen-select").chosen();
                     $('#add_field').click(function (e) {
                         e.preventDefault(); //prevenir nuevos clicks
 
@@ -76,44 +79,32 @@
                         <s:form id="formProducto" action="%{#accion}" method="post" enctype="multipart/form-data" theme="css_xhtml">   
                             <div class="form-group">
                                 <label for="producto">Nombre del producto:</label>
-                                <s:textfield name="nombre" cssClass="form-control" value="%{producto.nombre}"/>
+                                <s:textfield id="producto" name="nombre" cssClass="form-control" value="%{producto.nombre}"/>
                                 <label for="descripcion">Descripción:</label>
-                                <s:textarea name="descripcion" cssClass="form-control" value="%{producto.descripcion}"/>
+                                <s:textarea id="descripcion" name="descripcion" cssClass="form-control" value="%{producto.descripcion}"/>
                             </div>
-                            <div id="miSelect" class="form-row">
-                                <label>Categorias:</label>
-                                <select id="select" name="categorias" class="form-control" multiple="true">
-                                    <s:iterator value="categorias" var="i">
-                                        <s:set value="false" var="asignada"/>
-                                        <s:iterator value="producto.categoriasProductoses">
-                                            <s:if test="%{#i.nombre==id.nombre}">
-                                                <s:set value="true" var="asignada"/>
-                                            </s:if>
-                                        </s:iterator>
-                                        <s:if test="%{#asignada==true}">
-                                            <option selected="true" value="<s:property value="nombre"/>">
-                                            </s:if>
-                                            <s:else>
-                                            <option value="<s:property value="nombre"/>">
-                                            </s:else>
-                                            <s:property value="nombre"/>
-                                        </option>
-                                    </s:iterator>
-                                </select>
-                                <%--<s:select id="select" name="categorias" headerValue="Categorias" list="categorias" listKey="nombre" listValue="nombre" multiple="true" cssClass="form-control" tabindex="-1" theme="simple"/--%>
+                            <div id="miSelect" class="form-group">
+                                <label for="select-cat">Categorias:</label>
+                                <s:if test="%{producto!=null}">
+                                    <s:set var="asignadas" value="%{producto.getCategoriasProducto().{nombre}}"/>
+                                </s:if>
+                                <s:else>
+                                    <s:set var="asignadas" value="%{categoriasActuales.{nombre}}"/>
+                                </s:else>
+                                <s:select id="select-cat" name="categoriasProducto" headerValue="Categorias" list="categorias" listKey="nombre" listValue="nombre" multiple="true" value="%{#asignadas}" cssClass="form-control chosen-select" data-placeholder="Selecciona una o varias"/>
                             </div>
                             <br/>
                             <div class="form-group">
-                                <label>Añade una imagen:</label>
+                                <label for="imagen">Añade una imagen:</label>
                                 <br/>
                                 <s:if test="%{producto!=null && producto.imagen!=''}">
                                     <img src="<s:property value="%{producto.imagen}"/>" alt="Imagen producto"/>
                                 </s:if>
-                                <s:file name="imagen" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
+                                <s:file id="imagen" name="imagen" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
                             </div>
                             <div class="form-group">
-                                <label>Precio:</label>
-                                <s:textfield name="precio" cssClass="form-control" value="%{producto.precio}"/>
+                                <label for="precio">Precio:</label>
+                                <s:textfield id="precio" name="precio" cssClass="form-control" value="%{producto.precio}"/>
                             </div>
                             <br/>
                             <div id="caracteristicas">
@@ -127,63 +118,99 @@
                                     </div>
                                 </div>
                                 <s:if test="producto!=null">
+                                    <s:set var="primero" value="true"/>
                                     <s:iterator value="producto.caracteristicasProductoses">
                                         <div class="form-row">
                                             <div class="col-md-5 mb-3">
-                                                <s:textfield name="nombreCaracteristica" cssClass="form-control" value="%{id.nombre}"/>
+                                                <s:textfield name="nombreCaracteristica" cssClass="form-control" value="%{id.nombre}" errorPosition="bottom"/>
 
                                             </div>
                                             <div class="col-md-5 mb-3">
-                                                <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="%{valor}"/>
+                                                <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="%{valor}" errorPosition="bottom"/>
                                             </div>
-                                            <div class='col-md-1 mb-3'>
-                                                <a href='#' class='remover_campo'>
-                                                    <i class='fas fa-window-close'></i></a>
-                                            </div>
+                                            <s:if test="%{!#primero}">
+                                                <div class='col-md-1 mb-3'>
+                                                    <a href='#' class='remover_campo'>
+                                                        <i class='fas fa-window-close'></i>
+                                                    </a>
+                                                </div>
+                                            </s:if>
+                                            <s:else>
+                                                <s:set var="primero" value="false"/>
+                                            </s:else>
                                         </div>
                                     </s:iterator>
                                 </s:if>
                                 <s:else>
-                                    <div class="form-row mt-2">
-                                        <div class="col-md-5 mb-3">
-                                            <s:textfield name="nombreCaracteristica" cssClass="form-control"/>
+                                    <s:if test="%{nombreCaracteristica==null || nombreCaracteristica.empty}">
+                                        <div class="form-row">
+                                            <div class="col-md-5 mb-3">
+                                                <s:textfield name="nombreCaracteristica" cssClass="form-control" value="" errorPosition="bottom"/>
+                                            </div>
+                                            <div class="col-md-5 mb-3">
+                                                <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="" errorPosition="bottom"/>
+                                            </div>
                                         </div>
-                                        <div class="col-md-5 mb-3">
-                                            <s:textfield name="descripcionCaracteristica" cssClass="form-control"/>
-                                        </div>
-                                    </div>
+                                    </s:if>
+                                    <s:else>
+                                        <s:iterator begin="0" end="%{nombreCaracteristica.size-1}" var="i">
+                                            <s:set var="nc" value="%{nombreCaracteristica[#i]}"/>
+                                            <s:set var="dc" value="%{descripcionCaracteristica[#i]}"/>
+                                            <div class="form-row">
+                                                <div class="col-md-5 mb-3">
+                                                    <s:textfield name="nombreCaracteristica" cssClass="form-control" value="%{#nc}" errorPosition="bottom"/>
+                                                </div>
+                                                <div class="col-md-5 mb-3">
+                                                    <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="%{#dc}" errorPosition="bottom"/>
+                                                </div>
+                                                <s:if test="%{#i>0}">
+                                                    <div class='col-md-1 mb-3'>
+                                                        <a href='#' class='remover_campo'>
+                                                            <i class='fas fa-window-close'></i>
+                                                        </a>
+                                                    </div>
+                                                </s:if>
+                                            </div>
+                                        </s:iterator>
+                                    </s:else>
                                 </s:else>
                             </div>
-                            <label>Archivo a la venta:</label>
+                            <label for="archivoVenta">Archivo a la venta:</label>
                             <br/>
-                            <s:file name="archivoVenta" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
+                            <s:file id="archivoVenta" name="archivoVenta" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
                             <br/>
-                            <s:if test="%{producto!=null}">
+                            <br/>
+                            <s:if test="%{producto.disponible}">
                                 <div class="custom-control custom-switch">
-                                    <s:textfield id="disponible" type="checkbox" name="disponible" cssClass="custom-control-input" checked="%{producto.disponible}" theme="simple"/>
+                                    <s:checkbox id="disponible" name="disponible" cssClass="custom-control-input" theme="simple" fieldValue="true" checked="true"/>
                                     <label class="custom-control-label" for="disponible">Disponible a la venta</label>
                                 </div>
                             </s:if>
                             <s:else>
                                 <div class="custom-control custom-switch">
-                                    <s:textfield id="disponible" type="checkbox" name="disponible" cssClass="custom-control-input" theme="simple"/>
+                                    <s:checkbox id="disponible" name="disponible" cssClass="custom-control-input" theme="simple" fieldValue="true"/>
                                     <label class="custom-control-label" for="disponible">Disponible a la venta</label>
                                 </div>     
                             </s:else>
                             <br/>
-                            <br/>
+                            <s:if test="%{#request.errorTerminos}">
+                                <div class="errorMessage" errorfor="terminos">Debe aceptar los términos y condiciones</div>
+                            </s:if>
                             <div class="custom-control custom-switch">
-                                <s:textfield id="terminos" type="checkbox" name="terminos" cssClass="custom-control-input" theme="simple"/>
+                                <s:checkbox id="terminos" name="terminos" cssClass="custom-control-input" theme="simple" fieldValue="true"/>
                                 <label class="custom-control-label" for="terminos">
                                     <a href="http://www.google.com/search?q=estafa" target="_blank">Acepto los términos y condiciones</a>
                                 </label>
                             </div>
                             <br/>
                             <s:if test="%{producto!=null}">
-                                <s:submit name="btnCrearProducto" value="Modificar" cssClass="btn btn-warning"></s:submit>
+                                <s:hidden name="operacion" value="modificar"/>
+                                <s:hidden name="idProducto" value="%{producto.idProducto}"/>
+                                <s:submit name="btnCrearProducto" value="Modificar" cssClass="btn btn-warning"/>
                             </s:if>
                             <s:else>
-                                <s:submit name="btnCrearProducto" value="Crear" cssClass="btn btn-primary"></s:submit>
+                                <s:hidden name="operacion" value="crear"/>
+                                <s:submit name="btnCrearProducto" value="Crear" cssClass="btn btn-primary"/>
                             </s:else>
                         </s:form>
 
