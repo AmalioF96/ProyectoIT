@@ -22,29 +22,10 @@ public class ProductoDAO {
 
         try {
             tx = sesion.beginTransaction();
-
-            p = (Productos) sesion.createQuery("from Productos where idProducto= :id and disponible=true").setParameter("id", idProducto).uniqueResult();
-
+            p = (Productos) sesion.get(Productos.class, idProducto);
             tx.commit();
         } catch (HibernateException e) {
-        }
-
-        return p;
-    }
-
-    public static Productos obtenerProductoVendido(int idProducto) {
-        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = null;
-        Productos p = null;
-
-        try {
-            tx = sesion.beginTransaction();
-
-            p = (Productos) sesion.load(Productos.class, idProducto);
-
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) {
+            if(tx!=null) {
                 tx.rollback();
             }
         }
@@ -129,6 +110,7 @@ public class ProductoDAO {
         boolean salida = true;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
+        System.out.println("---------------------------------------------------------" + p.getCaracteristicasProductoses().toString());
 
         try {
             tx = sesion.beginTransaction();
@@ -160,15 +142,15 @@ public class ProductoDAO {
         }
         return salida;
     }
-    
-        public static boolean eliminarCaracteristicaProducto(CaracteristicasProductosId cpid) {
+
+    public static boolean eliminarCaracteristicaProducto(CaracteristicasProductosId cpid) {
         boolean salida = false;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
 
         try {
             tx = sesion.beginTransaction();
-            CaracteristicasProductos cp = (CaracteristicasProductos) sesion.load(CategoriasProductos.class, cpid);
+            CaracteristicasProductos cp = (CaracteristicasProductos) sesion.load(CaracteristicasProductos.class, cpid);
             sesion.delete(cp);
             tx.commit();
             salida = true;
@@ -176,6 +158,7 @@ public class ProductoDAO {
             if (tx != null) {
                 tx.rollback();
             }
+            System.out.println("------------------------------------------------------" + ex.getMessage());
         }
         return salida;
     }

@@ -30,13 +30,9 @@
                             $('#pedidos tbody').on('click', 'tr', function () {
                                 $("input").remove();
                                 var id = table.row(this).data()[0];
-                                var prod = table.row(this).data()[1];
                                 var input = $("<input type='text' name='idVenta'/>");
-                                var input2 = $("<input type='text' name='idProducto'/>");
                                 $(input).val(id);
-                                $(input2).val(prod);
                                 $("#formPedido").append(input);
-                                $("#formPedido").append(input2);
                                 $("#formPedido").submit();
                             });
                         }
@@ -72,24 +68,22 @@
                                 <thead>
                                     <tr>
                                         <th>Numero de Venta</th>
-                                        <th>Numero de Producto</th>
                                         <th>Email Cliente</th>
-                                        <th>Producto</th>
                                         <th>Cantidad de productos</th>
+                                        <th>Total artículos</th>
                                         <th>Importe(&euro;)</th>
                                         <th>Fecha</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <s:iterator value="listaVentas" var="lv">
+                                    <s:iterator value="listaVentas">
                                         <tr>
-                                            <td><s:property value="#lv[0]"/></td>
-                                            <td><s:property value="#lv[1]" /></td>
-                                            <td><s:property value="#lv[2]"/></td>
-                                            <td><s:property value="#lv[3]"/></td>
-                                            <td><s:property value="#lv[4]" /></td>
-                                            <td><s:property value="#lv[5]" /></td>
-                                            <td><s:date name="#lv[6]" format="dd/MM/yyyy"/></td>
+                                            <td><s:property value="idCompra"/></td>
+                                            <td><s:property value="usuarios.email"/></td>
+                                            <td><s:property value="getNumeroProductos(#session.usuario)" /></td>
+                                            <td><s:property value="getNumeroArticulos(#session.usuario)" /></td>
+                                            <td><s:property value="getImporteParcial(#session.usuario)"/></td>
+                                            <td><s:date name="fecha" format="dd/MM/yyyy"/></td>
                                         </tr>
                                     </s:iterator>
                                 </tbody>

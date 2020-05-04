@@ -50,8 +50,12 @@
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Gestión de Compras</h4>
                             <ul class="list-unstyled">
-                                <li><s:a href="misCompras.jsp" cssClass="list-group-item active">Mis Compras</s:a></li>
-                                <li><s:a href="../reclamaciones/reclamacionesCliente.jsp" cssClass="list-group-item">Mis Reclamaciones</s:a></li>
+                                <li>
+                                    <s:a href="misCompras.jsp" cssClass="list-group-item active">Mis Compras</s:a>
+                                    </li>
+                                    <li>
+                                    <s:a href="../reclamaciones/reclamacionesCliente.jsp" cssClass="list-group-item">Mis Reclamaciones</s:a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>

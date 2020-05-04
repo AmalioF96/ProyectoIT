@@ -79,13 +79,23 @@
                         <s:form id="formProducto" action="%{#accion}" method="post" enctype="multipart/form-data" theme="css_xhtml">   
                             <div class="form-group">
                                 <label for="producto">Nombre del producto:</label>
-                                <s:textfield id="producto" name="nombre" cssClass="form-control" value="%{producto.nombre}"/>
+                                <s:if test="%{producto!=null && nombre==null}">
+                                    <s:textfield id="producto" name="nombre" cssClass="form-control" value="%{producto.nombre}"/> 
+                                </s:if>
+                                <s:else>
+                                    <s:textfield id="producto" name="nombre" cssClass="form-control" value="%{nombre}"/>
+                                </s:else>
                                 <label for="descripcion">Descripción:</label>
-                                <s:textarea id="descripcion" name="descripcion" cssClass="form-control" value="%{producto.descripcion}"/>
+                                <s:if test="%{producto!=null && descripcion==null}">
+                                    <s:textarea id="descripcion" name="descripcion" cssClass="form-control" value="%{producto.descripcion}"/>
+                                </s:if>
+                                <s:else>
+                                    <s:textarea id="descripcion" name="descripcion" cssClass="form-control" value="%{descripcion}"/>
+                                </s:else>
                             </div>
                             <div id="miSelect" class="form-group">
                                 <label for="select-cat">Categorias:</label>
-                                <s:if test="%{producto!=null}">
+                                <s:if test="%{producto!=null && categoriasActuales==null}">
                                     <s:set var="asignadas" value="%{producto.getCategoriasProducto().{nombre}}"/>
                                 </s:if>
                                 <s:else>
@@ -104,7 +114,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="precio">Precio:</label>
-                                <s:textfield id="precio" name="precio" cssClass="form-control" value="%{producto.precio}"/>
+                                <s:if test="%{producto!=null && precio==null}">
+                                    <s:textfield id="precio" name="precio" cssClass="form-control" value="%{producto.precio}"/>
+                                </s:if>
+                                <s:else>
+                                    <s:textfield id="precio" name="precio" cssClass="form-control" value="%{precio}"/>
+                                </s:else>
                             </div>
                             <br/>
                             <div id="caracteristicas">
@@ -117,29 +132,32 @@
                                         <label>Descripción Característica:</label>
                                     </div>
                                 </div>
-                                <s:if test="producto!=null">
+                                <s:if test="%{producto!=null && nombreCaracteristica==null}">
                                     <s:set var="primero" value="true"/>
-                                    <s:iterator value="producto.caracteristicasProductoses">
-                                        <div class="form-row">
-                                            <div class="col-md-5 mb-3">
-                                                <s:textfield name="nombreCaracteristica" cssClass="form-control" value="%{id.nombre}" errorPosition="bottom"/>
+                                    <s:bean name="modelo.comparators.ComparadorCaracteristicasProductos" var="comparadorCars"/>
+                                    <s:sort comparator="#comparadorCars" source="producto.caracteristicasProductoses">
+                                        <s:iterator>
+                                            <div class="form-row">
+                                                <div class="col-md-5 mb-3">
+                                                    <s:textfield name="nombreCaracteristica" cssClass="form-control" value="%{id.nombre}" errorPosition="bottom"/>
 
-                                            </div>
-                                            <div class="col-md-5 mb-3">
-                                                <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="%{valor}" errorPosition="bottom"/>
-                                            </div>
-                                            <s:if test="%{!#primero}">
-                                                <div class='col-md-1 mb-3'>
-                                                    <a href='#' class='remover_campo'>
-                                                        <i class='fas fa-window-close'></i>
-                                                    </a>
                                                 </div>
-                                            </s:if>
-                                            <s:else>
-                                                <s:set var="primero" value="false"/>
-                                            </s:else>
-                                        </div>
-                                    </s:iterator>
+                                                <div class="col-md-5 mb-3">
+                                                    <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="%{valor}" errorPosition="bottom"/>
+                                                </div>
+                                                <s:if test="%{!#primero}">
+                                                    <div class='col-md-1 mb-3'>
+                                                        <a href='#' class='remover_campo'>
+                                                            <i class='fas fa-window-close'></i>
+                                                        </a>
+                                                    </div>
+                                                </s:if>
+                                                <s:else>
+                                                    <s:set var="primero" value="false"/>
+                                                </s:else>
+                                            </div>
+                                        </s:iterator>
+                                    </s:sort>
                                 </s:if>
                                 <s:else>
                                     <s:if test="%{nombreCaracteristica==null || nombreCaracteristica.empty}">
