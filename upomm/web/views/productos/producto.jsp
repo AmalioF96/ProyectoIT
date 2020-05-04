@@ -157,25 +157,31 @@
             <main class="container">
                 <div class="row">
                     <s:if test="#request.error">
-                        <div class="alert alert-warning" role="alert">Este producto no está disponible.</div>
+                        <div class="alert alert-danger" role="alert">El producto no existe.</div>       
                     </s:if>
+                    <s:elseif test="%{!producto.disponible && producto.usuarios!=#session.usuario}">
+                        <div class="alert alert-warning" role="alert">Este producto no está disponible.</div>
+                    </s:elseif>
                     <s:else>
                         <!-- LISTA DE CATEGORÍAS -->
                         <div class="col-lg-3">
                             <nav id='categorias' class="list-group make-me-sticky">
                                 <ul class="list-unstyled">
                                     <h4 class="text-center">Categorías del producto</h4>
-                                    <s:iterator value="producto.categoriasProductoses" >
-                                        <s:url var="categoriaUrl" action="listarProductos">
-                                            <s:param name="categoria" value="id.nombre"/>
-                                        </s:url>
-                                        <li class="list-group-item cat">
-                                            <s:a href="%{categoriaUrl}" cssClass="categoria">
-                                                <s:property value="id.nombre"/>
+                                    <s:bean name="modelo.comparators.ComparadorCategoriasProductos" var="comparadorCats"/>
+                                    <s:sort comparator="#comparadorCats" source="producto.categoriasProductoses">
+                                        <s:iterator>
+                                            <s:url var="categoriaUrl" action="listarProductos">
+                                                <s:param name="categoria" value="id.nombre"/>
+                                            </s:url>
+                                            <li class="list-group-item cat">
+                                                <s:a href="%{categoriaUrl}" cssClass="categoria">
+                                                    <s:property value="id.nombre"/>
 
-                                            </s:a>
-                                        </li>
-                                    </s:iterator>
+                                                </s:a>
+                                            </li>
+                                        </s:iterator>
+                                    </s:sort>
 
                                 </ul>
                             </nav>
@@ -201,12 +207,18 @@
                                     <div><a href="#valoraciones"><s:property value="producto.valoracioneses.size"/> opiniones</a></div>
                                     <br />
                                     <s:if test="#session.usuario != null">
-                                        <s:if test="%{!#session.carrito.contains(producto)}">
+                                        <s:if test="%{producto.usuarios==#session.usuario}">
+                                            <s:url var="editarProductoUrl" value="/views/productos/crearProducto.jsp">
+                                                <s:param name="idProducto" value="idProducto"/>
+                                            </s:url>
+                                            <s:a href="%{editarProductoUrl}" cssClass="btn btn-warning btn">Editar</s:a>
+                                        </s:if>
+                                        <s:elseif test="%{!#session.carrito.contains(producto)}">
                                             <s:form action="agregarCarrito">
                                                 <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
                                                 <s:submit cssClass="btn btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
                                             </s:form>
-                                        </s:if>
+                                        </s:elseif>
                                         <s:else>
                                             <s:form action="eliminarCarrito">
                                                 <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
@@ -233,19 +245,20 @@
                                 <div class="card-header">Características</div>
                                 <div class="card-body">
                                     <table class="list-group list-group-flush table">
-                                        <s:iterator var="i" value="producto.caracteristicasProductoses" step="1">
+                                        <s:bean name="modelo.comparators.ComparadorCaracteristicasProductos" var="comparadorCars"/>
+                                        <s:sort comparator="#comparadorCars" source="producto.caracteristicasProductoses">
+                                            <s:iterator>
+                                                <tr class="list-group-item d-flex">
+                                                    <td class="col-5">
+                                                        <strong><s:property value="id.nombre" /></strong>
+                                                    </td>
+                                                    <td class="col-7">
+                                                        <s:property value="valor" />
+                                                    </td>
+                                                </tr>
 
-                                            <tr class="list-group-item d-flex">
-                                                <td class="col-5">
-                                                    <strong><s:property value="id.nombre" /></strong>
-                                                </td>
-                                                <td class="col-7">
-                                                    <s:property value="valor" />
-                                                </td>
-                                            </tr>
-
-                                        </s:iterator>
-
+                                            </s:iterator>
+                                        </s:sort>
                                     </table>
                                 </div>
                             </div>

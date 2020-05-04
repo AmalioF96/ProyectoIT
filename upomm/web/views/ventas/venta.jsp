@@ -18,26 +18,6 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/compra.css" rel="stylesheet">
-            <link href="/upomm/css/misProductos.css" rel="stylesheet" type="text/css"/>
-            <script>
-                $(document).ready(function () {
-                    var seleccionado = null;
-                    $(".reclamar").click(function () {
-                        $("#descripcion").show();
-                        $('#modalReclamaciones').modal('show');
-                        seleccionado = $(this).parent();
-                    });
-                    $("#send").click(function () {
-                        var descripcion = $("#descripcion");
-                        $(descripcion).hide();
-                        $(seleccionado).append(descripcion);
-                        $(seleccionado).submit();
-                    });
-                    $("img").on("error", function () {
-                        $(this).attr("src", "/upomm/imagenes/productDefaultImage.jpg");
-                    });
-                });
-            </script>
         </head>
         <body>
             <%@include file="../utils/header.jsp" %>
@@ -49,78 +29,72 @@
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Menú de Vendedor</h4>
                             <ul class="list-unstyled">
-                                <li><a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item active">Mis Ventas</a></li>
+                                <li><a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item active">Mis Ventas>Venta</a></li>
                                 <li><a href="/upomm/views/productos/misProductos.jsp" class="list-group-item">Mis Productos</a></li>
                                 <li><a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item">Crear Producto</a></li>
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-lg-9 contendor table-responsive-sm">
-
-                        <div class="col-sm">
-                            <table>
-                                <tr>
-                                    <td><strong>Número de pedido:</strong></td>
-                                    <td class="text-left"><s:property value="venta.productos.idProducto"/></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Número de productos:</strong></td>
-                                    <td class="text-left"><s:property value="venta.cantidad"/></td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-sm text-right">
-                            <table class="pull-right">
-                                <tr>
-                                    <td class="text-left"><strong>Fecha:</strong></td>
-                                    <td><s:date name="venta.compras.fecha" format="dd/MM/yyyy"/></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left"><strong>Importe:</strong></td>
-                                    <td><s:property value="venta.getImporte()"/>&euro;</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col" style="margin-top:1%">
-                            <h3>Productos comprados</h3>
-                            <table class="table table-striped table-bordered" style="width:100%">
-                                <thead>
+                    <div class="col-lg-8 contendor table-responsive-sm">
+                        <s:set var="importe" value="0"/>
+                        <s:iterator value="venta">
+                            <s:set var="importe" value="%{#importe+(productos.precio*cantidad)}"/>
+                        </s:iterator>
+                        <div class="row">
+                            <div class="col-sm">
+                                <table>
                                     <tr>
-                                        <th>Producto</th>
-                                        <th>Descripcion</th>
-                                        <th>Imagen</th>
-                                        <th>Precio</th>
-                                        <th>Cantidad</th>
+                                        <td><strong>Número de pedido:</strong></td>
+                                        <td class="text-left"><s:property value="venta[0].compras.idCompra"/></td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
-                                        <s:param name="idProducto" value="productos.idProducto"/>
-                                    </s:url>
                                     <tr>
-                                        <td>
-                                            <s:a href = "%{idProductoUrl}">
-                                                <s:property value="venta.productos.nombre"/>
-                                            </s:a>
-                                        </td>
-                                        <td><s:property value="venta.productos.descripcion"/></td>
-                                        <s:if test="venta.productos.imagen.length()>0">
-                                            <td>
-                                                <img data-src = "<s:property value="venta.productos.imagen"/>" alt = "Imagen producto">
-                                            </td>
-                                        </s:if>
-                                        <s:else>
-                                            <td>
-                                                <img class="mostrarImagen little" src="/upomm/imagenes/productDefaultImage.jpg" alt = "Imagen producto">
-                                            </td>
-                                        </s:else>
-
-                                        <td><s:property value="venta.productos.precio"/></td>
-                                        <td><s:property value="venta.cantidad"/></td>
-
+                                        <td><strong>Número de productos:</strong></td>
+                                        <td class="text-left"><s:property value="venta.size"/></td>
                                     </tr>
-                                </tbody>
-                            </table>
+                                </table>
+                            </div>
+                            <div class="col-sm text-right">
+                                <table class="pull-right">
+                                    <tr>
+                                        <td class="text-left"><strong>Fecha:</strong></td>
+                                        <td><s:date name="venta[0].compras.fecha" format="dd/MM/yyyy"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left"><strong>Importe:</strong></td>
+                                        <td><s:property value="#importe"/>&euro;</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col" style="margin-top:1%">
+                                <h3>Productos vendidos</h3>
+                                <table class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th class="text-center">Precio(&euro;)</th>
+                                            <th class="text-center">Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <s:iterator value="venta">
+                                        <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
+                                            <s:param name="idProducto" value="productos.idProducto"/>
+                                        </s:url>
+                                        <tr>
+                                            <td>
+                                                <s:a href = "%{idProductoUrl}">
+                                                    <s:property value="productos.nombre"/>
+                                                </s:a>
+                                            </td>
+                                            <td class="text-center"><s:property value="productos.precio"/></td>
+                                            <td class="text-center"><s:property value="cantidad"/></td>
+                                        </tr>
+                                        </s:iterator>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

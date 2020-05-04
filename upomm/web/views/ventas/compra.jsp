@@ -72,10 +72,10 @@
                             <h4 class="text-center">Gestión de Compras</h4>
                             <ul class="list-unstyled">
                                 <li>
-                                    <s:a href="misCompras.jsp" cssClass="list-group-item active">Mis Compras</s:a>
+                                    <s:a href="misCompras.jsp" cssClass="list-group-item active">Mis Compras>Compra</s:a>
                                     </li>
                                     <li>
-                                    <s:a href="" cssClass="list-group-item">Mis Reclamaciones</s:a>
+                                    <s:a href="../reclamaciones/reclamacionesCliente.jsp" cssClass="list-group-item">Mis Reclamaciones</s:a>
                                     </li>
                                 </ul>
                             </nav>
@@ -115,9 +115,10 @@
                                         <tr>
                                             <th>Producto</th>
                                             <th>Vendedor</th>
-                                            <th>Precio</th>
-                                            <th>Cantidad</th>
-                                            <th>Acciones</th>
+                                            <th>Email Vendedor</th>
+                                            <th class="text-center">Precio</th>
+                                            <th class="text-center">Cantidad</th>
+                                            <th class="text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -138,9 +139,10 @@
                                                     </s:a>
                                                 </td>
                                                 <td><s:property value="productos.usuarios.nombre"/></td>
-                                                <td><s:property value="productos.precio"/></td>
-                                                <td><s:property value="cantidad"/></td>
-                                                <td>
+                                                <td><s:property value="productos.usuarios.email"/></td>
+                                                <td class="text-center"><s:property value="productos.precio"/></td>
+                                                <td class="text-center"><s:property value="cantidad"/></td>
+                                                <td class="text-center">
                                                     <s:form action="crearReclamacion" cssClass="formReclamacion" theme="simple">
                                                         <s:textfield name="operacion" value="insertar" hidden="true"/>
                                                         <s:textfield name="idProducto" value="%{productos.idProducto}" hidden="true"/>

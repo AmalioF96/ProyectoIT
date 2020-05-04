@@ -83,10 +83,35 @@ public class Compras implements java.io.Serializable {
         return resultado;
     }
 
-    public int getNumeroArticulos() {
+    public float getImporteParcial(Usuarios u) {
+        float resultado = 0;
+        for (LineasDeCompra ldc : this.lineasDeCompras) {
+            if (ldc.getProductos().getUsuarios().equals(u)) {
+                resultado += ldc.getImporte();
+            }
+        }
+
+        return resultado;
+    }
+
+    //Para obtener los articulos de una compra pertenecientes a un vendedor concreto
+    public int getNumeroProductos(Usuarios u) {
         int resultado = 0;
         for (LineasDeCompra ldc : this.lineasDeCompras) {
-            resultado += ldc.getCantidad();
+            if (ldc.getProductos().getUsuarios().equals(u)) {
+                resultado += 1;
+            }
+        }
+        return resultado;
+    }
+    
+    //Para obtener el total de articulos de una compra (producto*cantidad) pertenecientes a un vendedor
+    public int getNumeroArticulos(Usuarios u) {
+        int resultado = 0;
+        for (LineasDeCompra ldc : this.lineasDeCompras) {
+            if (ldc.getProductos().getUsuarios().equals(u)) {
+                resultado += ldc.getCantidad();
+            }
         }
         return resultado;
     }

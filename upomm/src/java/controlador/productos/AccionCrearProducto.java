@@ -49,7 +49,7 @@ public class AccionCrearProducto extends ActionSupport {
     public void validate() {
         this.setCategorias(CategoriaDAO.listarCategorias());
         if (this.getOperacion() != null && this.getIdProducto() != null && this.getOperacion().equals("modificar")) {
-            this.setProducto(ProductoDAO.obtenerProductoVendido(this.getIdProducto()));
+            this.setProducto(ProductoDAO.obtenerProducto(this.getIdProducto()));
         }
         if (this.getNombre() == null || this.getNombre().equals("")) {
             addFieldError("nombre", "El nombre debe estar relleno");
@@ -59,7 +59,7 @@ public class AccionCrearProducto extends ActionSupport {
         }
         if (this.getCategoriasProducto() == null || this.getCategoriasProducto().isEmpty()) {
             addFieldError("categoriasProducto", "Debe seleccionar al menos una categoría");
-        } else if (this.getOperacion() != null && this.getOperacion().equals("crear")) {
+        } else {
             this.categoriasActuales = CategoriaDAO.listarCategoriasCoincidentes(this.getCategoriasProducto());
         }
         if (this.getImagen() == null && this.getOperacion().equals("crear")) {
@@ -99,6 +99,7 @@ public class AccionCrearProducto extends ActionSupport {
         if (!isTerminos()) {
             Map request = (Map) ActionContext.getContext().get("request");
             request.put("errorTerminos", true);
+            addFieldError("terminos", ERROR);
         }
     }
 

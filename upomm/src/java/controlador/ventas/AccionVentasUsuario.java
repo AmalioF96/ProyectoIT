@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador.ventas;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import modelo.Compras;
 import modelo.LineasDeCompra;
@@ -19,18 +15,9 @@ import modelo.Usuarios;
  */
 public class AccionVentasUsuario extends ActionSupport {
 
-    private ArrayList<Object[]> listaVentas = null;
-    private LineasDeCompra venta = null;
+    private List<Compras> listaVentas = null;
+    private List<LineasDeCompra> venta = null;
     private Integer idVenta = null;
-    private Integer idProducto = null;
-
-    public Integer getIdProducto() {
-        return idProducto;
-    }
-
-    public void setIdProducto(Integer idProducto) {
-        this.idProducto = idProducto;
-    }
 
     public AccionVentasUsuario() {
     }
@@ -39,10 +26,10 @@ public class AccionVentasUsuario extends ActionSupport {
         String salida = SUCCESS;
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
-        this.listaVentas = (ArrayList<Object[]>) modelo.DAO.VentasDAO.listarVentas(user.getEmail());
+        this.listaVentas = modelo.DAO.VentasDAO.listarVentas(user.getEmail());
 
         if (listaVentas.size() <= 0) {
-            this.listaVentas = new ArrayList<Object[]>();
+            this.listaVentas = new ArrayList();
         }
 
         return salida;
@@ -52,28 +39,30 @@ public class AccionVentasUsuario extends ActionSupport {
         String salida = ERROR;
 
         if (this.getIdVenta() != null) {
-            LineasDeCompra c = modelo.DAO.VentasDAO.obtenerVenta(this.getIdVenta(), this.getIdProducto());
-            if (c != null) {
-                this.setVenta(c);
+            Map session = (Map) ActionContext.getContext().get("session");
+            Usuarios user = (Usuarios) session.get("usuario");
+            List<LineasDeCompra> ldc = modelo.DAO.VentasDAO.obtenerVenta(this.getIdVenta(), user.getEmail());
+            if (ldc != null) {
+                this.setVenta(ldc);
                 salida = SUCCESS;
             }
         }
         return salida;
     }
 
-    public ArrayList<Object[]> getListaVentas() {
+    public List<Compras> getListaVentas() {
         return listaVentas;
     }
 
-    public void setListaVentas(ArrayList<Object[]> listaVentas) {
+    public void setListaVentas(List<Compras> listaVentas) {
         this.listaVentas = listaVentas;
     }
 
-    public LineasDeCompra getVenta() {
+    public List<LineasDeCompra> getVenta() {
         return venta;
     }
 
-    public void setVenta(LineasDeCompra venta) {
+    public void setVenta(List<LineasDeCompra> venta) {
         this.venta = venta;
     }
 

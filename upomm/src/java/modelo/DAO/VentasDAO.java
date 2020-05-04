@@ -3,7 +3,7 @@ package modelo.DAO;
 import java.util.List;
 import modelo.Compras;
 import modelo.LineasDeCompra;
-import modelo.LineasDeCompraId;
+import modelo.Usuarios;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -86,11 +86,11 @@ public class VentasDAO {
         return listaCompras;
     }
 
-    public static List<Object[]> listarVentas(String emailVendedor) {
+    public static List<Compras> listarVentas(String emailVendedor) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Object[]> listaCompras = sesion.createQuery(" SELECT p.idCompra as id, prod.idProducto ,p.usuarios.email as comprador,prod.nombre as name, lp.cantidad as num_productos, sum(lp.cantidad*prod.precio) as importe, p.fecha FROM Compras as  p, LineasDeCompra as lp, Productos as prod WHERE prod.usuarios='" + emailVendedor + "' AND lp.compras = p.idCompra AND lp.productos = prod.idProducto GROUP BY lp ").list();
+        List<Compras> listaCompras = sesion.createQuery("select ldc.compras from LineasDeCompra ldc where ldc.productos.usuarios.email like :email").setParameter("email", emailVendedor).list();
 
         sesion.getTransaction().commit();
 
@@ -110,15 +110,15 @@ public class VentasDAO {
 
     }
 
-    public static LineasDeCompra obtenerVenta(Integer idVenta, Integer idProducto) {
+    public static List<LineasDeCompra> obtenerVenta(Integer idVenta, String emailVendedor) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        LineasDeCompra c = (LineasDeCompra) sesion.load(LineasDeCompra.class, new LineasDeCompraId(idVenta, idProducto));
+        List<LineasDeCompra> ldc = sesion.createQuery("from LineasDeCompra where compras.idCompra=:id and productos.usuarios.email like :email").setParameter("id", idVenta).setParameter("email", emailVendedor).list();
 
         sesion.getTransaction().commit();
 
-        return c;
+        return ldc;
     }
 
 }
