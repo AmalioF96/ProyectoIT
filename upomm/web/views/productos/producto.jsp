@@ -17,6 +17,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/producto.css" rel="stylesheet" type="text/css"/>
+            <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 
             <script>
                 $(document).ready(function () {
@@ -43,6 +44,7 @@
                     $("img").on("error", function () {
                         $(this).attr("src", "/upomm/imagenes/productDefaultImage.jpg");
                     });
+                    $("img.lazyload").lazyload();
                 });
                 /*
                  * Obtenemos la valoración actual de un producto
@@ -195,7 +197,7 @@
                                 <s:else>
                                     <s:set var="img" value="producto.imagen"/>
                                 </s:else>
-                                <img id='imgProducto' class="card-img-top img-fluid" src="<s:property value="#img"/>" alt="Imagen del producto">
+                                <img id='imgProducto' class="card-img-top img-fluid lazyload" data-src="<s:property value="#img"/>" alt="Imagen del producto">
                                 <div class="card-body">
                                     <h3 class="card-title"><s:property value="producto.nombre"/></h3>
                                     <h4><s:number name="producto.precio" maximumFractionDigits="2" minimumFractionDigits="2"/>&euro;</h4>

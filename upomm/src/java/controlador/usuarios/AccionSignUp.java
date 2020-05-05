@@ -27,25 +27,26 @@ public class AccionSignUp extends ActionSupport {
     public AccionSignUp() {
     }
 
+    @Override
     public void validate() {
         String patronEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
         Pattern patron = Pattern.compile(patronEmail);
         Matcher matcher = patron.matcher(this.getEmail());
 
         if (this.getUsuario().equals("")) {
-            addFieldError("usuario", "El nombre de usuario debe estar relleno");
+            addFieldError("usuario", "El nombre de usuario es obligatorio");
         } else if (this.getUsuario().length() < 4) {
             addFieldError("usuario", "El nombre de usuario debe tener 4 o más caracteres");
         }
 
         if (this.getPassword().equals("")) {
-            addFieldError("password", "La contraseña debe estar rellena");
+            addFieldError("password", "La contraseña es obligatoria");
         } else if (this.getPassword().length() < 8) {
             addFieldError("password", "La contraseña debe tener un mínimo de 8 caractares");
         }
 
         if (this.getPasswordConfirm().equals("")) {
-            addFieldError("passwordConfirm", "La contraseña debe estar rellena");
+            addFieldError("passwordConfirm", "La contraseña es obligatoria");
         } else if (this.getPasswordConfirm().length() < 8) {
             addFieldError("passwordConfirm", "La contraseña debe tener un mínimo de 8 caractares");
         }
@@ -53,8 +54,9 @@ public class AccionSignUp extends ActionSupport {
         if (!this.getPassword().equals(this.getPasswordConfirm())) {
             addFieldError("passwordConfirm", "las contraseñas no coinciden");
         }
-
-        if (!matcher.matches()) {
+        if (this.getEmail().equals("")) {
+            addFieldError("email", "El email es obligatorio");
+        } else if (!matcher.matches()) {
             addFieldError("email", "El formato del email no es correcto");
         }
     }
@@ -83,15 +85,15 @@ public class AccionSignUp extends ActionSupport {
                 session.put("carrito", carrito);
                 Map request = (Map) ActionContext.getContext().get("request");
                 request.put("error", false);
-                if(this.getIdProducto() != null && this.getIdProducto() > 0) {
+                if (this.getIdProducto() != null && this.getIdProducto() > 0) {
                     salida = "producto";
                 }
             }
         }
         return salida;
     }
-    
-        public String getUsuario() {
+
+    public String getUsuario() {
         return usuario;
     }
 

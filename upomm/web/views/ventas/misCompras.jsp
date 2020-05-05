@@ -68,7 +68,7 @@
                                         <th>Nº Pedido</th>
                                         <th>Fecha</th>
                                         <th>Importe(&euro;)</th>
-                                        <th>Numero de artículos</th>
+                                        <th>Número de productos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -77,7 +77,7 @@
                                             <td><s:property value="idCompra"/></td>
                                             <td><s:date name="fecha" format="dd/MM/yyyy"/></td>
                                             <td><s:property value="getImporte()"/></td>
-                                            <td><s:property value="getNumeroArticulos()"/></td>
+                                            <td><s:property value="lineasDeCompras.size"/></td>
                                         </tr>
                                     </s:iterator>
                                 </tbody>

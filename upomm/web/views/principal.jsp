@@ -127,7 +127,7 @@
                                         <div class = "col-lg-4 col-md-6 mb-4">
                                             <div class = "card h-100">
                                                 <s:a href = "%{idProductoUrl}">
-                                                    <img class = "card-img-top lazyload" data-src = "<s:property value="#img"/>" alt = "Imagen producto">
+                                                    <img class = "card-img-top lazyload" data-src = "<s:property value="%{#img}"/>" alt = "Imagen producto">
                                                 </s:a>
                                                 <div class = "card-body">
                                                     <h4 class = "card-title">

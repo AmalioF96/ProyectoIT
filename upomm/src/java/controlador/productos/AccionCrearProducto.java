@@ -97,9 +97,7 @@ public class AccionCrearProducto extends ActionSupport {
         }
 
         if (!isTerminos()) {
-            Map request = (Map) ActionContext.getContext().get("request");
-            request.put("errorTerminos", true);
-            addFieldError("terminos", ERROR);
+            addFieldError("terminos", "Debe aceptar los términos y condiciones");
         }
     }
 

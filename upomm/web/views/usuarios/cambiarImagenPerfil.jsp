@@ -7,13 +7,18 @@
         <title>Perfil - UMM</title>
         <link href="/upomm/css/perfil.css" rel="stylesheet" type="text/css"/>
         <%@include file="/views/utils/includes.jsp" %>
-
+        <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("img").on("error", function () {
+                    $(this).attr("src", "/upomm/imagenes/defaultProfile.png");
+                });
+                $("img.lazyload").lazyload();
+            });
+        </script>
         <s:head />
     </head>
-
-
     <body>
-
         <%@include file="../utils/header.jsp" %>
         <!-- Page Content -->
         <main class="container">
@@ -33,8 +38,8 @@
                 <div class="col-lg-4">
                     <div class="card mt-4">
                         <div class="card-body">
-                            <img id="imgPerfil" class="img-fluid" src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
-                            <s:form action="cambiarImagenPerfil" method="post" enctype="multipart/form-data" theme="simple">
+                            <img id="imgPerfil" class="img-fluid lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
+                            <s:form action="cambiarImagenPerfil" enctype="multipart/form-data" theme="simple">
                                 <s:file id="imgPerfilInput" name="imagenPerfil" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
                                 <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary"/>
                             </s:form>
