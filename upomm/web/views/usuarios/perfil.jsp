@@ -7,6 +7,15 @@
         <title>Perfil - UPOMediaMarket</title>
         <link href="/upomm/css/perfil.css" rel="stylesheet" type="text/css"/>
         <%@include file="/views/utils/includes.jsp" %>
+        <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("img").on("error", function () {
+                    $(this).attr("src", "/upomm/imagenes/defaultProfile.png");
+                });
+                $("img.lazyload").lazyload();
+            });
+        </script>
         <s:head />
     </head>
     <body>
@@ -30,7 +39,7 @@
                 <div class="col-lg-4">
                     <div class="card mt-4">
                         <div class="card-body">
-                            <img id="logo_main" class="img-fluid" src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
+                            <img id="logo_main" class="img-fluid lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
                             <h6 class="labelPerfil"><b>Nombre:</b></h6>
                             <p>
                                 <s:property value="#session.usuario.nombre"/>

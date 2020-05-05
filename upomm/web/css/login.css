@@ -1,4 +1,4 @@
-#body{
+body{
     background-image: url("../imagenes/bg.png");
     text-align: center;
 }
@@ -7,10 +7,15 @@
     align-self: center;
     display: block;
     margin: auto;
-    width: 50%;
+}
+.modal-header {
+    border:none !important;
+}
+.modal-footer {
+    border:none !important;
 }
 
-.container{
+.container-fluid{
     align-self: center;
 }
 
@@ -19,7 +24,18 @@
     align-items: center;
     justify-content: center;
 }
-
-.btn{
-    margin: 8px;
+.wwctrl{
+    margin: auto;
+    margin-bottom: 5%;
+    text-align: center;
+}
+.modal{
+    padding: 0 !important;
+}
+.form-signin{
+    width: 100%;
+    padding: 0 15%;
+}
+#send {
+    margin: 0 15%;
 }

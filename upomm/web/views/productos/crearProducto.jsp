@@ -211,9 +211,7 @@
                                 </div>     
                             </s:else>
                             <br/>
-                            <s:if test="%{#request.errorTerminos}">
-                                <div class="errorMessage" errorfor="terminos">Debe aceptar los términos y condiciones</div>
-                            </s:if>
+                            <s:fielderror fieldName="terminos"/>
                             <div class="custom-control custom-switch">
                                 <s:checkbox id="terminos" name="terminos" cssClass="custom-control-input" theme="simple" fieldValue="true"/>
                                 <label class="custom-control-label" for="terminos">
