@@ -44,8 +44,7 @@ public class AccionReclamaciones extends ActionSupport {
                 errores = true;
             }
             if (errores) {
-                Map request = (Map) ActionContext.getContext().get("request");
-                request.put("error", true);
+                addActionError("ERROR: los datos introducidos no son válidos.");
             }
         }
     }
@@ -63,11 +62,10 @@ public class AccionReclamaciones extends ActionSupport {
         if (modelo.DAO.ReclamacionDAO.crearReclamacion(r)) {
             salida = SUCCESS;
         }
-        Map request = (Map) ActionContext.getContext().get("request");
         if (salida.equals(SUCCESS)) {
-            request.put("error", false);
+            addActionMessage("Se ha creado la reclamación.");
         } else {
-            request.put("error", true);
+            addActionError("ERROR: no se pudo crear la reclamación.");
         }
         return salida;
     }

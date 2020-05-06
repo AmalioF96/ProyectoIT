@@ -38,7 +38,7 @@
                 <div class="col-lg-4">
                     <div class="card mt-4">
                         <div class="card-body">
-                            <img id="imgPerfil" class="img-fluid lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
+                            <img id="imgPerfil" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
                             <s:form action="cambiarImagenPerfil" enctype="multipart/form-data" theme="simple">
                                 <s:file id="imgPerfilInput" name="imagenPerfil" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
                                 <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary"/>

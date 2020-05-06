@@ -44,12 +44,12 @@
                             <div class="col-sm">
                                 <table>
                                     <tr>
-                                        <td><strong>Número de pedido:</strong></td>
+                                        <td class="text-left"><strong>Número de pedido:</strong></td>
                                         <td class="text-left"><s:property value="venta[0].compras.idCompra"/></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Número de productos:</strong></td>
-                                        <td class="text-left"><s:property value="venta.size"/></td>
+                                        <td class="text-right"><strong>Número de productos:</strong></td>
+                                        <td class="text-right"><s:property value="venta.size"/></td>
                                     </tr>
                                 </table>
                             </div>
@@ -57,11 +57,11 @@
                                 <table class="pull-right">
                                     <tr>
                                         <td class="text-left"><strong>Fecha:</strong></td>
-                                        <td><s:date name="venta[0].compras.fecha" format="dd/MM/yyyy"/></td>
+                                        <td class="text-left"><s:date name="venta[0].compras.fecha" format="dd/MM/yyyy"/></td>
                                     </tr>
                                     <tr>
-                                        <td class="text-left"><strong>Importe:</strong></td>
-                                        <td><s:property value="#importe"/>&euro;</td>
+                                        <td class="text-right"><strong>Importe:</strong></td>
+                                        <td class="text-right"><s:property value="#importe"/>&euro;</td>
                                     </tr>
                                 </table>
                             </div>

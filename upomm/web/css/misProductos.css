@@ -30,3 +30,9 @@ table thead th {
 #pedidos th {
     width: 25% !important;
 }
+.tooltip-inner {
+    text-align: left;
+}
+td,th {
+    vertical-align: middle !important;
+}
