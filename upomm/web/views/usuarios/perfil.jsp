@@ -39,7 +39,7 @@
                 <div class="col-lg-4">
                     <div class="card mt-4">
                         <div class="card-body">
-                            <img id="logo_main" class="img-fluid lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
+                            <img id="logo_main" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
                             <h6 class="labelPerfil"><b>Nombre:</b></h6>
                             <p>
                                 <s:property value="#session.usuario.nombre"/>

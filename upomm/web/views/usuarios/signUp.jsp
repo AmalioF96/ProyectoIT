@@ -12,9 +12,13 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script>
             $(document).ready(function () {
-                $('#modalRegistro').modal('show');
+                $('#modalRegistro').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
                 var a = $("#registroForm").find("br");
-                for(var i = 0; i < a.length; i++) {
+                for (var i = 0; i < a.length; i++) {
                     $(a).remove();
                 }
                 $("#send").click(function () {
@@ -28,7 +32,7 @@
         <div class="container-fluid">
             <!-- Modal -->
             <div class="modal fade" id="modalRegistro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered cascading-modal" role="document">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered cascading-modal" role="document">
                     <div class="modal-content">
                         <div class="modal-header pb-0">
                             <s:a href="/upomm/views/principal.jsp" cssClass="close">
@@ -42,9 +46,6 @@
                         </div>
                         <div class="modal-body pt-0">
                             <h4 class="modal-title text-center">Registro</h4>
-                            <s:if test="hasActionErrors()">
-                                <s:actionerror cssClass="errorMessage text-center"/>
-                            </s:if>
                             <div class="contenedor mt-2">
                                 <s:form id="registroForm" action="signUp" cssClass="form-signin" theme="css_xhtml">
                                     <s:textfield name="usuario" label="Usuario" cssClass="form-control" />

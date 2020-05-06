@@ -50,7 +50,7 @@
                     <div class="card mt-4">
                         <s:a href="./perfil.jsp"><i class="fas fa-window-close pull-right"></i></s:a>
                             <div class="card-body">
-                                <img id="imgPerfil" class="img-fluid lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
+                                <img id="imgPerfil" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
                             <s:form id="perfilForm" action="editarPerfil" theme="css_xhtml">
                                 <s:textfield name="nombre" label="Nombre" cssClass="form-control" value="%{#session.usuario.nombre}"></s:textfield>
                                 <s:password name="password" label="Contraseña actual" cssClass="form-control" ></s:password>

@@ -56,7 +56,7 @@
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Menú de Vendedor</h4>
                             <ul class="list-unstyled">
-                                <li
+                                <li>
                                     <a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item">Mis Ventas</a>
                                 </li>
                                 <li>

@@ -17,7 +17,11 @@
         </s:if>
         <script>
             $(document).ready(function () {
-                $('#modalLogin').modal('show');
+                $('#modalLogin').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
                 var a = $("#loginForm").find("br");
                 for (var i = 0; i < a.length; i++) {
                     $(a).remove();
