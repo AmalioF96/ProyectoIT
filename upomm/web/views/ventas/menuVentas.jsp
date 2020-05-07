@@ -14,9 +14,9 @@
             <title>Ventas - UMM</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
-            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 
             <script>
                 //Creación del data Table
@@ -30,17 +30,18 @@
                             $('#pedidos tbody').on('click', 'tr', function () {
                                 $("input").remove();
                                 var id = table.row(this).data()[0];
-                                var prod = table.row(this).data()[1];
                                 var input = $("<input type='text' name='idVenta'/>");
-                                var input2 = $("<input type='text' name='idProducto'/>");
                                 $(input).val(id);
-                                $(input2).val(prod);
                                 $("#formPedido").append(input);
-                                $("#formPedido").append(input2);
                                 $("#formPedido").submit();
                             });
                         }
                     });
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $("img").on("error", function () {
+                        $(this).attr("src", "/upomm/imagenes/defaultProfile.png");
+                    });
+                    $("img.lazyload").lazyload();
                 });
             </script>
             <s:head />
@@ -71,25 +72,32 @@
                             <table id="pedidos" class="table table-striped table-bordered dataTable" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Numero de Venta</th>
-                                        <th>Numero de Producto</th>
-                                        <th>Email Cliente</th>
-                                        <th>Producto</th>
+                                        <th>Nº Pedido</th>
+                                        <th>Cliente</th>
                                         <th>Cantidad de productos</th>
+                                        <th>Total artículos</th>
                                         <th>Importe(&euro;)</th>
                                         <th>Fecha</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <s:iterator value="listaVentas" var="lv">
+                                    <s:iterator value="listaVentas">
+                                        <s:if test="%{usuarios.foto==''}">
+                                            <s:set var="img" value="'default'"/>
+                                        </s:if>
+                                        <s:else>
+                                            <s:set var="img" value="usuarios.foto"/>
+                                        </s:else>
                                         <tr>
-                                            <td><s:property value="#lv[0]"/></td>
-                                            <td><s:property value="#lv[1]" /></td>
-                                            <td><s:property value="#lv[2]"/></td>
-                                            <td><s:property value="#lv[3]"/></td>
-                                            <td><s:property value="#lv[4]" /></td>
-                                            <td><s:property value="#lv[5]" /></td>
-                                            <td><s:date name="#lv[6]" format="dd/MM/yyyy"/></td>
+                                            <td><s:property value="idCompra"/></td>
+                                            <td>                                                <span data-toggle="tooltip" data-html="true" title="<ul><li><strong>Nombre:</strong> <s:property value="usuarios.nombre"/></li><li><strong>Email:</strong> <s:property value="usuarios.email"/></li></ul>">
+                                                    <img style="max-width: 50px" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block" data-src="<s:property value="%{#img}"/>"/>
+                                                </span>
+                                            </td>
+                                            <td><s:property value="getNumeroProductos(#session.usuario)" /></td>
+                                            <td><s:property value="getNumeroArticulos(#session.usuario)" /></td>
+                                            <td><s:property value="getImporteParcial(#session.usuario)"/></td>
+                                            <td><s:date name="fecha" format="dd/MM/yyyy"/></td>
                                         </tr>
                                     </s:iterator>
                                 </tbody>

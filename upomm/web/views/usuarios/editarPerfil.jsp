@@ -7,6 +7,19 @@
         <title>Editar Perfil - UPOMediaMarket</title>
         <link href="/upomm/css/perfil.css" rel="stylesheet" type="text/css"/>
         <%@include file="/views/utils/includes.jsp" %>
+        <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
+        <script>
+            $(document).ready(function () {
+                var a = $("#perfilForm").find("br");
+                for (var i = 0; i < a.length; i++) {
+                    $(a).remove();
+                }
+                $("img").on("error", function () {
+                    $(this).attr("src", "/upomm/imagenes/defaultProfile.png");
+                });
+                $("img.lazyload").lazyload();
+            });
+        </script>
         <s:head />
     </head>
 
@@ -37,13 +50,18 @@
                     <div class="card mt-4">
                         <s:a href="./perfil.jsp"><i class="fas fa-window-close pull-right"></i></s:a>
                             <div class="card-body">
-                                <img id="imgPerfil" class="img-fluid" src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
-                            <s:form action="editarPerfil" method="post">
+                                <img id="imgPerfil" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
+                            <s:form id="perfilForm" action="editarPerfil" theme="css_xhtml">
                                 <s:textfield name="nombre" label="Nombre" cssClass="form-control" value="%{#session.usuario.nombre}"></s:textfield>
-                                <s:password name="password" label="Contraseña" cssClass="form-control" ></s:password>
+                                <s:password name="password" label="Contraseña actual" cssClass="form-control" ></s:password>
                                 <s:password name="newPassword" label="Nueva Contraseña" cssClass="form-control" ></s:password>
                                 <s:password name="passwordConfirm" label="Confirmar Contraseña" cssClass="form-control" ></s:password>
-                                <s:checkbox name="vendedor" label="¿Desea ser vendedor?"></s:checkbox>
+                                <s:if test="%{#session.usuario.tipo=='cliente'}">
+                                    <div class="custom-control custom-switch wwgrp">
+                                    <s:checkbox id="vendedor" name="vendedor" cssClass="custom-control-input wwctrl" theme="simple" fieldValue="true"/>
+                                    <label class="custom-control-label wwlbl" for="vendedor">¿Desea ser vendedor?</label>
+                                </div>
+                                </s:if>
                                 <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary pull-left"></s:submit>
                             </s:form>
                         </div>

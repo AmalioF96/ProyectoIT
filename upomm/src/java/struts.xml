@@ -81,7 +81,16 @@
             </result>
         </action>
         <action name="crearProducto" class="controlador.productos.AccionCrearProducto">
-            <result name="success">/views/ventas/menuVentas.jsp</result>
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/misProductos.jsp</param>
+            </result>
+            <result name="error">/views/productos/crearProducto.jsp</result>
+            <result name="input">/views/productos/crearProducto.jsp</result>
+        </action>
+        <action name="modificarProducto" class="controlador.productos.AccionCrearProducto" method="modificar">
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/misProductos.jsp</param>
+            </result>
             <result name="error">/views/productos/crearProducto.jsp</result>
             <result name="input">/views/productos/crearProducto.jsp</result>
         </action>

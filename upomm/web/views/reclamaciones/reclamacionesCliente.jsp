@@ -16,9 +16,9 @@
             <title>Ventas - UMM</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
-            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 
             <script>
                 //Creación del data Table
@@ -26,14 +26,16 @@
                     var table = $('#reclamaciones').DataTable({
                         "language": {
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-                        },
-                        "drawCallback": function () {
-                            var table = $('#pedidos').DataTable();
                         }
                     });
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $("img").on("error", function () {
+                        $(this).attr("src", "/upomm/imagenes/defaultProfile.png");
+                    });
+                    $("img.lazyload").lazyload();
                 });
             </script>
-        <s:head />
+            <s:head />
         </head>
         <body>
             <%@include file="../utils/header.jsp" %>
@@ -45,10 +47,10 @@
                             <ul class="list-unstyled">
                                 <li><s:a href="../ventas/misCompras.jsp" cssClass="list-group-item">Mis Compras</s:a></li>
                                 <li><s:a href="reclamacionesCliente.jsp" cssClass="list-group-item active">Mis Reclamaciones</s:a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <!-- /.col-lg-3 -->
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- /.col-lg-3 -->
                     <s:if test="listaReclamaciones.size > 0">
                         <div class="col-lg-9 table-responsive-sm">
                             <table id="reclamaciones" class="table table-striped table-bordered dataTable" style="width:100%">
@@ -63,22 +65,37 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <s:iterator value="listaReclamaciones" var="lr">
-                                    <tr>
-                                        <td><s:property value="compras.idCompra"/></td>
-                                    <td><s:property value="productos.nombre" /></td>
-                                    <td><s:property value="productos.usuarios.nombre"/></td>
-                                    <td><s:property value="descripcion"/></td>
-                                    <td><s:property value="estado" /></td>
-                                    <td><s:date name="fecha" format="dd/MM/yyyy"/></td>
-                                    </tr>
-                                </s:iterator>
+                                    <s:iterator value="listaReclamaciones">
+                                        <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
+                                            <s:param name="idProducto" value="productos.idProducto"/>
+                                        </s:url>
+                                        <s:if test="%{productos.usuarios.foto==''}">
+                                            <s:set var="img" value="'default'"/>
+                                        </s:if>
+                                        <s:else>
+                                            <s:set var="img" value="productos.usuarios.foto"/>
+                                        </s:else>
+                                        <tr>
+                                            <td><s:property value="compras.idCompra"/></td>
+                                            <td>                                                    
+                                                <s:a href = "%{idProductoUrl}">
+                                                    <s:property value="productos.nombre"/>
+                                                </s:a></td>
+                                            <td>                                              
+                                                <span data-toggle="tooltip" data-html="true" title="<ul><li><strong>Nombre:</strong> <s:property value="productos.usuarios.nombre"/></li><li><strong>Email:</strong> <s:property value="productos.usuarios.email"/></li></ul>">
+                                                    <img style="max-width: 60px" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block" data-src="<s:property value="%{#img}"/>"/>
+                                                </span>
+                                            </td>
+                                            <td><s:property value="descripcion"/></td>
+                                            <td><s:property value="estado" /></td>
+                                            <td><s:date name="fecha" format="dd/MM/yyyy"/></td>
+                                        </tr>
+                                    </s:iterator>
                                 </tbody>
                             </table>
                         </div>
                     </s:if>
                     <s:else>
-
                         <div class='alert alert-success'>Aún no has realizado ninguna reclamación.</div>
                     </s:else>
                     <!-- /.col-lg-9 -->

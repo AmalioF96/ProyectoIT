@@ -76,30 +76,17 @@ public class AccionProductos extends ActionSupport {
         String salida = ERROR;
         if (this.getIdProducto() != null) {
             if (this.getOrigin() != null && this.getOrigin().equals("crearProducto")) {
-                Productos p = modelo.DAO.ProductoDAO.obtenerProductoVendido(this.getIdProducto());
+                Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
                 if (p != null) {
                     this.setProducto(p);
                     salida = "editar";
                 }
             } else {
-                Productos p = modelo.DAO.ProductoDAO.obtenerProducto(idProducto);
+                Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
 
                 if (p != null) {
                     this.producto = p;
-                    Set<CategoriasProductos> s1 = p.getCategoriasProductoses();
-                    SortedSet ss1 = new TreeSet((Set) s1);
-                    p.setCategoriasProductoses(ss1);
-
-                    Set<CaracteristicasProductos> s2 = p.getCaracteristicasProductoses();
-                    SortedSet ss2 = new TreeSet((Set) s2);
-                    p.setCaracteristicasProductoses(ss2);
-
-                    Set<CaracteristicasProductos> s3 = p.getValoracioneses();
-                    SortedSet ss3 = new TreeSet((Set) s3);
-                    p.setValoracioneses(ss3);
-
-                    salida = SUCCESS;
-
+                    
                     Set<Valoraciones> lv = p.getValoracioneses();
                     float puntuacion = 0;
 
@@ -111,6 +98,7 @@ public class AccionProductos extends ActionSupport {
                         puntuacion /= lv.size();
                     }
                     puntuaciones.put(idProducto, puntuacion);
+                    salida = SUCCESS;
                 } else {
                     Map request = (Map) ActionContext.getContext().get("request");
                     request.put("error", true);

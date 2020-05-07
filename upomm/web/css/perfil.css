@@ -11,8 +11,13 @@
 .fa-window-close {
     padding: 10px;
     color: red;
-    font-size: 20pt;
+    font-size: 15pt;
 }
 .fa-window-close:hover{
-    font-size: 21pt;
+    color: darkred;
+}
+.wwctrl{
+    margin: auto;
+    margin-bottom: 5%;
+    text-align: center;
 }

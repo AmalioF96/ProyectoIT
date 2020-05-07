@@ -2,6 +2,7 @@ package modelo.DAO;
 
 import java.util.List;
 import modelo.CaracteristicasProductos;
+import modelo.CaracteristicasProductosId;
 import modelo.CategoriasProductos;
 import modelo.Productos;
 import org.hibernate.HibernateException;
@@ -21,31 +22,11 @@ public class ProductoDAO {
 
         try {
             tx = sesion.beginTransaction();
-
-            p = (Productos) sesion.createQuery("from Productos where idProducto= :id and disponible=true").setParameter("id", idProducto).uniqueResult();
-
-            tx.commit();
-        } catch (HibernateException e) {
-        }
-
-        return p;
-    }
-    
-    public static Productos obtenerProductoVendido(int idProducto) {
-        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = null;
-        Productos p = null;
-
-        try {
-            tx = sesion.beginTransaction();
-
-            p = (Productos) sesion.load(Productos.class, idProducto);
-
+            p = (Productos) sesion.get(Productos.class, idProducto);
             tx.commit();
         } catch (HibernateException e) {
             if(tx!=null) {
                 tx.rollback();
-                System.out.println("----------------------------------------------"+e.getMessage());
             }
         }
 
@@ -129,6 +110,7 @@ public class ProductoDAO {
         boolean salida = true;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
+        System.out.println("---------------------------------------------------------" + p.getCaracteristicasProductoses().toString());
 
         try {
             tx = sesion.beginTransaction();
@@ -161,6 +143,26 @@ public class ProductoDAO {
         return salida;
     }
 
+    public static boolean eliminarCaracteristicaProducto(CaracteristicasProductosId cpid) {
+        boolean salida = false;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = sesion.beginTransaction();
+            CaracteristicasProductos cp = (CaracteristicasProductos) sesion.load(CaracteristicasProductos.class, cpid);
+            sesion.delete(cp);
+            tx.commit();
+            salida = true;
+        } catch (HibernateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            System.out.println("------------------------------------------------------" + ex.getMessage());
+        }
+        return salida;
+    }
+
     public static boolean crearRelacionCategoriaProduto(CategoriasProductos cp) {
         boolean salida = true;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -170,7 +172,7 @@ public class ProductoDAO {
             tx = sesion.beginTransaction();
             sesion.save(cp);
             tx.commit();
-        } catch (HibernateException ex) {
+        } catch (Exception ex) {
             salida = false;
             if (tx != null) {
                 tx.rollback();

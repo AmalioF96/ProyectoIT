@@ -4,6 +4,9 @@
 #pedidos_wrapper{
     margin: 3% !important;
 }
+#productos_wrapper{
+    margin: 3% !important;
+}
 #reclamaciones_wrapper {
     margin: 3% !important;
 }
@@ -20,14 +23,16 @@ img.mostrarImagen {
     display:inline-table;
     max-width: 100px;
 }
-
-#btn-aniadir-producto {
-    margin: 3% 0 1% 0;
-}
 table thead th {
     text-align: center !important;
 }
 
 #pedidos th {
     width: 25% !important;
+}
+.tooltip-inner {
+    text-align: left;
+}
+td,th {
+    vertical-align: middle !important;
 }

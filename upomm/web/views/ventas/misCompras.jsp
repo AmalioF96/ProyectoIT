@@ -15,7 +15,6 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
-            <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
             <script>
@@ -50,8 +49,12 @@
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Gestión de Compras</h4>
                             <ul class="list-unstyled">
-                                <li><s:a href="misCompras.jsp" cssClass="list-group-item active">Mis Compras</s:a></li>
-                                <li><s:a href="../reclamaciones/reclamacionesCliente.jsp" cssClass="list-group-item">Mis Reclamaciones</s:a></li>
+                                <li>
+                                    <s:a href="misCompras.jsp" cssClass="list-group-item active">Mis Compras</s:a>
+                                    </li>
+                                    <li>
+                                    <s:a href="../reclamaciones/reclamacionesCliente.jsp" cssClass="list-group-item">Mis Reclamaciones</s:a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -64,7 +67,7 @@
                                         <th>Nº Pedido</th>
                                         <th>Fecha</th>
                                         <th>Importe(&euro;)</th>
-                                        <th>Numero de artículos</th>
+                                        <th>Número de productos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -73,7 +76,7 @@
                                             <td><s:property value="idCompra"/></td>
                                             <td><s:date name="fecha" format="dd/MM/yyyy"/></td>
                                             <td><s:property value="getImporte()"/></td>
-                                            <td><s:property value="getNumeroArticulos()"/></td>
+                                            <td><s:property value="lineasDeCompras.size"/></td>
                                         </tr>
                                     </s:iterator>
                                 </tbody>

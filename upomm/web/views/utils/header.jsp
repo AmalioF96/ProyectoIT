@@ -25,7 +25,7 @@
                     </li>
                     <li class="nav-item">
                     <s:a action="accionLogout" cssClass="nav-link">
-                        Cerrar Sessión
+                        Cerrar Sesión
                     </s:a>
                     </li>
                 </s:elseif>
@@ -43,7 +43,7 @@
                     </li>
                     <li class="nav-item">
                     <s:a action="accionLogout" cssClass="nav-link">
-                        Cerrar Sessión
+                        Cerrar Sesión
                     </s:a>
                     </li>
                 </s:elseif>
@@ -64,7 +64,7 @@
                     </li>
                     <li class="nav-item">
                     <s:a action="accionLogout" cssClass="nav-link">
-                        Cerrar Sessión
+                        Cerrar Sesión
                     </s:a>
                     </li>
                 </s:elseif>
