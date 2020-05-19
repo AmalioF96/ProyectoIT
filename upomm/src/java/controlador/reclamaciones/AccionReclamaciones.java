@@ -84,6 +84,36 @@ public class AccionReclamaciones extends ActionSupport {
         return salida;
     }
 
+    public String listarVendedor() {
+        String salida = ERROR;
+
+        Map session = (Map) ActionContext.getContext().get("session");
+        Usuarios u = (Usuarios) session.get("usuario");
+        this.setListaReclamaciones(modelo.DAO.ReclamacionDAO.listarReclamacionesVendedor(u));
+
+        if (this.getListaReclamaciones() != null) {
+            salida = SUCCESS;
+        }
+
+        return salida;
+    }
+
+    public String modificar() {
+        String salida = ERROR;
+        if (this.getIdCompra() != null && this.getIdProducto() != null) {
+            ReclamacionesId rid = new ReclamacionesId(this.getIdCompra(), this.getIdProducto());
+            if (this.getOperacion() != null && this.getOperacion().equals("aceptar")) {
+                modelo.DAO.ReclamacionDAO.modificarReclamacion(rid, "resuelta");
+                salida = SUCCESS;
+            } else if (this.getOperacion() != null && this.getOperacion().equals("rechazar")) {
+                modelo.DAO.ReclamacionDAO.modificarReclamacion(rid, "disputa");
+                salida = SUCCESS;
+            }
+        }
+
+        return salida;
+    }
+
     public Integer getIdCompra() {
         return idCompra;
     }

@@ -17,7 +17,8 @@
 }
 #pedidos tbody tr:hover {
     cursor: pointer;
-    color: #7a1600;
+    color: #0056b3;
+    font-weight: 600;
 }
 img.mostrarImagen {
     display:inline-table;
@@ -35,4 +36,16 @@ table thead th {
 }
 td,th {
     vertical-align: middle !important;
+}
+.list-group-item{
+    padding: 0 !important;
+}
+a.menu-link {
+    display: block;
+    padding: 12px 20px;
+}
+.active {
+    color: white !important;
+    background-color: #007bff !important;
+    border-radius: .25rem;
 }

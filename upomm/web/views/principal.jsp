@@ -39,9 +39,9 @@
                                 $(estrellas[i]).append($("<i class='far fa-star'></i>"));
                             }
                         }
-                        
+
                         $("img.lazyload").lazyload();
-                        
+
                         $("img").on("error", function () {
                             $(this).attr("src", "/upomm/imagenes/productDefaultImage.jpg");
                         });
@@ -88,11 +88,12 @@
                                 </ul>
                             </nav>
                         </div>
-
-
                         <div class="col-lg-9">
                             <s:set value="%{#parameters.ordenar[0]}" var="ordenar"/>
                             <%@include file="productos/barraBusqueda.jsp" %>
+                            <s:if test="productos.isEmpty()">
+                                <div class="alert alert-warning" role="alert">No se ha encontrado ningún producto.</div>
+                            </s:if>
                             <div class="row">
                                 <s:if test="%{#ordenar==0}">
                                     <s:bean name="modelo.comparators.ComparadorProductosMejorValorados" var="comparador"/>

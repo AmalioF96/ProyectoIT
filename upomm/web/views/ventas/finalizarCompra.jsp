@@ -16,7 +16,7 @@
         <%@include file="../utils/header.jsp" %>
         <!-- Page Content -->
         <main class="container">
-            <div class="divCarrito">
+            <div class="m-3">
                 <h3>Resumen de compra</h3>
                 <hr>
                 <s:if test="#session.carrito.size == 0">
@@ -82,14 +82,21 @@
                                 <button type="submit" name="submitButton" value="finalizarCompra" id="botonFinalizar" hidden></button>
 
                             </table>
-                                            <s:checkbox name="terminosYCondiciones" fieldValue="true" label=" Acepto los términos y condiciones del servicio." labelposition="right"/>
-
-                            <br><s:submit cssClass="btn btn btn-warning text-uppercase" name="submitButton" value="Comprar" id="botonFinalizar" /> 
-                        </s:form>
-                    </div>
+                        </div>
+                        <hr>
+                        <div class="custom-control custom-switch wwgrp row mx-auto my-4">
+                            <s:checkbox id="terminosYCondiciones" name="terminosYCondiciones" cssClass="custom-control-input wwctrl" theme="simple" fieldValue="true"/>
+                            <label class="custom-control-label wwlbl" for="terminosYCondiciones">
+                                <a href="http://www.google.com/search?q=estafa" target="_blank">
+                                    Acepto los términos y condiciones
+                                </a>
+                            </label>
+                        </div>
+                        <div class="row mx-auto my-4">
+                            <s:submit cssClass="btn btn btn-warning text-uppercase pull-left" name="submitButton" value="Comprar" id="botonFinalizar" />
+                        </div>
+                    </s:form>
                 </div>
-                <hr>
-
 
                 <script src="https://www.paypal.com/sdk/js?client-id=Aag_BV9saCzCn3jZU7nRT-_qMd-sJuXnc9VKSeM5li-IXLAGDi2zUsiRtPpTu3Tvr46fIq9Ce6KSjkug&currency=EUR"></script>
                 <%-- <hr>--%>

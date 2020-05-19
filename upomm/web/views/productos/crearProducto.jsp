@@ -19,6 +19,7 @@
             <title>Crear Producto - UMM</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/crearProducto.css" rel="stylesheet" type="text/css"/>
+            <link href="/upomm/css/misProductos.css" rel="stylesheet" type="text/css"/>
             <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" rel="stylesheet" type="text/css"/>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
             <script>
@@ -56,14 +57,14 @@
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Menú de Vendedor</h4>
                             <ul class="list-unstyled">
-                                <li>
-                                    <a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item">Mis Ventas</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/ventas/menuVentas.jsp" class="menu-link">Mis Ventas</a>
                                 </li>
-                                <li>
-                                    <a href="/upomm/views/productos/misProductos.jsp" class="list-group-item">Mis Productos</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/productos/misProductos.jsp" class="menu-link">Mis Productos</a>
                                 </li>
-                                <li>
-                                    <a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item active">Crear/Editar Producto</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/productos/crearProducto.jsp" class="menu-link active">Crear/Editar Producto</a>
                                 </li>
                             </ul>
                         </nav>
@@ -215,18 +216,20 @@
                             <div class="custom-control custom-switch">
                                 <s:checkbox id="terminos" name="terminos" cssClass="custom-control-input" theme="simple" fieldValue="true"/>
                                 <label class="custom-control-label" for="terminos">
-                                    <a href="http://www.google.com/search?q=estafa" target="_blank">Acepto los términos y condiciones</a>
+                                    <a href="http://www.google.com/search?q=estafa" target="_blank">
+                                        Acepto los términos y condiciones
+                                    </a>
                                 </label>
                             </div>
                             <br/>
                             <s:if test="%{producto!=null}">
                                 <s:hidden name="operacion" value="modificar"/>
                                 <s:hidden name="idProducto" value="%{producto.idProducto}"/>
-                                <s:submit name="btnCrearProducto" value="Modificar" cssClass="btn btn-warning"/>
+                                <s:submit name="btnCrearProducto" value="Modificar" cssClass=" pull-left btn btn-warning"/>
                             </s:if>
                             <s:else>
                                 <s:hidden name="operacion" value="crear"/>
-                                <s:submit name="btnCrearProducto" value="Crear" cssClass="btn btn-primary"/>
+                                <s:submit name="btnCrearProducto" value="Crear" cssClass="pull-left btn btn-primary"/>
                             </s:else>
                         </s:form>
 

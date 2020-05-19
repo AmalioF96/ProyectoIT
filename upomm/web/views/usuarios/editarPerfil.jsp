@@ -31,18 +31,20 @@
         <main class="container">
 
             <div class="row">
-
-                <div class="col-lg-1">
-
-                </div>
-
                 <!-- LISTA DE CATEGORÍAS -->
                 <div class="col-lg-3">
                     <nav id="categorias" class="list-group make-me-sticky">
                         <h4 class="text-center">Perfil De Usuario</h4>
                         <ul class="list-unstyled">
-                            <li><a href="/upomm/views/usuarios/perfil.jsp" class="list-group-item active">Ver Perfil</a></li>
-                            <li><a href="/upomm/views/usuarios/cambiarImagenPerfil.jsp" class="list-group-item">Cambiar Imagen</a></li>
+                            <li class="list-group-item">
+                                <a href="/upomm/views/usuarios/perfil.jsp" class="menu-link active">Ver Perfil</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/upomm/views/usuarios/cambiarImagenPerfil.jsp" class="menu-link">Cambiar Imagen</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/upomm/views/usuarios/deseos.jsp" class="menu-link">Lista de deseos</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -58,9 +60,9 @@
                                 <s:password name="passwordConfirm" label="Confirmar Contraseña" cssClass="form-control" ></s:password>
                                 <s:if test="%{#session.usuario.tipo=='cliente'}">
                                     <div class="custom-control custom-switch wwgrp">
-                                    <s:checkbox id="vendedor" name="vendedor" cssClass="custom-control-input wwctrl" theme="simple" fieldValue="true"/>
-                                    <label class="custom-control-label wwlbl" for="vendedor">¿Desea ser vendedor?</label>
-                                </div>
+                                        <s:checkbox id="vendedor" name="vendedor" cssClass="custom-control-input wwctrl" theme="simple" fieldValue="true"/>
+                                        <label class="custom-control-label wwlbl" for="vendedor">¿Desea ser vendedor?</label>
+                                    </div>
                                 </s:if>
                                 <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary pull-left"></s:submit>
                             </s:form>
