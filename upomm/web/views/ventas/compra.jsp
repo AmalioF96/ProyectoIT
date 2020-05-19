@@ -18,6 +18,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/compra.css" rel="stylesheet">
+            <link href="/upomm/css/misProductos.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
             <script>
                 $(document).ready(function () {
@@ -81,11 +82,11 @@
                         <nav id="categorias" class="list-group">
                             <h4 class="text-center">Gestión de Compras</h4>
                             <ul class="list-unstyled">
-                                <li>
-                                    <s:a href="misCompras.jsp" cssClass="list-group-item active">Mis Compras>Compra</s:a>
+                                <li class="list-group-item">
+                                    <s:a href="misCompras.jsp" cssClass="menu-link active">Mis Compras>Compra</s:a>
                                     </li>
-                                    <li>
-                                    <s:a href="../reclamaciones/reclamacionesCliente.jsp" cssClass="list-group-item">Mis Reclamaciones</s:a>
+                                    <li class="list-group-item">
+                                    <s:a href="../reclamaciones/reclamacionesCliente.jsp" cssClass="menu-link">Mis Reclamaciones</s:a>
                                     </li>
                                 </ul>
                             </nav>

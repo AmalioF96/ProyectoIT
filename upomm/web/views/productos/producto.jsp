@@ -127,10 +127,8 @@
                         $(form).append(valora);
                     }
                     var btn = $("<input type='submit' class='btn btn-sm btn-success btn-valoracion pull-right' value='Guardar' name='editarValoracion'>");
-                    //$(btn).css("display", "block");
                     $(form).append(btn);
                     btn = $("<button type='button' class='btn btn-sm btn-warning btn-valoracion pull-right'>Cancelar</button>");
-                    //$(btn).css("display", "block");
                     $(form).append(btn);
                     $(form).append($("<input id='puntuacion' type='number' name='puntuacion' hidden>"));
                     $(form).append($("<input id='operacion' type='text' name='operacion' value='insertar' hidden>"));

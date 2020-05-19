@@ -51,9 +51,7 @@
 
             <!-- Page Content -->
             <main class="container">
-
-                <div class="divCarrito">
-
+                <div class="m-3">
                     <h3>Mi carrito</h3>
                     <hr>
                     <s:if test="#session.carrito.size == 0">
@@ -133,7 +131,7 @@
                                 </table>
                             </div>
                             <hr>
-                            <div class="divCarrito">
+                            <div class="my-4">
                                 <input id="btnProcesarCompra" class="btn btn-md btn-primary btn-block text-uppercase form-control" type="submit" onclick="" value="Procesar Compra" name="procesarCompra">
                             </div>
 

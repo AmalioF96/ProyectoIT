@@ -54,14 +54,17 @@
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Menú de Vendedor</h4>
                             <ul class="list-unstyled">
-                                <li>
-                                    <a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item active">Mis Ventas</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/ventas/menuVentas.jsp" class="menu-link active">Mis Ventas</a>
                                 </li>
-                                <li>
-                                    <a href="/upomm/views/productos/misProductos.jsp" class="list-group-item">Mis Productos</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/reclamaciones/reclamacionesVendedor.jsp" class="menu-link">Mis Reclamaciones</a>
                                 </li>
-                                <li>
-                                    <a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item">Crear/Editar Producto</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/productos/misProductos.jsp" class="menu-link">Mis Productos</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/productos/crearProducto.jsp" class="menu-link">Crear/Editar Producto</a>
                                 </li>
                             </ul>
                         </nav>

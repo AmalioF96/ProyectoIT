@@ -105,8 +105,16 @@
             <result name="error">/views/principal.jsp</result>
             <result name="input">/views/ventas/compra.jsp</result>
         </action>
-        <action name="listarReclamaciones" class="controlador.reclamaciones.AccionReclamaciones" method="listarCliente">
+        <action name="listarReclamacionesCliente" class="controlador.reclamaciones.AccionReclamaciones" method="listarCliente">
             <result name="success">/views/reclamaciones/reclamacionesCliente.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="listarReclamacionesVendedor" class="controlador.reclamaciones.AccionReclamaciones" method="listarVendedor">
+            <result name="success">/views/reclamaciones/reclamacionesVendedor.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="modificarReclamacion" class="controlador.reclamaciones.AccionReclamaciones" method="modificar">
+            <result name="success">/views/reclamaciones/reclamacionesVendedor.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
     </package>

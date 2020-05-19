@@ -21,3 +21,15 @@
     margin-bottom: 5%;
     text-align: center;
 }
+.list-group-item{
+    padding: 0 !important;
+}
+a.menu-link {
+    display: block;
+    padding: 12px 20px;
+}
+.active {
+    color: white !important;
+    background-color: #007bff !important;
+    border-radius: .25rem;
+}

@@ -4,7 +4,7 @@
     <jsp:forward page="/views/principal.jsp"/>
 </s:if>
 <s:elseif test="listaReclamaciones==null">
-    <s:action executeResult="true" name="listarReclamaciones">
+    <s:action executeResult="true" name="listarReclamacionesCliente">
         <s:param name="operacion" value="listar"/>
     </s:action>
 </s:elseif>
@@ -13,7 +13,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Ventas - UMM</title>
+            <title>Compras - UMM</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -45,8 +45,12 @@
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Gestión de Compras</h4>
                             <ul class="list-unstyled">
-                                <li><s:a href="../ventas/misCompras.jsp" cssClass="list-group-item">Mis Compras</s:a></li>
-                                <li><s:a href="reclamacionesCliente.jsp" cssClass="list-group-item active">Mis Reclamaciones</s:a></li>
+                                <li class="list-group-item">
+                                    <s:a href="../ventas/misCompras.jsp" cssClass="menu-link">Mis Compras</s:a>
+                                    </li>
+                                    <li class="list-group-item">
+                                    <s:a href="reclamacionesCliente.jsp" cssClass="menu-link active">Mis Reclamaciones</s:a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
