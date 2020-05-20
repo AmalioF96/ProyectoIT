@@ -34,9 +34,11 @@
                             <li class="list-group-item">
                                 <a href="/upomm/views/usuarios/cambiarImagenPerfil.jsp" class="menu-link active">Cambiar Imagen</a>
                             </li>
-                            <li class="list-group-item">
-                                <a href="/upomm/views/usuarios/deseos.jsp" class="menu-link">Lista de deseos</a>
-                           </li>
+                            <s:if test="#session.usuario.tipo!='admin'">
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/usuarios/deseos.jsp" class="menu-link">Lista de deseos</a>
+                                </li>
+                            </s:if>
                         </ul>
                     </nav>
                 </div>
@@ -45,7 +47,10 @@
                         <div class="card-body">
                             <img id="imgPerfil" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
                             <s:form action="cambiarImagenPerfil" enctype="multipart/form-data" theme="simple">
-                                <s:file id="imgPerfilInput" name="imagenPerfil" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
+                                <div class="custom-file">
+                                <s:file id="imgPerfilInput" name="imagenPerfil" accept="image/jpeg, image/png" cssClass="custom-file-input"/>
+                                <label class="custom-file-label" for="imgPerfilInput">Selecciona una imagen</label>
+                                </div>
                                 <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary"/>
                             </s:form>
                         </div>

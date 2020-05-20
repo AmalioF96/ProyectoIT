@@ -16,7 +16,7 @@
                 </s:if>
                 <s:elseif test="#session.usuario.tipo=='admin'">
                     <li class="nav-item">
-                        <a class="nav-link" href="">Conflictos</a>
+                        <a class="nav-link" href="/upomm/views/reclamaciones/disputasAdmin.jsp">Admin</a>
                     </li>
                     <li id="profile" class="nav-item">
                         <a class="nav-link" href="/upomm/views/usuarios/perfil.jsp"><i class="fas fa-user"></i>

@@ -37,7 +37,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Productos> listaProductos = sesion.createQuery("from Productos where disponible=true").list();
+        List<Productos> listaProductos = sesion.createQuery("FROM Productos WHERE disponible=true").list();
 
         sesion.getTransaction().commit();
 
@@ -48,7 +48,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Productos> listaProductos = sesion.createQuery("from Productos as p where p.usuarios='" + emailPropietario + "'").list();
+        List<Productos> listaProductos = sesion.createQuery("FROM Productos as p WHERE p.usuarios='" + emailPropietario + "'").list();
 
         sesion.getTransaction().commit();
 
@@ -59,7 +59,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Productos> listaProductos = sesion.createQuery("select productos from CategoriasProductos c where c.id.nombre like :cat").setParameter("cat", cat).list();
+        List<Productos> listaProductos = sesion.createQuery("SELECT productos FROM CategoriasProductos c WHERE c.id.nombre LIKE :cat").setParameter("cat", cat).list();
 
         sesion.getTransaction().commit();
 
@@ -70,7 +70,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Productos> listaProductos = sesion.createQuery("select productos from CategoriasProductos c where c.id.nombre like :cat and (c.productos.nombre like concat('%',:busqueda,'%') or c.productos.descripcion like concat('%',:busqueda,'%'))").setParameter("cat", cat).setParameter("busqueda", busqueda).list();
+        List<Productos> listaProductos = sesion.createQuery("SELECT productos FROM CategoriasProductos c WHERE c.id.nombre LIKE :cat AND (c.productos.nombre LIKE concat('%',:busqueda,'%') OR c.productos.descripcion LIKE concat('%',:busqueda,'%'))").setParameter("cat", cat).setParameter("busqueda", busqueda).list();
 
         sesion.getTransaction().commit();
 
@@ -81,7 +81,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Productos> listaProductos = sesion.createQuery("from Productos c where nombre like concat('%',:busqueda,'%') or descripcion like concat('%',:busqueda,'%')").setParameter("busqueda", busqueda).list();
+        List<Productos> listaProductos = sesion.createQuery("FROM Productos c WHERE nombre LIKE concat('%',:busqueda,'%') OR descripcion LIKE concat('%',:busqueda,'%')").setParameter("busqueda", busqueda).list();
 
         sesion.getTransaction().commit();
 
@@ -110,7 +110,6 @@ public class ProductoDAO {
         boolean salida = true;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = null;
-        System.out.println("---------------------------------------------------------" + p.getCaracteristicasProductoses().toString());
 
         try {
             tx = sesion.beginTransaction();
@@ -158,7 +157,6 @@ public class ProductoDAO {
             if (tx != null) {
                 tx.rollback();
             }
-            System.out.println("------------------------------------------------------" + ex.getMessage());
         }
         return salida;
     }

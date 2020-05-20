@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import modelo.Productos;
+import modelo.Usuarios;
 import modelo.Valoraciones;
 
 /**
@@ -82,7 +83,7 @@ public class AccionProductos extends ActionSupport {
 
                 if (p != null) {
                     this.producto = p;
-                    
+
                     Set<Valoraciones> lv = p.getValoracioneses();
                     float puntuacion = 0;
 
@@ -145,6 +146,22 @@ public class AccionProductos extends ActionSupport {
                 } else {
                     salida = SUCCESS;
                 }
+            }
+        }
+
+        return salida;
+    }
+
+    public String retirar() {
+        String salida = ERROR;
+        Map session = (Map) ActionContext.getContext().get("session");
+        Usuarios u = (Usuarios) session.get("usuario");
+        
+        if (this.getIdProducto() != null && u.getTipo().equals("admin")) {
+            Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
+            p.setDisponible(false);
+            if (modelo.DAO.ProductoDAO.actualizaProducto(p)) {
+                salida = SUCCESS;
             }
         }
 

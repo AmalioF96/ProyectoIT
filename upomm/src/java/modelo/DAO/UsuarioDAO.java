@@ -20,7 +20,7 @@ public class UsuarioDAO {
         
         try {
             Transaction tx = sesion.beginTransaction();
-            Query q = sesion.createQuery("From Usuarios where email='" + email + "' and password='" + password + "'");
+            Query q = sesion.createQuery("FROM Usuarios WHERE email='" + email + "' AND password='" + password + "'");
             usu = (Usuarios) q.uniqueResult();
             tx.commit();
         } catch (HibernateException e) {
@@ -36,7 +36,7 @@ public class UsuarioDAO {
         
         try {
             Transaction tx = sesion.beginTransaction();
-            Query q = sesion.createQuery("From Usuarios where email='" + email + "'");
+            Query q = sesion.createQuery("FROM Usuarios WHERE email='" + email + "'");
             usu = (Usuarios) q.uniqueResult();
             tx.commit();
         } catch (HibernateException e) {
@@ -55,7 +55,7 @@ public class UsuarioDAO {
 
         try {
             Transaction tx = sesion.beginTransaction();
-            Query q = sesion.createQuery("From Usuarios where nombre='" + nombre + "'");
+            Query q = sesion.createQuery("FROM Usuarios WHERE nombre='" + nombre + "'");
             usu = (Usuarios) q.uniqueResult();
             tx.commit();
         } catch (HibernateException e) {

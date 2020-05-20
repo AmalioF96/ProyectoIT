@@ -54,12 +54,9 @@
                 <div class="m-3">
                     <h3>Mi carrito</h3>
                     <hr>
-                    <s:if test="#session.carrito.size == 0">
-                        <div class='alert alert-success'>El carrito está vacío.</div>
+                    <s:if test="%{#session.carrito==null || #session.carrito.empty}">
+                        <div class='alert alert-info'>El carrito está vacío.</div>
                     </s:if>
-                    <s:elseif test="#session.carrito==null">
-                        <div class='alert alert-success'>El carrito está vacío.</div>
-                    </s:elseif>
                     <s:else>
                         <s:form action="accionProcesarCarrito" method="post" theme="css_xhtml">
                             <div class='table-responsive-sm'>

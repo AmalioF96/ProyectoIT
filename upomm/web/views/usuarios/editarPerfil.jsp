@@ -37,14 +37,16 @@
                         <h4 class="text-center">Perfil De Usuario</h4>
                         <ul class="list-unstyled">
                             <li class="list-group-item">
-                                <a href="/upomm/views/usuarios/perfil.jsp" class="menu-link active">Ver Perfil</a>
+                                <a href="/upomm/views/usuarios/perfil.jsp" class="menu-link active">Ver Perfil>Editar</a>
                             </li>
                             <li class="list-group-item">
                                 <a href="/upomm/views/usuarios/cambiarImagenPerfil.jsp" class="menu-link">Cambiar Imagen</a>
                             </li>
-                            <li class="list-group-item">
-                                <a href="/upomm/views/usuarios/deseos.jsp" class="menu-link">Lista de deseos</a>
-                            </li>
+                            <s:if test="#session.usuario.tipo!='admin'">
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/usuarios/deseos.jsp" class="menu-link">Lista de deseos</a>
+                                </li>
+                            </s:if>
                         </ul>
                     </nav>
                 </div>

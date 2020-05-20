@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s"  uri="/struts-tags" %>
-<s:if test="#session.usuario==null">
+<s:if test="#session.usuario==null || #session.usuario.tipo!='vendedor'">
     <jsp:forward page="/views/principal.jsp"/>
 </s:if>
 <s:elseif test="#parameters.idVenta==null">
@@ -72,9 +72,10 @@
                                 <table class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Producto</th>
-                                            <th class="text-center">Precio(&euro;)</th>
-                                            <th class="text-center">Cantidad</th>
+                                            <th class="text-left">Producto</th>
+                                            <th>Precio(&euro;)</th>
+                                            <th>Cantidad</th>
+                                            <th>Subtotal(&euro;)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -83,13 +84,14 @@
                                             <s:param name="idProducto" value="productos.idProducto"/>
                                         </s:url>
                                         <tr>
-                                            <td>
+                                            <td class="text-left">
                                                 <s:a href = "%{idProductoUrl}">
                                                     <s:property value="productos.nombre"/>
                                                 </s:a>
                                             </td>
-                                            <td class="text-center"><s:property value="productos.precio"/></td>
-                                            <td class="text-center"><s:property value="cantidad"/></td>
+                                            <td><s:property value="productos.precio"/></td>
+                                            <td><s:property value="cantidad"/></td>
+                                            <td><s:property value="%{productos.precio*cantidad}"/></td>
                                         </tr>
                                         </s:iterator>
                                     </tbody>

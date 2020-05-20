@@ -100,7 +100,7 @@
                         </div>
                     </s:if>
                     <s:else>
-                        <div class='alert alert-success'>Aún no has realizado ninguna reclamación.</div>
+                        <div class='alert alert-info'>Aún no has realizado ninguna reclamación.</div>
                     </s:else>
                     <!-- /.col-lg-9 -->
                 </div>

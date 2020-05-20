@@ -1,8 +1,6 @@
 package modelo.DAO;
 
 import java.util.ArrayList;
-import java.util.List;
-import modelo.Categorias;
 import modelo.Productos;
 import modelo.Usuarios;
 import org.hibernate.HibernateException;
@@ -20,7 +18,7 @@ public class DeseoDAO {
         ArrayList<Productos> lista = null;
         try {
             Transaction tx = sesion.beginTransaction();
-            lista = (ArrayList<Productos>) sesion.createQuery("select u.productoses_1 from Usuarios as u where u.email=:email").setParameter("email", email).list();
+            lista = (ArrayList<Productos>) sesion.createQuery("SELECT u.productoses_1 FROM Usuarios u WHERE u.email=:email").setParameter("email", email).list();
             sesion.getTransaction().commit();
         } catch (HibernateException e) {
 
