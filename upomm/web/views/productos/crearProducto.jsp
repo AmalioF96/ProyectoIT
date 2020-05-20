@@ -1,11 +1,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s" uri="/struts-tags" %>
-<s:if test="%{#parameters.idProducto!=null && producto==null}">
+<s:if test="#session.usuario==null || #session.usuario.tipo!='vendedor'">
+    <jsp:forward page="/views/principal.jsp"/>
+</s:if>
+<s:elseif test="%{#parameters.idProducto!=null && producto==null}">
     <s:action name="seleccionarProducto" executeResult="true">
         <s:param name="origin" value="'crearProducto'" />
         <s:param name="idProducto" value="#parameters.idProducto" />
     </s:action>
-</s:if>
+</s:elseif>
 <s:elseif test="categorias==null">
     <s:action name="listarCategorias" executeResult="true">
         <s:param name="origin" value="'crearProducto'" />

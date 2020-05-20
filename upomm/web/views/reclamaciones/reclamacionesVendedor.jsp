@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s" uri="/struts-tags" %>
-<s:if test="#session.usuario==null">
+<s:if test="#session.usuario==null || #session.usuario.tipo!='vendedor'">
     <jsp:forward page="/views/principal.jsp"/>
 </s:if>
 <s:elseif test="listaReclamaciones==null">
@@ -148,7 +148,7 @@
                                                         <s:textfield type="button" cssClass="btn btn-warning gestionar" value="Gestionar"/>
                                                     </s:if>
                                                     <s:else>
-                                                        <s:textfield type="button" cssClass="btn btn-warning gestionar" value="Gestionar" disabled="true"/>
+                                                        No hay acciones disponibles
                                                     </s:else>
                                                 </s:form>
                                             </td>
@@ -159,7 +159,7 @@
                         </div>
                     </s:if>
                     <s:else>
-                        <div class='alert alert-success'>No hay reclamaciones sobre ninguno de tus productos.</div>
+                        <div class='alert alert-info'>No hay reclamaciones sobre ninguno de tus productos.</div>
                     </s:else>
                     <!-- /.col-lg-9 -->
                 </div>

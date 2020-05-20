@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s" uri="/struts-tags" %>
-<s:if test="#session.usuario==null">
+<s:if test="#session.usuario==null || #session.usuario.tipo!='vendedor'">
     <jsp:forward page="/views/principal.jsp"/>
 </s:if>
 <s:elseif test="listaVentas==null">
@@ -77,7 +77,7 @@
                                     <tr>
                                         <th>Nº Pedido</th>
                                         <th>Cliente</th>
-                                        <th>Cantidad de productos</th>
+                                        <th>Número de productos</th>
                                         <th>Total artículos</th>
                                         <th>Importe(&euro;)</th>
                                         <th>Fecha</th>
@@ -109,7 +109,7 @@
                     </s:if>
                     <s:else>
 
-                        <div class='alert alert-success'>Aún no has realizado ninguna venta.</div>
+                        <div class='alert alert-info'>Aún no has realizado ninguna venta.</div>
                     </s:else>
                     <!-- /.col-lg-9 -->
                 </div>

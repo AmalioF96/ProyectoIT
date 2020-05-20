@@ -80,4 +80,36 @@ public class ReclamacionDAO {
         }
         return l;
     }
+    
+    public static List<Reclamaciones> listarDisputasAbiertas() {
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<Reclamaciones> l = null;
+        try {
+            tx = sesion.beginTransaction();
+            l = sesion.createQuery("FROM Reclamaciones r WHERE r.estado LIKE 'disputa'").list();
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return l;
+    }
+    
+    public static List<Reclamaciones> listarDisputasResueltas() {
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+        List<Reclamaciones> l = null;
+        try {
+            tx = sesion.beginTransaction();
+            l = sesion.createQuery("FROM Reclamaciones r WHERE r.estado LIKE 'resuelta-%'").list();
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return l;
+    }
 }

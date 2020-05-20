@@ -20,7 +20,7 @@ public class CategoriaDAO {
 
         try {
             Transaction tx = sesion.beginTransaction();
-            listaCategorias = sesion.createQuery("from Categorias order by nombre ASC").list();
+            listaCategorias = sesion.createQuery("FROM Categorias ORDER BY nombre ASC").list();
             sesion.getTransaction().commit();
         } catch (HibernateException e) {
 
@@ -35,7 +35,7 @@ public class CategoriaDAO {
 
         try {
             Transaction tx = sesion.beginTransaction();
-            listaCategorias = sesion.createQuery("from Categorias where nombre in :lista").setParameterList("lista", lista).list();
+            listaCategorias = sesion.createQuery("FROM Categorias WHERE nombre IN :lista").setParameterList("lista", lista).list();
             sesion.getTransaction().commit();
         } catch (HibernateException ex) {
         }
@@ -50,7 +50,7 @@ public class CategoriaDAO {
 
         try {
             tx = sesion.beginTransaction();
-            listaCategorias = sesion.createQuery("select c from Categorias c, CategoriasProductos cp where c.nombre=cp.id.nombre and cp.id.idProducto=:id").setParameter("id", id).list();
+            listaCategorias = sesion.createQuery("SELECT c FROM Categorias c, CategoriasProductos cp WHERE c.nombre=cp.id.nombre AND cp.id.idProducto=:id").setParameter("id", id).list();
             sesion.getTransaction().commit();
         } catch (HibernateException ex) {
             if (tx != null) {
@@ -70,6 +70,42 @@ public class CategoriaDAO {
             tx = sesion.beginTransaction();
             CategoriasProductos cp = (CategoriasProductos) sesion.load(CategoriasProductos.class, cpid);
             sesion.delete(cp);
+            tx.commit();
+            salida = true;
+        } catch (HibernateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return salida;
+    }
+
+    public static boolean eliminarCategoria(Categorias c) {
+        boolean salida = false;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = sesion.beginTransaction();
+            sesion.delete(c);
+            tx.commit();
+            salida = true;
+        } catch (HibernateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return salida;
+    }
+    
+    public static boolean crearCategoria(Categorias c) {
+        boolean salida = false;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = sesion.beginTransaction();
+            sesion.save(c);
             tx.commit();
             salida = true;
         } catch (HibernateException ex) {

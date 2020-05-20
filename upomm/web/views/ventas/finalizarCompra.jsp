@@ -19,12 +19,9 @@
             <div class="m-3">
                 <h3>Resumen de compra</h3>
                 <hr>
-                <s:if test="#session.carrito.size == 0">
-                    <div class='alert alert-success'>El carrito está vacío.</div>
+                <s:if test="%{#session.carrito==null || #session.carrito.empty}">
+                    <div class='alert alert-info'>El carrito está vacío.</div>
                 </s:if>
-                <s:elseif test="#session.carrito==null">
-                    <div class='alert alert-success'>El carrito está vacío.</div>
-                </s:elseif>
                 <s:else>
                     <div class="table-responsive-sm">
                         <s:form method="post" action="accionFinalizarCompra" id="finalizarCompra" theme="css_xhtml">

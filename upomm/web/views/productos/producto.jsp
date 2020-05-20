@@ -166,8 +166,8 @@
                         <!-- LISTA DE CATEGORÍAS -->
                         <div class="col-lg-3">
                             <nav id='categorias' class="list-group make-me-sticky">
+                                <h4 class="text-center">Categorías del producto</h4>
                                 <ul class="list-unstyled">
-                                    <h4 class="text-center">Categorías del producto</h4>
                                     <s:bean name="modelo.comparators.ComparadorCategoriasProductos" var="comparadorCats"/>
                                     <s:sort comparator="#comparadorCats" source="producto.categoriasProductoses">
                                         <s:iterator>
@@ -207,12 +207,18 @@
                                     <div><a href="#valoraciones"><s:property value="producto.valoracioneses.size"/> opiniones</a></div>
                                     <br />
                                     <s:if test="#session.usuario != null">
-                                        <s:if test="%{producto.usuarios==#session.usuario}">
+                                        <s:if test="#session.usuario.tipo=='admin'">
+                                            <s:form action="retirarProducto">
+                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:submit cssClass="btn btn-danger" name="btnRetirar" value="Retirar producto" />
+                                            </s:form>
+                                        </s:if>
+                                        <s:elseif test="%{producto.usuarios==#session.usuario}">
                                             <s:url var="editarProductoUrl" value="/views/productos/crearProducto.jsp">
                                                 <s:param name="idProducto" value="idProducto"/>
                                             </s:url>
                                             <s:a href="%{editarProductoUrl}" cssClass="btn btn-warning btn">Editar</s:a>
-                                        </s:if>
+                                        </s:elseif>
                                         <s:elseif test="%{!#session.carrito.contains(producto)}">
                                             <s:form action="agregarCarrito">
                                                 <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>

@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s"  uri="/struts-tags" %>
-<s:if test="#session.usuario==null">
+<s:if test="#session.usuario==null || #session.usuario.tipo!='vendedor'">
     <jsp:forward page="/views/principal.jsp"/>
 </s:if>
 <s:elseif test="listaProductos==null">
