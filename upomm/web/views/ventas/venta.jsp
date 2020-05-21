@@ -35,7 +35,7 @@
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-lg-8 contendor table-responsive-sm">
+                    <div class="col-lg-8 contendor table-responsive-sm mt-3 mx-auto">
                         <s:set var="importe" value="0"/>
                         <s:iterator value="venta">
                             <s:set var="importe" value="%{#importe+(productos.precio*cantidad)}"/>
@@ -66,8 +66,9 @@
                                 </table>
                             </div>
                         </div>
+                        <hr/>
                         <div class="row">
-                            <div class="col" style="margin-top:1%">
+                            <div class="col">
                                 <h3>Productos vendidos</h3>
                                 <table class="table table-striped table-bordered" style="width:100%">
                                     <thead>
@@ -80,19 +81,19 @@
                                     </thead>
                                     <tbody>
                                         <s:iterator value="venta">
-                                        <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
-                                            <s:param name="idProducto" value="productos.idProducto"/>
-                                        </s:url>
-                                        <tr>
-                                            <td class="text-left">
-                                                <s:a href = "%{idProductoUrl}">
-                                                    <s:property value="productos.nombre"/>
-                                                </s:a>
-                                            </td>
-                                            <td><s:property value="productos.precio"/></td>
-                                            <td><s:property value="cantidad"/></td>
-                                            <td><s:property value="%{productos.precio*cantidad}"/></td>
-                                        </tr>
+                                            <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
+                                                <s:param name="idProducto" value="productos.idProducto"/>
+                                            </s:url>
+                                            <tr>
+                                                <td class="text-left">
+                                                    <s:a href = "%{idProductoUrl}">
+                                                        <s:property value="productos.nombre"/>
+                                                    </s:a>
+                                                </td>
+                                                <td><s:property value="productos.precio"/></td>
+                                                <td><s:property value="cantidad"/></td>
+                                                <td><s:property value="%{productos.precio*cantidad}"/></td>
+                                            </tr>
                                         </s:iterator>
                                     </tbody>
                                 </table>

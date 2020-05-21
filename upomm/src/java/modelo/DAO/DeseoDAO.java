@@ -16,26 +16,36 @@ public class DeseoDAO {
     public static ArrayList<Productos> listarDeseos(String email) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Productos> lista = null;
-        try {
-            Transaction tx = sesion.beginTransaction();
-            lista = (ArrayList<Productos>) sesion.createQuery("SELECT u.productoses_1 FROM Usuarios u WHERE u.email=:email").setParameter("email", email).list();
-            sesion.getTransaction().commit();
-        } catch (HibernateException e) {
+        Transaction tx = null;
 
+        try {
+            tx = sesion.beginTransaction();
+            lista = (ArrayList<Productos>) sesion.createQuery("SELECT u.productoses_1 FROM Usuarios u WHERE u.email=:email").setParameter("email", email).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if(tx!=null) {
+                tx.rollback();
+            }
         }
         return lista;
     }
 
-    public static void eliminarDeseo(Usuarios u) {
+    public static boolean eliminarDeseo(Usuarios u) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        boolean salida = true;
+        Transaction tx = null;
 
         try {
-            Transaction tx = sesion.beginTransaction();
+            tx = sesion.beginTransaction();
             sesion.update(u);
-            sesion.getTransaction().commit();
+            tx.commit();
         } catch (HibernateException e) {
-
+            if (tx != null) {
+                tx.rollback();
+            }
+            salida = false;
         }
 
+        return salida;
     }
 }

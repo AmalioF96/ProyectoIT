@@ -60,15 +60,15 @@
                     <s:else>
                         <s:form action="accionProcesarCarrito" method="post" theme="css_xhtml">
                             <div class='table-responsive-sm'>
-                                <table id="tableProductos" class="table table-light">
+                                <table id="tableProductos" class="table table-light text-center">
                                     <thead>
                                         <tr>
-                                            <th>Nombre</th>
-                                            <th>Descripción</th>
-                                            <th class='text-center'>Precio(&euro;)</th>
-                                            <th class='text-center'>Cantidad</th>
-                                            <th class='text-center'>Subtotal(&euro;)</th>
-                                            <th class='text-center'>Eliminar </th>
+                                            <th class="text-left">Nombre</th>
+                                            <th class="text-left">Descripción</th>
+                                            <th>Precio(&euro;)</th>
+                                            <th>Cantidad</th>
+                                            <th>Subtotal(&euro;)</th>
+                                            <th>Eliminar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -83,12 +83,12 @@
                                                 <s:param name="idProducto" value="idProducto"/>
                                             </s:url>
                                             <tr class='producto'>
-                                                <td>
+                                                <td class="text-left">
                                                     <s:a href="%{productoId}"> 
                                                         <s:property value="nombre"/>
                                                     </s:a>
                                                 </td>
-                                                <td> 
+                                                <td class="text-left"> 
                                                     <s:property value="descripcion"/>
                                                 </td>
                                                 <td class='text-center'>
@@ -105,7 +105,9 @@
                                                     </span>
                                                 </td>
                                                 <td class='text-center tdBtnEliminar'>
-                                                    <s:a href="%{eliminarProducto}" name='btnEliminarCarrito' cssClass='btn btn-sm btn-danger btnEliminar'  value="Eliminar" >Eliminar</s:a>
+                                                    <s:a href="%{eliminarProducto}">
+                                                        <i class="fas fa-trash"></i>
+                                                    </s:a>
 
                                                     </td>
 
@@ -115,7 +117,7 @@
                                         </s:iterator>
 
                                         <tr>
-                                            <td colspan="5">
+                                            <td colspan="5" class="text-right">
                                                 <strong>
                                                     Total:
                                                 </strong>

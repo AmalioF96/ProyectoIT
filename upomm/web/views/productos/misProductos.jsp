@@ -55,8 +55,11 @@
                         </nav>
                     </div>
                     <!-- /.col-lg-3 -->
-                    <s:if test="listaProductos.size > 0">
-                        <div class="col-lg-9 table-responsive-sm">
+                    <div class="col-lg-9 table-responsive-sm my-auto mx-auto">
+                        <s:if test="listaProductos.empty">
+                            <div class='alert alert-success'>Aún no has puesto a la venta ningún producto.</div>
+                        </s:if>
+                        <s:else>
                             <table id="productos" class="table table-striped table-bordered dataTable" style="width:100%">
                                 <thead>
                                     <tr>
@@ -104,12 +107,8 @@
                                     </s:iterator>
                                 </tbody>
                             </table>
-                        </div>
-                    </s:if>
-                    <s:else>
-
-                        <div class='alert alert-success'>Aún no has puesto a la venta ningún producto.</div>
-                    </s:else>
+                        </s:else>
+                    </div>
                     <!-- /.col-lg-9 -->
                 </div>
                 <!-- /.row -->

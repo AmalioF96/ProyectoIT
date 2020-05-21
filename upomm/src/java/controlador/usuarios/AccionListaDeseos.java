@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador.usuarios;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -19,10 +14,65 @@ import modelo.Usuarios;
  */
 public class AccionListaDeseos extends ActionSupport {
 
-    private Integer idProducto = null;
+    private Integer idProducto;
     private ArrayList<Productos> deseos = null;
+    private String origin;
 
-    public AccionListaDeseos() {
+    public String recogerDeseos() {
+        String salida = ERROR;
+        Map session = (Map) ActionContext.getContext().get("session");
+        //Declaracion de variables
+        Usuarios u = (Usuarios) session.get("usuario");
+
+        this.setDeseos(DeseoDAO.listarDeseos(u.getEmail()));
+        salida = SUCCESS;
+
+        return salida;
+    }
+
+    public String crear() {
+        String salida = ERROR;
+
+        Map session = (Map) ActionContext.getContext().get("session");
+        Usuarios u = (Usuarios) session.get("usuario");
+
+        if (this.getIdProducto() != null) {
+            Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
+            if (p != null && !u.getProductoses_1().contains(p)) {
+                u.getProductoses_1().add(p);
+                if (modelo.DAO.UsuarioDAO.actualizaUsuario(u)) {
+                    session.remove(u);
+                    session.put("usuario", u);
+                    salida = SUCCESS;
+                }
+            }
+        }
+        return salida;
+    }
+
+    public String eliminar() {
+        String salida = ERROR;
+        boolean eliminado = false;
+        Map session = (Map) ActionContext.getContext().get("session");
+        //Declaracion de variables
+        Usuarios u = (Usuarios) session.get("usuario");
+        if (this.getIdProducto() != null) {
+            Productos p = new Productos();
+            p.setIdProducto(this.getIdProducto());
+            if (u.getProductoses_1().remove(p)) {
+                if (modelo.DAO.UsuarioDAO.actualizaUsuario(u)) {
+                    session.remove(u);
+                    session.put("usuario", u);
+                    if (this.origin != null && this.origin.equals("producto")) {
+                        salida = "producto";
+                    } else {
+                        salida = SUCCESS;
+                    }
+                }
+            }
+
+        }
+        return salida;
     }
 
     public Integer getIdProducto() {
@@ -41,41 +91,11 @@ public class AccionListaDeseos extends ActionSupport {
         this.deseos = deseos;
     }
 
-    public String recogerDeseos() {
-        String salida = ERROR;
-        Map session = (Map) ActionContext.getContext().get("session");
-        //Declaracion de variables
-        System.out.println("\na\na\na\na\na\na\na\na\na\na\na\na");
-        Usuarios u = (Usuarios) session.get("usuario");
-
-        this.setDeseos(DeseoDAO.listarDeseos(u.getEmail()));
-        salida = SUCCESS;
-
-        return salida;
+    public String getOrigin() {
+        return origin;
     }
 
-    public String eliminarDeseo() {
-        String salida = ERROR;
-        boolean eliminado = false;
-        Map session = (Map) ActionContext.getContext().get("session");
-        //Declaracion de variables
-        Usuarios u = (Usuarios) session.get("usuario");
-        Productos p;
-        int i = 0;
-        Object[] prods = u.getProductoses_1().toArray();
-        while (i < prods.length && !eliminado) {
-            p = (Productos) prods[i];
-            if (p.getIdProducto() == this.getIdProducto()) {
-                u.getProductoses_1().remove(p);
-                eliminado = true;
-            } else {
-                i++;
-            }
-        }
-        if (this.getIdProducto() != null && eliminado) {
-            DeseoDAO.eliminarDeseo(u);
-            salida = SUCCESS;
-        }
-        return salida;
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 }
