@@ -72,15 +72,14 @@
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-7">
+                    <div class="col-lg-7 my-auto mx-auto border-left border-right px-4">
                         <s:if test="%{producto!=null}">
                             <s:set var="accion" value="'modificarProducto'"/>
                         </s:if>
                         <s:else>
                             <s:set var="accion" value="'crearProducto'"/>
                         </s:else>
-                        <s:form id="formProducto" action="%{#accion}" method="post" enctype="multipart/form-data" theme="css_xhtml">   
+                        <s:form id="formProducto" action="%{#accion}" method="POST" enctype="multipart/form-data" theme="css_xhtml">   
                             <div class="form-group">
                                 <label for="producto">Nombre del producto:</label>
                                 <s:if test="%{producto!=null && nombre==null}">

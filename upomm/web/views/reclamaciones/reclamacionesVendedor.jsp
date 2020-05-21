@@ -33,12 +33,13 @@
                     });
                     $("#aceptar").click(function () {
                         $(seleccionado).find("input[name='operacion']").val("aceptar");
-                        if(confirm("Se cerrará la reclamación a favor del cliente, ¿desea continuar?")){
-                            $(seleccionado).submit();}
+                        if (confirm("Se cerrará la reclamación a favor del cliente, ¿desea continuar?")) {
+                            $(seleccionado).submit();
+                        }
                     });
                     $("#rechazar").click(function () {
                         $(seleccionado).find("input[name='operacion']").val("rechazar");
-                        if(confirm("Se elevará la reclamación a una disputa que será revisada y resuelta por un administrador, ¿desea continuar?")){
+                        if (confirm("Se elevará la reclamación a una disputa que será revisada y resuelta por un administrador, ¿desea continuar?")) {
                             $(seleccionado).submit();
                         }
                     });
@@ -100,8 +101,11 @@
                         </nav>
                     </div>
                     <!-- /.col-lg-3 -->
-                    <s:if test="listaReclamaciones.size > 0">
-                        <div class="col-lg-9 table-responsive-sm">
+                    <div class="col-lg-9 table-responsive-sm my-auto mx-auto">
+                        <s:if test="listaReclamaciones.empty">
+                            <div class='alert alert-info'>No hay reclamaciones sobre ninguno de tus productos.</div>
+                        </s:if>
+                        <s:else>
                             <table id="reclamaciones" class="table table-striped table-bordered dataTable" style="width:100%">
                                 <thead>
                                     <tr>
@@ -156,11 +160,8 @@
                                     </s:iterator>
                                 </tbody>
                             </table>
-                        </div>
-                    </s:if>
-                    <s:else>
-                        <div class='alert alert-info'>No hay reclamaciones sobre ninguno de tus productos.</div>
-                    </s:else>
+                        </s:else>
+                    </div>
                     <!-- /.col-lg-9 -->
                 </div>
             </main>

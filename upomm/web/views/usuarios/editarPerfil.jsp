@@ -39,9 +39,6 @@
                             <li class="list-group-item">
                                 <a href="/upomm/views/usuarios/perfil.jsp" class="menu-link active">Ver Perfil>Editar</a>
                             </li>
-                            <li class="list-group-item">
-                                <a href="/upomm/views/usuarios/cambiarImagenPerfil.jsp" class="menu-link">Cambiar Imagen</a>
-                            </li>
                             <s:if test="#session.usuario.tipo!='admin'">
                                 <li class="list-group-item">
                                     <a href="/upomm/views/usuarios/deseos.jsp" class="menu-link">Lista de deseos</a>
@@ -50,24 +47,40 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-9">
+                    <s:if test="hasActionErrors()">
+                        <s:actionerror cssClass="alert alert-danger list-unstyled" />
+                    </s:if>
                     <div class="card mt-4">
-                        <s:a href="./perfil.jsp"><i class="fas fa-window-close pull-right"></i></s:a>
-                            <div class="card-body">
-                                <img id="imgPerfil" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
-                            <s:form id="perfilForm" action="editarPerfil" theme="css_xhtml">
-                                <s:textfield name="nombre" label="Nombre" cssClass="form-control" value="%{#session.usuario.nombre}"></s:textfield>
-                                <s:password name="password" label="Contraseña actual" cssClass="form-control" ></s:password>
-                                <s:password name="newPassword" label="Nueva Contraseña" cssClass="form-control" ></s:password>
-                                <s:password name="passwordConfirm" label="Confirmar Contraseña" cssClass="form-control" ></s:password>
-                                <s:if test="%{#session.usuario.tipo=='cliente'}">
-                                    <div class="custom-control custom-switch wwgrp">
-                                        <s:checkbox id="vendedor" name="vendedor" cssClass="custom-control-input wwctrl" theme="simple" fieldValue="true"/>
-                                        <label class="custom-control-label wwlbl" for="vendedor">¿Desea ser vendedor?</label>
+                        <span>
+                            <s:a href="./perfil.jsp"><i class="fas fa-window-close pull-right"></i></s:a>
+                        </span>
+                            <div class="card-body row pt-0">
+                                <div class="col-sm-6 mx-auto">
+                                    <img id="imgPerfil" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
+                                <s:form action="cambiarImagenPerfil" method="POST" enctype="multipart/form-data" theme="simple">
+                                    <div class="custom-file">
+                                        <s:file id="imgPerfilInput" name="imagenPerfil" accept="image/jpeg, image/png" cssClass="custom-file-input"/>
+                                        <label class="custom-file-label" for="imgPerfilInput">Selecciona una imagen</label>
                                     </div>
-                                </s:if>
-                                <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary pull-left"></s:submit>
-                            </s:form>
+                                        <s:submit id="btn-img" name="btnGuardar" value="Guardar" cssClass="btn btn-primary position-absolute" cssStyle="bottom:0; left:15px"/>
+                                </s:form>
+                            </div>
+                            <div class="col-sm-6 my-auto mx-auto border-left">
+                                <s:form id="perfilForm" action="editarPerfil" theme="css_xhtml">
+                                    <s:textfield name="nombre" label="Nombre*" cssClass="form-control" value="%{#session.usuario.nombre}" required="true"/>
+                                    <s:password name="password" label="Contraseña actual*" cssClass="form-control" required="true"/>
+                                    <s:password name="newPassword" label="Nueva Contraseña" cssClass="form-control"/>
+                                    <s:password name="passwordConfirm" label="Confirmar Nueva Contraseña" cssClass="form-control"/>
+                                    <s:if test="%{#session.usuario.tipo=='cliente'}">
+                                        <div class="custom-control custom-switch wwgrp">
+                                            <s:checkbox id="vendedor" name="vendedor" cssClass="custom-control-input wwctrl" theme="simple" fieldValue="true"/>
+                                            <label class="custom-control-label wwlbl" for="vendedor">¿Desea ser vendedor?</label>
+                                        </div>
+                                    </s:if>
+                                    <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary pull-left"></s:submit>
+                                </s:form>
+                            </div>
                         </div>
                     </div>
                 </div>

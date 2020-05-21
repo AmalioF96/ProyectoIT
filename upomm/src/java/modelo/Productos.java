@@ -165,6 +165,13 @@ public class Productos implements java.io.Serializable {
         return this.idProducto == p.getIdProducto();
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 11 * hash + this.idProducto;
+        return hash;
+    }
+
     public List<Categorias> getCategoriasProducto() {
         return modelo.DAO.CategoriaDAO.listarCategoriasProducto(this.idProducto);
     }

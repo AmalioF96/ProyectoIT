@@ -123,8 +123,14 @@ public class AccionProductos extends ActionSupport {
                     carrito = new ArrayList();
                     session.put("carrito", carrito);
                 }
-                carrito.add(p);
-                salida = SUCCESS;
+                if (!carrito.contains(p)) {
+                    carrito.add(p);
+                }
+                if (this.origin != null && this.origin.equals("deseos")) {
+                    salida = "deseos";
+                } else {
+                    salida = SUCCESS;
+                }
             }
         }
         return salida;
@@ -143,6 +149,8 @@ public class AccionProductos extends ActionSupport {
             if (carrito.remove(p)) {
                 if (origin != null && origin.equals("carrito")) {
                     salida = "carrito";
+                } else if (this.origin != null && this.origin.equals("deseos")) {
+                    salida = "deseos";
                 } else {
                     salida = SUCCESS;
                 }
@@ -156,7 +164,7 @@ public class AccionProductos extends ActionSupport {
         String salida = ERROR;
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios u = (Usuarios) session.get("usuario");
-        
+
         if (this.getIdProducto() != null && u.getTipo().equals("admin")) {
             Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
             p.setDisponible(false);

@@ -25,16 +25,16 @@
                 <s:else>
                     <div class="table-responsive-sm">
                         <s:form method="post" action="accionFinalizarCompra" id="finalizarCompra" theme="css_xhtml">
-                            <table id="tableProductos" class="table table-light">
+                            <table id="tableProductos" class="table table-light text-center">
                                 <input type="hidden" name="email" value="<?php echo base64_encode(encriptar($_SESSION['email'])); ?>"/>
                                 <input type="hidden" name="direccion" value="<?php echo base64_encode(encriptar($_SESSION['direccion'])); ?>"/>
                                 <thead>
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Descripción</th>
-                                        <th class='text-center'>Precio(&euro;)</th>
-                                        <th class='text-center'>Cantidad</th>
-                                        <th class='text-center'>Subtotal(&euro;)</th>
+                                        <th class="text-left">Nombre</th>
+                                        <th class="text-left">Descripción</th>
+                                        <th>Precio(&euro;)</th>
+                                        <th>Cantidad</th>
+                                        <th>Subtotal(&euro;)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -45,21 +45,21 @@
                                             <s:param name="idProducto" value="idProducto"/>
                                         </s:url>
                                         <tr class='producto'>
-                                            <td>
+                                            <td class="text-left">
                                                 <s:a href="%{productoId}"> 
                                                     <s:property value="nombre"/>
                                                 </s:a>
                                             </td>
-                                            <td> 
+                                            <td class="text-left"> 
                                                 <s:property value="descripcion"/>
                                             </td>
-                                            <td class='text-center'>
+                                            <td >
                                                 <s:property value="precio"/>
                                             </td>
-                                            <td class='text-center tdCantidad'>
+                                            <td class='tdCantidad'>
                                                 <s:property  value="#session.cantidad.get(#cont)"/>
                                             </td>
-                                            <td class='text-center tdSubtotal'>
+                                            <td class='tdSubtotal'>
                                                 <s:property value="%{precio*#session.cantidad.get(#cont)}" />
                                             </td>
 
@@ -68,7 +68,7 @@
                                         <s:set var="cont" value="%{#cont+1}" />
                                     </s:iterator>
                                     <tr>
-                                        <td colspan="4"><strong>Total:</strong></td>
+                                        <td colspan="4" class="text-right"><strong>Total:</strong></td>
                                         <td id="precioTotalCarrito" class='text-center font-weight-bold'>
                                             <s:property  value="#total"/>&euro;
                                         </td>

@@ -91,8 +91,11 @@
                         </nav>
                     </div>
                     <!-- /.col-lg-3 -->
-                    <s:if test="listaReclamaciones.size > 0">
-                        <div class="col-lg-9 table-responsive-sm">
+                    <div class="col-lg-9 table-responsive-sm my-auto mx-auto">
+                        <s:if test="listaReclamaciones.empty">
+                            <div class='alert alert-info'>No hay disputas resueltas.</div>
+                        </s:if>
+                        <s:else>
                             <table id="reclamaciones" class="table table-striped table-bordered dataTable" style="width:100%">
                                 <thead>
                                     <tr>
@@ -152,11 +155,8 @@
                                     </s:iterator>
                                 </tbody>
                             </table>
-                        </div>
-                    </s:if>
-                    <s:else>
-                        <div class='alert alert-info'>No hay disputas resueltas.</div>
-                    </s:else>
+                        </s:else>
+                    </div>
                     <!-- /.col-lg-9 -->
                 </div>
             </main>

@@ -220,15 +220,40 @@
                                             <s:a href="%{editarProductoUrl}" cssClass="btn btn-warning btn">Editar</s:a>
                                         </s:elseif>
                                         <s:elseif test="%{!#session.carrito.contains(producto)}">
-                                            <s:form action="agregarCarrito">
+                                            <s:form action="agregarCarrito" cssClass="float-left">
                                                 <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
-                                                <s:submit cssClass="btn btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
+                                                <button class="btn btn-primary pull-left mr-4 mb-2" name="btnAgregarCarrito">
+                                                    Agregar al carrito 
+                                                    <i class="fas fa-cart-plus"></i>
+                                                </button>
                                             </s:form>
                                         </s:elseif>
                                         <s:else>
-                                            <s:form action="eliminarCarrito">
+                                            <s:form action="eliminarCarrito" cssClass="float-left">
                                                 <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
-                                                <s:submit cssClass="btn btn-primary" name="btnEliminarCarrito" value="Eliminar del carrito" />
+                                                <button class="btn btn-outline-primary pull-left mr-4 mb-2" name="btnEliminarCarrito">
+                                                    Eliminar del carrito 
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </s:form>
+                                        </s:else>
+                                        <s:if test="%{producto in #session.usuario.productoses_1}">
+                                            <s:form action="eliminarDeseo" cssClass="float-left">
+                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:textfield name="origin" value="producto" hidden="true"/>
+                                                <button type="submit" class="btn btn-outline-secondary pull-left" name="btnDeseo">
+                                                    Eliminar de la lista de deseos 
+                                                    <i style="color:red" class="fas fa-heart"></i>
+                                                </button>
+                                            </s:form>
+                                        </s:if>
+                                        <s:else>
+                                            <s:form action="crearDeseo" cssClass="float-left">
+                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <button type="submit" class="btn btn-secondary pull-left" name="btnDeseo">
+                                                    Añadir a mi lista de deseos 
+                                                    <i style="color:red" class="fas fa-heart"></i>
+                                                </button>
                                             </s:form>
                                         </s:else>
                                     </s:if>

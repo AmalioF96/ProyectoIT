@@ -81,7 +81,7 @@
                                 </ul>
                             </nav>
                         </div>
-                        <div class="col-lg-9 contendor table-responsive-sm">
+                        <div class="col-lg-9 contendor table-responsive-sm mt-3 mx-auto">
                             <div class="row">
                                 <div class="col-sm">
                                     <table>
@@ -108,8 +108,9 @@
                                 </table>
                             </div>
                         </div>
+                        <hr/>
                         <div class="row">
-                            <div class="col" style="margin-top:1%">
+                            <div class="col">
                                 <h3>Productos comprados</h3>
                                 <table id="compra" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
