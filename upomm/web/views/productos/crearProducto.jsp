@@ -192,7 +192,7 @@
                                                 </div>
                                                 <s:if test="%{#i>0}">
                                                     <div class='col-md-1 mb-3'>
-                                                        <a href='#' class='remover_campo btn btn-outline-danger'>
+                                                        <a href='#' class='remover_campo btn btn-sm btn-outline-danger'>
                                                             Eliminar
                                                         </a>
                                                     </div>
@@ -226,7 +226,7 @@
                             <hr/>
                             <br/>
                             <div class="form-group">
-                                <s:fielderror fieldName="terminos"/>
+                                <s:fielderror fieldName="terminos" cssClass="list-unstyled errorMessage"/>
                                 <div class="custom-control custom-switch">
                                     <s:checkbox id="terminos" name="terminos" cssClass="custom-control-input" theme="simple" fieldValue="true"/>
                                     <label class="custom-control-label" for="terminos">
