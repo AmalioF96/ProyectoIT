@@ -14,7 +14,6 @@
         if (str.length == 0) {
             return;
         }
-
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("GET", "http://localhost:8080/PruebaREST/webresources/productos.productos/" + str, true);
         xmlhttp.setRequestHeader("Accept", "application/xml");
@@ -23,20 +22,22 @@
             if (this.readyState == 4 && this.status == 200) {
                 var rawXML = xmlhttp.responseXML;
                 var xmlRow = $(rawXML).find('productos');
-                if (xmlRow.length > 0 && str.trim().length>0) {
+                if (xmlRow.length > 0 && str.trim().length > 0) {
                     $(xmlRow).each(function () {
                         var nombre = $(this).find('nombre').text();
+                        var re = new RegExp(str, 'gi');
+                        var a = nombre.replace(re, "<span class='highlight'>" + str + "</span>");
                         var listElement = document.createElement("li");
-                        $(listElement).append(nombre);
+                        $(listElement).append(a);
                         $(listElement).addClass("list-group-item searchResult");
                         $(listElement).css("opacity", "0.95");
-                        $(listElement).on("click",function(){
-                           $("#searchBar").val($(this).text());
-                           $("#searchForm").submit();
+                        $(listElement).on("click", function () {
+                            $("#searchBar").val($(this).text());
+                            $("#searchForm").submit();
                         });
                         $("#livesearch").append(listElement);
                     });
-                } else if ($("#livesearch").children().length==0) {
+                } else if ($("#livesearch").children().length == 0) {
                     var texto = document.createTextNode("No hay coincidencias");
                     var listElement = document.createElement("li");
                     $(listElement).append(texto);
@@ -51,22 +52,32 @@
 </script>
 <div class="container-fluid mb-4">
     <div class="row mx-auto">
-        <div class="col-xl-9 mt-3 mx-auto">
-            <s:form id='searchForm' cssClass="form-inline md-form mr-auto mb-1" action='listarProductos' theme="simple" method="GET" autocomplete="off">
-                <s:select cssClass="form-control" name="categoria" list="categorias" listKey="nombre" listValue="nombre" headerKey="" headerValue="Todas las categorías">
-                </s:select>
-                <div class="input-group">
-                    <s:textfield id='searchBar' cssClass="form-control" placeholder="Buscar productos" name='busqueda' onkeyup="showResult(this.value)"/>
-                    <div class="input-group-append">
-                        <button class="btn btn-secondary" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
+        <div class="col-md-9 mt-3 mx-auto">
+            <s:form id='searchForm' cssClass="md-form mr-auto mb-1" action='listarProductos' theme="simple" method="GET" autocomplete="off">
+                <div class="row">
+                    <div class="col-sm-4 pl-0 mx-auto">
+                        <s:select cssClass="form-control" name="categoria" list="categorias" listKey="nombre" listValue="nombre" headerKey="" headerValue="Todas las categorías">
+                        </s:select>
+                    </div>
+                    <div class="input-group col-sm-8 p-0 mx-auto">
+                        <s:textfield id='searchBar' cssClass="form-control" placeholder="Buscar productos" name='busqueda' onkeyup="showResult(this.value)"/>
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-sm-4 p-0 mx-auto"></div>
+                    <div id="searchResult" class="input-group col-sm-8 p-0 mx-auto">
+                        <ul id="livesearch" class="list-unstyled overflow-auto"></ul>
                     </div>
                 </div>
             </s:form>
         </div>
-        <div class="col-xl-3 mb-0 mt-3 mx-auto ordenacion">
-            <s:form id="ordenarResultados" class="form-inline mr-auto mb-1" method="GET" theme="simple">
+        <div class="pl-2 pr-0 col-md-3 mb-0 mt-3 mx-auto ordenacion">
+            <s:form id="ordenarResultados" class="mr-auto mb-1" method="GET" theme="simple">
                 <s:if test="#parameters.categoria!=null">
                     <s:textfield name="categoria" value="%{#parameters.categoria}" hidden="true"/>
                 </s:if>
@@ -126,11 +137,11 @@
             </s:form>
         </div>
     </div>
-    <div class="row mt-0">
+    <!--<div class="row mt-0">
         <div class="col-xl-3 mt-0">
         </div>
         <div id="searchResult" class="col-xl-5 p-0 mt-0">
             <ul id="livesearch" class="list-unstyled overflow-auto"></ul>
         </div>
-    </div>
+    </div>-->
 </div>
