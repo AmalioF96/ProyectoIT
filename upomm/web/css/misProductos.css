@@ -1,11 +1,14 @@
 #ventas_wrapper {
-    margin: 3% !important;
+    margin: 2% !important;
 }
 #pedidos_wrapper{
-    margin: 3% !important;
+    margin: 2% !important;
+}
+#productos_wrapper{
+    margin: 2% !important;
 }
 #reclamaciones_wrapper {
-    margin: 3% !important;
+    margin: 2% !important;
 }
 
 #ventas th,td {
@@ -14,15 +17,12 @@
 }
 #pedidos tbody tr:hover {
     cursor: pointer;
-    color: #7a1600;
+    color: #0056b3;
+    font-weight: 600;
 }
 img.mostrarImagen {
     display:inline-table;
     max-width: 100px;
-}
-
-#btn-aniadir-producto {
-    margin: 3% 0 1% 0;
 }
 table thead th {
     text-align: center !important;
@@ -30,4 +30,22 @@ table thead th {
 
 #pedidos th {
     width: 25% !important;
+}
+.tooltip-inner {
+    text-align: left;
+}
+td,th {
+    vertical-align: middle !important;
+}
+.list-group-item{
+    padding: 0 !important;
+}
+a.menu-link {
+    display: block;
+    padding: 12px 20px;
+}
+.active {
+    color: white !important;
+    background-color: #007bff !important;
+    border-radius: .25rem;
 }

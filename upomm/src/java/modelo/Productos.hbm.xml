@@ -32,7 +32,7 @@
             </key>
             <one-to-many class="modelo.Valoraciones" />
         </set>
-        <set name="categoriasProductoses" table="categorias_productos" inverse="true" lazy="true" fetch="select">
+        <set name="categoriasProductoses" table="categorias_productos" inverse="true" lazy="true" fetch="select" cascade="save-update">
             <key>
                 <column name="id_producto" not-null="true" />
             </key>
@@ -44,7 +44,7 @@
             </key>
             <one-to-many class="modelo.Reclamaciones" />
         </set>
-        <set name="caracteristicasProductoses" table="caracteristicas_productos" inverse="true" lazy="true" fetch="select">
+        <set name="caracteristicasProductoses" table="caracteristicas_productos" inverse="true" lazy="true" fetch="select" cascade="save-update">
             <key>
                 <column name="id_producto" not-null="true" />
             </key>

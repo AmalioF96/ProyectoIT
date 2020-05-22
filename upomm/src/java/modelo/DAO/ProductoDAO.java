@@ -2,6 +2,7 @@ package modelo.DAO;
 
 import java.util.List;
 import modelo.CaracteristicasProductos;
+import modelo.CaracteristicasProductosId;
 import modelo.CategoriasProductos;
 import modelo.Productos;
 import org.hibernate.HibernateException;
@@ -21,31 +22,11 @@ public class ProductoDAO {
 
         try {
             tx = sesion.beginTransaction();
-
-            p = (Productos) sesion.createQuery("from Productos where idProducto= :id and disponible=true").setParameter("id", idProducto).uniqueResult();
-
-            tx.commit();
-        } catch (HibernateException e) {
-        }
-
-        return p;
-    }
-    
-    public static Productos obtenerProductoVendido(int idProducto) {
-        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = null;
-        Productos p = null;
-
-        try {
-            tx = sesion.beginTransaction();
-
-            p = (Productos) sesion.load(Productos.class, idProducto);
-
+            p = (Productos) sesion.get(Productos.class, idProducto);
             tx.commit();
         } catch (HibernateException e) {
             if(tx!=null) {
                 tx.rollback();
-                System.out.println("----------------------------------------------"+e.getMessage());
             }
         }
 
@@ -56,7 +37,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Productos> listaProductos = sesion.createQuery("from Productos where disponible=true").list();
+        List<Productos> listaProductos = sesion.createQuery("FROM Productos WHERE disponible=true").list();
 
         sesion.getTransaction().commit();
 
@@ -67,7 +48,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Productos> listaProductos = sesion.createQuery("from Productos as p where p.usuarios='" + emailPropietario + "'").list();
+        List<Productos> listaProductos = sesion.createQuery("FROM Productos as p WHERE p.usuarios='" + emailPropietario + "'").list();
 
         sesion.getTransaction().commit();
 
@@ -78,7 +59,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Productos> listaProductos = sesion.createQuery("select productos from CategoriasProductos c where c.id.nombre like :cat").setParameter("cat", cat).list();
+        List<Productos> listaProductos = sesion.createQuery("SELECT productos FROM CategoriasProductos c WHERE c.id.nombre LIKE :cat").setParameter("cat", cat).list();
 
         sesion.getTransaction().commit();
 
@@ -89,7 +70,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Productos> listaProductos = sesion.createQuery("select productos from CategoriasProductos c where c.id.nombre like :cat and (c.productos.nombre like concat('%',:busqueda,'%') or c.productos.descripcion like concat('%',:busqueda,'%'))").setParameter("cat", cat).setParameter("busqueda", busqueda).list();
+        List<Productos> listaProductos = sesion.createQuery("SELECT productos FROM CategoriasProductos c WHERE c.id.nombre LIKE :cat AND (c.productos.nombre LIKE concat('%',:busqueda,'%') OR c.productos.descripcion LIKE concat('%',:busqueda,'%'))").setParameter("cat", cat).setParameter("busqueda", busqueda).list();
 
         sesion.getTransaction().commit();
 
@@ -100,7 +81,7 @@ public class ProductoDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Productos> listaProductos = sesion.createQuery("from Productos c where nombre like concat('%',:busqueda,'%') or descripcion like concat('%',:busqueda,'%')").setParameter("busqueda", busqueda).list();
+        List<Productos> listaProductos = sesion.createQuery("FROM Productos c WHERE nombre LIKE concat('%',:busqueda,'%') OR descripcion LIKE concat('%',:busqueda,'%')").setParameter("busqueda", busqueda).list();
 
         sesion.getTransaction().commit();
 
@@ -161,6 +142,25 @@ public class ProductoDAO {
         return salida;
     }
 
+    public static boolean eliminarCaracteristicaProducto(CaracteristicasProductosId cpid) {
+        boolean salida = false;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
+
+        try {
+            tx = sesion.beginTransaction();
+            CaracteristicasProductos cp = (CaracteristicasProductos) sesion.load(CaracteristicasProductos.class, cpid);
+            sesion.delete(cp);
+            tx.commit();
+            salida = true;
+        } catch (HibernateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+        return salida;
+    }
+
     public static boolean crearRelacionCategoriaProduto(CategoriasProductos cp) {
         boolean salida = true;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -170,7 +170,7 @@ public class ProductoDAO {
             tx = sesion.beginTransaction();
             sesion.save(cp);
             tx.commit();
-        } catch (HibernateException ex) {
+        } catch (Exception ex) {
             salida = false;
             if (tx != null) {
                 tx.rollback();

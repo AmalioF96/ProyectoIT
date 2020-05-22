@@ -8,11 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import modelo.CaracteristicasProductos;
-import modelo.CategoriasProductos;
 import modelo.Productos;
+import modelo.Usuarios;
 import modelo.Valoraciones;
 
 /**
@@ -76,29 +73,16 @@ public class AccionProductos extends ActionSupport {
         String salida = ERROR;
         if (this.getIdProducto() != null) {
             if (this.getOrigin() != null && this.getOrigin().equals("crearProducto")) {
-                Productos p = modelo.DAO.ProductoDAO.obtenerProductoVendido(this.getIdProducto());
+                Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
                 if (p != null) {
                     this.setProducto(p);
                     salida = "editar";
                 }
             } else {
-                Productos p = modelo.DAO.ProductoDAO.obtenerProducto(idProducto);
+                Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
 
                 if (p != null) {
                     this.producto = p;
-                    Set<CategoriasProductos> s1 = p.getCategoriasProductoses();
-                    SortedSet ss1 = new TreeSet((Set) s1);
-                    p.setCategoriasProductoses(ss1);
-
-                    Set<CaracteristicasProductos> s2 = p.getCaracteristicasProductoses();
-                    SortedSet ss2 = new TreeSet((Set) s2);
-                    p.setCaracteristicasProductoses(ss2);
-
-                    Set<CaracteristicasProductos> s3 = p.getValoracioneses();
-                    SortedSet ss3 = new TreeSet((Set) s3);
-                    p.setValoracioneses(ss3);
-
-                    salida = SUCCESS;
 
                     Set<Valoraciones> lv = p.getValoracioneses();
                     float puntuacion = 0;
@@ -111,6 +95,7 @@ public class AccionProductos extends ActionSupport {
                         puntuacion /= lv.size();
                     }
                     puntuaciones.put(idProducto, puntuacion);
+                    salida = SUCCESS;
                 } else {
                     Map request = (Map) ActionContext.getContext().get("request");
                     request.put("error", true);
@@ -138,8 +123,14 @@ public class AccionProductos extends ActionSupport {
                     carrito = new ArrayList();
                     session.put("carrito", carrito);
                 }
-                carrito.add(p);
-                salida = SUCCESS;
+                if (!carrito.contains(p)) {
+                    carrito.add(p);
+                }
+                if (this.origin != null && this.origin.equals("deseos")) {
+                    salida = "deseos";
+                } else {
+                    salida = SUCCESS;
+                }
             }
         }
         return salida;
@@ -158,9 +149,27 @@ public class AccionProductos extends ActionSupport {
             if (carrito.remove(p)) {
                 if (origin != null && origin.equals("carrito")) {
                     salida = "carrito";
+                } else if (this.origin != null && this.origin.equals("deseos")) {
+                    salida = "deseos";
                 } else {
                     salida = SUCCESS;
                 }
+            }
+        }
+
+        return salida;
+    }
+
+    public String retirar() {
+        String salida = ERROR;
+        Map session = (Map) ActionContext.getContext().get("session");
+        Usuarios u = (Usuarios) session.get("usuario");
+
+        if (this.getIdProducto() != null && u.getTipo().equals("admin")) {
+            Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
+            p.setDisponible(false);
+            if (modelo.DAO.ProductoDAO.actualizaProducto(p)) {
+                salida = SUCCESS;
             }
         }
 

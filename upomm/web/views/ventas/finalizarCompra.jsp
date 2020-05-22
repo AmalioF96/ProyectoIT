@@ -16,28 +16,25 @@
         <%@include file="../utils/header.jsp" %>
         <!-- Page Content -->
         <main class="container">
-            <div class="divCarrito">
+            <div class="m-3">
                 <h3>Resumen de compra</h3>
                 <hr>
-                <s:if test="#session.carrito.size == 0">
-                    <div class='alert alert-success'>El carrito está vacío.</div>
+                <s:if test="%{#session.carrito==null || #session.carrito.empty}">
+                    <div class='alert alert-info'>El carrito está vacío.</div>
                 </s:if>
-                <s:elseif test="#session.carrito==null">
-                    <div class='alert alert-success'>El carrito está vacío.</div>
-                </s:elseif>
                 <s:else>
                     <div class="table-responsive-sm">
                         <s:form method="post" action="accionFinalizarCompra" id="finalizarCompra" theme="css_xhtml">
-                            <table id="tableProductos" class="table table-light">
+                            <table id="tableProductos" class="table table-light text-center">
                                 <input type="hidden" name="email" value="<?php echo base64_encode(encriptar($_SESSION['email'])); ?>"/>
                                 <input type="hidden" name="direccion" value="<?php echo base64_encode(encriptar($_SESSION['direccion'])); ?>"/>
                                 <thead>
                                     <tr>
-                                        <th>Nombre</th>
-                                        <th>Descripción</th>
-                                        <th class='text-center'>Precio(&euro;)</th>
-                                        <th class='text-center'>Cantidad</th>
-                                        <th class='text-center'>Subtotal(&euro;)</th>
+                                        <th class="text-left">Nombre</th>
+                                        <th class="text-left">Descripción</th>
+                                        <th>Precio(&euro;)</th>
+                                        <th>Cantidad</th>
+                                        <th>Subtotal(&euro;)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -48,21 +45,21 @@
                                             <s:param name="idProducto" value="idProducto"/>
                                         </s:url>
                                         <tr class='producto'>
-                                            <td>
+                                            <td class="text-left">
                                                 <s:a href="%{productoId}"> 
                                                     <s:property value="nombre"/>
                                                 </s:a>
                                             </td>
-                                            <td> 
+                                            <td class="text-left"> 
                                                 <s:property value="descripcion"/>
                                             </td>
-                                            <td class='text-center'>
+                                            <td >
                                                 <s:property value="precio"/>
                                             </td>
-                                            <td class='text-center tdCantidad'>
+                                            <td class='tdCantidad'>
                                                 <s:property  value="#session.cantidad.get(#cont)"/>
                                             </td>
-                                            <td class='text-center tdSubtotal'>
+                                            <td class='tdSubtotal'>
                                                 <s:property value="%{precio*#session.cantidad.get(#cont)}" />
                                             </td>
 
@@ -71,7 +68,7 @@
                                         <s:set var="cont" value="%{#cont+1}" />
                                     </s:iterator>
                                     <tr>
-                                        <td colspan="4"><strong>Total:</strong></td>
+                                        <td colspan="4" class="text-right"><strong>Total:</strong></td>
                                         <td id="precioTotalCarrito" class='text-center font-weight-bold'>
                                             <s:property  value="#total"/>&euro;
                                         </td>
@@ -82,14 +79,21 @@
                                 <button type="submit" name="submitButton" value="finalizarCompra" id="botonFinalizar" hidden></button>
 
                             </table>
-                                            <s:checkbox name="terminosYCondiciones" fieldValue="true" label=" Acepto los términos y condiciones del servicio." labelposition="right"/>
-
-                            <br><s:submit cssClass="btn btn btn-warning text-uppercase" name="submitButton" value="Comprar" id="botonFinalizar" /> 
-                        </s:form>
-                    </div>
+                        </div>
+                        <hr>
+                        <div class="custom-control custom-switch wwgrp row mx-auto my-4">
+                            <s:checkbox id="terminosYCondiciones" name="terminosYCondiciones" cssClass="custom-control-input wwctrl" theme="simple" fieldValue="true"/>
+                            <label class="custom-control-label wwlbl" for="terminosYCondiciones">
+                                <a href="http://www.google.com/search?q=estafa" target="_blank">
+                                    Acepto los términos y condiciones
+                                </a>
+                            </label>
+                        </div>
+                        <div class="row mx-auto my-4">
+                            <s:submit cssClass="btn btn btn-warning text-uppercase pull-left" name="submitButton" value="Comprar" id="botonFinalizar" />
+                        </div>
+                    </s:form>
                 </div>
-                <hr>
-
 
                 <script src="https://www.paypal.com/sdk/js?client-id=Aag_BV9saCzCn3jZU7nRT-_qMd-sJuXnc9VKSeM5li-IXLAGDi2zUsiRtPpTu3Tvr46fIq9Ce6KSjkug&currency=EUR"></script>
                 <%-- <hr>--%>

@@ -25,12 +25,12 @@ public class AccionLogin extends ActionSupport {
     @Override
     public void validate() {
         if (this.getEmail() != null && this.getPassword() != null) {
-            if (this.email.trim().length() < 1) {
-                addFieldError("email", getText("email.relleno"));
+            if (this.getEmail().trim().length() < 1) {
+                addFieldError("email", getText("Este campo es obligatorio"));
             }
 
-            if (this.password.trim().length() < 1) {
-                addFieldError("password", getText("password.rellena"));
+            if (this.getPassword().trim().length() < 1) {
+                addFieldError("password", getText("Este campo es obligatorio"));
             }
         }
     }
@@ -52,8 +52,7 @@ public class AccionLogin extends ActionSupport {
             salida = SUCCESS;
             }
         } else {
-            Map request = (Map) ActionContext.getContext().get("request");
-            request.put("error", true);
+            addActionError("Las credenciales introducidas no son válidas");
         }
         return salida;
     }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador.usuarios;
 
 import static com.opensymphony.xwork2.Action.ERROR;
@@ -10,8 +5,6 @@ import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import modelo.DAO.UsuarioDAO;
 import modelo.Usuarios;
 
@@ -35,7 +28,7 @@ public class AccionEditarPerfil extends ActionSupport {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre.trim();
     }
 
     public String getPassword() {
@@ -43,7 +36,7 @@ public class AccionEditarPerfil extends ActionSupport {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password.trim();
     }
 
     public String getNewPassword() {
@@ -51,7 +44,7 @@ public class AccionEditarPerfil extends ActionSupport {
     }
 
     public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
+        this.newPassword = newPassword.trim();
     }
 
     public String getPasswordConfirm() {
@@ -59,7 +52,7 @@ public class AccionEditarPerfil extends ActionSupport {
     }
 
     public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
+        this.passwordConfirm = passwordConfirm.trim();
     }
 
     public boolean isVendedor() {
@@ -69,10 +62,18 @@ public class AccionEditarPerfil extends ActionSupport {
     public void setVendedor(boolean vendedor) {
         this.vendedor = vendedor;
     }
-    
 
     public void validate() {
-
+        
+        if(this.getNombre()==null) {
+            addFieldError("nombre", "El campo nombre es obligatorio");
+        }
+        if(this.getPassword()==null) {
+            addFieldError("password", "El campo contraseña es obligatorio");
+        }
+        if(this.getNombre()==null || this.getPassword()==null) {
+            addFieldError("nombre", "El nombre de usuario debe estar relleno");
+        }
         if (this.getNombre().equals("")) {
             addFieldError("nombre", "El nombre de usuario debe estar relleno");
         } else if (this.getNombre().length() < 4) {
@@ -85,15 +86,15 @@ public class AccionEditarPerfil extends ActionSupport {
             addFieldError("password", "La contraseña debe tener un mínimo de 8 caractares");
         }
 
-        if (this.getNewPassword().equals("")) {
+        if (this.getNewPassword().equals("") && !this.getPasswordConfirm().equals("")) {
             addFieldError("newPassword", "La contraseña debe estar rellena");
-        } else if (this.getNewPassword().length() < 8) {
+        } else if (!this.getPasswordConfirm().equals("") && this.getNewPassword().length() < 8) {
             addFieldError("newPassword", "La contraseña debe tener un mínimo de 8 caractares");
         }
 
-        if (this.getPasswordConfirm().equals("")) {
+        if (this.getPasswordConfirm().equals("") && !this.getNewPassword().equals("")) {
             addFieldError("passwordConfirm", "La contraseña debe estar rellena");
-        } else if (this.getPasswordConfirm().length() < 8) {
+        } else if (!this.getNewPassword().equals("") && this.getPasswordConfirm().length() < 8) {
             addFieldError("passwordConfirm", "La contraseña debe tener un mínimo de 8 caractares");
         }
 
@@ -102,17 +103,15 @@ public class AccionEditarPerfil extends ActionSupport {
         }
 
     }
-    
 
     public String execute() throws Exception {
         String salida = SUCCESS;
         String tipo;
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
-        if (this.isVendedor()) {
-            tipo = "vendedor";
-        } else {
-            tipo = "cliente";
+        
+        if (user.getTipo().equals("cliente") && this.isVendedor()) {
+            user.setTipo("vendedor");
         }
         if (UsuarioDAO.comprobarUsuario(user.getEmail(), this.getPassword()) == null) {
             addFieldError("password", "Contraseña errónea");
@@ -124,15 +123,18 @@ public class AccionEditarPerfil extends ActionSupport {
             } else {
 
                 user.setNombre(this.getNombre());
-                user.setPassword(this.getNewPassword());
-                user.setTipo(tipo);
+                
+                if (!this.getNewPassword().equals("")) {
+                    user.setPassword(this.getNewPassword());
+                }
 
                 if (UsuarioDAO.actualizaUsuario(user)) {
                     session.put("usuario", user);
                     Map request = (Map) ActionContext.getContext().get("request");
                     request.put("error", false);
                 } else {
-                    addFieldError("password", ERROR);
+                    addActionError("ERROR: no se pudo completar la operación");
+                    salida = ERROR;
                 }
 
             }

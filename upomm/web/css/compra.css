@@ -1,11 +1,12 @@
-.contendor {
-    margin-top: 3% !important;
-}
-td {
-    width: 50%;
-}
 @media only screen and (max-width: 600px) {
     table {
         float: none !important;
     }
+}
+.tooltip-inner {
+    text-align: left;
+}
+td,th {
+    vertical-align: middle !important;
+    text-align: center;
 }

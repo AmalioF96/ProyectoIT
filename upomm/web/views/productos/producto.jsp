@@ -17,6 +17,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/producto.css" rel="stylesheet" type="text/css"/>
+            <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 
             <script>
                 $(document).ready(function () {
@@ -43,6 +44,7 @@
                     $("img").on("error", function () {
                         $(this).attr("src", "/upomm/imagenes/productDefaultImage.jpg");
                     });
+                    $("img.lazyload").lazyload();
                 });
                 /*
                  * Obtenemos la valoración actual de un producto
@@ -125,10 +127,8 @@
                         $(form).append(valora);
                     }
                     var btn = $("<input type='submit' class='btn btn-sm btn-success btn-valoracion pull-right' value='Guardar' name='editarValoracion'>");
-                    //$(btn).css("display", "block");
                     $(form).append(btn);
                     btn = $("<button type='button' class='btn btn-sm btn-warning btn-valoracion pull-right'>Cancelar</button>");
-                    //$(btn).css("display", "block");
                     $(form).append(btn);
                     $(form).append($("<input id='puntuacion' type='number' name='puntuacion' hidden>"));
                     $(form).append($("<input id='operacion' type='text' name='operacion' value='insertar' hidden>"));
@@ -157,25 +157,31 @@
             <main class="container">
                 <div class="row">
                     <s:if test="#request.error">
-                        <div class="alert alert-warning" role="alert">Este producto no está disponible.</div>
+                        <div class="alert alert-danger" role="alert">El producto no existe.</div>       
                     </s:if>
+                    <s:elseif test="%{!producto.disponible && producto.usuarios!=#session.usuario}">
+                        <div class="alert alert-warning" role="alert">Este producto no está disponible.</div>
+                    </s:elseif>
                     <s:else>
                         <!-- LISTA DE CATEGORÍAS -->
                         <div class="col-lg-3">
                             <nav id='categorias' class="list-group make-me-sticky">
+                                <h4 class="text-center">Categorías del producto</h4>
                                 <ul class="list-unstyled">
-                                    <h4 class="text-center">Categorías del producto</h4>
-                                    <s:iterator value="producto.categoriasProductoses" >
-                                        <s:url var="categoriaUrl" action="listarProductos">
-                                            <s:param name="categoria" value="id.nombre"/>
-                                        </s:url>
-                                        <li class="list-group-item cat">
-                                            <s:a href="%{categoriaUrl}" cssClass="categoria">
-                                                <s:property value="id.nombre"/>
+                                    <s:bean name="modelo.comparators.ComparadorCategoriasProductos" var="comparadorCats"/>
+                                    <s:sort comparator="#comparadorCats" source="producto.categoriasProductoses">
+                                        <s:iterator>
+                                            <s:url var="categoriaUrl" action="listarProductos">
+                                                <s:param name="categoria" value="id.nombre"/>
+                                            </s:url>
+                                            <li class="list-group-item cat">
+                                                <s:a href="%{categoriaUrl}" cssClass="categoria">
+                                                    <s:property value="id.nombre"/>
 
-                                            </s:a>
-                                        </li>
-                                    </s:iterator>
+                                                </s:a>
+                                            </li>
+                                        </s:iterator>
+                                    </s:sort>
 
                                 </ul>
                             </nav>
@@ -189,7 +195,7 @@
                                 <s:else>
                                     <s:set var="img" value="producto.imagen"/>
                                 </s:else>
-                                <img id='imgProducto' class="card-img-top img-fluid" src="<s:property value="#img"/>" alt="Imagen del producto">
+                                <img id='imgProducto' class="card-img-top img-fluid lazyload" data-src="<s:property value="#img"/>" alt="Imagen del producto">
                                 <div class="card-body">
                                     <h3 class="card-title"><s:property value="producto.nombre"/></h3>
                                     <h4><s:number name="producto.precio" maximumFractionDigits="2" minimumFractionDigits="2"/>&euro;</h4>
@@ -201,16 +207,53 @@
                                     <div><a href="#valoraciones"><s:property value="producto.valoracioneses.size"/> opiniones</a></div>
                                     <br />
                                     <s:if test="#session.usuario != null">
-                                        <s:if test="%{!#session.carrito.contains(producto)}">
-                                            <s:form action="agregarCarrito">
+                                        <s:if test="#session.usuario.tipo=='admin'">
+                                            <s:form action="retirarProducto">
                                                 <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
-                                                <s:submit cssClass="btn btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
+                                                <s:submit cssClass="btn btn-danger" name="btnRetirar" value="Retirar producto" />
+                                            </s:form>
+                                        </s:if>
+                                        <s:elseif test="%{producto.usuarios==#session.usuario}">
+                                            <s:url var="editarProductoUrl" value="/views/productos/crearProducto.jsp">
+                                                <s:param name="idProducto" value="idProducto"/>
+                                            </s:url>
+                                            <s:a href="%{editarProductoUrl}" cssClass="btn btn-warning btn">Editar</s:a>
+                                        </s:elseif>
+                                        <s:elseif test="%{!#session.carrito.contains(producto)}">
+                                            <s:form action="agregarCarrito" cssClass="float-left">
+                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <button class="btn btn-primary pull-left mr-4 mb-2" name="btnAgregarCarrito">
+                                                    Agregar al carrito 
+                                                    <i class="fas fa-cart-plus"></i>
+                                                </button>
+                                            </s:form>
+                                        </s:elseif>
+                                        <s:else>
+                                            <s:form action="eliminarCarrito" cssClass="float-left">
+                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <button class="btn btn-outline-primary pull-left mr-4 mb-2" name="btnEliminarCarrito">
+                                                    Eliminar del carrito 
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </s:form>
+                                        </s:else>
+                                        <s:if test="%{producto in #session.usuario.productoses_1}">
+                                            <s:form action="eliminarDeseo" cssClass="float-left">
+                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:textfield name="origin" value="producto" hidden="true"/>
+                                                <button type="submit" class="btn btn-outline-secondary pull-left" name="btnDeseo">
+                                                    Eliminar de la lista de deseos 
+                                                    <i style="color:red" class="fas fa-heart"></i>
+                                                </button>
                                             </s:form>
                                         </s:if>
                                         <s:else>
-                                            <s:form action="eliminarCarrito">
+                                            <s:form action="crearDeseo" cssClass="float-left">
                                                 <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
-                                                <s:submit cssClass="btn btn-primary" name="btnEliminarCarrito" value="Eliminar del carrito" />
+                                                <button type="submit" class="btn btn-secondary pull-left" name="btnDeseo">
+                                                    Añadir a mi lista de deseos 
+                                                    <i style="color:red" class="fas fa-heart"></i>
+                                                </button>
                                             </s:form>
                                         </s:else>
                                     </s:if>
@@ -233,19 +276,20 @@
                                 <div class="card-header">Características</div>
                                 <div class="card-body">
                                     <table class="list-group list-group-flush table">
-                                        <s:iterator var="i" value="producto.caracteristicasProductoses" step="1">
+                                        <s:bean name="modelo.comparators.ComparadorCaracteristicasProductos" var="comparadorCars"/>
+                                        <s:sort comparator="#comparadorCars" source="producto.caracteristicasProductoses">
+                                            <s:iterator>
+                                                <tr class="list-group-item d-flex">
+                                                    <td class="col-5">
+                                                        <strong><s:property value="id.nombre" /></strong>
+                                                    </td>
+                                                    <td class="col-7">
+                                                        <s:property value="valor" />
+                                                    </td>
+                                                </tr>
 
-                                            <tr class="list-group-item d-flex">
-                                                <td class="col-5">
-                                                    <strong><s:property value="id.nombre" /></strong>
-                                                </td>
-                                                <td class="col-7">
-                                                    <s:property value="valor" />
-                                                </td>
-                                            </tr>
-
-                                        </s:iterator>
-
+                                            </s:iterator>
+                                        </s:sort>
                                     </table>
                                 </div>
                             </div>
@@ -303,13 +347,15 @@
                                                 </s:iterator>
                                             </s:sort>
                                         </s:else>
-                                        <s:iterator value="#session.usuario.comprases">
-                                            <s:iterator value="lineasDeCompras">
-                                                <s:if test="productos==producto">
-                                                    <s:set value="true" var="comprado"/>
-                                                </s:if>
+                                        <s:if test="%{#session.usuario.comprases !=null && !#session.usuario.comprases.empty}">
+                                            <s:iterator value="#session.usuario.comprases">
+                                                <s:iterator value="lineasDeCompras">
+                                                    <s:if test="productos==producto">
+                                                        <s:set value="true" var="comprado"/>
+                                                    </s:if>
+                                                </s:iterator>
                                             </s:iterator>
-                                        </s:iterator>
+                                        </s:if>
                                         <s:if test="#valorado==null && #comprado!=null">
                                             <script>
                                                 $(document).ready(function () {

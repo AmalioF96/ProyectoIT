@@ -15,6 +15,17 @@
         <action name="listarCategorias" class="controlador.productos.AccionCategorias" method="listar">
             <result name="success">/views/principal.jsp</result>
             <result name="crearProducto">/views/productos/crearProducto.jsp</result>
+            <result name="crearCategoria">/views/productos/crearCategoria.jsp</result>
+        </action>
+        <action name="eliminarCategoria" class="controlador.productos.AccionCategorias" method="eliminar">
+            <result name="success">/views/productos/crearCategoria.jsp</result>
+            <result name="error">/views/productos/crearCategoria.jsp</result>
+            <result name="input">/views/productos/crearCategoria.jsp</result>
+        </action>
+        <action name="crearCategoria" class="controlador.productos.AccionCategorias" method="crear">
+            <result name="success">/views/productos/crearCategoria.jsp</result>
+            <result name="error">/views/productos/crearCategoria.jsp</result>
+            <result name="input">/views/productos/crearCategoria.jsp</result>
         </action>
         <action name="listarProductos" class="controlador.productos.AccionProductos" method="listar">
             <result name="success">/views/principal.jsp</result>
@@ -31,14 +42,16 @@
                 <param name="location">/views/productos/producto.jsp</param>
                 <param name="idProducto">${idProducto}</param>
             </result>
+            <result name="deseos">/views/usuarios/deseos.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="eliminarCarrito" class="controlador.productos.AccionProductos" method="eliminarCarrito">
-            <result name="carrito">/views/ventas/carrito.jsp</result>
             <result name="success" type="redirect">
                 <param name="location">/views/productos/producto.jsp</param>
                 <param name="idProducto">${idProducto}</param>
             </result>
+            <result name="carrito">/views/ventas/carrito.jsp</result>
+            <result name="deseos">/views/usuarios/deseos.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="insertarValoracion" class="controlador.productos.AccionValoraciones" method="insertar">
@@ -81,9 +94,22 @@
             </result>
         </action>
         <action name="crearProducto" class="controlador.productos.AccionCrearProducto">
-            <result name="success">/views/ventas/menuVentas.jsp</result>
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/misProductos.jsp</param>
+            </result>
             <result name="error">/views/productos/crearProducto.jsp</result>
             <result name="input">/views/productos/crearProducto.jsp</result>
+        </action>
+        <action name="modificarProducto" class="controlador.productos.AccionCrearProducto" method="modificar">
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/misProductos.jsp</param>
+            </result>
+            <result name="error">/views/productos/crearProducto.jsp</result>
+            <result name="input">/views/productos/crearProducto.jsp</result>
+        </action>
+        <action name="retirarProducto" class="controlador.productos.AccionProductos" method="retirar">
+            <result name="success">/views/principal.jsp</result>
+            <result name="error">/views/principal.jsp</result>
         </action>
         <action name="listarProductosDeUsuario" class="controlador.productos.AccionProductosUsuario" method="listarProductos">
             <result name="success">/views/productos/misProductos.jsp</result>
@@ -96,8 +122,29 @@
             <result name="error">/views/principal.jsp</result>
             <result name="input">/views/ventas/compra.jsp</result>
         </action>
-        <action name="listarReclamaciones" class="controlador.reclamaciones.AccionReclamaciones" method="listarCliente">
+        <action name="listarReclamacionesCliente" class="controlador.reclamaciones.AccionReclamaciones" method="listarCliente">
             <result name="success">/views/reclamaciones/reclamacionesCliente.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="listarReclamacionesVendedor" class="controlador.reclamaciones.AccionReclamaciones" method="listarVendedor">
+            <result name="success">/views/reclamaciones/reclamacionesVendedor.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="listarReclamacionesVendedor" class="controlador.reclamaciones.AccionReclamaciones" method="listarVendedor">
+            <result name="success">/views/reclamaciones/reclamacionesVendedor.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="listarDisputasAbiertas" class="controlador.reclamaciones.AccionReclamaciones" method="listarDisputasAbiertas">
+            <result name="success">/views/reclamaciones/disputasAdmin.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="listarDisputasResueltas" class="controlador.reclamaciones.AccionReclamaciones" method="listarDisputasResueltas">
+            <result name="success">/views/reclamaciones/resueltasAdmin.jsp</result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="modificarReclamacion" class="controlador.reclamaciones.AccionReclamaciones" method="modificar">
+            <result name="success">/views/reclamaciones/reclamacionesVendedor.jsp</result>
+            <result name="admin-abiertas">/views/reclamaciones/disputasAdmin.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
     </package>
@@ -137,12 +184,23 @@
             </interceptor-ref>
             <interceptor-ref name="defaultStack" />
             <result name="success">/views/usuarios/perfil.jsp</result>
-            <result name="error">/views/usuarios/cambiarImagenPerfil.jsp</result>
-            <result name="input">/views/usuarios/cambiarImagenPerfil.jsp</result>
+            <result name="error">/views/usuarios/perfil.jsp</result>
+            <result name="input">/views/usuarios/editarPerfil.jsp</result>
         </action>
-        <action name="eliminarDeseo" class="controlador.usuarios.AccionListaDeseos" method="eliminarDeseo">
+        <action name="crearDeseo" class="controlador.usuarios.AccionListaDeseos" method="crear">
+            <result name="success" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
+            </result>
+            <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="eliminarDeseo" class="controlador.usuarios.AccionListaDeseos" method="eliminar">
             <result name="success">/views/usuarios/deseos.jsp</result>
             <result name="error">/views/usuarios/deseos.jsp</result>
+            <result name="producto" type="redirect">
+                <param name="location">/views/productos/producto.jsp</param>
+                <param name="idProducto">${idProducto}</param>
+            </result>
         </action>
     </package>
     <package name="ventas" extends="struts-default">

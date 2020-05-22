@@ -3,7 +3,6 @@ package modelo.DAO;
 import java.util.List;
 import modelo.Compras;
 import modelo.LineasDeCompra;
-import modelo.LineasDeCompraId;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -56,7 +55,7 @@ public class VentasDAO {
         List<Compras> listaCompras = null;
         try {
             tx = sesion.beginTransaction();
-            listaCompras = sesion.createQuery("from Compras").list();
+            listaCompras = sesion.createQuery("FROM Compras").list();
             tx.commit();
         } catch (HibernateException ex) {
             if (tx != null) {
@@ -75,7 +74,7 @@ public class VentasDAO {
 
         try {
             tx = sesion.beginTransaction();
-            listaCompras = sesion.createQuery("From Compras as c where c.usuarios='" + emailCliente + "'").list();
+            listaCompras = sesion.createQuery("FROM Compras c WHERE c.usuarios='" + emailCliente + "'").list();
             tx.commit();
         } catch (HibernateException ex) {
             if (tx != null) {
@@ -86,11 +85,11 @@ public class VentasDAO {
         return listaCompras;
     }
 
-    public static List<Object[]> listarVentas(String emailVendedor) {
+    public static List<Compras> listarVentas(String emailVendedor) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Object[]> listaCompras = sesion.createQuery(" SELECT p.idCompra as id, prod.idProducto ,p.usuarios.email as comprador,prod.nombre as name, lp.cantidad as num_productos, sum(lp.cantidad*prod.precio) as importe, p.fecha FROM Compras as  p, LineasDeCompra as lp, Productos as prod WHERE prod.usuarios='" + emailVendedor + "' AND lp.compras = p.idCompra AND lp.productos = prod.idProducto GROUP BY lp ").list();
+        List<Compras> listaCompras = sesion.createQuery("SELECT ldc.compras FROM LineasDeCompra ldc WHERE ldc.productos.usuarios.email LIKE :email GROUP BY ldc.compras").setParameter("email", emailVendedor).list();
 
         sesion.getTransaction().commit();
 
@@ -110,15 +109,15 @@ public class VentasDAO {
 
     }
 
-    public static LineasDeCompra obtenerVenta(Integer idVenta, Integer idProducto) {
+    public static List<LineasDeCompra> obtenerVenta(Integer idVenta, String emailVendedor) {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        LineasDeCompra c = (LineasDeCompra) sesion.load(LineasDeCompra.class, new LineasDeCompraId(idVenta, idProducto));
+        List<LineasDeCompra> ldc = sesion.createQuery("FROM LineasDeCompra WHERE compras.idCompra=:id AND productos.usuarios.email LIKE :email").setParameter("id", idVenta).setParameter("email", emailVendedor).list();
 
         sesion.getTransaction().commit();
 
-        return c;
+        return ldc;
     }
 
 }
