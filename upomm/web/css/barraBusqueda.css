@@ -1,12 +1,6 @@
 .input-group {
     width: 60% !important;
 }
-.ordenacion {
-    padding: 0 !important;
-}
-.col-xl-9 {
-    padding: 0 !important;
-}
 .container-fluid {
     padding: 0 !important;
 }
@@ -23,7 +17,10 @@ select {
     cursor: pointer;
     text-decoration: underline;
 }
-@media only screen and (max-width: 600px) {
+.highlight{
+    font-weight: bold;
+}
+@media only screen and (max-width: 576px) {
     .input-group, select{
         width: 100% !important;
         margin: 5px 0;
@@ -31,7 +28,13 @@ select {
     .ordenacion{
         margin-top: 0 !important; 
     }
-    #searchResult{
-        padding: 0 15px !important;
+    .col-sm-4{
+        padding: 0 !important;
     }
+}
+@media only screen and (max-width: 768px) {
+    .ordenacion{
+        padding: 0 !important;
+    }
+
 }

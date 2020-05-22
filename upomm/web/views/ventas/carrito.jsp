@@ -91,20 +91,20 @@
                                                 <td class="text-left"> 
                                                     <s:property value="descripcion"/>
                                                 </td>
-                                                <td class='text-center'>
+                                                <td>
                                                     <span id="precio-<s:property value="idProducto"/>" class="precio">
                                                         <s:property value="precio"/>
                                                     </span>
                                                 </td>
-                                                <td class='text-center tdCantidad'>
+                                                <td class='tdCantidad'>
                                                     <s:textfield id="cantidad-%{idProducto}"  cssClass="form-control cantidad" name="cantidad" type="number"/>
                                                 </td>
-                                                <td class='text-center tdSubtotal'>
+                                                <td class='tdSubtotal'>
                                                     <span id="subtotal-<s:property value="idProducto"/>" class="subtotal">
                                                         <s:number name="precio" maximumFractionDigits="2" minimumFractionDigits="2"/>
                                                     </span>
                                                 </td>
-                                                <td class='text-center tdBtnEliminar'>
+                                                <td class='tdBtnEliminar'>
                                                     <s:a href="%{eliminarProducto}">
                                                         <i class="fas fa-trash"></i>
                                                     </s:a>
@@ -117,12 +117,13 @@
                                         </s:iterator>
 
                                         <tr>
-                                            <td colspan="5" class="text-right">
+                                            <td colspan="4"></td>
+                                            <td>
                                                 <strong>
                                                     Total:
                                                 </strong>
                                             </td>
-                                            <td class="text-center">
+                                            <td>
                                                 <span id="precioTotalCarrito" class="font-weight-bold"></span> €
                                             </td>
                                         </tr>

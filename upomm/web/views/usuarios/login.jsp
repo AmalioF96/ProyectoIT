@@ -51,7 +51,7 @@
                         <div class="modal-body pt-0">
                             <h4 class="modal-title text-center">Inicio de sesión</h4>
                             <s:if test="hasActionErrors()">
-                                <s:actionerror cssClass="errorMessage text-center"/>
+                                <s:actionerror cssClass="errorMessage text-center list-unstyled"/>
                             </s:if>
                             <div class="contenedor mt-2">
                                 <s:form id="loginForm" cssClass="form-signin" action="accionLogin" theme="css_xhtml">

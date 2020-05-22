@@ -46,6 +46,9 @@
                                     <a href="/upomm/views/ventas/menuVentas.jsp" class="menu-link">Mis Ventas</a>
                                 </li>
                                 <li class="list-group-item">
+                                    <a href="/upomm/views/reclamaciones/reclamacionesVendedor.jsp" class="menu-link">Mis Reclamaciones</a>
+                                </li>
+                                <li class="list-group-item">
                                     <a href="/upomm/views/productos/misProductos.jsp" class="menu-link active">Mis Productos</a>
                                 </li>
                                 <li class="list-group-item">

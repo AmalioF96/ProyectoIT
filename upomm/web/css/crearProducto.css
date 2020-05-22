@@ -4,9 +4,14 @@
 i.fa-window-close {
     color:red;
 }
-.chosen-search-input {
-    width: 100% !important;
+[class*="col-"] .chosen-container {
+    width:100%!important;
 }
-#select-cat {
-    display: inline;
+[class*="col-"] .chosen-container .chosen-search input[type="text"] {
+    padding:2px 4%!important;
+    width:90%!important;
+    margin:5px 2%;
+}
+[class*="col-"] .chosen-container .chosen-drop {
+    width: 100%!important;
 }
