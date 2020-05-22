@@ -80,6 +80,7 @@
                                     </s:if>
                                     <s:submit name="btnGuardar" value="Guardar" cssClass="btn btn-primary pull-left"></s:submit>
                                 </s:form>
+                                <small class="pull-right font-weight-bold">*Campos obligatorios</small>
                             </div>
                         </div>
                     </div>

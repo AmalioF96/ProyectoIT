@@ -34,18 +34,21 @@
                         $('#caracteristicas').append(
                                 "<div class='form-row'>\n\
                                 <div class='col-md-5 mb-3'>\
-                                    <input type='text' class='form-control' name='nombreCaracteristica'>\
+                                    <input type='text' class='form-control' name='nombreCaracteristica' placeholder='Característica'>\
                                 </div>\
                                 <div class='col-md-5 mb-3'>\
-                                    <input type='text' class='form-control' name='descripcionCaracteristica'>\
+                                    <input type='text' class='form-control' name='descripcionCaracteristica' placeholder='Descripción'>\
                                 </div>\n\
-                                <div class='col-md-1 mb-3'><a href='#' class='remover_campo'><i class='fas fa-window-close'></i></a></div>\n\
-                            </div>");
+                                <div class='col-md-1 mb-3'><a href='#' class='remover_campo btn btn-sm btn-outline-danger'>Eliminar</a></div>\n\
+                            </div><hr/>");
                     });
-                    // Remover o div anterior
+                    // Remover div anterior
                     $('#caracteristicas').on("click", ".remover_campo", function (e) {
                         e.preventDefault();
-                        $(this).parent('div').parent('div').remove();
+                        var parent = $(this).parent('div').parent('.form-row');
+                        var hr = $(parent).next("hr");
+                        $(parent).remove();
+                        $(hr).remove();
 
                     });
                 });
@@ -88,6 +91,8 @@
                                 <s:else>
                                     <s:textfield id="producto" name="nombre" cssClass="form-control" value="%{nombre}"/>
                                 </s:else>
+                            </div>
+                            <div class="form-group">
                                 <label for="descripcion">Descripción:</label>
                                 <s:if test="%{producto!=null && descripcion==null}">
                                     <s:textarea id="descripcion" name="descripcion" cssClass="form-control" value="%{producto.descripcion}"/>
@@ -150,8 +155,8 @@
                                                 </div>
                                                 <s:if test="%{!#primero}">
                                                     <div class='col-md-1 mb-3'>
-                                                        <a href='#' class='remover_campo'>
-                                                            <i class='fas fa-window-close'></i>
+                                                        <a href='#' class='remover_campo btn btn-sm btn-outline-danger'>
+                                                            Eliminar
                                                         </a>
                                                     </div>
                                                 </s:if>
@@ -159,6 +164,7 @@
                                                     <s:set var="primero" value="false"/>
                                                 </s:else>
                                             </div>
+                                            <hr/>
                                         </s:iterator>
                                     </s:sort>
                                 </s:if>
@@ -166,10 +172,10 @@
                                     <s:if test="%{nombreCaracteristica==null || nombreCaracteristica.empty}">
                                         <div class="form-row">
                                             <div class="col-md-5 mb-3">
-                                                <s:textfield name="nombreCaracteristica" cssClass="form-control" value="" errorPosition="bottom"/>
+                                                <s:textfield name="nombreCaracteristica" cssClass="form-control" value="" errorPosition="bottom" placeholder='Característica'/>
                                             </div>
                                             <div class="col-md-5 mb-3">
-                                                <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="" errorPosition="bottom"/>
+                                                <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="" errorPosition="bottom" placeholder='Descripción'/>
                                             </div>
                                         </div>
                                     </s:if>
@@ -179,51 +185,57 @@
                                             <s:set var="dc" value="%{descripcionCaracteristica[#i]}"/>
                                             <div class="form-row">
                                                 <div class="col-md-5 mb-3">
-                                                    <s:textfield name="nombreCaracteristica" cssClass="form-control" value="%{#nc}" errorPosition="bottom"/>
+                                                    <s:textfield name="nombreCaracteristica" cssClass="form-control" value="%{#nc}" errorPosition="bottom" placeholder='Característica'/>
                                                 </div>
                                                 <div class="col-md-5 mb-3">
-                                                    <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="%{#dc}" errorPosition="bottom"/>
+                                                    <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="%{#dc}" errorPosition="bottom" placeholder='Descripción'/>
                                                 </div>
                                                 <s:if test="%{#i>0}">
                                                     <div class='col-md-1 mb-3'>
-                                                        <a href='#' class='remover_campo'>
-                                                            <i class='fas fa-window-close'></i>
+                                                        <a href='#' class='remover_campo btn btn-outline-danger'>
+                                                            Eliminar
                                                         </a>
                                                     </div>
                                                 </s:if>
                                             </div>
+                                            <hr/>
                                         </s:iterator>
                                     </s:else>
                                 </s:else>
                             </div>
-                            <label for="archivoVenta">Archivo a la venta:</label>
-                            <br/>
-                            <s:file id="archivoVenta" name="archivoVenta" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
-                            <br/>
-                            <br/>
-                            <s:if test="%{producto.disponible}">
-                                <div class="custom-control custom-switch">
-                                    <s:checkbox id="disponible" name="disponible" cssClass="custom-control-input" theme="simple" fieldValue="true" checked="true"/>
-                                    <label class="custom-control-label" for="disponible">Disponible a la venta</label>
-                                </div>
-                            </s:if>
-                            <s:else>
-                                <div class="custom-control custom-switch">
-                                    <s:checkbox id="disponible" name="disponible" cssClass="custom-control-input" theme="simple" fieldValue="true"/>
-                                    <label class="custom-control-label" for="disponible">Disponible a la venta</label>
-                                </div>     
-                            </s:else>
-                            <br/>
-                            <s:fielderror fieldName="terminos"/>
-                            <div class="custom-control custom-switch">
-                                <s:checkbox id="terminos" name="terminos" cssClass="custom-control-input" theme="simple" fieldValue="true"/>
-                                <label class="custom-control-label" for="terminos">
-                                    <a href="http://www.google.com/search?q=estafa" target="_blank">
-                                        Acepto los términos y condiciones
-                                    </a>
-                                </label>
+                            <div class="form-group">
+                                <label for="archivoVenta">Archivo a la venta:</label>
+                                <br/>
+                                <s:file id="archivoVenta" name="archivoVenta" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
                             </div>
                             <br/>
+                            <div class="form-group">
+                                <s:if test="%{producto.disponible}">
+                                    <div class="custom-control custom-switch">
+                                        <s:checkbox id="disponible" name="disponible" cssClass="custom-control-input" theme="simple" fieldValue="true" checked="true"/>
+                                        <label class="custom-control-label" for="disponible">Disponible a la venta</label>
+                                    </div>
+                                </s:if>
+                                <s:else>
+                                    <div class="custom-control custom-switch">
+                                        <s:checkbox id="disponible" name="disponible" cssClass="custom-control-input" theme="simple" fieldValue="true"/>
+                                        <label class="custom-control-label" for="disponible">Disponible a la venta</label>
+                                    </div>     
+                                </s:else>
+                            </div>
+                            <hr/>
+                            <br/>
+                            <div class="form-group">
+                                <s:fielderror fieldName="terminos"/>
+                                <div class="custom-control custom-switch">
+                                    <s:checkbox id="terminos" name="terminos" cssClass="custom-control-input" theme="simple" fieldValue="true"/>
+                                    <label class="custom-control-label" for="terminos">
+                                        <a href="http://www.google.com/search?q=estafa" target="_blank">
+                                            Acepto los términos y condiciones
+                                        </a>
+                                    </label>
+                                </div>
+                            </div>
                             <s:if test="%{producto!=null}">
                                 <s:hidden name="operacion" value="modificar"/>
                                 <s:hidden name="idProducto" value="%{producto.idProducto}"/>
