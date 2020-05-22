@@ -36,7 +36,7 @@ public class AccionVenta extends ActionSupport {
             addFieldError("", ERROR);
         }
         if (!this.isTerminosYCondiciones()) {
-            addFieldError("terminosYCondiciones", "termsConditions.relleno");
+            addFieldError("terminosYCondiciones", "Debe aceptar los términos y condiciones del servicio");
         }
 
     }

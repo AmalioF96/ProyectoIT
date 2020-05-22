@@ -58,6 +58,9 @@
                         <div class='alert alert-info'>El carrito está vacío.</div>
                     </s:if>
                     <s:else>
+                        <s:if test="hasActionErrors()">
+                            <s:actionerror cssClass="alert alert-danger list-unstyled"/>
+                        </s:if>
                         <s:form action="accionProcesarCarrito" method="post" theme="css_xhtml">
                             <div class='table-responsive-sm'>
                                 <table id="tableProductos" class="table table-light text-center">
@@ -97,7 +100,7 @@
                                                     </span>
                                                 </td>
                                                 <td class='tdCantidad'>
-                                                    <s:textfield id="cantidad-%{idProducto}"  cssClass="form-control cantidad" name="cantidad" type="number"/>
+                                                    <s:textfield id="cantidad-%{idProducto}"  cssClass="form-control cantidad text-center" name="cantidad" type="number" min="1"/>
                                                 </td>
                                                 <td class='tdSubtotal'>
                                                     <span id="subtotal-<s:property value="idProducto"/>" class="subtotal">
@@ -109,9 +112,9 @@
                                                         <i class="fas fa-trash"></i>
                                                     </s:a>
 
-                                                    </td>
+                                                </td>
 
-                                                </tr>
+                                            </tr>
                                             <s:set var="total" value="%{#total+precio}" />
                                             <s:set var="cont" value="%{#cont+1}" />
                                         </s:iterator>
