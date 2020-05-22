@@ -23,36 +23,45 @@
         <!-- Page Content -->
         <main class="container">
             <div class="row">
-                <div class="col-lg-1">
-                </div>
                 <!-- LISTA DE CATEGORÍAS -->
                 <div class="col-lg-3">
                     <nav id="categorias" class="list-group make-me-sticky">
                         <h4 class="text-center">Perfil De Usuario</h4>
                         <ul class="list-unstyled">
-                            <li><a href="/upomm/views/usuarios/perfil.jsp" class="list-group-item active">Ver Perfil</a></li>
-                            <li><a href="/upomm/views/usuarios/cambiarImagenPerfil.jsp" class="list-group-item">Cambiar Imagen</a></li>
-                            <li><a href="/upomm/views/usuarios/deseos.jsp" class="list-group-item">Lista de deseos</a></li>
+                            <li class="list-group-item">
+                                <a href="/upomm/views/usuarios/perfil.jsp" class="menu-link active">Ver Perfil</a>
+                            </li>
+                            <s:if test="#session.usuario.tipo!='admin'">
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/usuarios/deseos.jsp" class="menu-link">Lista de deseos</a>
+                                </li>
+                            </s:if>
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-9">
                     <div class="card mt-4">
-                        <div class="card-body">
-                            <img id="logo_main" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block mb-4" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
-                            <h6 class="labelPerfil"><b>Nombre:</b></h6>
-                            <p>
-                                <s:property value="#session.usuario.nombre"/>
-                            </p>
-                            <h6 class="labelPerfil"><b>Email:</b></h6>
-                            <p>
-                                <s:property value="#session.usuario.email"/>
-                            </p>
-                            <h6 class="labelPerfil"><b>Tipo de Usuario:</b></h6>
-                            <p>
-                                <s:property value="#session.usuario.tipo"/>
-                            </p>
-                            <s:a href="./editarPerfil.jsp" cssClass="btn btn-primary">Editar Perfil</s:a>
+                        <div class="card-body row">
+                            <div class="col-sm-5 my-auto mx-auto">
+                                <img id="logo_main" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block" data-src="<s:property value="#session.usuario.foto"/>" alt="Imagen de perfil">
+                            </div>
+                            <div class="col-sm-4 my-auto mx-auto border-left">
+                                <h6 class="labelPerfil"><b>Nombre:</b></h6>
+                                <p>
+                                    <s:property value="#session.usuario.nombre"/>
+                                </p>
+                                <h6 class="labelPerfil"><b>Email:</b></h6>
+                                <p>
+                                    <s:property value="#session.usuario.email"/>
+                                </p>
+                                <h6 class="labelPerfil"><b>Tipo de Usuario:</b></h6>
+                                <p>
+                                    <s:property value="#session.usuario.tipo"/>
+                                </p>
+                            </div>
+                            <div class="col-sm-3 mx-auto text-center">
+                                <s:a href="./editarPerfil.jsp" cssClass="btn btn-warning">Editar Perfil</s:a>
+                                </div>
                             </div>
                         </div>
                     </div>

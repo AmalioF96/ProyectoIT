@@ -5,9 +5,6 @@
     max-width: 100% !important;
     overflow: hidden !important;
 }
-.btn {
-    margin-top: 20px !important;
-}
 .fa-window-close {
     padding: 10px;
     color: red;
@@ -20,4 +17,33 @@
     margin: auto;
     margin-bottom: 5%;
     text-align: center;
+}
+.list-group-item{
+    padding: 0 !important;
+}
+a.menu-link {
+    display: block;
+    padding: 12px 20px;
+}
+.active {
+    color: white !important;
+    background-color: #007bff !important;
+    border-radius: .25rem;
+}
+.custom-file-input:hover {
+    cursor: pointer !important;
+}
+@media only screen and (max-width: 576px) {
+    #btn-img {
+        position: relative !important;
+        left: 0 !important;
+        margin: 16px 0 !important; 
+    }
+    div.border-left {
+        border-left: none !important;
+    }
+    div.col-sm-6:first-of-type{
+        border-bottom: 1px solid #dee2e6 !important;
+        margin-bottom: 15px !important;
+    }
 }

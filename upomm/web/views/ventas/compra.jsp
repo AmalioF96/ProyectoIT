@@ -18,6 +18,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/compra.css" rel="stylesheet">
+            <link href="/upomm/css/misProductos.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
             <script>
                 $(document).ready(function () {
@@ -67,30 +68,20 @@
             <!-- Page Content -->
             <main class="container-fluid">
                 <div class="row">
-                    <s:if test="hasActionMessages()">
-                        <div class="alert alert-success" role="alert">
-                            <s:actionmessage/>
-                        </div> 
-                    </s:if>
-                    <s:elseif test="hasActionErrors()">
-                        <div class="alert alert-danger" role="alert">
-                            <s:actionerror/>
-                        </div> 
-                    </s:elseif>
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group">
                             <h4 class="text-center">Gestión de Compras</h4>
                             <ul class="list-unstyled">
-                                <li>
-                                    <s:a href="misCompras.jsp" cssClass="list-group-item active">Mis Compras>Compra</s:a>
+                                <li class="list-group-item">
+                                    <s:a href="misCompras.jsp" cssClass="menu-link active">Mis Compras>Compra</s:a>
                                     </li>
-                                    <li>
-                                    <s:a href="../reclamaciones/reclamacionesCliente.jsp" cssClass="list-group-item">Mis Reclamaciones</s:a>
+                                    <li class="list-group-item">
+                                    <s:a href="../reclamaciones/reclamacionesCliente.jsp" cssClass="menu-link">Mis Reclamaciones</s:a>
                                     </li>
                                 </ul>
                             </nav>
                         </div>
-                        <div class="col-lg-9 contendor table-responsive-sm">
+                        <div class="col-lg-9 contendor table-responsive-sm mt-3 mx-auto">
                             <div class="row">
                                 <div class="col-sm">
                                     <table>
@@ -117,66 +108,75 @@
                                 </table>
                             </div>
                         </div>
+                        <hr/>
                         <div class="row">
-                            <div class="col" style="margin-top:1%">
+                            <div class="col">
                                 <h3>Productos comprados</h3>
                                 <table id="compra" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th class="text-left">Producto</th>
                                             <th>Vendedor</th>
-                                            <th>Precio</th>
+                                            <th>Precio(&euro;)</th>
                                             <th>Cantidad</th>
+                                            <th>Subtotal(&euro;)</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <s:bean name="modelo.comparators.ComparadorLineasDeCompra" var="comparador"/>
                                         <s:sort source="compra.lineasDeCompras" comparator="#comparador">
-                                        <s:iterator>
-                                            <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
-                                                <s:param name="idProducto" value="productos.idProducto"/>
-                                            </s:url>
-                                            <s:if test="%{productos.usuarios.foto==''}">
-                                                <s:set var="img" value="'default'"/>
-                                            </s:if>
-                                            <s:else>
-                                                <s:set var="img" value="productos.usuarios.foto"/>
-                                            </s:else>
-                                            <tr>
-                                                <td class="text-left">
-                                                    <s:a href = "%{idProductoUrl}">
-                                                        <s:property value="productos.nombre"/>
-                                                    </s:a>
-                                                </td>
-                                                <td>
-                                                    <span data-toggle="tooltip" data-html="true" title="<ul><li><strong>Nombre:</strong> <s:property value="productos.usuarios.nombre"/></li><li><strong>Email:</strong> <s:property value="productos.usuarios.email"/></li></ul>">
-                                                        <img style="max-width: 60px" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block" data-src="<s:property value="%{#img}"/>"/>
-                                                    </span>
-                                                </td>
-                                                <td><s:property value="productos.precio"/></td>
-                                                <td><s:property value="cantidad"/></td>
-                                                <td>
-                                                    <s:form action="crearReclamacion" cssClass="formReclamacion" theme="simple">
-                                                        <s:textfield name="operacion" value="insertar" hidden="true"/>
-                                                        <s:textfield name="idProducto" value="%{productos.idProducto}" hidden="true"/>
-                                                        <s:textfield name="idCompra" value="%{idCompra}" hidden="true"/>
-                                                        <s:if test="isReclamada()">
-                                                            <s:textfield type="button" cssClass="btn btn-danger reclamar" value="Reclamar" disabled="true"/>
-                                                        </s:if>
-                                                        <s:else>
-                                                            <s:textfield type="button" cssClass="btn btn-danger reclamar" value="Reclamar"/>  
-                                                        </s:else>
-                                                    </s:form>
-                                                </td>
-                                            </tr>
-                                        </s:iterator>
+                                            <s:iterator>
+                                                <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
+                                                    <s:param name="idProducto" value="productos.idProducto"/>
+                                                </s:url>
+                                                <s:if test="%{productos.usuarios.foto==''}">
+                                                    <s:set var="img" value="'default'"/>
+                                                </s:if>
+                                                <s:else>
+                                                    <s:set var="img" value="productos.usuarios.foto"/>
+                                                </s:else>
+                                                <tr>
+                                                    <td class="text-left">
+                                                        <s:a href = "%{idProductoUrl}">
+                                                            <s:property value="productos.nombre"/>
+                                                        </s:a>
+                                                    </td>
+                                                    <td>
+                                                        <span data-toggle="tooltip" data-html="true" title="<ul><li><strong>Nombre:</strong> <s:property value="productos.usuarios.nombre"/></li><li><strong>Email:</strong> <s:property value="productos.usuarios.email"/></li></ul>">
+                                                            <img style="max-width: 60px" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block" data-src="<s:property value="%{#img}"/>"/>
+                                                        </span>
+                                                    </td>
+                                                    <td><s:property value="productos.precio"/></td>
+                                                    <td><s:property value="cantidad"/></td>
+                                                    <td><s:property value="%{productos.precio*cantidad}"/></td>
+                                                    <td>
+                                                        <s:form action="crearReclamacion" cssClass="formReclamacion" theme="simple">
+                                                            <s:textfield name="operacion" value="insertar" hidden="true"/>
+                                                            <s:textfield name="idProducto" value="%{productos.idProducto}" hidden="true"/>
+                                                            <s:textfield name="idCompra" value="%{idCompra}" hidden="true"/>
+                                                            <s:if test="isReclamada()">
+                                                                No hay acciones disponibles
+                                                            </s:if>
+                                                            <s:else>
+                                                                <s:textfield type="button" cssClass="btn btn-danger reclamar" value="Reclamar"/>  
+                                                            </s:else>
+                                                        </s:form>
+                                                    </td>
+                                                </tr>
+                                            </s:iterator>
                                         </s:sort>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
+                    <s:if test="hasActionMessages()">
+                        <s:actionmessage cssClass="alert alert-info list-unstyled"/>
+                    </s:if>
+                    <s:if test="hasActionErrors()">
+                        <s:actionerror cssClass="alert alert-danger list-unstyled"/>
+                    </s:if>
                 </div>
                 <!-- /.row -->
             </main>

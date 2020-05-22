@@ -1,11 +1,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s" uri="/struts-tags" %>
-<s:if test="%{#parameters.idProducto!=null && producto==null}">
+<s:if test="#session.usuario==null || #session.usuario.tipo!='vendedor'">
+    <jsp:forward page="/views/principal.jsp"/>
+</s:if>
+<s:elseif test="%{#parameters.idProducto!=null && producto==null}">
     <s:action name="seleccionarProducto" executeResult="true">
         <s:param name="origin" value="'crearProducto'" />
         <s:param name="idProducto" value="#parameters.idProducto" />
     </s:action>
-</s:if>
+</s:elseif>
 <s:elseif test="categorias==null">
     <s:action name="listarCategorias" executeResult="true">
         <s:param name="origin" value="'crearProducto'" />
@@ -19,6 +22,7 @@
             <title>Crear Producto - UMM</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/crearProducto.css" rel="stylesheet" type="text/css"/>
+            <link href="/upomm/css/misProductos.css" rel="stylesheet" type="text/css"/>
             <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css" rel="stylesheet" type="text/css"/>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
             <script>
@@ -56,27 +60,26 @@
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Menú de Vendedor</h4>
                             <ul class="list-unstyled">
-                                <li>
-                                    <a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item">Mis Ventas</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/ventas/menuVentas.jsp" class="menu-link">Mis Ventas</a>
                                 </li>
-                                <li>
-                                    <a href="/upomm/views/productos/misProductos.jsp" class="list-group-item">Mis Productos</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/productos/misProductos.jsp" class="menu-link">Mis Productos</a>
                                 </li>
-                                <li>
-                                    <a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item active">Crear/Editar Producto</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/productos/crearProducto.jsp" class="menu-link active">Crear/Editar Producto</a>
                                 </li>
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-7">
+                    <div class="col-lg-7 my-auto mx-auto border-left border-right px-4">
                         <s:if test="%{producto!=null}">
                             <s:set var="accion" value="'modificarProducto'"/>
                         </s:if>
                         <s:else>
                             <s:set var="accion" value="'crearProducto'"/>
                         </s:else>
-                        <s:form id="formProducto" action="%{#accion}" method="post" enctype="multipart/form-data" theme="css_xhtml">   
+                        <s:form id="formProducto" action="%{#accion}" method="POST" enctype="multipart/form-data" theme="css_xhtml">   
                             <div class="form-group">
                                 <label for="producto">Nombre del producto:</label>
                                 <s:if test="%{producto!=null && nombre==null}">
@@ -215,18 +218,20 @@
                             <div class="custom-control custom-switch">
                                 <s:checkbox id="terminos" name="terminos" cssClass="custom-control-input" theme="simple" fieldValue="true"/>
                                 <label class="custom-control-label" for="terminos">
-                                    <a href="http://www.google.com/search?q=estafa" target="_blank">Acepto los términos y condiciones</a>
+                                    <a href="http://www.google.com/search?q=estafa" target="_blank">
+                                        Acepto los términos y condiciones
+                                    </a>
                                 </label>
                             </div>
                             <br/>
                             <s:if test="%{producto!=null}">
                                 <s:hidden name="operacion" value="modificar"/>
                                 <s:hidden name="idProducto" value="%{producto.idProducto}"/>
-                                <s:submit name="btnCrearProducto" value="Modificar" cssClass="btn btn-warning"/>
+                                <s:submit name="btnCrearProducto" value="Modificar" cssClass=" pull-left btn btn-warning"/>
                             </s:if>
                             <s:else>
                                 <s:hidden name="operacion" value="crear"/>
-                                <s:submit name="btnCrearProducto" value="Crear" cssClass="btn btn-primary"/>
+                                <s:submit name="btnCrearProducto" value="Crear" cssClass="pull-left btn btn-primary"/>
                             </s:else>
                         </s:form>
 

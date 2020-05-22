@@ -3,7 +3,6 @@ package modelo.DAO;
 import java.util.List;
 import modelo.Compras;
 import modelo.LineasDeCompra;
-import modelo.Usuarios;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -56,7 +55,7 @@ public class VentasDAO {
         List<Compras> listaCompras = null;
         try {
             tx = sesion.beginTransaction();
-            listaCompras = sesion.createQuery("from Compras").list();
+            listaCompras = sesion.createQuery("FROM Compras").list();
             tx.commit();
         } catch (HibernateException ex) {
             if (tx != null) {
@@ -75,7 +74,7 @@ public class VentasDAO {
 
         try {
             tx = sesion.beginTransaction();
-            listaCompras = sesion.createQuery("From Compras as c where c.usuarios='" + emailCliente + "'").list();
+            listaCompras = sesion.createQuery("FROM Compras c WHERE c.usuarios='" + emailCliente + "'").list();
             tx.commit();
         } catch (HibernateException ex) {
             if (tx != null) {
@@ -90,7 +89,7 @@ public class VentasDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<Compras> listaCompras = sesion.createQuery("select ldc.compras from LineasDeCompra ldc where ldc.productos.usuarios.email like :email").setParameter("email", emailVendedor).list();
+        List<Compras> listaCompras = sesion.createQuery("SELECT ldc.compras FROM LineasDeCompra ldc WHERE ldc.productos.usuarios.email LIKE :email GROUP BY ldc.compras").setParameter("email", emailVendedor).list();
 
         sesion.getTransaction().commit();
 
@@ -114,7 +113,7 @@ public class VentasDAO {
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         sesion.beginTransaction();
 
-        List<LineasDeCompra> ldc = sesion.createQuery("from LineasDeCompra where compras.idCompra=:id and productos.usuarios.email like :email").setParameter("id", idVenta).setParameter("email", emailVendedor).list();
+        List<LineasDeCompra> ldc = sesion.createQuery("FROM LineasDeCompra WHERE compras.idCompra=:id AND productos.usuarios.email LIKE :email").setParameter("id", idVenta).setParameter("email", emailVendedor).list();
 
         sesion.getTransaction().commit();
 

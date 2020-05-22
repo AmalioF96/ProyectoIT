@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s"  uri="/struts-tags" %>
-<s:if test="#session.usuario==null">
+<s:if test="#session.usuario==null || #session.usuario.tipo!='vendedor'">
     <jsp:forward page="/views/principal.jsp"/>
 </s:if>
 <s:elseif test="listaProductos==null">
@@ -42,21 +42,24 @@
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Menú de Vendedor</h4>
                             <ul class="list-unstyled">
-                                <li>
-                                    <a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item ">Mis Ventas</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/ventas/menuVentas.jsp" class="menu-link">Mis Ventas</a>
                                 </li>
-                                <li>
-                                    <a href="/upomm/views/productos/misProductos.jsp" class="list-group-item active">Mis Productos</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/productos/misProductos.jsp" class="menu-link active">Mis Productos</a>
                                 </li>
-                                <li>
-                                    <a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item">Crear/Editar Producto</a>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/productos/crearProducto.jsp" class="menu-link">Crear/Editar Producto</a>
                                 </li>
                             </ul>
                         </nav>
                     </div>
                     <!-- /.col-lg-3 -->
-                    <s:if test="listaProductos.size > 0">
-                        <div class="col-lg-9 table-responsive-sm">
+                    <div class="col-lg-9 table-responsive-sm my-auto mx-auto">
+                        <s:if test="listaProductos.empty">
+                            <div class='alert alert-success'>Aún no has puesto a la venta ningún producto.</div>
+                        </s:if>
+                        <s:else>
                             <table id="productos" class="table table-striped table-bordered dataTable" style="width:100%">
                                 <thead>
                                     <tr>
@@ -104,12 +107,8 @@
                                     </s:iterator>
                                 </tbody>
                             </table>
-                        </div>
-                    </s:if>
-                    <s:else>
-
-                        <div class='alert alert-success'>Aún no has puesto a la venta ningún producto.</div>
-                    </s:else>
+                        </s:else>
+                    </div>
                     <!-- /.col-lg-9 -->
                 </div>
                 <!-- /.row -->

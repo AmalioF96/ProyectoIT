@@ -127,10 +127,8 @@
                         $(form).append(valora);
                     }
                     var btn = $("<input type='submit' class='btn btn-sm btn-success btn-valoracion pull-right' value='Guardar' name='editarValoracion'>");
-                    //$(btn).css("display", "block");
                     $(form).append(btn);
                     btn = $("<button type='button' class='btn btn-sm btn-warning btn-valoracion pull-right'>Cancelar</button>");
-                    //$(btn).css("display", "block");
                     $(form).append(btn);
                     $(form).append($("<input id='puntuacion' type='number' name='puntuacion' hidden>"));
                     $(form).append($("<input id='operacion' type='text' name='operacion' value='insertar' hidden>"));
@@ -168,8 +166,8 @@
                         <!-- LISTA DE CATEGORÍAS -->
                         <div class="col-lg-3">
                             <nav id='categorias' class="list-group make-me-sticky">
+                                <h4 class="text-center">Categorías del producto</h4>
                                 <ul class="list-unstyled">
-                                    <h4 class="text-center">Categorías del producto</h4>
                                     <s:bean name="modelo.comparators.ComparadorCategoriasProductos" var="comparadorCats"/>
                                     <s:sort comparator="#comparadorCats" source="producto.categoriasProductoses">
                                         <s:iterator>
@@ -209,22 +207,53 @@
                                     <div><a href="#valoraciones"><s:property value="producto.valoracioneses.size"/> opiniones</a></div>
                                     <br />
                                     <s:if test="#session.usuario != null">
-                                        <s:if test="%{producto.usuarios==#session.usuario}">
+                                        <s:if test="#session.usuario.tipo=='admin'">
+                                            <s:form action="retirarProducto">
+                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:submit cssClass="btn btn-danger" name="btnRetirar" value="Retirar producto" />
+                                            </s:form>
+                                        </s:if>
+                                        <s:elseif test="%{producto.usuarios==#session.usuario}">
                                             <s:url var="editarProductoUrl" value="/views/productos/crearProducto.jsp">
                                                 <s:param name="idProducto" value="idProducto"/>
                                             </s:url>
                                             <s:a href="%{editarProductoUrl}" cssClass="btn btn-warning btn">Editar</s:a>
-                                        </s:if>
+                                        </s:elseif>
                                         <s:elseif test="%{!#session.carrito.contains(producto)}">
-                                            <s:form action="agregarCarrito">
+                                            <s:form action="agregarCarrito" cssClass="float-left">
                                                 <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
-                                                <s:submit cssClass="btn btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
+                                                <button class="btn btn-primary pull-left mr-4 mb-2" name="btnAgregarCarrito">
+                                                    Agregar al carrito 
+                                                    <i class="fas fa-cart-plus"></i>
+                                                </button>
                                             </s:form>
                                         </s:elseif>
                                         <s:else>
-                                            <s:form action="eliminarCarrito">
+                                            <s:form action="eliminarCarrito" cssClass="float-left">
                                                 <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
-                                                <s:submit cssClass="btn btn-primary" name="btnEliminarCarrito" value="Eliminar del carrito" />
+                                                <button class="btn btn-outline-primary pull-left mr-4 mb-2" name="btnEliminarCarrito">
+                                                    Eliminar del carrito 
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </s:form>
+                                        </s:else>
+                                        <s:if test="%{producto in #session.usuario.productoses_1}">
+                                            <s:form action="eliminarDeseo" cssClass="float-left">
+                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:textfield name="origin" value="producto" hidden="true"/>
+                                                <button type="submit" class="btn btn-outline-secondary pull-left" name="btnDeseo">
+                                                    Eliminar de la lista de deseos 
+                                                    <i style="color:red" class="fas fa-heart"></i>
+                                                </button>
+                                            </s:form>
+                                        </s:if>
+                                        <s:else>
+                                            <s:form action="crearDeseo" cssClass="float-left">
+                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <button type="submit" class="btn btn-secondary pull-left" name="btnDeseo">
+                                                    Añadir a mi lista de deseos 
+                                                    <i style="color:red" class="fas fa-heart"></i>
+                                                </button>
                                             </s:form>
                                         </s:else>
                                     </s:if>

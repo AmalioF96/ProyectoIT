@@ -77,9 +77,9 @@ a {
 main.container,main.container-fluid {
     width: 90%;
     margin: 0 auto;
-    min-height: 50vh !important;
+    min-height: 60vh !important;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 576px) {
     #categorias {
         margin-top: 1% !important;
     }

@@ -4,17 +4,13 @@ import com.opensymphony.xwork2.ActionSupport;
 import java.util.List;
 import modelo.Categorias;
 
-/**
- *
- * @author marwi
- */
 public class AccionCategorias extends ActionSupport {
 
     private List<Categorias> categorias = null;
+    private String categoria;
+    private String nuevaCategoria;
     private String origin;
-
-    public AccionCategorias() {
-    }
+    private String operacion;
 
     public String listar() {
         String salida = SUCCESS;
@@ -22,20 +18,81 @@ public class AccionCategorias extends ActionSupport {
         setCategorias(listaCategorias);
         if (this.getOrigin() != null && this.getOrigin().equals("crearProducto")) {
             salida = "crearProducto";
+        } else if (this.getOrigin() != null && this.getOrigin().equals("crearCategoria")) {
+            salida = "crearCategoria";
         }
+        return salida;
+    }
+
+    public void validate() {
+        if (this.getOperacion() != null) {
+            if (this.getOperacion().equals("eliminar")) {
+                if (this.getCategoria() == null || this.getCategoria().trim().equals("")) {
+                    addFieldError("categoria", "Debe seleccionar una categoría");
+                }
+            } else if (this.getOperacion().equals("crear")) {
+                if (this.getNuevaCategoria() == null || this.getNuevaCategoria().trim().equals("")) {
+                    addFieldError("nuevaCategoria", "El nombre de la categoría no puede estar vacío");
+                }
+            }
+            listar();
+        }
+    }
+
+    public String eliminar() {
+        String salida = ERROR;
+
+        if (this.getOperacion() != null && this.getOperacion().equals("eliminar")) {
+            Categorias c = new Categorias(this.getCategoria());
+            if (modelo.DAO.CategoriaDAO.eliminarCategoria(c)) {
+                addActionMessage("Se ha eliminado la categoría -" + this.getCategoria() + "-");
+                salida = SUCCESS;
+            }
+        }
+        listar();
+        return salida;
+    }
+
+    public String crear() {
+        String salida = ERROR;
+
+        if (this.getOperacion() != null && this.getOperacion().equals("crear")) {
+            Categorias c = new Categorias(this.getNuevaCategoria());
+            if (modelo.DAO.CategoriaDAO.crearCategoria(c)) {
+                addActionMessage("Se ha creado la categoría -" + this.getNuevaCategoria() + "-");
+                salida = SUCCESS;
+            }
+        }
+        listar();
         return salida;
     }
 
     public String execute() throws Exception {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-        public List<Categorias> getCategorias() {
+
+    public List<Categorias> getCategorias() {
         return categorias;
     }
 
     public void setCategorias(List<Categorias> categorias) {
         this.categorias = categorias;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getNuevaCategoria() {
+        return nuevaCategoria;
+    }
+
+    public void setNuevaCategoria(String nuevaCategoria) {
+        this.nuevaCategoria = nuevaCategoria;
     }
 
     public String getOrigin() {
@@ -44,5 +101,13 @@ public class AccionCategorias extends ActionSupport {
 
     public void setOrigin(String origin) {
         this.origin = origin;
+    }
+
+    public String getOperacion() {
+        return operacion;
+    }
+
+    public void setOperacion(String operacion) {
+        this.operacion = operacion;
     }
 }
