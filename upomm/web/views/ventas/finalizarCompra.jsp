@@ -31,8 +31,6 @@
                 <div class="table-responsive-sm">
                     <s:form method="post" action="accionFinalizarCompra" id="finalizarCompra" theme="css_xhtml">
                         <table id="tableProductos" class="table table-light text-center">
-                            <input type="hidden" name="email" value="<?php echo base64_encode(encriptar($_SESSION['email'])); ?>"/>
-                            <input type="hidden" name="direccion" value="<?php echo base64_encode(encriptar($_SESSION['direccion'])); ?>"/>
                             <thead>
                                 <tr>
                                     <th class="text-left">Nombre</th>
@@ -83,6 +81,7 @@
                         </table>
                     </div>
                     <hr>
+                    <s:fielderror fieldName="terminosYCondiciones" cssClass="list-unstyled errorMessage"/>
                     <div class="custom-control custom-switch wwgrp row mx-auto my-4">
                         <s:checkbox id="terminosYCondiciones" name="terminosYCondiciones" cssClass="custom-control-input wwctrl" theme="simple" fieldValue="true"/>
                         <label class="custom-control-label wwlbl" for="terminosYCondiciones">
@@ -91,10 +90,11 @@
                             </a>
                         </label>
                     </div>
-                    <div class="row mx-auto my-4">
-                        <div id="paypal-button-container"></div>
-                    </div>
+                    <s:submit cssClass="btn btn-warning pull-left" value="COMPRAR"/>
                 </s:form>
+                <div class="row mx-auto my-4">
+                    <div id="paypal-button-container"></div>
+                </div>
                 <script>
                     function toJson() {
                         var a = {intent: "CAPTURE",

@@ -1,4 +1,5 @@
 package controlador.ventas;
+
 import com.google.gson.Gson;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionContext;
@@ -17,7 +18,45 @@ public class AccionCarrito extends ActionSupport {
     List<String> cantidad = null;
     List<Productos> carrito = null;
 
-    public AccionCarrito() {
+    @Override
+    public void validate() {
+        if (this.getCantidad() != null) {
+            Map session = (Map) ActionContext.getContext().get("session");
+            carrito = (List<Productos>) session.get("carrito");
+
+            if (this.carrito.size() != this.cantidad.size()) {
+                addActionError("ERROR: Faltan elementos del carrito.");
+            }
+
+            for (String c : cantidad) {
+                try {
+                    int x = Integer.parseInt(c);
+                    if (x <= 0) {
+                        addActionError("ERROR: La cantidad debe ser mayor que cero.");
+                    }
+                } catch (Exception e) {
+                    addActionError("ERROR: La cantidad debe ser mayor un número.");
+                }
+            }
+        } else {
+            addActionError("La cantidad no puede estar vacía.");
+        }
+
+    }
+
+    @Override
+    public String execute() throws Exception {
+        Map session = (Map) ActionContext.getContext().get("session");
+        carrito = (List<Productos>) session.get("carrito");
+        session.put("cantidad", this.getCantidad());
+        /*
+        PRUEBA PARA CONSTRUIR JSON
+        ArrayList compra = new ArrayList();
+        int[] numbers = {1, 2, 3, 4};
+        Gson gson = new Gson();
+        String numbersJson = gson.toJson(numbers);
+         */
+        return SUCCESS;
     }
 
     public List<String> getCantidad() {
@@ -34,46 +73,5 @@ public class AccionCarrito extends ActionSupport {
 
     public void setCarrito(List<Productos> carrito) {
         this.carrito = carrito;
-    }
-
-    @Override
-    public void validate() {
-        if (this.getCantidad() != null) {
-            Map session = (Map) ActionContext.getContext().get("session");
-            carrito = (List<Productos>) session.get("carrito");
-
-            if (this.carrito.size() != this.cantidad.size()) {
-                addFieldError("cabtidad", getText("cantidad.faltanElementos"));
-            }
-
-            for (String c : cantidad) {
-                try {
-                    int x = Integer.parseInt(c);
-                    if (x <= 0) {
-                        addFieldError("cantidad", getText("cantidad.mayoQueCero"));
-                    }
-                } catch (Exception e) {
-                    addFieldError("cantidad", getText("cantidad.debeSerNumerico"));
-                }
-            }
-        } else {
-            addFieldError("cantidad", getText("cantidad.vacia"));
-        }
-
-    }
-
-    @Override
-    public String execute() throws Exception {
-        Map session = (Map) ActionContext.getContext().get("session");
-        carrito = (List<Productos>) session.get("carrito");
-        session.put("cantidad", this.getCantidad());
-        /*
-        PRUEBA PARA CONSTRUIR JSON
-        ArrayList compra = new ArrayList();
-        int[] numbers = {1, 2, 3, 4};
-        Gson gson = new Gson();
-        String numbersJson = gson.toJson(numbers);
-        */
-        return SUCCESS;
     }
 }
