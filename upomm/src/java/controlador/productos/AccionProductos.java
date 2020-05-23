@@ -143,10 +143,12 @@ public class AccionProductos extends ActionSupport {
 
             Map session = (Map) ActionContext.getContext().get("session");
             List<Productos> carrito = (List<Productos>) session.get("carrito");
+            Map<Integer, Integer> cantidad = (Map) session.get("cantidad");
             Productos p = new Productos();
             p.setIdProducto(this.getIdProducto());
 
             if (carrito.remove(p)) {
+                cantidad.remove(p.getIdProducto());
                 if (origin != null && origin.equals("carrito")) {
                     salida = "carrito";
                 } else if (this.origin != null && this.origin.equals("deseos")) {

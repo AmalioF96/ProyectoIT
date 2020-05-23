@@ -26,7 +26,8 @@
                     var table = $('#reclamaciones').DataTable({
                         "language": {
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-                        }
+                        },
+                        "order": [[0, "desc" ]]
                     });
                     $('[data-toggle="tooltip"]').tooltip();
                     $("img").on("error", function () {
