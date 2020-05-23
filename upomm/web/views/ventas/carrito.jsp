@@ -23,23 +23,16 @@
                         var cantidad = $(this).val();
                         var precio = parseFloat($("#precio-" + idProducto).text());
                         var subtotal = cantidad * precio;
-                        $("#subtotal-" + idProducto).text(subtotal.toFixed(2));
+                        $("#subtotal-" + idProducto).text(subtotal.toFixed(2).toString().replace(".", ","));
 
                         var subtotales = $(".subtotal");
                         for (var i = 0; i < subtotales.length; i++) {
                             total += parseFloat($(subtotales[i]).text());
                         }
 
-                        $("#precioTotalCarrito").text(total.toFixed(2));
+                        $("#precioTotalCarrito").text(total.toFixed(2).toString().replace(".", ","));
 
                     });
-                    var inputsCantidad = $("input.cantidad");
-
-                    for (var i = 0, max = inputsCantidad.length; i < max; i++) {
-                        var input = $(inputsCantidad).get(i);
-                        input.value = 1;
-                        $(input).change();
-                    }
                 });
             </script>
         </head>
@@ -75,9 +68,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <s:set var="cont" value="0" />
                                         <s:set var="total" value="0"/>
-                                        <s:iterator var="i" value="#session.carrito">
+                                        <s:iterator value="#session.carrito">
                                             <s:url var="eliminarProducto" action="eliminarCarrito">
                                                 <s:param name="idProducto" value="idProducto"/>
                                                 <s:param name="origin" value="'carrito'"/>
@@ -96,15 +88,21 @@
                                                 </td>
                                                 <td>
                                                     <span id="precio-<s:property value="idProducto"/>" class="precio">
-                                                        <s:property value="precio"/>
+                                                        <s:number name="precio" maximumFractionDigits="2" minimumFractionDigits="2" />
                                                     </span>
                                                 </td>
                                                 <td class='tdCantidad'>
-                                                    <s:textfield id="cantidad-%{idProducto}"  cssClass="form-control cantidad text-center" name="cantidad" type="number" min="1"/>
+                                                    <s:if test="#session.cantidad==null || #session.cantidad[idProducto]==null">
+                                                        <s:set var="cant" value="1"/>
+                                                    </s:if>
+                                                    <s:else>
+                                                        <s:set var="cant" value="#session.cantidad[idProducto]"/>
+                                                    </s:else>
+                                                    <s:textfield id="cantidad-%{idProducto}"  cssClass="form-control cantidad text-center" name="cantidad" type="number" min="1" value="%{#cant}"/>
                                                 </td>
                                                 <td class='tdSubtotal'>
                                                     <span id="subtotal-<s:property value="idProducto"/>" class="subtotal">
-                                                        <s:number name="precio" maximumFractionDigits="2" minimumFractionDigits="2"/>
+                                                        <s:number name="precio*#cant" maximumFractionDigits="2" minimumFractionDigits="2" />
                                                     </span>
                                                 </td>
                                                 <td class='tdBtnEliminar'>
@@ -115,8 +113,7 @@
                                                 </td>
 
                                             </tr>
-                                            <s:set var="total" value="%{#total+precio}" />
-                                            <s:set var="cont" value="%{#cont+1}" />
+                                            <s:set var="total" value="%{#total+(precio*#cant)}" />
                                         </s:iterator>
 
                                         <tr>
@@ -126,8 +123,9 @@
                                                     Total:
                                                 </strong>
                                             </td>
-                                            <td>
-                                                <span id="precioTotalCarrito" class="font-weight-bold"></span> €
+                                            <td class="font-weight-bold">
+                                                <span id="precioTotalCarrito">
+                                                    <s:number name="#total" maximumFractionDigits="2" minimumFractionDigits="2"/></span>&euro;
                                             </td>
                                         </tr>
                                     </tbody>

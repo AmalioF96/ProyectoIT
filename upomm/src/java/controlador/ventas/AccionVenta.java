@@ -20,8 +20,6 @@ import modelo.Usuarios;
  */
 public class AccionVenta extends ActionSupport {
 
-    private List<String> listaCantidad = null;
-    private List<Productos> carrito = null;
     private boolean terminosYCondiciones;
 
     private float total;
@@ -29,11 +27,15 @@ public class AccionVenta extends ActionSupport {
     @Override
     public void validate() {
         Map session = (Map) ActionContext.getContext().get("session");
-        this.setCarrito((List<Productos>) session.get("carrito"));
-        this.setListaCantidad((List<String>) session.get("cantidad"));
+        List<Productos> carrito = (List<Productos>) session.get("carrito");
+        Map<Integer, Integer> cantidades = (Map) session.get("cantidad");
 
-        if (this.getCarrito() == null || this.getListaCantidad() == null) {
+        if (carrito == null || cantidades == null) {
             addFieldError("", ERROR);
+            addActionError("ERROR: no se pudo finalizar la venta");
+        } else if (carrito.size() != cantidades.size()) {
+            addFieldError("", ERROR);
+            addActionError("ERROR: no se pudo finalizar la venta");
         }
         if (!this.isTerminosYCondiciones()) {
             addFieldError("terminosYCondiciones", "Debe aceptar los términos y condiciones del servicio");
@@ -43,25 +45,26 @@ public class AccionVenta extends ActionSupport {
 
     @Override
     public String execute() {
+        Map session = (Map) ActionContext.getContext().get("session");
+        List<Productos> carrito = (List<Productos>) session.get("carrito");
+        Map<Integer, Integer> cantidades = (Map) session.get("cantidad");
+        
         //Variable de salida
         String salida = SUCCESS;
-        //Recogida de datos
-        Map session = (Map) ActionContext.getContext().get("session");
         //Declaracion de variables
         Usuarios u = (Usuarios) session.get("usuario");
         Compras c = new Compras();
         LineasDeCompraId ldcid = new LineasDeCompraId();
-        LineasDeCompra ldc;
         //Seteamos atributos a compra
         c.setUsuarios(u);
         //Guardamos Compra
         c.setIdCompra(modelo.DAO.VentasDAO.insertarCompra(c));
 
         //Creamos lineas de compra
-        for (int i = 0; i < this.getCarrito().size(); i++) {
-            ldc = new LineasDeCompra();
-            int cantidad = Integer.parseInt(this.getListaCantidad().get(i));
-            Productos p = this.getCarrito().get(i);
+        for (int i = 0; i < carrito.size(); i++) {
+            LineasDeCompra ldc = new LineasDeCompra();
+            Productos p = carrito.get(i);
+            int cantidad = cantidades.get(p.getIdProducto());
             ldcid.setIdProducto(p.getIdProducto());
             ldcid.setIdCompra(c.getIdCompra());
 
@@ -78,34 +81,11 @@ public class AccionVenta extends ActionSupport {
         }
         if (salida.equals(SUCCESS)) {
             session.put("carrito", new ArrayList());
+            session.remove(cantidades);
         }
         Usuarios usuario = (Usuarios) session.get("usuario");
         usuario.getComprases().add(c);
         return salida;
-    }
-
-    public List<String> getListaCantidad() {
-        return listaCantidad;
-    }
-
-    public void setListaCantidad(List<String> listaCantidad) {
-        this.listaCantidad = listaCantidad;
-    }
-
-    public List<Productos> getCarrito() {
-        return carrito;
-    }
-
-    public void setCarrito(List<Productos> carrito) {
-        this.carrito = carrito;
-    }
-
-    public float getTotal() {
-        return total;
-    }
-
-    public void setTotal(float total) {
-        this.total = total;
     }
 
     public boolean isTerminosYCondiciones() {

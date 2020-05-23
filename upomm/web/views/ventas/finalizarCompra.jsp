@@ -15,7 +15,7 @@
 
         <script>
             $(document).ready(function () {
-                paypal.Buttons();
+                $("#terminosYCondiciones").prop( "checked", false);
             });
         </script>
         <s:head/>
@@ -42,7 +42,7 @@
                             </thead>
                             <tbody>
                                 <s:set var="total" value="0"/>
-                                <s:iterator value="#session.carrito" status="incr">
+                                <s:iterator value="#session.carrito">
                                     <s:url var="productoId" value="/views/productos/producto.jsp">
                                         <s:param name="idProducto" value="idProducto"/>
                                     </s:url>
@@ -56,23 +56,23 @@
                                             <s:property value="descripcion"/>
                                         </td>
                                         <td >
-                                            <s:property value="precio"/>
+                                            <s:number name="precio" maximumFractionDigits="2" minimumFractionDigits="2" />
                                         </td>
                                         <td class='tdCantidad'>
-                                            <s:property  value="#session.cantidad.get(#incr.index)"/>
+                                            <s:property  value="#session.cantidad[idProducto]"/>
                                         </td>
                                         <td class='tdSubtotal'>
-                                            <s:property value="%{precio*#session.cantidad.get(#incr.index)}" />
+                                            <s:number name="precio*#session.cantidad[idProducto]" maximumFractionDigits="2" minimumFractionDigits="2" />
                                         </td>
 
                                     </tr>
-                                    <s:set var="total" value="%{#total+(precio*#session.cantidad.get(#incr.index))}" />
+                                    <s:set var="total" value="%{#total+(precio*#session.cantidad[idProducto])}" />
                                 </s:iterator>
                                 <tr>
                                     <td colspan="3"></td>
                                     <td><strong>Total:</strong></td>
                                     <td id="precioTotalCarrito" class='text-center font-weight-bold'>
-                                        <s:property  value="#total"/>&euro;
+                                        <s:number name="#total" maximumFractionDigits="2" minimumFractionDigits="2" />&euro;
                                     </td>
                                 </tr>
                             </tbody>
@@ -80,6 +80,7 @@
                     </div>
                     <hr>
                     <s:fielderror fieldName="terminosYCondiciones" cssClass="list-unstyled errorMessage"/>
+                    <p id="error" class="errorMessage" style="display: none">Debe acepatar los términos y condiciones</p>
                     <div class="custom-control custom-switch wwgrp row mx-auto my-4">
                         <s:checkbox id="terminosYCondiciones" name="terminosYCondiciones" cssClass="custom-control-input wwctrl" theme="simple" fieldValue="true" required="true"/>
                         <label class="custom-control-label wwlbl" for="terminosYCondiciones">
@@ -99,6 +100,7 @@
                      *Aquí cargamos los datos necesarios para interactuar con la API de paypal
                      */
                     paypal.Buttons({
+                        locale: 'es_ES',
                         style: {
                             size: 'responsive',
                             color: 'gold',
@@ -129,14 +131,38 @@
                                         },
                                         items: <s:property value="items"/>
                                     }]
-                            });
+                            }
+                            );
                         },
                         onApprove: function (data, actions) {
                             return actions.order.capture().then(function (details) {
                                 $("#finalizarCompra").submit();
                             });
+                        },
+                        onInit: function (data, actions) {
+
+                            // Disable the buttons
+                            actions.disable();
+
+                            // Listen for changes to the checkbox
+                            $("#terminosYCondiciones")
+                                    .change(function (event) {
+                                        $("#error").hide();
+                                        // Enable or disable the button when it is checked or unchecked
+                                        if (event.target.checked) {
+                                            actions.enable();
+                                        } else {
+                                            actions.disable();
+                                        }
+                                    });
+                        },
+                        onClick: function () {
+                            // Show a validation error if the checkbox is not checked
+                            if (!document.querySelector("#terminosYCondiciones").checked) {
+                                $("#error").show();
+                            }
                         }
-                    }).render('#paypal-button-container');
+                    }).render("#paypal-button-container");
                 </script>
             </div>
         </main>
