@@ -80,7 +80,6 @@
                                 $(estrellas[i]).removeClass("unchecked");
                             } else {
                                 $(estrellas[i]).removeClass("checked");
-                                //$(estrellas[i]).removeClass("clicked");
                                 $(estrellas[i]).addClass("unchecked");
                             }
                         }
@@ -150,7 +149,6 @@
                 <jsp:forward page="/views/principal.jsp"/>
             </s:if>
         </head>
-
         <body>
             <%@include file="../utils/header.jsp" %>
             <!-- Page Content -->
@@ -237,7 +235,7 @@
                                                 </button>
                                             </s:form>
                                         </s:else>
-                                        <s:if test="%{producto.usuarios!=#session.usuario}">
+                                        <s:if test="!producto.usuarios.equals(#session.usuario)">
                                             <s:if test="%{producto in #session.usuario.productoses_1}">
                                                 <s:form action="eliminarDeseo" cssClass="float-left">
                                                     <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>

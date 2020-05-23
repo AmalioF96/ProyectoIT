@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <%@include file="/views/utils/includes.jsp"%>
         <link href="/upomm/css/carrito.css" rel="stylesheet" type="text/css"/>
-        <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=EUR"></script>
+        <script src="https://www.paypal.com/sdk/js?client-id=Ab3EXFpwjNUJHeMDtoZ6ALhOfX8sSX7SJrCi4b41ghRqI-4aIRowbB2GHwXRbhAiaOsWv66O2y5VkXEl&currency=EUR"></script>
 
         <script>
             $(document).ready(function () {
@@ -28,8 +28,8 @@
             <div class="m-3">
                 <h3>Resumen de compra</h3>
                 <hr>
-                <div class="table-responsive-sm">
-                    <s:form method="post" action="accionFinalizarCompra" id="finalizarCompra" theme="css_xhtml">
+                <s:form method="post" action="accionFinalizarCompra" id="finalizarCompra" theme="css_xhtml">
+                    <div class="table-responsive-sm">
                         <table id="tableProductos" class="table table-light text-center">
                             <thead>
                                 <tr>
@@ -41,9 +41,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <s:set var="cont" value="0" />
                                 <s:set var="total" value="0"/>
-                                <s:iterator var="i" value="#session.carrito">
+                                <s:iterator value="#session.carrito" status="incr">
                                     <s:url var="productoId" value="/views/productos/producto.jsp">
                                         <s:param name="idProducto" value="idProducto"/>
                                     </s:url>
@@ -60,15 +59,14 @@
                                             <s:property value="precio"/>
                                         </td>
                                         <td class='tdCantidad'>
-                                            <s:property  value="#session.cantidad.get(#cont)"/>
+                                            <s:property  value="#session.cantidad.get(#incr.index)"/>
                                         </td>
                                         <td class='tdSubtotal'>
-                                            <s:property value="%{precio*#session.cantidad.get(#cont)}" />
+                                            <s:property value="%{precio*#session.cantidad.get(#incr.index)}" />
                                         </td>
 
                                     </tr>
-                                    <s:set var="total" value="%{#total+(precio*#session.cantidad.get(#cont))}" />
-                                    <s:set var="cont" value="%{#cont+1}" />
+                                    <s:set var="total" value="%{#total+(precio*#session.cantidad.get(#incr.index))}" />
                                 </s:iterator>
                                 <tr>
                                     <td colspan="3"></td>
@@ -83,50 +81,59 @@
                     <hr>
                     <s:fielderror fieldName="terminosYCondiciones" cssClass="list-unstyled errorMessage"/>
                     <div class="custom-control custom-switch wwgrp row mx-auto my-4">
-                        <s:checkbox id="terminosYCondiciones" name="terminosYCondiciones" cssClass="custom-control-input wwctrl" theme="simple" fieldValue="true"/>
+                        <s:checkbox id="terminosYCondiciones" name="terminosYCondiciones" cssClass="custom-control-input wwctrl" theme="simple" fieldValue="true" required="true"/>
                         <label class="custom-control-label wwlbl" for="terminosYCondiciones">
                             <a href="http://www.google.com/search?q=estafa" target="_blank">
                                 Acepto los términos y condiciones
                             </a>
                         </label>
                     </div>
-                    <s:submit cssClass="btn btn-warning pull-left" value="COMPRAR"/>
+                    <%--<s:submit cssClass="btn btn-warning pull-left" value="COMPRAR"/>--%>
                 </s:form>
-                <div class="row mx-auto my-4">
-                    <div id="paypal-button-container"></div>
+                <div class="row mx-auto mt-4">
+                    <div id="paypal-button-container" class="col-sm-4 px-0"></div>
                 </div>
                 <script>
-                    function toJson() {
-                        var a = {intent: "CAPTURE",
-                            purchase_units: new Array(
-                                    {
-                                        amount: {
-                                            currency_code: "EUR",
-                                            value: 0
-                                        }
-                                    }
-                            )
-                        };
-                        var json = JSON.stringify(a);
-                        return json;
-                    }
                     /*
                      * 
                      *Aquí cargamos los datos necesarios para interactuar con la API de paypal
                      */
                     paypal.Buttons({
                         style: {
-                            size: 'small',
+                            size: 'responsive',
                             color: 'gold',
-                            shape: 'pill'
+                            shape: 'pill',
+                            label: 'pay',
+                            tagline: 'true',
+                            layout: 'horizontal'
                         },
                         createOrder: function (data, actions) {
-                            return actions.order.create(toJson());
+                            return actions.order.create({
+                                intent: "CAPTURE",
+                                application_context: {
+                                    brand_name: 'UPOMediaMarket',
+                                    locale: 'es-ES',
+                                    landing_page: 'BILLING',
+                                    user_action: 'PAY_NOW'
+                                },
+                                purchase_units: [{
+                                        amount: {
+                                            currency_code: 'EUR',
+                                            value: <s:property value="#total"/>,
+                                            breakdown: {
+                                                item_total: {
+                                                    currency_code: 'EUR',
+                                                    value: <s:property value="#total"/>
+                                                }
+                                            }
+                                        },
+                                        items: <s:property value="items"/>
+                                    }]
+                            });
                         },
                         onApprove: function (data, actions) {
-
                             return actions.order.capture().then(function (details) {
-                                $("#formCompra").submit();
+                                $("#finalizarCompra").submit();
                             });
                         }
                     }).render('#paypal-button-container');
