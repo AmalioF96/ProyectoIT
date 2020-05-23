@@ -1,10 +1,8 @@
 package controlador.ventas;
 
-import com.google.gson.Gson;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import modelo.Productos;
@@ -17,6 +15,7 @@ public class AccionCarrito extends ActionSupport {
 
     List<String> cantidad = null;
     List<Productos> carrito = null;
+    String items = null;
 
     @Override
     public void validate() {
@@ -35,7 +34,7 @@ public class AccionCarrito extends ActionSupport {
                         addActionError("ERROR: La cantidad debe ser mayor que cero.");
                     }
                 } catch (Exception e) {
-                    addActionError("ERROR: La cantidad debe ser mayor un número.");
+                    addActionError("ERROR: La cantidad debe ser un número.");
                 }
             }
         } else {
@@ -47,15 +46,16 @@ public class AccionCarrito extends ActionSupport {
     @Override
     public String execute() throws Exception {
         Map session = (Map) ActionContext.getContext().get("session");
-        carrito = (List<Productos>) session.get("carrito");
+       this.setCarrito((List<Productos>) session.get("carrito"));
         session.put("cantidad", this.getCantidad());
-        /*
-        PRUEBA PARA CONSTRUIR JSON
-        ArrayList compra = new ArrayList();
-        int[] numbers = {1, 2, 3, 4};
-        Gson gson = new Gson();
-        String numbersJson = gson.toJson(numbers);
-         */
+        
+        String items = "[";
+        for(int i = 0; i< this.getCarrito().size(); i++){
+            items += "{name: '"+this.getCarrito().get(i).getNombre()+"', description: '"+this.getCarrito().get(i).getDescripcion()+"', sku: 'id-"+this.getCarrito().get(i).getIdProducto()+"', unit_amount: {currency_code: 'EUR', value: '"+this.getCarrito().get(i).getPrecio()+"'}, quantity: '"+this.getCantidad().get(i)+"'},";
+        }
+        items += "]";
+        this.setItems(items);
+        
         return SUCCESS;
     }
 
@@ -73,5 +73,13 @@ public class AccionCarrito extends ActionSupport {
 
     public void setCarrito(List<Productos> carrito) {
         this.carrito = carrito;
+    }
+
+    public String getItems() {
+        return items;
+    }
+
+    public void setItems(String items) {
+        this.items = items;
     }
 }
