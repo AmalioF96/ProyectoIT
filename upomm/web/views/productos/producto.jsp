@@ -237,25 +237,27 @@
                                                 </button>
                                             </s:form>
                                         </s:else>
-                                        <s:if test="%{producto in #session.usuario.productoses_1}">
-                                            <s:form action="eliminarDeseo" cssClass="float-left">
-                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
-                                                <s:textfield name="origin" value="producto" hidden="true"/>
-                                                <button type="submit" class="btn btn-outline-secondary pull-left" name="btnDeseo">
-                                                    Eliminar de la lista de deseos 
-                                                    <i style="color:red" class="fas fa-heart"></i>
-                                                </button>
-                                            </s:form>
+                                        <s:if test="%{producto.usuarios!=#session.usuario}">
+                                            <s:if test="%{producto in #session.usuario.productoses_1}">
+                                                <s:form action="eliminarDeseo" cssClass="float-left">
+                                                    <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                    <s:textfield name="origin" value="producto" hidden="true"/>
+                                                    <button type="submit" class="btn btn-outline-secondary pull-left" name="btnDeseo">
+                                                        Eliminar de la lista de deseos 
+                                                        <i style="color:red" class="fas fa-heart"></i>
+                                                    </button>
+                                                </s:form>
+                                            </s:if>
+                                            <s:else>
+                                                <s:form action="crearDeseo" cssClass="float-left">
+                                                    <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                    <button type="submit" class="btn btn-secondary pull-left" name="btnDeseo">
+                                                        Añadir a mi lista de deseos 
+                                                        <i style="color:red" class="fas fa-heart"></i>
+                                                    </button>
+                                                </s:form>
+                                            </s:else>
                                         </s:if>
-                                        <s:else>
-                                            <s:form action="crearDeseo" cssClass="float-left">
-                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
-                                                <button type="submit" class="btn btn-secondary pull-left" name="btnDeseo">
-                                                    Añadir a mi lista de deseos 
-                                                    <i style="color:red" class="fas fa-heart"></i>
-                                                </button>
-                                            </s:form>
-                                        </s:else>
                                     </s:if>
                                     <s:else>
                                         <div class="alert alert-info">
