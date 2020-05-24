@@ -13,7 +13,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Admin - UMM</title>
+            <title>Gestionar Categorías - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
 
@@ -25,7 +25,7 @@
         </head>
         <body>
             <%@include file="../utils/header.jsp" %>
-            <main class="container-fluid">
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">
@@ -44,7 +44,7 @@
                         </nav>
                     </div>
                     <!-- /.col-lg-3 -->
-                    <div class="col-lg-4 table-responsive-sm border-left mt-3 mx-auto">
+                    <div class="col-md-4 table-responsive-sm border-left my-auto mx-auto">
                         <h5 class="text-center mb-4" style="text-decoration: underline">Crear</h5>
                         <s:form action="crearCategoria" theme="css_xhtml" autocomplete="off">
                             <s:textfield name="nuevaCategoria" cssClass="form-control mb-4" placeholder="Introduce el nombre de la categoría"/>
@@ -53,7 +53,7 @@
                         </s:form>
                     </div>
                     <!-- /.col-lg-4 -->
-                    <div class="col-lg-4 table-responsive-sm border-left border-right mt-3 mx-auto">
+                    <div class="col-md-4 table-responsive-sm border-left border-right my-auto mx-auto">
                         <h5 class="text-center mb-4" style="text-decoration: underline">Eliminar</h5>
                         <s:form action="eliminarCategoria" theme="css_xhtml" autocomplete="off">
                             <div id="miSelect" class="form-group mb-4">

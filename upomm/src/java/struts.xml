@@ -196,11 +196,11 @@
         </action>
         <action name="eliminarDeseo" class="controlador.usuarios.AccionListaDeseos" method="eliminar">
             <result name="success">/views/usuarios/deseos.jsp</result>
-            <result name="error">/views/usuarios/deseos.jsp</result>
             <result name="producto" type="redirect">
                 <param name="location">/views/productos/producto.jsp</param>
                 <param name="idProducto">${idProducto}</param>
             </result>
+            <result name="error">/views/usuarios/deseos.jsp</result>
         </action>
     </package>
     <package name="ventas" extends="struts-default">

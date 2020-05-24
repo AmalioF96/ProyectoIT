@@ -6,7 +6,7 @@
 </s:if>
 <html>
     <head>
-        <title>Procesar Comprar - UPOMMarket</title>
+        <title>Finalizar Compra - UPOMediaMarket</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <%@include file="/views/utils/includes.jsp"%>
@@ -15,7 +15,7 @@
 
         <script>
             $(document).ready(function () {
-                $("#terminosYCondiciones").prop( "checked", false);
+                $("#terminosYCondiciones").prop("checked", false);
             });
         </script>
         <s:head/>
@@ -24,19 +24,18 @@
     <body>
         <%@include file="../utils/header.jsp" %>
         <!-- Page Content -->
-        <main class="container">
-            <div class="m-3">
+        <main class="container-fluid mt-4 mx-auto">
                 <h3>Resumen de compra</h3>
                 <hr>
                 <s:form method="post" action="accionFinalizarCompra" id="finalizarCompra" theme="css_xhtml">
-                    <div class="table-responsive-sm">
+                    <div class="table-responsive-md">
                         <table id="tableProductos" class="table table-light text-center">
                             <thead>
                                 <tr>
                                     <th class="text-left">Nombre</th>
                                     <th class="text-left">Descripción</th>
-                                    <th>Precio(&euro;)</th>
                                     <th>Cantidad</th>
+                                    <th>Precio(&euro;)</th>
                                     <th>Subtotal(&euro;)</th>
                                 </tr>
                             </thead>
@@ -55,22 +54,23 @@
                                         <td class="text-left"> 
                                             <s:property value="descripcion"/>
                                         </td>
-                                        <td >
-                                            <s:number name="precio" maximumFractionDigits="2" minimumFractionDigits="2" />
-                                        </td>
                                         <td class='tdCantidad'>
                                             <s:property  value="#session.cantidad[idProducto]"/>
+                                        </td>
+                                        <td>
+                                            <s:number name="precio" maximumFractionDigits="2" minimumFractionDigits="2" />
                                         </td>
                                         <td class='tdSubtotal'>
                                             <s:number name="precio*#session.cantidad[idProducto]" maximumFractionDigits="2" minimumFractionDigits="2" />
                                         </td>
-
                                     </tr>
                                     <s:set var="total" value="%{#total+(precio*#session.cantidad[idProducto])}" />
                                 </s:iterator>
                                 <tr>
                                     <td colspan="3"></td>
-                                    <td><strong>Total:</strong></td>
+                                    <td>
+                                        <strong>Total:</strong>
+                                    </td>
                                     <td id="precioTotalCarrito" class='text-center font-weight-bold'>
                                         <s:number name="#total" maximumFractionDigits="2" minimumFractionDigits="2" />&euro;
                                     </td>
@@ -164,7 +164,6 @@
                         }
                     }).render("#paypal-button-container");
                 </script>
-            </div>
         </main>
         <!-- /.container -->
         <%@include file="../utils/footer.html" %>

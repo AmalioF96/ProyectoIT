@@ -11,7 +11,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Ventas - UMM</title>
+            <title>Ventas - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -25,7 +25,7 @@
                         "language": {
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                         },
-                        "order": [[0, "desc" ]],
+                        "order": [[0, "desc"]],
                         "drawCallback": function () {
                             var table = $('#pedidos').DataTable();
                             $('#pedidos tbody').on('click', 'tr', function () {
@@ -49,7 +49,7 @@
         </head>
         <body>
             <%@include file="../utils/header.jsp" %>
-            <main class="container-fluid">
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">
@@ -97,7 +97,8 @@
                                         </s:else>
                                         <tr>
                                             <td><s:property value="idCompra"/></td>
-                                            <td>                                                <span data-toggle="tooltip" data-html="true" title="<ul><li><strong>Nombre:</strong> <s:property value="usuarios.nombre"/></li><li><strong>Email:</strong> <s:property value="usuarios.email"/></li></ul>">
+                                            <td>
+                                                <span data-toggle="tooltip" data-html="true" title="<ul><li><strong>Nombre:</strong> <s:property value="usuarios.nombre"/></li><li><strong>Email:</strong> <s:property value="usuarios.email"/></li></ul>">
                                                     <img style="max-width: 50px" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block" data-src="<s:property value="%{#img}"/>"/>
                                                 </span>
                                             </td>

@@ -94,9 +94,6 @@ main.container,main.container-fluid {
 	position: sticky;
 	top: 0;
 }
-#categorias {
-    margin-top: 3%;
-}
 .alert {
     margin-top: 3%;
     width: 100%;

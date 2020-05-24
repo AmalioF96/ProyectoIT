@@ -148,7 +148,9 @@ public class AccionProductos extends ActionSupport {
             p.setIdProducto(this.getIdProducto());
 
             if (carrito.remove(p)) {
-                cantidad.remove(p.getIdProducto());
+                if (cantidad != null && cantidad.containsKey(p.getIdProducto())) {
+                    cantidad.remove(p.getIdProducto());
+                }
                 if (origin != null && origin.equals("carrito")) {
                     salida = "carrito";
                 } else if (this.origin != null && this.origin.equals("deseos")) {
