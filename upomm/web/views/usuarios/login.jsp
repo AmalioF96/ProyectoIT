@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Iniciar Sesión - UPOMarket</title>
+        <title>Login - UPOMediaMarket</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="/upomm/css/login.css" rel="stylesheet" type="text/css"/>
@@ -49,7 +49,7 @@
                             </s:a>
                         </div>
                         <div class="modal-body pt-0">
-                            <h4 class="modal-title text-center">Inicio de sesión</h4>
+                            <h4 class="modal-title text-center">Inicio de Sesión</h4>
                             <s:if test="hasActionErrors()">
                                 <s:actionerror cssClass="errorMessage text-center list-unstyled"/>
                             </s:if>
@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button id="send" class="btn btn-primary btn-block text-uppercase">Iniciar Sesión</button>
+                            <button id="send" class="btn btn-primary btn-block text-uppercase">Acceder</button>
                         </div>
                         <p class="text-center">¿Aún no tienes una cuenta? 
                             <s:a href="signUp.jsp">¡Regístrate!</s:a>

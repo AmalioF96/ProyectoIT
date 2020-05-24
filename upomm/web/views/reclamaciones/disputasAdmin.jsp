@@ -13,7 +13,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Admin - UMM</title>
+            <title>Disputas Abiertas - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <%@include file="../utils/header.jsp" %>
-            <main class="container-fluid">
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">

@@ -10,7 +10,7 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Mis Compras - UPOMediaMarket</title>
+            <title>Compras - UPOMediaMarket</title>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
@@ -44,7 +44,7 @@
         <body>
             <%@include file="../utils/header.jsp" %>
             <!-- Page Content -->
-            <main class="container-fluid">
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">

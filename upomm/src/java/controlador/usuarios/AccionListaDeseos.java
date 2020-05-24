@@ -63,7 +63,7 @@ public class AccionListaDeseos extends ActionSupport {
                 if (modelo.DAO.UsuarioDAO.actualizaUsuario(u)) {
                     session.remove(u);
                     session.put("usuario", u);
-                    if (this.origin != null && this.origin.equals("producto")) {
+                    if (this.getOrigin() != null && this.origin.equals("producto")) {
                         salida = "producto";
                     } else {
                         salida = SUCCESS;

@@ -13,7 +13,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Ventas - UMM</title>
+            <title>Reclamaciones/Ventas - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -47,7 +47,7 @@
                         "language": {
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                         },
-                        "order": [[0, "desc" ]]
+                        "order": [[0, "desc"]]
                     });
                     $('[data-toggle="tooltip"]').tooltip();
                     $("img").on("error", function () {
@@ -80,8 +80,9 @@
                 </div>
             </div>
             <%@include file="../utils/header.jsp" %>
-            <main class="container-fluid">
+            <main class="container-fluid mt-4">
                 <div class="row">
+                    <!-- LISTA DE CATEGORÍAS -->
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Menú de Vendedor</h4>

@@ -36,7 +36,7 @@
         <body>
             <%@include file="../utils/header.jsp" %>
             <!-- Page Content -->
-            <main class="container-fluid">
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">

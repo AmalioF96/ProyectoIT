@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Registro - UPOMarket</title>
+        <title>Registro - UPOMediaMarket</title>
         <link href="/upomm/css/login.css" rel="stylesheet" type="text/css"/>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="icon" type="image/png" href="/upomm/imagenes/icono.png">
@@ -60,11 +60,11 @@
                                 </s:form>
                             </div>
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer mt-3">
                             <button id="send" class="btn btn-primary btn-block text-uppercase">Registrarse</button>
                         </div>
                         <p class="text-center">¿Ya tienes una cuenta?
-                            <s:a href="login.jsp">¡Inicia sesión!</s:a>
+                            <s:a href="login.jsp">¡Inicia Sesión!</s:a>
                         </p>
                     </div>
                 </div>

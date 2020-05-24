@@ -1,16 +1,3 @@
-#ventas_wrapper {
-    margin: 2% !important;
-}
-#pedidos_wrapper{
-    margin: 2% !important;
-}
-#productos_wrapper{
-    margin: 2% !important;
-}
-#reclamaciones_wrapper {
-    margin: 2% !important;
-}
-
 #ventas th,td {
     text-align: center;
     vertical-align: middle;

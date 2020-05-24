@@ -19,7 +19,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Crear Producto - UMM</title>
+            <title>Gestionar Producto - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/crearProducto.css" rel="stylesheet" type="text/css"/>
             <link href="/upomm/css/misProductos.css" rel="stylesheet" type="text/css"/>
@@ -57,7 +57,7 @@
         </head>
         <body>
             <%@include file="../utils/header.jsp" %>
-            <main class="container-fluid">
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">
@@ -75,7 +75,7 @@
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-lg-7 my-auto mx-auto border-left border-right px-4">
+                    <div class="col-lg-7 my-auto mx-auto border rounded-lg px-4 py-2">
                         <s:if test="%{producto!=null}">
                             <s:set var="accion" value="'modificarProducto'"/>
                         </s:if>

@@ -18,24 +18,32 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/compra.css" rel="stylesheet">
+            <link href="/upomm/css/misProductos.css" rel="stylesheet">
         </head>
         <body>
             <%@include file="../utils/header.jsp" %>
-            <main class="container-fluid">
-
-
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">
                             <h4 class="text-center">Menú de Vendedor</h4>
                             <ul class="list-unstyled">
-                                <li><a href="/upomm/views/ventas/menuVentas.jsp" class="list-group-item active">Mis Ventas>Venta</a></li>
-                                <li><a href="/upomm/views/productos/misProductos.jsp" class="list-group-item">Mis Productos</a></li>
-                                <li><a href="/upomm/views/productos/crearProducto.jsp" class="list-group-item">Crear Producto</a></li>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/ventas/menuVentas.jsp" class="menu-link active">Mis Ventas>Venta</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/reclamaciones/reclamacionesVendedor.jsp" class="menu-link">Mis Reclamaciones</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/productos/misProductos.jsp" class="menu-link">Mis Productos</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/productos/crearProducto.jsp" class="menu-link">Crear/Editar Producto</a>
+                                </li>
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-lg-8 contendor table-responsive-sm mt-3 mx-auto">
+                    <div class="col-lg-8 contendor table-responsive-sm my-auto mx-auto">
                         <s:set var="importe" value="0"/>
                         <s:iterator value="venta">
                             <s:set var="importe" value="%{#importe+(productos.precio*cantidad)}"/>
