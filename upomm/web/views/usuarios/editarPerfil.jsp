@@ -28,8 +28,7 @@
 
         <%@include file="../utils/header.jsp" %>
         <!-- Page Content -->
-        <main class="container">
-
+        <main class="container-fluid mt-4">
             <div class="row">
                 <!-- LISTA DE CATEGORÍAS -->
                 <div class="col-lg-3">
@@ -41,17 +40,17 @@
                             </li>
                             <s:if test="#session.usuario.tipo!='admin'">
                                 <li class="list-group-item">
-                                    <a href="/upomm/views/usuarios/deseos.jsp" class="menu-link">Lista de deseos</a>
+                                    <a href="/upomm/views/usuarios/deseos.jsp" class="menu-link">Lista de Deseos</a>
                                 </li>
                             </s:if>
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-9 mx-auto my-auto">
                     <s:if test="hasActionErrors()">
                         <s:actionerror cssClass="alert alert-danger list-unstyled" />
                     </s:if>
-                    <div class="card mt-4">
+                    <div class="card mt-2">
                         <span>
                             <s:a href="./perfil.jsp"><i class="fas fa-window-close pull-right"></i></s:a>
                         </span>

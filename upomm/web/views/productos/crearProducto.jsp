@@ -19,7 +19,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Crear Producto - UMM</title>
+            <title>Gestionar Producto - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/crearProducto.css" rel="stylesheet" type="text/css"/>
             <link href="/upomm/css/misProductos.css" rel="stylesheet" type="text/css"/>
@@ -57,7 +57,7 @@
         </head>
         <body>
             <%@include file="../utils/header.jsp" %>
-            <main class="container-fluid">
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">
@@ -75,7 +75,7 @@
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-lg-7 my-auto mx-auto border-left border-right px-4">
+                    <div class="col-lg-7 my-auto mx-auto border rounded-lg px-4 py-2">
                         <s:if test="%{producto!=null}">
                             <s:set var="accion" value="'modificarProducto'"/>
                         </s:if>
@@ -134,9 +134,11 @@
                                 <button type="button" id="add_field" class="btn btn-sm btn-outline-primary">Agregar</button>
                                 <div class="form-row mt-2">
                                     <div class="col-md-5 mb-0">
+                                        <s:fielderror fieldName="nombreCaracteristica" cssClass="list-unstyled errorMessage"/>
                                         <label>Característica:</label>
                                     </div>
                                     <div class="col-md-5 mb-0">
+                                        <s:fielderror fieldName="descripcionCaracteristica" cssClass="list-unstyled errorMessage"/>
                                         <label>Descripción Característica:</label>
                                     </div>
                                 </div>
@@ -147,11 +149,11 @@
                                         <s:iterator>
                                             <div class="form-row">
                                                 <div class="col-md-5 mb-3">
-                                                    <s:textfield name="nombreCaracteristica" cssClass="form-control" value="%{id.nombre}" errorPosition="bottom"/>
+                                                    <s:textfield name="nombreCaracteristica" cssClass="form-control" value="%{id.nombre}" placeholder="Característica" theme="simple"/>
 
                                                 </div>
                                                 <div class="col-md-5 mb-3">
-                                                    <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="%{valor}" errorPosition="bottom"/>
+                                                    <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="%{valor}" placeholder="Descripción" theme="simple"/>
                                                 </div>
                                                 <s:if test="%{!#primero}">
                                                     <div class='col-md-1 mb-3'>
@@ -172,12 +174,13 @@
                                     <s:if test="%{nombreCaracteristica==null || nombreCaracteristica.empty}">
                                         <div class="form-row">
                                             <div class="col-md-5 mb-3">
-                                                <s:textfield name="nombreCaracteristica" cssClass="form-control" value="" errorPosition="bottom" placeholder='Característica'/>
+                                                <s:textfield name="nombreCaracteristica" cssClass="form-control" value="" placeholder="Característica" theme="simple"/>
                                             </div>
                                             <div class="col-md-5 mb-3">
-                                                <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="" errorPosition="bottom" placeholder='Descripción'/>
+                                                <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="" placeholder="Descripción" theme="simple"/>
                                             </div>
                                         </div>
+                                            <hr/>
                                     </s:if>
                                     <s:else>
                                         <s:iterator begin="0" end="%{nombreCaracteristica.size-1}" var="i">
@@ -185,10 +188,10 @@
                                             <s:set var="dc" value="%{descripcionCaracteristica[#i]}"/>
                                             <div class="form-row">
                                                 <div class="col-md-5 mb-3">
-                                                    <s:textfield name="nombreCaracteristica" cssClass="form-control" value="%{#nc}" errorPosition="bottom" placeholder='Característica'/>
+                                                    <s:textfield name="nombreCaracteristica" cssClass="form-control" value="%{#nc}" placeholder="Característica" theme="simple"/>
                                                 </div>
                                                 <div class="col-md-5 mb-3">
-                                                    <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="%{#dc}" errorPosition="bottom" placeholder='Descripción'/>
+                                                    <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="%{#dc}" placeholder="Descripción" theme="simple"/>
                                                 </div>
                                                 <s:if test="%{#i>0}">
                                                     <div class='col-md-1 mb-3'>

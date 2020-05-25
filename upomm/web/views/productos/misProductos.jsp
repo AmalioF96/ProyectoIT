@@ -36,7 +36,7 @@
         <body>
             <%@include file="../utils/header.jsp" %>
             <!-- Page Content -->
-            <main class="container-fluid">
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">
@@ -67,7 +67,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Nombre</th>
+                                        <th class="text-left">Nombre</th>
                                         <th>Precio(&euro;)</th>
                                         <th>Imagen</th>
                                         <th>Disponible</th>
@@ -89,9 +89,15 @@
                                             <s:set var="img" value="imagen"/>
                                         </s:else>
                                         <tr>
-                                            <td><s:property value="idProducto"/></td>
-                                            <td><s:a href="%{idProductoUrl}"><s:property value="nombre"/></s:a></td>
-                                            <td><s:property value="precio"/></td>
+                                            <td>
+                                                <s:property value="idProducto"/>
+                                            </td>
+                                            <td class="text-left">
+                                                <s:a href="%{idProductoUrl}"><s:property value="nombre"/></s:a>
+                                            </td>
+                                            <td>
+                                            <s:property value="precio"/>
+                                            </td>
                                             <td>                                                    
                                                 <img style="max-width: 60px" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block" data-src="<s:property value="%{#img}"/>"/>
                                             </td>
@@ -105,8 +111,8 @@
                                             </td>
                                             <td>
                                                 <s:a href="%{editarProductoUrl}" cssClass="btn btn-warning btn-md">Editar</s:a>
-                                                </td>
-                                            </tr>
+                                            </td>
+                                        </tr>
                                     </s:iterator>
                                 </tbody>
                             </table>

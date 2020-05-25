@@ -52,7 +52,7 @@
 </script>
 <div class="container-fluid mb-4">
     <div class="row mx-auto">
-        <div class="col-md-9 mt-3 mx-auto">
+        <div class="col-md-9 mx-auto">
             <s:form id='searchForm' cssClass="md-form mr-auto mb-1" action='listarProductos' theme="simple" method="GET" autocomplete="off">
                 <div class="row">
                     <div class="col-sm-4 pl-0 mx-auto">
@@ -76,7 +76,7 @@
                 </div>
             </s:form>
         </div>
-        <div class="pl-2 pr-0 col-md-3 mb-0 mt-3 mx-auto ordenacion">
+        <div class="pl-2 pr-0 col-md-3 mb-0 mx-auto ordenacion">
             <s:form id="ordenarResultados" class="mr-auto mb-1" method="GET" theme="simple">
                 <s:if test="#parameters.categoria!=null">
                     <s:textfield name="categoria" value="%{#parameters.categoria}" hidden="true"/>

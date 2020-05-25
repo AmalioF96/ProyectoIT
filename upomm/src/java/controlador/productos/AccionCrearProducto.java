@@ -80,15 +80,22 @@ public class AccionCrearProducto extends ActionSupport {
             this.setDescripcionCaracteristica(new ArrayList<>());
             addFieldError("descripcionCaracteristica", "Las descripciones deben estar rellenas");
         }
-        if (this.nombreCaracteristica.size() > this.descripcionCaracteristica.size()) {
-            while (this.nombreCaracteristica.size() > this.descripcionCaracteristica.size()) {
-                this.descripcionCaracteristica.add("");
+        boolean vacio = false;
+        for (String c : this.getDescripcionCaracteristica()) {
+            if (c.trim().equals("")) {
+                vacio = true;
             }
+        }
+        if (this.nombreCaracteristica.size() > this.descripcionCaracteristica.size() || vacio) {
             addFieldError("descripcionCaracteristica", "Debe proporcionar una descripción para cada característica");
-        } else if (this.nombreCaracteristica.size() < this.descripcionCaracteristica.size()) {
-            while (this.nombreCaracteristica.size() < this.descripcionCaracteristica.size()) {
-                this.nombreCaracteristica.add("");
+        }
+        vacio = false;
+        for (String c : this.getNombreCaracteristica()) {
+            if (c.trim().equals("")) {
+                vacio = true;
             }
+        }
+        if (this.nombreCaracteristica.size() < this.descripcionCaracteristica.size() || vacio) {
             addFieldError("nombreCaracteristica", "Debe proporcionar un nombre para cada característica");
         }
 
@@ -264,13 +271,7 @@ public class AccionCrearProducto extends ActionSupport {
     }
 
     public void setNombreCaracteristica(List<String> nombreCaracteristica) {
-        List<String> l = new ArrayList();
-        for (String nc : nombreCaracteristica) {
-            if (nc.trim().length() > 0) {
-                l.add(nc.trim());
-            }
-        }
-        this.nombreCaracteristica = l;
+        this.nombreCaracteristica = nombreCaracteristica;
     }
 
     public List<String> getDescripcionCaracteristica() {
@@ -278,13 +279,8 @@ public class AccionCrearProducto extends ActionSupport {
     }
 
     public void setDescripcionCaracteristica(List<String> descripcionCaracteristica) {
-        List<String> l = new ArrayList();
-        for (String dc : descripcionCaracteristica) {
-            if (dc.trim().length() > 0) {
-                l.add(dc.trim());
-            }
-        }
-        this.descripcionCaracteristica = l;
+
+        this.descripcionCaracteristica = descripcionCaracteristica;
     }
 
     public File getArchivoVenta() {

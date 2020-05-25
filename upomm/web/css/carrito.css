@@ -11,10 +11,14 @@ input.cantidad {
     padding: 0;
 }
 .fa-trash{
-    color: red;
-    font-weight: bold;
-    font-size: 16pt;
+    color:gray;
+    font-size: 14pt;
 }
 .fa-trash:hover{
-    font-size: 18pt;
+    color:red;
+    font-size: 15pt;
+}
+td,th {
+    vertical-align: middle !important;
+    text-align: center;
 }

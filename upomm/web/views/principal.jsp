@@ -13,7 +13,7 @@
             <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                <title>UMM-Principal</title>
+                <title>Principal - UPOMediaMarket</title>
                 <%@include file="/views/utils/includes.jsp" %>
                 <link href="/upomm/css/principal.css" rel="stylesheet" type="text/css"/>
                 <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
@@ -61,7 +61,7 @@
                     </script>
                 </s:if>
                 <%@include file="utils/header.jsp" %>
-                <main class="container-fluid">
+                <main class="container-fluid mt-4">
                     <div class="row">
                         <div class="col-lg-3">
                             <nav id='categorias' class="list-group make-me-sticky">
@@ -149,7 +149,7 @@
                                                 <div class = "card-footer">
                                                     <small class = "text-muted stars">
                                                         <span hidden>
-                                                            <s:number  name="puntuaciones[idProducto]" maximumFractionDigits="1" />
+                                                            <s:property  value="puntuaciones[idProducto]"/>
                                                         </span>
                                                     </small>
                                                     <small class="text-muted pull-right">
