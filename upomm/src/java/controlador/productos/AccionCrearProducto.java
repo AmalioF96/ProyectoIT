@@ -150,6 +150,10 @@ public class AccionCrearProducto extends ActionSupport {
                 }
                 prod.setCaracteristicasProductoses(cars);
                 if (ProductoDAO.actualizaProducto(prod)) {
+                    nuevaRuta = ServletActionContext.getServletContext().getRealPath("/archivos");
+                    nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
+                            + getArchivoVentaContentType().substring(getArchivoVentaContentType().indexOf("/") + 1);
+                    this.getArchivoVenta().renameTo(new File(nuevaRuta + nuevoNombre));
                     salida = SUCCESS;
                 }
             }
@@ -162,6 +166,10 @@ public class AccionCrearProducto extends ActionSupport {
 
     public String modificar() {
         String salida = ERROR;
+        String nuevaRuta;
+        String nuevoNombre;
+        Map session = (Map) ActionContext.getContext().get("session");
+        Usuarios user = (Usuarios) session.get("usuario");
         if (this.getOperacion() != null && this.getIdProducto() != null && this.getOperacion().equals("modificar")) {
             try {
                 Productos p = this.getProducto();
@@ -169,7 +177,19 @@ public class AccionCrearProducto extends ActionSupport {
                 p.setDescripcion(this.getDescripcion());
                 p.setPrecio(Float.parseFloat(this.getPrecio()));
                 p.setDisponible(this.isDisponible());
-
+                if (this.getImagen() != null) {
+                    nuevaRuta = ServletActionContext.getServletContext().getRealPath("/imagenes");
+                    nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
+                            + getImagenContentType().substring(getImagenContentType().indexOf("/") + 1);
+                    this.getImagen().renameTo(new File(nuevaRuta + nuevoNombre));
+                    p.setImagen("/upomm/imagenes" + nuevoNombre);
+                }
+                if (this.getArchivoVenta() != null) {
+                    nuevaRuta = ServletActionContext.getServletContext().getRealPath("/archivos");
+                    nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
+                            + getArchivoVentaContentType().substring(getArchivoVentaContentType().indexOf("/") + 1);
+                    this.getArchivoVenta().renameTo(new File(nuevaRuta + nuevoNombre));
+                }
                 Iterator<CategoriasProductos> it = p.getCategoriasProductoses().iterator();
                 while (it.hasNext()) {
                     CategoriasProductos cp = it.next();

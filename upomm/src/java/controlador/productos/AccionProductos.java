@@ -2,6 +2,8 @@ package controlador.productos;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +14,7 @@ import java.util.Set;
 import modelo.Productos;
 import modelo.Usuarios;
 import modelo.Valoraciones;
+import org.apache.struts2.ServletActionContext;
 
 /**
  *
@@ -189,10 +192,17 @@ public class AccionProductos extends ActionSupport {
             long t = Long.parseLong(this.getTime());
             Date d = new Date();
             long current = d.getTime();
+            //Comprobamos que no ha expirado el enlace
             if ((current - t) < 1800000) {
                 Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
                 if (p != null) {
-                    this.setRecurso("enlace");
+                    File dir = new File(ServletActionContext.getServletContext().getRealPath("/archivos"));
+                    File[] matches = dir.listFiles(new FilenameFilter() {
+                        public boolean accept(File dir, String name) {
+                            return name.startsWith(p.getUsuarios().getNombre()+"_"+p.getNombre()+"_");
+                        }
+                    });
+                    this.setRecurso("/upomm/archivos/"+matches[0].getName());
                     salida = SUCCESS;
                 }
             }
