@@ -20,9 +20,7 @@ import modelo.Usuarios;
  */
 public class AccionVenta extends ActionSupport {
 
-    private boolean terminosYCondiciones;
-
-    private float total;
+    private List<Productos> compra = null;
 
     @Override
     public void validate() {
@@ -32,15 +30,11 @@ public class AccionVenta extends ActionSupport {
 
         if (carrito == null || cantidades == null) {
             addFieldError("", ERROR);
-            addActionError("ERROR: no se pudo finalizar la venta");
+            addActionError("ERROR: no se pudo registrar la venta");
         } else if (carrito.size() != cantidades.size()) {
             addFieldError("", ERROR);
-            addActionError("ERROR: no se pudo finalizar la venta");
+            addActionError("ERROR: no se pudo registrar la venta");
         }
-        if (!this.isTerminosYCondiciones()) {
-            addFieldError("terminosYCondiciones", "Debe aceptar los términos y condiciones del servicio");
-        }
-
     }
 
     @Override
@@ -48,7 +42,7 @@ public class AccionVenta extends ActionSupport {
         Map session = (Map) ActionContext.getContext().get("session");
         List<Productos> carrito = (List<Productos>) session.get("carrito");
         Map<Integer, Integer> cantidades = (Map) session.get("cantidad");
-        
+
         //Variable de salida
         String salida = SUCCESS;
         //Declaracion de variables
@@ -81,18 +75,22 @@ public class AccionVenta extends ActionSupport {
         }
         if (salida.equals(SUCCESS)) {
             session.put("carrito", new ArrayList());
-            session.remove(cantidades);
+            session.put("cantidad", null);
+            Usuarios usuario = (Usuarios) session.get("usuario");
+            usuario.getComprases().add(c);
+            this.setCompra(new ArrayList(carrito));
+        } else {
+            addActionError("ERROR: se ha podido registrar la compra.");
         }
-        Usuarios usuario = (Usuarios) session.get("usuario");
-        usuario.getComprases().add(c);
+
         return salida;
     }
-
-    public boolean isTerminosYCondiciones() {
-        return terminosYCondiciones;
+    
+    public List<Productos> getCompra() {
+        return compra;
     }
 
-    public void setTerminosYCondiciones(boolean terminosYCondiciones) {
-        this.terminosYCondiciones = terminosYCondiciones;
+    public void setCompra(List<Productos> compra) {
+        this.compra = compra;
     }
 }

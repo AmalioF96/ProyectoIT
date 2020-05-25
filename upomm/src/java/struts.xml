@@ -115,6 +115,13 @@
             <result name="success">/views/productos/misProductos.jsp</result>
             <result name="error">/views/principal.jsp</result>
         </action>
+        <action name="descargarArchivo" class="controlador.productos.AccionProductos" method="descargar">
+            <result name="success" type="redirect">
+                <param name="location">/views/ventas/descarga.jsp</param>
+                <param name="file">${recurso}</param>
+            </result>
+            <result name="error">/views/ventas/confirmacion.jsp</result>
+        </action>
     </package>
     <package name="reclamaciones" extends="struts-default">
         <action name="crearReclamacion" class="controlador.reclamaciones.AccionReclamaciones" method="crear">
@@ -209,9 +216,9 @@
             <result name="input">/views/ventas/carrito.jsp</result>
         </action>
         <action name="accionFinalizarCompra" class="controlador.ventas.AccionVenta">
-            <result name="input">/views/ventas/finalizarCompra.jsp</result>
-            <result name="success">/views/ventas/carrito.jsp</result>
-            <result name="error">/views/principal.jsp</result>
+            <result name="success">/views/ventas/confirmacion.jsp</result>
+            <result name="error">/views/ventas/confirmacion.jsp</result>
+            <result name="input">/views/ventas/confirmacion.jsp</result>
         </action>
         <action name="listarCompras" class="controlador.ventas.AccionComprasUsuario" method="listarCompras">
             <result name="success">/views/ventas/misCompras.jsp</result>

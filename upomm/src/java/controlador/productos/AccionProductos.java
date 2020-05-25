@@ -3,6 +3,7 @@ package controlador.productos;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,13 +19,15 @@ import modelo.Valoraciones;
  */
 public class AccionProductos extends ActionSupport {
 
-    private List<Productos> productos = null;
+    private List<Productos> productos;
     private Map<Integer, Float> puntuaciones;
     private Integer idProducto;
-    private Productos producto = null;
-    private String origin = null;
-    private String categoria = null;
-    private String busqueda = null;
+    private Productos producto;
+    private String origin;
+    private String categoria;
+    private String busqueda;
+    private String recurso;
+    private String time;
 
     public AccionProductos() {
         this.puntuaciones = new HashMap();
@@ -180,6 +183,23 @@ public class AccionProductos extends ActionSupport {
         return salida;
     }
 
+    public String descargar() {
+        String salida = ERROR;
+        if (this.getIdProducto() != null && this.getTime() != null) {
+            long t = Long.parseLong(this.getTime());
+            Date d = new Date();
+            long current = d.getTime();
+            if ((current - t) < 1800000) {
+                Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
+                if (p != null) {
+                    this.setRecurso("enlace");
+                    salida = SUCCESS;
+                }
+            }
+        }
+        return salida;
+    }
+
     public List<Productos> getProductos() {
         return productos;
     }
@@ -239,4 +259,19 @@ public class AccionProductos extends ActionSupport {
         this.busqueda = busqueda;
     }
 
+    public String getRecurso() {
+        return recurso;
+    }
+
+    public void setRecurso(String recurso) {
+        this.recurso = recurso;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }
