@@ -42,7 +42,7 @@
 
             <!-- Page Content -->
             <main class="container-fluid mt-4 mx-auto">
-                <h3>Mi carrito</h3>
+                <h3>Mi Carrito</h3>
                 <hr>
                 <s:if test="%{#session.carrito==null || #session.carrito.empty}">
                     <div class='alert alert-info'>El carrito está vacío.</div>
