@@ -97,6 +97,7 @@
             <result name="success" type="redirect">
                 <param name="location">/views/productos/misProductos.jsp</param>
             </result>
+            <interceptor-ref name="defaultStack" />
             <result name="error">/views/productos/crearProducto.jsp</result>
             <result name="input">/views/productos/crearProducto.jsp</result>
         </action>

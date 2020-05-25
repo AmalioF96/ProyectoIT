@@ -10,8 +10,8 @@
         <script>
             $(document).ready(function () {
                 var a = document.createElement('a');
-                a.download = 'http://localhost:8082/upomm/imagenes/UPOMediaMarket.jpg';
-                a.href = 'http://localhost:8082/upomm/imagenes/UPOMediaMarket.jpg';
+                a.download = "<s:property value="#parameters.file"/>";
+                a.href = "<s:property value="#parameters.file"/>";
                 document.body.appendChild(a);
                 a.click();
                 window.onblur = function(){ window.close();};
