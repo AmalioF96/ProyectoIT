@@ -3,6 +3,7 @@ package controlador.productos;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -110,7 +111,7 @@ public class AccionCrearProducto extends ActionSupport {
 
     public String execute() throws Exception {
         String salida = ERROR;
-        String nuevaRuta;
+        String path;
         String nuevoNombre;
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
@@ -121,11 +122,11 @@ public class AccionCrearProducto extends ActionSupport {
             prod.setDescripcion(this.getDescripcion());
             prod.setPrecio(Float.parseFloat(this.getPrecio()));
             prod.setDisponible(this.isDisponible());
-            nuevaRuta = ServletActionContext.getServletContext().getRealPath("/imagenes");
-            nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
+            path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "/imagenes";
+            nuevoNombre = user.getEmail() + "_" + this.getIdProducto() + "_" + System.currentTimeMillis() + "."
                     + getImagenContentType().substring(getImagenContentType().indexOf("/") + 1);
-            this.getImagen().renameTo(new File(nuevaRuta + nuevoNombre));
-            prod.setImagen("/upomm/imagenes" + nuevoNombre);
+            this.getImagen().renameTo(new File(path + nuevoNombre));
+            prod.setImagen("/upomm/imagenes/" + nuevoNombre);
 
             prod.setIdProducto(ProductoDAO.crearProducto(prod));
 
@@ -150,10 +151,10 @@ public class AccionCrearProducto extends ActionSupport {
                 }
                 prod.setCaracteristicasProductoses(cars);
                 if (ProductoDAO.actualizaProducto(prod)) {
-                    nuevaRuta = ServletActionContext.getServletContext().getRealPath("/archivos");
-                    nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
+                    path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "archivos/";
+                    nuevoNombre = "file_" + user.getEmail() + "_" + this.getIdProducto() + "_" + System.currentTimeMillis() + "."
                             + getArchivoVentaContentType().substring(getArchivoVentaContentType().indexOf("/") + 1);
-                    this.getArchivoVenta().renameTo(new File(nuevaRuta + nuevoNombre));
+                    this.getArchivoVenta().renameTo(new File(path + nuevoNombre));
                     salida = SUCCESS;
                 }
             }
@@ -166,7 +167,7 @@ public class AccionCrearProducto extends ActionSupport {
 
     public String modificar() {
         String salida = ERROR;
-        String nuevaRuta;
+        String path;
         String nuevoNombre;
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
@@ -178,17 +179,39 @@ public class AccionCrearProducto extends ActionSupport {
                 p.setPrecio(Float.parseFloat(this.getPrecio()));
                 p.setDisponible(this.isDisponible());
                 if (this.getImagen() != null) {
-                    nuevaRuta = ServletActionContext.getServletContext().getRealPath("/imagenes");
-                    nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
+                    path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "imagenes/";
+                    File dir = new File(path);
+                    File[] matches = dir.listFiles(new FilenameFilter() {
+                        public boolean accept(File dir, String name) {
+                            return name.startsWith(user.getEmail() + "_" + p.getIdProducto() + "_");
+                        }
+                    });
+                    if (matches.length > 0) {
+                        for (File match : matches) {
+                            match.delete();
+                        }
+                    }
+                    nuevoNombre = user.getEmail() + "_" + this.getIdProducto() + "_" + System.currentTimeMillis() + "."
                             + getImagenContentType().substring(getImagenContentType().indexOf("/") + 1);
-                    this.getImagen().renameTo(new File(nuevaRuta + nuevoNombre));
-                    p.setImagen("/upomm/imagenes" + nuevoNombre);
+                    this.getImagen().renameTo(new File(path + nuevoNombre));
+                    p.setImagen("/upomm/imagenes/" + nuevoNombre);
                 }
                 if (this.getArchivoVenta() != null) {
-                    nuevaRuta = ServletActionContext.getServletContext().getRealPath("/archivos");
-                    nuevoNombre = "/" + user.getNombre() + "_" + this.getNombre() + "_" + System.currentTimeMillis() + "."
+                    path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "archivos/";
+                    File dir = new File(path);
+                    File[] matches = dir.listFiles(new FilenameFilter() {
+                        public boolean accept(File dir, String name) {
+                            return name.startsWith("file_" + user.getEmail() + "_" + p.getIdProducto() + "_");
+                        }
+                    });
+                    if (matches.length > 0) {
+                        for (File match : matches) {
+                            match.delete();
+                        }
+                    }
+                    nuevoNombre = "file_" + user.getEmail() + "_" + this.getIdProducto() + "_" + System.currentTimeMillis() + "."
                             + getArchivoVentaContentType().substring(getArchivoVentaContentType().indexOf("/") + 1);
-                    this.getArchivoVenta().renameTo(new File(nuevaRuta + nuevoNombre));
+                    this.getArchivoVenta().renameTo(new File(path + nuevoNombre));
                 }
                 Iterator<CategoriasProductos> it = p.getCategoriasProductoses().iterator();
                 while (it.hasNext()) {
