@@ -116,7 +116,7 @@
                                 <label for="imagen">Añade una imagen:</label>
                                 <br/>
                                 <s:if test="%{producto!=null && producto.imagen!=''}">
-                                    <img src="<s:property value="%{producto.imagen}"/>" alt="Imagen producto"/>
+                                    <img class="img-fluid img-thumbnail rounded mt-2 mb-3 mx-auto d-block" src="<s:property value="%{producto.imagen}"/>" alt="Imagen producto"/>
                                 </s:if>
                                 <s:file id="imagen" name="imagen" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
                             </div>

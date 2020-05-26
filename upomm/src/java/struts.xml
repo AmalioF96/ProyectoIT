@@ -117,10 +117,7 @@
             <result name="error">/views/principal.jsp</result>
         </action>
         <action name="descargarArchivo" class="controlador.productos.AccionProductos" method="descargar">
-            <result name="success" type="redirect">
-                <param name="location">/views/ventas/descarga.jsp</param>
-                <param name="file">${recurso}</param>
-            </result>
+            <result name="success">/views/ventas/descarga.jsp</result>
             <result name="error">/views/ventas/confirmacion.jsp</result>
         </action>
     </package>

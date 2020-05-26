@@ -5,10 +5,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -213,7 +209,17 @@ public class AccionProductos extends ActionSupport {
                     });
                     if (matches.length > 0) {
                         File original = matches[0];
-                        this.setRecurso("/upomm/archivos/"+original.getName());
+                        String ext = original.getName().substring(original.getName().lastIndexOf("."));
+                        String ruta = ServletActionContext.getServletContext().getRealPath("/tmp/");
+                        String nuevoNombre = p.getNombre() + "_" + System.currentTimeMillis() + ext;
+                        File copia = new File(ruta+nuevoNombre); 
+                        try {
+                            FileUtils.copyFile(original, copia);
+                        } catch (IOException ex) {
+                            Logger.getLogger(AccionProductos.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        this.setRecurso("/upomm/tmp/" + nuevoNombre);
+
                         salida = SUCCESS;
                     }
                 }
