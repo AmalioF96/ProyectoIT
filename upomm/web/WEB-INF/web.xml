@@ -16,4 +16,8 @@
     <welcome-file-list>
         <welcome-file></welcome-file>
     </welcome-file-list>
+    <context-param>
+        <param-name>upload.location</param-name>
+        <param-value>C:/Users/marwi/Dropbox/Documentos/NetBeansProjects/IT/ProyectoIT/upomm/web/</param-value>
+    </context-param>
 </web-app>

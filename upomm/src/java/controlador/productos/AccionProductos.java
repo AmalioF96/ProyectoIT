@@ -4,6 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,9 +12,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Productos;
 import modelo.Usuarios;
 import modelo.Valoraciones;
+import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
 /**
@@ -196,14 +200,28 @@ public class AccionProductos extends ActionSupport {
             if ((current - t) < 1800000) {
                 Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
                 if (p != null) {
-                    File dir = new File(ServletActionContext.getServletContext().getRealPath("/archivos"));
+                    String path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "/archivos";
+                    File dir = new File(path);
                     File[] matches = dir.listFiles(new FilenameFilter() {
                         public boolean accept(File dir, String name) {
-                            return name.startsWith(p.getUsuarios().getNombre()+"_"+p.getNombre()+"_");
+                            return name.startsWith("file_" + p.getUsuarios().getEmail() + "_" + p.getIdProducto() + "_");
                         }
                     });
-                    this.setRecurso("/upomm/archivos/"+matches[0].getName());
-                    salida = SUCCESS;
+                    if (matches.length > 0) {
+                        File original = matches[0];
+                        String ext = original.getName().substring(original.getName().lastIndexOf("."));
+                        String ruta = ServletActionContext.getServletContext().getRealPath("/tmp/");
+                        String nuevoNombre = p.getNombre() + "_" + System.currentTimeMillis() + ext;
+                        File copia = new File(ruta+nuevoNombre); 
+                        try {
+                            FileUtils.copyFile(original, copia);
+                        } catch (IOException ex) {
+                            Logger.getLogger(AccionProductos.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        this.setRecurso("/upomm/tmp/" + nuevoNombre);
+
+                        salida = SUCCESS;
+                    }
                 }
             }
         }
