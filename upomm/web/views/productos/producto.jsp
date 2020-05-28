@@ -300,20 +300,20 @@
                                     Opiniones del producto
                                 </div>
                                 <div class="card-body">
+                                    <s:form id='formValoracionProducto' cssStyle="display:none" cssClass="formValoracion" action="insertarValoracion" theme="simple">
+                                        <hr>
+                                        <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
+                                        <s:iterator begin="1" end="5" step="1" var="index">
+                                            <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
+                                        </s:iterator>
+                                        <s:hidden id="puntuacion" name="puntuacion"/>
+                                        <s:hidden name="idProducto" type="number" value="%{producto.idProducto}"/>
+                                        <s:hidden value="insertar" name="operacion"/>
+                                        <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
+                                        <hr>
+                                    </s:form>
                                     <s:if test="producto.valoracioneses.isEmpty()">
                                         <p>Aún no hay opiniones para este producto.</p>
-                                        <s:form id='formValoracionProducto' cssStyle="display:none" cssClass="formValoracion" action="insertarValoracion" theme="simple">
-                                            <hr>
-                                            <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
-                                            <s:iterator begin="1" end="5" step="1" var="index">
-                                                <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
-                                            </s:iterator>
-                                            <s:hidden id="puntuacion" name="puntuacion"/>
-                                            <s:hidden name="idProducto" type="number" value="%{producto.idProducto}"/>
-                                            <s:hidden value="insertar" name="operacion"/>
-                                            <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
-                                            <hr>
-                                        </s:form>
                                     </s:if>
                                     <s:else>
                                         <s:bean name="modelo.comparators.ComparadorValoraciones" var="comparador">
@@ -356,11 +356,9 @@
                                                 </s:iterator>
                                             </s:iterator>
                                         </s:if>
-                                        <s:if test="#valorado==null && #comprado!=null">
+                                        <s:if test="%{#valorado==null && #comprado!=null && !producto.usuarios.equals(#session.usuario)}">
                                             <script>
-                                                $(document).ready(function () {
-                                                    $("#formValoracionProducto").show();
-                                                });
+                                                $("#formValoracionProducto").show();
                                             </script>
                                         </s:if>
                                     </div>
