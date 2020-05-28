@@ -207,7 +207,7 @@
                                     <s:if test="#session.usuario != null">
                                         <s:if test="#session.usuario.tipo=='admin'">
                                             <s:form action="retirarProducto">
-                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:hidden name="idProducto" value="%{producto.idProducto}"/>
                                                 <s:submit cssClass="btn btn-danger" name="btnRetirar" value="Retirar producto" />
                                             </s:form>
                                         </s:if>
@@ -219,7 +219,7 @@
                                         </s:elseif>
                                         <s:elseif test="%{!#session.carrito.contains(producto)}">
                                             <s:form action="agregarCarrito" cssClass="float-left">
-                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:hidden name="idProducto" value="%{producto.idProducto}"/>
                                                 <button class="btn btn-primary pull-left mr-4 mb-2" name="btnAgregarCarrito">
                                                     Agregar al carrito 
                                                     <i class="fas fa-cart-plus"></i>
@@ -228,7 +228,7 @@
                                         </s:elseif>
                                         <s:else>
                                             <s:form action="eliminarCarrito" cssClass="float-left">
-                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:hidden name="idProducto" value="%{producto.idProducto}"/>
                                                 <button class="btn btn-outline-primary pull-left mr-4 mb-2" name="btnEliminarCarrito">
                                                     Eliminar del carrito 
                                                     <i class="fas fa-trash-alt"></i>
@@ -300,20 +300,20 @@
                                     Opiniones del producto
                                 </div>
                                 <div class="card-body">
+                                    <s:form id='formValoracionProducto' cssStyle="display:none" cssClass="formValoracion" action="insertarValoracion" theme="simple">
+                                        <hr>
+                                        <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
+                                        <s:iterator begin="1" end="5" step="1" var="index">
+                                            <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
+                                        </s:iterator>
+                                        <s:hidden id="puntuacion" name="puntuacion"/>
+                                        <s:hidden name="idProducto" type="number" value="%{producto.idProducto}"/>
+                                        <s:hidden value="insertar" name="operacion"/>
+                                        <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
+                                        <hr>
+                                    </s:form>
                                     <s:if test="producto.valoracioneses.isEmpty()">
                                         <p>Aún no hay opiniones para este producto.</p>
-                                        <s:form id='formValoracionProducto' cssStyle="display:none" cssClass="formValoracion" action="insertarValoracion" theme="simple">
-                                            <hr>
-                                            <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
-                                            <s:iterator begin="1" end="5" step="1" var="index">
-                                                <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
-                                            </s:iterator>
-                                            <s:hidden id="puntuacion" name="puntuacion"/>
-                                            <s:textfield name="idProducto" type="number" value="%{producto.idProducto}"/>
-                                            <s:hidden value="insertar" name="operacion"/>
-                                            <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
-                                            <hr>
-                                        </s:form>
                                     </s:if>
                                     <s:else>
                                         <s:bean name="modelo.comparators.ComparadorValoraciones" var="comparador">
@@ -356,11 +356,9 @@
                                                 </s:iterator>
                                             </s:iterator>
                                         </s:if>
-                                        <s:if test="#valorado==null && #comprado!=null">
+                                        <s:if test="%{#valorado==null && #comprado!=null && !producto.usuarios.equals(#session.usuario)}">
                                             <script>
-                                                $(document).ready(function () {
-                                                    $("#formValoracionProducto").show();
-                                                });
+                                                $("#formValoracionProducto").show();
                                             </script>
                                         </s:if>
                                     </div>
