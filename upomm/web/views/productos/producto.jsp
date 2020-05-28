@@ -207,7 +207,7 @@
                                     <s:if test="#session.usuario != null">
                                         <s:if test="#session.usuario.tipo=='admin'">
                                             <s:form action="retirarProducto">
-                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:hidden name="idProducto" value="%{producto.idProducto}"/>
                                                 <s:submit cssClass="btn btn-danger" name="btnRetirar" value="Retirar producto" />
                                             </s:form>
                                         </s:if>
@@ -219,7 +219,7 @@
                                         </s:elseif>
                                         <s:elseif test="%{!#session.carrito.contains(producto)}">
                                             <s:form action="agregarCarrito" cssClass="float-left">
-                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:hidden name="idProducto" value="%{producto.idProducto}"/>
                                                 <button class="btn btn-primary pull-left mr-4 mb-2" name="btnAgregarCarrito">
                                                     Agregar al carrito 
                                                     <i class="fas fa-cart-plus"></i>
@@ -228,7 +228,7 @@
                                         </s:elseif>
                                         <s:else>
                                             <s:form action="eliminarCarrito" cssClass="float-left">
-                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:hidden name="idProducto" value="%{producto.idProducto}"/>
                                                 <button class="btn btn-outline-primary pull-left mr-4 mb-2" name="btnEliminarCarrito">
                                                     Eliminar del carrito 
                                                     <i class="fas fa-trash-alt"></i>
@@ -309,7 +309,7 @@
                                                 <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
                                             </s:iterator>
                                             <s:hidden id="puntuacion" name="puntuacion"/>
-                                            <s:textfield name="idProducto" type="number" value="%{producto.idProducto}"/>
+                                            <s:hidden name="idProducto" type="number" value="%{producto.idProducto}"/>
                                             <s:hidden value="insertar" name="operacion"/>
                                             <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
                                             <hr>
