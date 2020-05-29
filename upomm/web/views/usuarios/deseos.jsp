@@ -7,7 +7,7 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Carrito XXX - UPOMarket</title>
+            <title>Lista de Deseos - UPOMediaMarket</title>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
@@ -32,7 +32,7 @@
             <%@include file="../utils/header.jsp" %>
 
             <!-- Page Content -->
-            <main class="container">
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <!-- LISTA DE CATEGORÍAS -->
                     <div class="col-lg-3">
@@ -43,17 +43,16 @@
                                     <a href="/upomm/views/usuarios/perfil.jsp" class="menu-link">Ver Perfil</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <a href="/upomm/views/usuarios/deseos.jsp" class="menu-link active">Lista de deseos</a>
+                                    <a href="/upomm/views/usuarios/deseos.jsp" class="menu-link active">Lista de Deseos</a>
                                 </li>
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-9 mt-3">
+                    <div class="col-9 my-auto mx-auto table-responsive-sm">
                         <s:if test="%{#session.usuario.productoses_1==null || #session.usuario.productoses_1.empty}">
                             <div class='alert alert-info'>Aún no has añadido ningún producto a tu lista de deseos.</div>
                         </s:if>
                         <s:else>
-                            <div class='table-responsive-sm'>
                                 <table id="deseos" class="table table-striped table-bordered dataTable" style="width:100%">
                                     <thead>
                                         <tr>
@@ -100,7 +99,6 @@
                                         </s:iterator>
                                     </tbody>
                                 </table>
-                            </div>
                         </s:else>
                     </div>
                 </div>

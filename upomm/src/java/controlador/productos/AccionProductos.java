@@ -2,15 +2,23 @@ package controlador.productos;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Productos;
 import modelo.Usuarios;
 import modelo.Valoraciones;
+import org.apache.commons.io.FileUtils;
+import org.apache.struts2.ServletActionContext;
 
 /**
  *
@@ -18,13 +26,15 @@ import modelo.Valoraciones;
  */
 public class AccionProductos extends ActionSupport {
 
-    private List<Productos> productos = null;
+    private List<Productos> productos;
     private Map<Integer, Float> puntuaciones;
     private Integer idProducto;
-    private Productos producto = null;
-    private String origin = null;
-    private String categoria = null;
-    private String busqueda = null;
+    private Productos producto;
+    private String origin;
+    private String categoria;
+    private String busqueda;
+    private String recurso;
+    private String time;
 
     public AccionProductos() {
         this.puntuaciones = new HashMap();
@@ -143,10 +153,14 @@ public class AccionProductos extends ActionSupport {
 
             Map session = (Map) ActionContext.getContext().get("session");
             List<Productos> carrito = (List<Productos>) session.get("carrito");
+            Map<Integer, Integer> cantidad = (Map) session.get("cantidad");
             Productos p = new Productos();
             p.setIdProducto(this.getIdProducto());
 
             if (carrito.remove(p)) {
+                if (cantidad != null && cantidad.containsKey(p.getIdProducto())) {
+                    cantidad.remove(p.getIdProducto());
+                }
                 if (origin != null && origin.equals("carrito")) {
                     salida = "carrito";
                 } else if (this.origin != null && this.origin.equals("deseos")) {
@@ -173,6 +187,44 @@ public class AccionProductos extends ActionSupport {
             }
         }
 
+        return salida;
+    }
+
+    public String descargar() {
+        String salida = ERROR;
+        if (this.getIdProducto() != null && this.getTime() != null) {
+            long t = Long.parseLong(this.getTime());
+            Date d = new Date();
+            long current = d.getTime();
+            //Comprobamos que no ha expirado el enlace
+            if ((current - t) < 1800000) {
+                Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
+                if (p != null) {
+                    String path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "/archivos";
+                    File dir = new File(path);
+                    File[] matches = dir.listFiles(new FilenameFilter() {
+                        public boolean accept(File dir, String name) {
+                            return name.startsWith("file_" + p.getUsuarios().getEmail() + "_" + p.getIdProducto() + "_");
+                        }
+                    });
+                    if (matches.length > 0) {
+                        File original = matches[0];
+                        String ext = original.getName().substring(original.getName().lastIndexOf("."));
+                        String ruta = ServletActionContext.getServletContext().getRealPath("/tmp/");
+                        String nuevoNombre = p.getNombre() + "_" + System.currentTimeMillis() + ext;
+                        File copia = new File(ruta+nuevoNombre); 
+                        try {
+                            FileUtils.copyFile(original, copia);
+                        } catch (IOException ex) {
+                            Logger.getLogger(AccionProductos.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        this.setRecurso("/upomm/tmp/" + nuevoNombre);
+
+                        salida = SUCCESS;
+                    }
+                }
+            }
+        }
         return salida;
     }
 
@@ -235,4 +287,19 @@ public class AccionProductos extends ActionSupport {
         this.busqueda = busqueda;
     }
 
+    public String getRecurso() {
+        return recurso;
+    }
+
+    public void setRecurso(String recurso) {
+        this.recurso = recurso;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

@@ -15,7 +15,7 @@
             <column name="password" length="200" not-null="true" />
         </property>
         <property name="foto" type="string">
-            <column name="foto" length="50" not-null="true" />
+            <column name="foto" length="250" not-null="true" />
         </property>
         <property name="tipo" type="string">
             <column name="tipo" length="15" not-null="true" />

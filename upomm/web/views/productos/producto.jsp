@@ -12,7 +12,7 @@
 <s:else>
     <html>
         <head>
-            <title>Producto XXX - UPOMarket</title>
+            <title><s:property value="producto.nombre"/> - UPOMediaMarket</title>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <%@include file="/views/utils/includes.jsp" %>
@@ -23,7 +23,7 @@
                 $(document).ready(function () {
                     animaEstrellas();
                     obtenerValoracion();
-                    var puntuacion = parseFloat(<s:property  value="getText('{0,number,#,##0.0}',{puntuaciones[producto.idProducto]})"/>);
+                    var puntuacion = parseFloat(<s:property  value="puntuaciones[producto.idProducto]"/>);
                     var k = 0;
                     for (k = 0; k < puntuacion; k++) {
                         var text = $("#productRating").text();
@@ -80,7 +80,6 @@
                                 $(estrellas[i]).removeClass("unchecked");
                             } else {
                                 $(estrellas[i]).removeClass("checked");
-                                //$(estrellas[i]).removeClass("clicked");
                                 $(estrellas[i]).addClass("unchecked");
                             }
                         }
@@ -126,9 +125,9 @@
                         $(valora).attr("id", "puntuacion-" + i);
                         $(form).append(valora);
                     }
-                    var btn = $("<input type='submit' class='btn btn-sm btn-success btn-valoracion pull-right' value='Guardar' name='editarValoracion'>");
+                    var btn = $("<input type='submit' class='btn btn-sm btn-primary btn-valoracion pull-right' value='Guardar' name='editarValoracion'>");
                     $(form).append(btn);
-                    btn = $("<button type='button' class='btn btn-sm btn-warning btn-valoracion pull-right'>Cancelar</button>");
+                    btn = $("<button type='button' class='btn btn-sm btn-secondary btn-valoracion pull-right'>Cancelar</button>");
                     $(form).append(btn);
                     $(form).append($("<input id='puntuacion' type='number' name='puntuacion' hidden>"));
                     $(form).append($("<input id='operacion' type='text' name='operacion' value='insertar' hidden>"));
@@ -150,11 +149,10 @@
                 <jsp:forward page="/views/principal.jsp"/>
             </s:if>
         </head>
-
         <body>
             <%@include file="../utils/header.jsp" %>
             <!-- Page Content -->
-            <main class="container">
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <s:if test="#request.error">
                         <div class="alert alert-danger" role="alert">El producto no existe.</div>       
@@ -188,7 +186,7 @@
                         </div>
                         <!-- /.col-lg-3 -->
                         <div class="col-lg-9">
-                            <div class="card mt-4">
+                            <div class="card mt-2">
                                 <s:if test="%{producto.imagen==''}">
                                     <s:set var="img" value="'default'"/>
                                 </s:if>
@@ -209,7 +207,7 @@
                                     <s:if test="#session.usuario != null">
                                         <s:if test="#session.usuario.tipo=='admin'">
                                             <s:form action="retirarProducto">
-                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:hidden name="idProducto" value="%{producto.idProducto}"/>
                                                 <s:submit cssClass="btn btn-danger" name="btnRetirar" value="Retirar producto" />
                                             </s:form>
                                         </s:if>
@@ -221,7 +219,7 @@
                                         </s:elseif>
                                         <s:elseif test="%{!#session.carrito.contains(producto)}">
                                             <s:form action="agregarCarrito" cssClass="float-left">
-                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:hidden name="idProducto" value="%{producto.idProducto}"/>
                                                 <button class="btn btn-primary pull-left mr-4 mb-2" name="btnAgregarCarrito">
                                                     Agregar al carrito 
                                                     <i class="fas fa-cart-plus"></i>
@@ -230,27 +228,27 @@
                                         </s:elseif>
                                         <s:else>
                                             <s:form action="eliminarCarrito" cssClass="float-left">
-                                                <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                <s:hidden name="idProducto" value="%{producto.idProducto}"/>
                                                 <button class="btn btn-outline-primary pull-left mr-4 mb-2" name="btnEliminarCarrito">
                                                     Eliminar del carrito 
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </s:form>
                                         </s:else>
-                                        <s:if test="%{producto.usuarios!=#session.usuario}">
+                                        <s:if test="%{!producto.usuarios.equals(#session.usuario) && !#session.usuario.tipo.equals('admin')}">
                                             <s:if test="%{producto in #session.usuario.productoses_1}">
                                                 <s:form action="eliminarDeseo" cssClass="float-left">
-                                                    <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
-                                                    <s:textfield name="origin" value="producto" hidden="true"/>
+                                                    <s:hidden name="idProducto" value="%{producto.idProducto}"/>
+                                                    <s:hidden name="origin" value="producto"/>
                                                     <button type="submit" class="btn btn-outline-secondary pull-left" name="btnDeseo">
                                                         Eliminar de la lista de deseos 
-                                                        <i style="color:red" class="fas fa-heart"></i>
+                                                        <i style="color:red" class="far fa-heart"></i>
                                                     </button>
                                                 </s:form>
                                             </s:if>
                                             <s:else>
                                                 <s:form action="crearDeseo" cssClass="float-left">
-                                                    <s:textfield name="idProducto" value="%{producto.idProducto}" hidden="true"/>
+                                                    <s:hidden name="idProducto" value="%{producto.idProducto}"/>
                                                     <button type="submit" class="btn btn-secondary pull-left" name="btnDeseo">
                                                         Añadir a mi lista de deseos 
                                                         <i style="color:red" class="fas fa-heart"></i>
@@ -302,20 +300,20 @@
                                     Opiniones del producto
                                 </div>
                                 <div class="card-body">
+                                    <s:form id='formValoracionProducto' cssStyle="display:none" cssClass="formValoracion" action="insertarValoracion" theme="simple">
+                                        <hr>
+                                        <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
+                                        <s:iterator begin="1" end="5" step="1" var="index">
+                                            <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
+                                        </s:iterator>
+                                        <s:hidden id="puntuacion" name="puntuacion"/>
+                                        <s:hidden name="idProducto" type="number" value="%{producto.idProducto}"/>
+                                        <s:hidden value="insertar" name="operacion"/>
+                                        <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
+                                        <hr>
+                                    </s:form>
                                     <s:if test="producto.valoracioneses.isEmpty()">
                                         <p>Aún no hay opiniones para este producto.</p>
-                                        <s:form id='formValoracionProducto' cssStyle="display:none" cssClass="formValoracion" action="insertarValoracion" theme="simple">
-                                            <hr>
-                                            <s:textarea cssClass="form-control" name="valoracion" placeholder="Valora el producto" required="true"/>
-                                            <s:iterator begin="1" end="5" step="1" var="index">
-                                                <span id = 'puntuacion-<s:property value="#index"/>' class = 'review fa fa-star unchecked'></span>
-                                            </s:iterator>
-                                            <s:textfield id="puntuacion" name="puntuacion" hidden="true"/>
-                                            <s:textfield name="idProducto" type="number" value="%{producto.idProducto}" hidden="true"/>
-                                            <s:textfield value="insertar" name="operacion" hidden="true"/>
-                                            <s:submit name="enviarValoracion" value="Enviar" cssClass="btn btn-primary btn-sm pull-right btn-valoracion"/>
-                                            <hr>
-                                        </s:form>
                                     </s:if>
                                     <s:else>
                                         <s:bean name="modelo.comparators.ComparadorValoraciones" var="comparador">
@@ -358,11 +356,9 @@
                                                 </s:iterator>
                                             </s:iterator>
                                         </s:if>
-                                        <s:if test="#valorado==null && #comprado!=null">
+                                        <s:if test="%{#valorado==null && #comprado!=null && !producto.usuarios.equals(#session.usuario)}">
                                             <script>
-                                                $(document).ready(function () {
-                                                    $("#formValoracionProducto").show();
-                                                });
+                                                $("#formValoracionProducto").show();
                                             </script>
                                         </s:if>
                                     </div>
@@ -376,7 +372,7 @@
             </main>
             <!-- /.container -->
             <s:form id="formEliminarValoracion" action="eliminarValoracion" theme="simple">
-                <s:textfield value="eliminar" name="operacion" hidden="true"/>
+                <s:hidden value="eliminar" name="operacion"/>
                 <s:submit hidden="true"/>
             </s:form>
             <%@include file="../utils/footer.html" %>

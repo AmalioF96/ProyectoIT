@@ -97,6 +97,7 @@
             <result name="success" type="redirect">
                 <param name="location">/views/productos/misProductos.jsp</param>
             </result>
+            <interceptor-ref name="defaultStack" />
             <result name="error">/views/productos/crearProducto.jsp</result>
             <result name="input">/views/productos/crearProducto.jsp</result>
         </action>
@@ -114,6 +115,10 @@
         <action name="listarProductosDeUsuario" class="controlador.productos.AccionProductosUsuario" method="listarProductos">
             <result name="success">/views/productos/misProductos.jsp</result>
             <result name="error">/views/principal.jsp</result>
+        </action>
+        <action name="descargarArchivo" class="controlador.productos.AccionProductos" method="descargar">
+            <result name="success">/views/ventas/descarga.jsp</result>
+            <result name="error">/views/ventas/confirmacion.jsp</result>
         </action>
     </package>
     <package name="reclamaciones" extends="struts-default">
@@ -176,13 +181,6 @@
             <result name="input">/views/usuarios/editarPerfil.jsp</result>
         </action>
         <action name="cambiarImagenPerfil" class="controlador.usuarios.AccionImagenPerfil">
-            <interceptor-ref name="fileUpload">
-                <param name="saveDir">/imagenes</param>
-                <param name="allowedTypes">image/jpeg, image/png</param>
-                <param name="maximumSize">2000000</param>
-                <param name="allowedExtensions">jpg, jpeg, png</param>
-            </interceptor-ref>
-            <interceptor-ref name="defaultStack" />
             <result name="success">/views/usuarios/perfil.jsp</result>
             <result name="error">/views/usuarios/perfil.jsp</result>
             <result name="input">/views/usuarios/editarPerfil.jsp</result>
@@ -196,11 +194,11 @@
         </action>
         <action name="eliminarDeseo" class="controlador.usuarios.AccionListaDeseos" method="eliminar">
             <result name="success">/views/usuarios/deseos.jsp</result>
-            <result name="error">/views/usuarios/deseos.jsp</result>
             <result name="producto" type="redirect">
                 <param name="location">/views/productos/producto.jsp</param>
                 <param name="idProducto">${idProducto}</param>
             </result>
+            <result name="error">/views/usuarios/deseos.jsp</result>
         </action>
     </package>
     <package name="ventas" extends="struts-default">
@@ -209,9 +207,9 @@
             <result name="input">/views/ventas/carrito.jsp</result>
         </action>
         <action name="accionFinalizarCompra" class="controlador.ventas.AccionVenta">
-            <result name="input">/views/ventas/finalizarCompra.jsp</result>
-            <result name="success">/views/ventas/carrito.jsp</result>
-            <result name="error">/views/principal.jsp</result>
+            <result name="success">/views/ventas/confirmacion.jsp</result>
+            <result name="error">/views/ventas/confirmacion.jsp</result>
+            <result name="input">/views/ventas/confirmacion.jsp</result>
         </action>
         <action name="listarCompras" class="controlador.ventas.AccionComprasUsuario" method="listarCompras">
             <result name="success">/views/ventas/misCompras.jsp</result>

@@ -19,7 +19,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <title>Crear Producto - UMM</title>
+            <title>Gestionar Producto - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/crearProducto.css" rel="stylesheet" type="text/css"/>
             <link href="/upomm/css/misProductos.css" rel="stylesheet" type="text/css"/>
@@ -57,7 +57,7 @@
         </head>
         <body>
             <%@include file="../utils/header.jsp" %>
-            <main class="container-fluid">
+            <main class="container-fluid mt-4">
                 <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">
@@ -65,6 +65,9 @@
                             <ul class="list-unstyled">
                                 <li class="list-group-item">
                                     <a href="/upomm/views/ventas/menuVentas.jsp" class="menu-link">Mis Ventas</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="/upomm/views/reclamaciones/reclamacionesVendedor.jsp" class="menu-link">Mis Reclamaciones</a>
                                 </li>
                                 <li class="list-group-item">
                                     <a href="/upomm/views/productos/misProductos.jsp" class="menu-link">Mis Productos</a>
@@ -75,7 +78,7 @@
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-lg-7 my-auto mx-auto border-left border-right px-4">
+                    <div class="col-lg-7 my-auto mx-auto border rounded-lg px-4 py-2">
                         <s:if test="%{producto!=null}">
                             <s:set var="accion" value="'modificarProducto'"/>
                         </s:if>
@@ -116,7 +119,7 @@
                                 <label for="imagen">Añade una imagen:</label>
                                 <br/>
                                 <s:if test="%{producto!=null && producto.imagen!=''}">
-                                    <img src="<s:property value="%{producto.imagen}"/>" alt="Imagen producto"/>
+                                    <img class="img-fluid img-thumbnail rounded mt-2 mb-3 mx-auto d-block" src="<s:property value="%{producto.imagen}"/>" alt="Imagen producto"/>
                                 </s:if>
                                 <s:file id="imagen" name="imagen" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
                             </div>
@@ -180,7 +183,7 @@
                                                 <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="" placeholder="Descripción" theme="simple"/>
                                             </div>
                                         </div>
-                                            <hr/>
+                                        <hr/>
                                     </s:if>
                                     <s:else>
                                         <s:iterator begin="0" end="%{nombreCaracteristica.size-1}" var="i">
@@ -209,7 +212,7 @@
                             <div class="form-group">
                                 <label for="archivoVenta">Archivo a la venta:</label>
                                 <br/>
-                                <s:file id="archivoVenta" name="archivoVenta" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
+                                <s:file id="archivoVenta" name="archivoVenta" accept="audio/aac, audio/webm, image/jpeg, image/png,image/gif, text/plain, text/csv, application/msword, application/vnd.ms-excel, application/epub+zip, application/zip, application/x-7z-compressed, application/pdf, application/x-rar-compressed, video/x-msvideo, video/mpeg, video/webm, " cssClass="form-control form-control-file"/>
                             </div>
                             <br/>
                             <div class="form-group">

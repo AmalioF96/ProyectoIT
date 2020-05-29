@@ -66,8 +66,14 @@
             </div>
             <%@include file="../utils/header.jsp" %>
             <!-- Page Content -->
-            <main class="container-fluid">
+            <main class="container-fluid mt-4">
                 <div class="row">
+                    <s:if test="hasActionMessages()">
+                        <s:actionmessage cssClass="alert alert-success list-unstyled"/>
+                    </s:if>
+                    <s:if test="hasActionErrors()">
+                        <s:actionerror cssClass="alert alert-danger list-unstyled"/>
+                    </s:if>
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group">
                             <h4 class="text-center">Gestión de Compras</h4>
@@ -81,7 +87,7 @@
                                 </ul>
                             </nav>
                         </div>
-                        <div class="col-lg-9 contendor table-responsive-sm mt-3 mx-auto">
+                        <div class="col-lg-9 contendor table-responsive-sm my-auto mx-auto">
                             <div class="row">
                                 <div class="col-sm">
                                     <table>
@@ -171,12 +177,6 @@
                             </div>
                         </div>
                     </div>
-                    <s:if test="hasActionMessages()">
-                        <s:actionmessage cssClass="alert alert-info list-unstyled"/>
-                    </s:if>
-                    <s:if test="hasActionErrors()">
-                        <s:actionerror cssClass="alert alert-danger list-unstyled"/>
-                    </s:if>
                 </div>
                 <!-- /.row -->
             </main>
