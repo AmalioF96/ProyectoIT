@@ -103,10 +103,10 @@
                                             </td>
                                             <td>                                        
                                                 <s:if test="disponible">
-                                                    &#10004;
+                                                    <span class="icon">&#10004;</span>
                                                 </s:if>
                                                 <s:else>
-                                                    &#10060;
+                                                    <span class="icon">&#10060;</span>
                                                 </s:else>
                                             </td>
                                             <td>

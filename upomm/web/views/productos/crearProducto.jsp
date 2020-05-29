@@ -67,6 +67,9 @@
                                     <a href="/upomm/views/ventas/menuVentas.jsp" class="menu-link">Mis Ventas</a>
                                 </li>
                                 <li class="list-group-item">
+                                    <a href="/upomm/views/reclamaciones/reclamacionesVendedor.jsp" class="menu-link">Mis Reclamaciones</a>
+                                </li>
+                                <li class="list-group-item">
                                     <a href="/upomm/views/productos/misProductos.jsp" class="menu-link">Mis Productos</a>
                                 </li>
                                 <li class="list-group-item">
@@ -180,7 +183,7 @@
                                                 <s:textfield name="descripcionCaracteristica" cssClass="form-control" value="" placeholder="Descripción" theme="simple"/>
                                             </div>
                                         </div>
-                                            <hr/>
+                                        <hr/>
                                     </s:if>
                                     <s:else>
                                         <s:iterator begin="0" end="%{nombreCaracteristica.size-1}" var="i">
