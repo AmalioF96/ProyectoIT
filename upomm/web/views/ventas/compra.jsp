@@ -68,6 +68,12 @@
             <!-- Page Content -->
             <main class="container-fluid mt-4">
                 <div class="row">
+                    <s:if test="hasActionMessages()">
+                        <s:actionmessage cssClass="alert alert-success list-unstyled"/>
+                    </s:if>
+                    <s:if test="hasActionErrors()">
+                        <s:actionerror cssClass="alert alert-danger list-unstyled"/>
+                    </s:if>
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group">
                             <h4 class="text-center">Gestión de Compras</h4>
@@ -171,12 +177,6 @@
                             </div>
                         </div>
                     </div>
-                    <s:if test="hasActionMessages()">
-                        <s:actionmessage cssClass="alert alert-info list-unstyled"/>
-                    </s:if>
-                    <s:if test="hasActionErrors()">
-                        <s:actionerror cssClass="alert alert-danger list-unstyled"/>
-                    </s:if>
                 </div>
                 <!-- /.row -->
             </main>
