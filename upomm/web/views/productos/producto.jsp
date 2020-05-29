@@ -235,7 +235,7 @@
                                                 </button>
                                             </s:form>
                                         </s:else>
-                                        <s:if test="!producto.usuarios.equals(#session.usuario)">
+                                        <s:if test="%{!producto.usuarios.equals(#session.usuario) && !#session.usuario.tipo.equals('admin')}">
                                             <s:if test="%{producto in #session.usuario.productoses_1}">
                                                 <s:form action="eliminarDeseo" cssClass="float-left">
                                                     <s:hidden name="idProducto" value="%{producto.idProducto}"/>
