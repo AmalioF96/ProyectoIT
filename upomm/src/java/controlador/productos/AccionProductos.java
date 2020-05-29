@@ -2,6 +2,9 @@ package controlador.productos;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,9 +12,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Productos;
 import modelo.Usuarios;
 import modelo.Valoraciones;
+import org.apache.commons.io.FileUtils;
+import org.apache.struts2.ServletActionContext;
 
 /**
  *
@@ -189,11 +196,32 @@ public class AccionProductos extends ActionSupport {
             long t = Long.parseLong(this.getTime());
             Date d = new Date();
             long current = d.getTime();
+            //Comprobamos que no ha expirado el enlace
             if ((current - t) < 1800000) {
                 Productos p = modelo.DAO.ProductoDAO.obtenerProducto(this.getIdProducto());
                 if (p != null) {
-                    this.setRecurso("enlace");
-                    salida = SUCCESS;
+                    String path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "/archivos";
+                    File dir = new File(path);
+                    File[] matches = dir.listFiles(new FilenameFilter() {
+                        public boolean accept(File dir, String name) {
+                            return name.startsWith("file_" + p.getUsuarios().getEmail() + "_" + p.getIdProducto() + "_");
+                        }
+                    });
+                    if (matches.length > 0) {
+                        File original = matches[0];
+                        String ext = original.getName().substring(original.getName().lastIndexOf("."));
+                        String ruta = ServletActionContext.getServletContext().getRealPath("/tmp/");
+                        String nuevoNombre = p.getNombre() + "_" + System.currentTimeMillis() + ext;
+                        File copia = new File(ruta+nuevoNombre); 
+                        try {
+                            FileUtils.copyFile(original, copia);
+                        } catch (IOException ex) {
+                            Logger.getLogger(AccionProductos.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        this.setRecurso("/upomm/tmp/" + nuevoNombre);
+
+                        salida = SUCCESS;
+                    }
                 }
             }
         }

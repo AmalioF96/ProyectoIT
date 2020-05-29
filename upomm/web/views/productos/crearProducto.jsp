@@ -116,7 +116,7 @@
                                 <label for="imagen">Añade una imagen:</label>
                                 <br/>
                                 <s:if test="%{producto!=null && producto.imagen!=''}">
-                                    <img src="<s:property value="%{producto.imagen}"/>" alt="Imagen producto"/>
+                                    <img class="img-fluid img-thumbnail rounded mt-2 mb-3 mx-auto d-block" src="<s:property value="%{producto.imagen}"/>" alt="Imagen producto"/>
                                 </s:if>
                                 <s:file id="imagen" name="imagen" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
                             </div>
@@ -209,7 +209,7 @@
                             <div class="form-group">
                                 <label for="archivoVenta">Archivo a la venta:</label>
                                 <br/>
-                                <s:file id="archivoVenta" name="archivoVenta" accept="image/jpeg, image/png" cssClass="form-control form-control-file"/>
+                                <s:file id="archivoVenta" name="archivoVenta" accept="audio/aac, audio/webm, image/jpeg, image/png,image/gif, text/plain, text/csv, application/msword, application/vnd.ms-excel, application/epub+zip, application/zip, application/x-7z-compressed, application/pdf, application/x-rar-compressed, video/x-msvideo, video/mpeg, video/webm, " cssClass="form-control form-control-file"/>
                             </div>
                             <br/>
                             <div class="form-group">
