@@ -6,7 +6,9 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
 import modelo.DAO.UsuarioDAO;
+import static modelo.DAO.UsuarioDAO.obtenerUsuario;
 import modelo.Usuarios;
+import modelo.util.PasswordAuthentication;
 
 /**
  *
@@ -64,14 +66,14 @@ public class AccionEditarPerfil extends ActionSupport {
     }
 
     public void validate() {
-        
-        if(this.getNombre()==null) {
+
+        if (this.getNombre() == null) {
             addFieldError("nombre", "El campo nombre es obligatorio");
         }
-        if(this.getPassword()==null) {
+        if (this.getPassword() == null) {
             addFieldError("password", "El campo contraseña es obligatorio");
         }
-        if(this.getNombre()==null || this.getPassword()==null) {
+        if (this.getNombre() == null || this.getPassword() == null) {
             addFieldError("nombre", "El nombre de usuario debe estar relleno");
         }
         if (this.getNombre().equals("")) {
@@ -109,11 +111,13 @@ public class AccionEditarPerfil extends ActionSupport {
         String tipo;
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
-        
+
         if (user.getTipo().equals("cliente") && this.isVendedor()) {
             user.setTipo("vendedor");
         }
-        if (UsuarioDAO.comprobarUsuario(user.getEmail(), this.getPassword()) == null) {
+        Usuarios u = obtenerUsuario(user.getEmail());
+        PasswordAuthentication pa = new PasswordAuthentication();
+        if (!pa.authenticate(this.getPassword().toCharArray(), u.getPassword())) {
             addFieldError("password", "Contraseña errónea");
             salida = ERROR;
         } else {
@@ -123,9 +127,9 @@ public class AccionEditarPerfil extends ActionSupport {
             } else {
 
                 user.setNombre(this.getNombre());
-                
+
                 if (!this.getNewPassword().equals("")) {
-                    user.setPassword(this.getNewPassword());
+                    user.setPassword(pa.hash(this.getNewPassword().toCharArray()));
                 }
 
                 if (UsuarioDAO.actualizaUsuario(user)) {

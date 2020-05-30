@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import modelo.DAO.UsuarioDAO;
 import modelo.Productos;
 import modelo.Usuarios;
+import modelo.util.PasswordAuthentication;
 
 /**
  *
@@ -69,7 +70,9 @@ public class AccionSignUp extends ActionSupport {
         } else {
             tipo = "cliente";
         }
-        Usuarios newUser = new Usuarios(this.getEmail(), this.getUsuario(), this.getPassword(), "/upomm/imagenes/defaultProfile.png", tipo);
+        PasswordAuthentication pa = new PasswordAuthentication();
+        String passHash = pa.hash(this.getPassword().toCharArray());
+        Usuarios newUser = new Usuarios(this.getEmail(), this.getUsuario(), passHash, "/upomm/imagenes/defaultProfile.png", tipo);
         if (UsuarioDAO.existeEmail(this.getEmail())) {
             addFieldError("email", "Ya existe un usuario asociado al Email");
             salida = ERROR;
@@ -98,7 +101,7 @@ public class AccionSignUp extends ActionSupport {
     }
 
     public void setUsuario(String usuario) {
-        this.usuario = usuario;
+        this.usuario = usuario.trim();
     }
 
     public String getEmail() {
@@ -106,7 +109,7 @@ public class AccionSignUp extends ActionSupport {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.trim();
     }
 
     public String getPassword() {
@@ -114,7 +117,7 @@ public class AccionSignUp extends ActionSupport {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password.trim();
     }
 
     public String getPasswordConfirm() {
