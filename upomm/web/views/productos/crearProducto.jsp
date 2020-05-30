@@ -58,6 +58,9 @@
         <body>
             <%@include file="../utils/header.jsp" %>
             <main class="container-fluid mt-4">
+                <s:if test="hasActionErrors()">
+                    <s:actionerror />
+                </s:if>
                 <div class="row">
                     <div class="col-lg-3">
                         <nav id="categorias" class="list-group make-me-sticky">

@@ -60,7 +60,7 @@
                     <!-- /.col-lg-3 -->
                     <div class="col-lg-9 table-responsive-sm my-auto mx-auto">
                         <s:if test="listaProductos.empty">
-                            <div class='alert alert-success'>Aún no has puesto a la venta ningún producto.</div>
+                            <div class='alert alert-info'>Aún no has puesto a la venta ningún producto.</div>
                         </s:if>
                         <s:else>
                             <table id="productos" class="table table-striped table-bordered dataTable" style="width:100%">

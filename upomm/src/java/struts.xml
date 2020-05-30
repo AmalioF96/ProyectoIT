@@ -182,7 +182,7 @@
         </action>
         <action name="cambiarImagenPerfil" class="controlador.usuarios.AccionImagenPerfil">
             <result name="success">/views/usuarios/perfil.jsp</result>
-            <result name="error">/views/usuarios/perfil.jsp</result>
+            <result name="error">/views/usuarios/editarPerfil.jsp</result>
             <result name="input">/views/usuarios/editarPerfil.jsp</result>
         </action>
         <action name="crearDeseo" class="controlador.usuarios.AccionListaDeseos" method="crear">

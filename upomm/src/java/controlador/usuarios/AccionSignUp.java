@@ -65,6 +65,7 @@ public class AccionSignUp extends ActionSupport {
     public String execute() throws Exception {
         String salida = SUCCESS;
         String tipo;
+        String defaultImg = "/upomm/imagenes/defaultProfile.png";
         if (this.isVendedor()) {
             tipo = "vendedor";
         } else {
@@ -72,7 +73,7 @@ public class AccionSignUp extends ActionSupport {
         }
         PasswordAuthentication pa = new PasswordAuthentication();
         String passHash = pa.hash(this.getPassword().toCharArray());
-        Usuarios newUser = new Usuarios(this.getEmail(), this.getUsuario(), passHash, "/upomm/imagenes/defaultProfile.png", tipo);
+        Usuarios newUser = new Usuarios(this.getEmail(), this.getUsuario(), passHash, defaultImg, tipo);
         if (UsuarioDAO.existeEmail(this.getEmail())) {
             addFieldError("email", "Ya existe un usuario asociado al Email");
             salida = ERROR;

@@ -65,12 +65,13 @@ public class AccionImagenPerfil extends ActionSupport {
             salida = ERROR;
         } else {
             path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "imagenes/";
-            path_rel = "/upomm/imagenes/";
-            File f = new File(path+user.getFoto());
+            path_rel = ServletActionContext.getServletContext().getRealPath("/imagenes/");
+            String name = user.getFoto().split("/upomm/imagenes/")[1];
+            File f = new File(path + name);
             f.delete();
-            f = new File(path_rel+user.getFoto());
+            f = new File(path_rel + name);
             f.delete();
-            File dir = new File(path);
+            //File dir = new File(path);
             /*File[] matches = dir.listFiles(new FilenameFilter() {
                 public boolean accept(File dir, String name) {
                     return name.startsWith("user_" + user.getEmail());
@@ -85,20 +86,19 @@ public class AccionImagenPerfil extends ActionSupport {
             String ext = this.getImagenPerfilFileName().substring(this.getImagenPerfilFileName().lastIndexOf("."));
             nuevoNombre = "user_" + user.getEmail() + "_" + System.currentTimeMillis() + ext;
             File abs = new File(path + nuevoNombre);
-            File rel = new File("upo" + nuevoNombre);
+            File rel = new File(path_rel + nuevoNombre);
             try {
                 FileUtils.copyFile(src, abs);
                 FileUtils.copyFile(src, rel);
             } catch (IOException ex) {
                 Logger.getLogger(AccionProductos.class.getName()).log(Level.SEVERE, null, ex);
             }
-            user.setFoto(path_rel + nuevoNombre);
+            user.setFoto("/upomm/imagenes/" + nuevoNombre);
 
             if (UsuarioDAO.actualizaUsuario(user)) {
                 session.put("usuario", user);
-                Map request = (Map) ActionContext.getContext().get("request");
-                request.put("error", false);
             } else {
+                addActionError("ERROR: no se pudo completar la operación");
                 salida = ERROR;
             }
         }

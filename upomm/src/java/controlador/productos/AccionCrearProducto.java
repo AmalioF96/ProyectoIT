@@ -113,8 +113,9 @@ public class AccionCrearProducto extends ActionSupport {
     public String execute() throws Exception {
         String salida = ERROR;
         String path;
+        String path_rel;
         File src;
-        File dst;
+        File dest;
         String ext;
         String nuevoNombre;
         Map session = (Map) ActionContext.getContext().get("session");
@@ -129,11 +130,14 @@ public class AccionCrearProducto extends ActionSupport {
 
             prod.setIdProducto(ProductoDAO.crearProducto(prod));
 
-            path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "/imagenes";
+            path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "imagenes/";
+            path_rel = ServletActionContext.getServletContext().getRealPath("/imagenes/");
             src = this.getImagen();
             ext = this.getImagenFileName().substring(this.getImagenFileName().lastIndexOf("."));
             nuevoNombre = user.getEmail() + "_" + prod.getIdProducto() + "_" + System.currentTimeMillis() + ext;
-            File dest = new File(path + nuevoNombre);
+            dest = new File(path + nuevoNombre);
+            FileUtils.copyFile(src, dest);
+            dest = new File(path_rel + nuevoNombre);
             FileUtils.copyFile(src, dest);
             prod.setImagen("/upomm/imagenes/" + nuevoNombre);
 
@@ -169,7 +173,8 @@ public class AccionCrearProducto extends ActionSupport {
             }
 
         } catch (Exception ex) {
-            salida = ERROR;
+            addActionError(ex.getMessage());
+            addActionError(ex.getStackTrace().toString());
         }
         return salida;
     }
@@ -177,6 +182,7 @@ public class AccionCrearProducto extends ActionSupport {
     public String modificar() {
         String salida = ERROR;
         String path;
+        String path_rel;
         String nuevoNombre;
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
@@ -189,7 +195,13 @@ public class AccionCrearProducto extends ActionSupport {
                 p.setDisponible(this.isDisponible());
                 if (this.getImagen() != null) {
                     path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "imagenes/";
-                    File dir = new File(path);
+                    path_rel = ServletActionContext.getServletContext().getRealPath("/imagenes/");
+                    String name = p.getImagen().split("/upomm/imagenes/")[1];
+                    File f = new File(path + name);
+                    f.delete();
+                    f = new File(path_rel + name);
+                    f.delete();
+                    /*File dir = new File(path);
                     File[] matches = dir.listFiles(new FilenameFilter() {
                         public boolean accept(File dir, String name) {
                             return name.startsWith(user.getEmail() + "_" + p.getIdProducto() + "_");
@@ -199,12 +211,14 @@ public class AccionCrearProducto extends ActionSupport {
                         for (File match : matches) {
                             match.delete();
                         }
-                    }
+                    }*/
                     File src = this.getImagen();
                     String ext = this.getImagenFileName().substring(this.getImagenFileName().lastIndexOf("."));
                     nuevoNombre = user.getEmail() + "_" + this.getIdProducto() + "_" + System.currentTimeMillis() + ext;
                     File dest = new File(path + nuevoNombre);
+                    File rel = new File(path_rel + nuevoNombre);
                     FileUtils.copyFile(src, dest);
+                    FileUtils.copyFile(src, rel);
                     p.setImagen("/upomm/imagenes/" + nuevoNombre);
                 }
                 if (this.getArchivoVenta() != null) {
