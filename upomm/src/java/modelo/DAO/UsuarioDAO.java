@@ -50,8 +50,7 @@ public class UsuarioDAO {
 
         if (usu != null) {
             salida = true;
-        }
-        else{
+        } else {
             salida = false;
         }
 
@@ -77,8 +76,7 @@ public class UsuarioDAO {
 
         if (usu != null) {
             salida = true;
-        }
-        else{
+        } else {
             salida = false;
         }
 

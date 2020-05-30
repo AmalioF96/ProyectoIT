@@ -127,15 +127,15 @@ public class AccionCrearProducto extends ActionSupport {
             prod.setPrecio(Float.parseFloat(this.getPrecio()));
             prod.setDisponible(this.isDisponible());
 
+            prod.setIdProducto(ProductoDAO.crearProducto(prod));
+
             path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "/imagenes";
             src = this.getImagen();
             ext = this.getImagenFileName().substring(this.getImagenFileName().lastIndexOf("."));
-            nuevoNombre = user.getEmail() + "_" + this.getIdProducto() + "_" + System.currentTimeMillis() + ext;
+            nuevoNombre = user.getEmail() + "_" + prod.getIdProducto() + "_" + System.currentTimeMillis() + ext;
             File dest = new File(path + nuevoNombre);
             FileUtils.copyFile(src, dest);
             prod.setImagen("/upomm/imagenes/" + nuevoNombre);
-
-            prod.setIdProducto(ProductoDAO.crearProducto(prod));
 
             if (prod.getIdProducto() > 0) {
                 List<Categorias> lc = CategoriaDAO.listarCategoriasCoincidentes(this.getCategoriasProducto());
@@ -161,7 +161,7 @@ public class AccionCrearProducto extends ActionSupport {
                     path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "archivos/";
                     src = this.getArchivoVenta();
                     ext = this.getArchivoVentaFileName().substring(this.getArchivoVentaFileName().lastIndexOf("."));
-                    nuevoNombre = "file_" + user.getEmail() + "_" + this.getIdProducto() + "_" + System.currentTimeMillis() + ext;
+                    nuevoNombre = "file_" + user.getEmail() + "_" + prod.getIdProducto() + "_" + System.currentTimeMillis() + ext;
                     dest = new File(path + nuevoNombre);
                     FileUtils.copyFile(src, dest);
                     salida = SUCCESS;

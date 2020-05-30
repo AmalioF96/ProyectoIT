@@ -57,6 +57,7 @@ public class AccionImagenPerfil extends ActionSupport {
     public String execute() throws Exception {
         String salida = SUCCESS;
         String path;
+        String path_rel;
         String nuevoNombre;
         Map session = (Map) ActionContext.getContext().get("session");
         Usuarios user = (Usuarios) session.get("usuario");
@@ -64,8 +65,13 @@ public class AccionImagenPerfil extends ActionSupport {
             salida = ERROR;
         } else {
             path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "imagenes/";
+            path_rel = "/upomm/imagenes/";
+            File f = new File(path+user.getFoto());
+            f.delete();
+            f = new File(path_rel+user.getFoto());
+            f.delete();
             File dir = new File(path);
-            File[] matches = dir.listFiles(new FilenameFilter() {
+            /*File[] matches = dir.listFiles(new FilenameFilter() {
                 public boolean accept(File dir, String name) {
                     return name.startsWith("user_" + user.getEmail());
                 }
@@ -74,17 +80,19 @@ public class AccionImagenPerfil extends ActionSupport {
                 for (File match : matches) {
                     match.delete();
                 }
-            }
+            }*/
             File src = this.getImagenPerfil();
             String ext = this.getImagenPerfilFileName().substring(this.getImagenPerfilFileName().lastIndexOf("."));
             nuevoNombre = "user_" + user.getEmail() + "_" + System.currentTimeMillis() + ext;
-            File dest = new File(path + nuevoNombre);
+            File abs = new File(path + nuevoNombre);
+            File rel = new File("upo" + nuevoNombre);
             try {
-                FileUtils.copyFile(src, dest);
+                FileUtils.copyFile(src, abs);
+                FileUtils.copyFile(src, rel);
             } catch (IOException ex) {
                 Logger.getLogger(AccionProductos.class.getName()).log(Level.SEVERE, null, ex);
             }
-            user.setFoto("/upomm/imagenes/" + nuevoNombre);
+            user.setFoto(path_rel + nuevoNombre);
 
             if (UsuarioDAO.actualizaUsuario(user)) {
                 session.put("usuario", user);
