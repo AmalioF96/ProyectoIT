@@ -5,9 +5,10 @@ import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import static modelo.DAO.UsuarioDAO.comprobarUsuario;
+import static modelo.DAO.UsuarioDAO.obtenerUsuario;
 import modelo.Productos;
 import modelo.Usuarios;
+import modelo.util.PasswordAuthentication;
 
 /**
  *
@@ -37,19 +38,22 @@ public class AccionLogin extends ActionSupport {
 
     @Override
     public String execute() throws Exception {
-        Usuarios u = comprobarUsuario(email, password);
+        PasswordAuthentication pa = new PasswordAuthentication();
+        Usuarios u = obtenerUsuario(this.getEmail());
         String salida = ERROR;
         if (u != null) {
-            Map session = (Map) ActionContext.getContext().get("session");
-            session.put("usuario", u);
-            List<Productos> carrito = new ArrayList();
-            session.put("carrito", carrito);
-            Map request = (Map) ActionContext.getContext().get("request");
-            request.put("error", false);
-            if(this.getIdProducto() != null && this.getIdProducto() > 0) {
-                salida = "producto";
-            }else {
-            salida = SUCCESS;
+            if (pa.authenticate(this.getPassword().toCharArray(), u.getPassword())) {
+                Map session = (Map) ActionContext.getContext().get("session");
+                session.put("usuario", u);
+                List<Productos> carrito = new ArrayList();
+                session.put("carrito", carrito);
+                if (this.getIdProducto() != null && this.getIdProducto() > 0) {
+                    salida = "producto";
+                } else {
+                    salida = SUCCESS;
+                }
+            } else {
+                addActionError("Las credenciales introducidas no son válidas");
             }
         } else {
             addActionError("Las credenciales introducidas no son válidas");
@@ -62,8 +66,8 @@ public class AccionLogin extends ActionSupport {
         session.clear();
         return SUCCESS;
     }
-    
-        public String getEmail() {
+
+    public String getEmail() {
         return email;
     }
 
@@ -86,8 +90,5 @@ public class AccionLogin extends ActionSupport {
     public void setIdProducto(Integer idProducto) {
         this.idProducto = idProducto;
     }
-
-
-    
 
 }
