@@ -12,7 +12,7 @@
             <column name="nombre" length="50" not-null="true" />
         </property>
         <property name="password" type="string">
-            <column name="password" length="200" not-null="true" />
+            <column name="password" length="300" not-null="true" />
         </property>
         <property name="foto" type="string">
             <column name="foto" length="250" not-null="true" />
