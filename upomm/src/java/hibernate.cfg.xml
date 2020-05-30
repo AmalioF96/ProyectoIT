@@ -43,9 +43,9 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://witzlnas.myqnapcloud.com:3306/upomm?zeroDateTimeBehavior=convertToNull</property>
-    <property name="hibernate.connection.username">upomarket</property>
-    <property name="hibernate.connection.password">M@mazon1234!</property>
+    <property name="hibernate.connection.url">jdbc:mysql://104.248.86.203:3306/upomm?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">upomm</property>
+    <property name="hibernate.connection.password">Up0M@rket</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.format_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>

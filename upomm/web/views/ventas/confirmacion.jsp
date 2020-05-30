@@ -11,7 +11,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <%@include file="/views/utils/includes.jsp"%>
         <link href="/upomm/css/carrito.css" rel="stylesheet" type="text/css"/>
-        <script src="https://www.paypal.com/sdk/js?client-id=Ab3EXFpwjNUJHeMDtoZ6ALhOfX8sSX7SJrCi4b41ghRqI-4aIRowbB2GHwXRbhAiaOsWv66O2y5VkXEl&currency=EUR"></script>
 
         <script>
             $(document).ready(function () {
@@ -97,6 +96,7 @@
         <%@include file="../utils/header.jsp" %>
         <!-- Page Content -->
         <main class="container-fluid my-auto mx-auto">
+            <div class="mt-3">
             <div id="error" class='alert alert-danger' style="display: none">ERROR: no se ha podido validar la operación.
             </div>
             <s:if test="hasActionErrors()">
@@ -125,6 +125,7 @@
 
                 </ul>
             </s:elseif>
+            </div>
         </main>
         <!-- /.container -->
         <%@include file="../utils/footer.html" %>
