@@ -10,9 +10,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Compras - UPOMediaMarket</title>
-            <meta charset="UTF-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Compras - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -24,7 +24,7 @@
                         "language": {
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                         },
-                        "order": [[0, "desc" ]],
+                        "order": [[0, "desc"]],
                         "drawCallback": function () {
                             var table = $('#pedidos').DataTable();
 

@@ -7,9 +7,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Lista de Deseos - UPOMediaMarket</title>
-            <meta charset="UTF-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Lista de Deseos - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/carrito.css" rel="stylesheet" type="text/css"/>
             <link href="/upomm/css/perfil.css" rel="stylesheet" type="text/css"/>
@@ -53,52 +53,52 @@
                             <div class='alert alert-info'>Aún no has añadido ningún producto a tu lista de deseos.</div>
                         </s:if>
                         <s:else>
-                                <table id="deseos" class="table table-striped table-bordered dataTable" style="width:100%">
-                                    <thead>
+                            <table id="deseos" class="table table-striped table-bordered dataTable" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">Producto</th>
+                                        <th class="text-left">Descripción</th>
+                                        <th>Precio(&euro;)</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <s:iterator value="#session.usuario.getProductoses_1()" var="producto">
+                                        <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
+                                            <s:param name="idProducto" value="%{#producto.idProducto}"/>
+                                        </s:url>
                                         <tr>
-                                            <th class="text-left">Producto</th>
-                                            <th class="text-left">Descripción</th>
-                                            <th>Precio(&euro;)</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <s:iterator value="#session.usuario.getProductoses_1()" var="producto">
-                                            <s:url var="idProductoUrl" value="/views/productos/producto.jsp">
-                                                <s:param name="idProducto" value="%{#producto.idProducto}"/>
-                                            </s:url>
-                                            <tr>
-                                                <td class="text-left">
-                                                    <s:a href = "%{idProductoUrl}">
-                                                        <s:property value="nombre"/>
-                                                    </s:a>
-                                                </td>
-                                                <td class="text-left"><s:property value="descripcion"/></td>
-                                                <td><s:property value="precio"/></td>
-                                                <td>
-                                                    <s:if test="%{!#session.carrito.contains(#producto)}">
-                                                        <s:form action="agregarCarrito" theme="simple">
-                                                            <s:textfield name="idProducto" value="%{#producto.idProducto}" hidden="true"/>
-                                                            <s:textfield name="origin" value="deseos" hidden="true"/>
-                                                            <s:submit cssClass="btn btn-sm btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
-                                                        </s:form>
-                                                    </s:if>
-                                                    <s:else>
-                                                        <s:form action="eliminarCarrito" theme="simple">
-                                                            <s:textfield name="idProducto" value="%{#producto.idProducto}" hidden="true"/>
-                                                            <s:textfield name="origin" value="deseos" hidden="true"/>
-                                                            <s:submit cssClass="btn btn-sm btn-secondary" name="btnEliminarCarrito" value="Eliminar del carrito" />
-                                                        </s:form>
-                                                    </s:else>
-                                                    <s:form action="eliminarDeseo" theme="simple">
+                                            <td class="text-left">
+                                                <s:a href = "%{idProductoUrl}">
+                                                    <s:property value="nombre"/>
+                                                </s:a>
+                                            </td>
+                                            <td class="text-left"><s:property value="descripcion"/></td>
+                                            <td><s:property value="precio"/></td>
+                                            <td>
+                                                <s:if test="%{!#session.carrito.contains(#producto)}">
+                                                    <s:form action="agregarCarrito" theme="simple">
                                                         <s:textfield name="idProducto" value="%{#producto.idProducto}" hidden="true"/>
-                                                        <s:submit cssClass="btn btn-sm btn-warning mt-2" name="btnEliminarCarrito" value="Eliminar de la lista" />
+                                                        <s:textfield name="origin" value="deseos" hidden="true"/>
+                                                        <s:submit cssClass="btn btn-sm btn-primary" name="btnAgregarCarrito" value="Agregar al carrito" />
                                                     </s:form>
-                                                </td>
-                                            </tr>
-                                        </s:iterator>
-                                    </tbody>
-                                </table>
+                                                </s:if>
+                                                <s:else>
+                                                    <s:form action="eliminarCarrito" theme="simple">
+                                                        <s:textfield name="idProducto" value="%{#producto.idProducto}" hidden="true"/>
+                                                        <s:textfield name="origin" value="deseos" hidden="true"/>
+                                                        <s:submit cssClass="btn btn-sm btn-secondary" name="btnEliminarCarrito" value="Eliminar del carrito" />
+                                                    </s:form>
+                                                </s:else>
+                                                <s:form action="eliminarDeseo" theme="simple">
+                                                    <s:textfield name="idProducto" value="%{#producto.idProducto}" hidden="true"/>
+                                                    <s:submit cssClass="btn btn-sm btn-warning mt-2" name="btnEliminarCarrito" value="Eliminar de la lista" />
+                                                </s:form>
+                                            </td>
+                                        </tr>
+                                    </s:iterator>
+                                </tbody>
+                            </table>
                         </s:else>
                     </div>
                 </div>

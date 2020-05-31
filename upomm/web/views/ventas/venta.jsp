@@ -13,9 +13,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Venta - UPOMediaMarket</title>
-            <meta charset="UTF-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Venta - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/compra.css" rel="stylesheet">
             <link href="/upomm/css/misProductos.css" rel="stylesheet">

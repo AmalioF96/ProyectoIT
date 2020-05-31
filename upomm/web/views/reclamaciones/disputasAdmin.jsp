@@ -13,6 +13,7 @@
     <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Disputas Abiertas - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
@@ -47,7 +48,7 @@
                         "language": {
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                         },
-                        "order": [[0, "desc" ]]
+                        "order": [[0, "desc"]]
                     });
                     $('[data-toggle="tooltip"]').tooltip();
                     $("img").on("error", function () {

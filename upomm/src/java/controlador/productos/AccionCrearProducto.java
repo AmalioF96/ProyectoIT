@@ -127,21 +127,22 @@ public class AccionCrearProducto extends ActionSupport {
             prod.setDescripcion(this.getDescripcion());
             prod.setPrecio(Float.parseFloat(this.getPrecio()));
             prod.setDisponible(this.isDisponible());
+            prod.setImagen("no_image");
 
             prod.setIdProducto(ProductoDAO.crearProducto(prod));
 
-            path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "imagenes/";
-            path_rel = ServletActionContext.getServletContext().getRealPath("/imagenes/");
-            src = this.getImagen();
-            ext = this.getImagenFileName().substring(this.getImagenFileName().lastIndexOf("."));
-            nuevoNombre = user.getEmail() + "_" + prod.getIdProducto() + "_" + System.currentTimeMillis() + ext;
-            dest = new File(path + nuevoNombre);
-            FileUtils.copyFile(src, dest);
-            dest = new File(path_rel + nuevoNombre);
-            FileUtils.copyFile(src, dest);
-            prod.setImagen("/upomm/imagenes/" + nuevoNombre);
-
             if (prod.getIdProducto() > 0) {
+                path = ServletActionContext.getServletContext().getInitParameter("upload.location") + "imagenes/";
+                path_rel = ServletActionContext.getServletContext().getRealPath("/imagenes/");
+                src = this.getImagen();
+                ext = this.getImagenFileName().substring(this.getImagenFileName().lastIndexOf("."));
+                nuevoNombre = user.getEmail() + "_" + prod.getIdProducto() + "_" + System.currentTimeMillis() + ext;
+                dest = new File(path + nuevoNombre);
+                FileUtils.copyFile(src, dest);
+                dest = new File(path_rel + nuevoNombre);
+                FileUtils.copyFile(src, dest);
+                prod.setImagen("/upomm/imagenes/" + nuevoNombre);
+
                 List<Categorias> lc = CategoriaDAO.listarCategoriasCoincidentes(this.getCategoriasProducto());
 
                 Iterator it = lc.iterator();
@@ -169,7 +170,11 @@ public class AccionCrearProducto extends ActionSupport {
                     dest = new File(path + nuevoNombre);
                     FileUtils.copyFile(src, dest);
                     salida = SUCCESS;
+                } else {
+                    ProductoDAO.eliminarProducto(prod);
                 }
+            } else {
+                addActionError("ERROR: No se pudo crear el producto.");
             }
 
         } catch (Exception ex) {

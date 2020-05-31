@@ -7,24 +7,42 @@
 <s:else>
     <html>
         <head>
-            <meta charset="UTF-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>JSP Page</title>
-            <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+            <title>Descarga - UPOMediaMarket</title>
+            <%@include file="/views/utils/includes.jsp"%>
             <script>
                 $(document).ready(function () {
+                    $('#modalDescarga').modal({
+                        show: true,
+                        backdrop: 'static',
+                        keyboard: false
+                    });
                     var a = document.createElement('a');
                     a.download = "<s:property value="recurso"/>";
                     a.href = "<s:property value="recurso"/>";
                     document.body.appendChild(a);
                     a.click();
-                    window.onblur = function () {
+                    window.setTimeout(function () {
                         window.close();
-                    };
+                    }, 2000);
                 });
             </script>
         </head>
         <body>
+            <!-- Modal -->
+            <div class="modal" id="modalDescarga"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered cascading-modal" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Preparando tu descarga..</h5>
+                        </div>
+                        <div class="modal-body m-2">
+                            <div class="spinner-border text-primary mx-auto d-block"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </body>
     </html>
 </s:else>

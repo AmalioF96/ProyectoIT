@@ -95,7 +95,6 @@ public class ProductoDAO {
         try {
             tx = sesion.beginTransaction();
             id = (int) sesion.save(p);
-            sesion.flush();
             tx.commit();
         } catch (HibernateException ex) {
             id = -1;
@@ -178,5 +177,20 @@ public class ProductoDAO {
         }
         return salida;
     }
+    
+    //Por si falla algún paso despues al crear el producto despues de haberlo registrado en BD
+    public static void eliminarProducto(Productos p){
+            Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = null;
 
+        try {
+            tx = sesion.beginTransaction();
+            sesion.delete(p);
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        }
+    }
 }

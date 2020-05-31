@@ -11,6 +11,6 @@ public class ComparadorProductosMasVendidos implements Comparator<Productos> {
 
     @Override
     public int compare(Productos p1, Productos p2) {
-        return p1.getLineasDeCompras().size() - p2.getLineasDeCompras().size();
+        return p2.getLineasDeCompras().size() - p1.getLineasDeCompras().size();
     }
 }

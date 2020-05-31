@@ -6,9 +6,9 @@
 </s:if>
 <html>
     <head>
-        <title>Confirmación de Compra - UPOMediaMarket</title>
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Confirmación de Compra - UPOMediaMarket</title>
         <%@include file="/views/utils/includes.jsp"%>
         <link href="/upomm/css/carrito.css" rel="stylesheet" type="text/css"/>
 
@@ -97,34 +97,34 @@
         <!-- Page Content -->
         <main class="container-fluid my-auto mx-auto">
             <div class="mt-3">
-            <div id="error" class='alert alert-danger' style="display: none">ERROR: no se ha podido validar la operación.
-            </div>
-            <s:if test="hasActionErrors()">
-                <div class='alert alert-danger'>
-                    <s:actionerror cssClass="list-unstyled m-0"/>
+                <div id="error" class='alert alert-danger' style="display: none">ERROR: no se ha podido validar la operación.
                 </div>
-            </s:if>
-            <s:elseif test="compra!=null">
-                <div class='alert alert-success'>
-                    &iexcl;La compra se ha registrado con éxito! Haz click en los enlaces* para descargar tus archivos:
-                    <ul class="mt-4">
-                        <s:iterator value="compra">
-                            <s:url var="idProductoUrl" action="descargarArchivo">
-                                <s:param name="idProducto" value="idProducto"/>
-                            </s:url>
-                            <li>
-                                <a class="enlaces" href="<s:property value="#idProductoUrl"/>" target="_blank">
-                                    <s:property value="nombre"/>
-                                </a>
-                            </li>
-                        </s:iterator>
-                    </ul>
-                    <small><strong>*Los enlaces serán válidos durante 30 minutos.</strong></small>
-                </div>
-                <ul>
+                <s:if test="hasActionErrors()">
+                    <div class='alert alert-danger'>
+                        <s:actionerror cssClass="list-unstyled m-0"/>
+                    </div>
+                </s:if>
+                <s:elseif test="compra!=null">
+                    <div class='alert alert-success'>
+                        &iexcl;La compra se ha registrado con éxito! Haz click en los enlaces* para descargar tus archivos:
+                        <ul class="mt-4">
+                            <s:iterator value="compra">
+                                <s:url var="idProductoUrl" action="descargarArchivo">
+                                    <s:param name="idProducto" value="idProducto"/>
+                                </s:url>
+                                <li>
+                                    <a class="enlaces" href="<s:property value="#idProductoUrl"/>" target="_blank">
+                                        <s:property value="nombre"/>
+                                    </a>
+                                </li>
+                            </s:iterator>
+                        </ul>
+                        <small><strong>*Los enlaces serán válidos durante 30 minutos.</strong></small>
+                    </div>
+                    <ul>
 
-                </ul>
-            </s:elseif>
+                    </ul>
+                </s:elseif>
             </div>
         </main>
         <!-- /.container -->

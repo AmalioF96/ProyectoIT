@@ -10,9 +10,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Mis Productos - UPOMediaMarket</title>
-            <meta charset="UTF-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Mis Productos - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/misProductos.css" rel="stylesheet">
             <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -94,9 +94,9 @@
                                             </td>
                                             <td class="text-left">
                                                 <s:a href="%{idProductoUrl}"><s:property value="nombre"/></s:a>
-                                            </td>
-                                            <td>
-                                            <s:property value="precio"/>
+                                                </td>
+                                                <td>
+                                                <s:property value="precio"/>
                                             </td>
                                             <td>                                                    
                                                 <img style="max-width: 60px" class="img-fluid img-thumbnail lazyload rounded mx-auto d-block" data-src="<s:property value="%{#img}"/>"/>
@@ -111,8 +111,8 @@
                                             </td>
                                             <td>
                                                 <s:a href="%{editarProductoUrl}" cssClass="btn btn-warning btn-md">Editar</s:a>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
                                     </s:iterator>
                                 </tbody>
                             </table>

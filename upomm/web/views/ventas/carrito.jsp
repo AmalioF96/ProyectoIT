@@ -7,9 +7,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Carrito - UPOMediaMarket</title>
-            <meta charset="UTF-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Carrito - UPOMediaMarket</title>
             <%@include file="/views/utils/includes.jsp" %>
             <link href="/upomm/css/carrito.css" rel="stylesheet" type="text/css"/>
 

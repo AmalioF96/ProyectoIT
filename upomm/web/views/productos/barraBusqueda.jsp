@@ -15,7 +15,7 @@
             return;
         }
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", "http://localhost:8080/PruebaREST/webresources/productos.productos/" + str, true);
+        xmlhttp.open("GET", "http://104.248.86.203:8084/BusquedaREST/webresources/productos.productos/" + str, true);
         xmlhttp.setRequestHeader("Accept", "application/xml");
 
         xmlhttp.onreadystatechange = function () {
