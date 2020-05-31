@@ -12,15 +12,14 @@ import org.hibernate.Transaction;
  */
 public class UsuarioDAO {
 
-    public static Usuarios comprobarUsuario(String email, String password) {
-        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+    public static Usuarios obtenerUsuario(String email) {
         Transaction tx = null;
         Usuarios usu = null;
-        sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
 
         try {
             tx = sesion.beginTransaction();
-            Query q = sesion.createQuery("FROM Usuarios WHERE email='" + email + "' AND password='" + password + "'");
+            Query q = sesion.createQuery("FROM Usuarios WHERE email=:email").setParameter("email", email);
             usu = (Usuarios) q.uniqueResult();
             tx.commit();
         } catch (HibernateException e) {
@@ -33,26 +32,27 @@ public class UsuarioDAO {
     }
 
     public static boolean existeEmail(String email) {
-        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         boolean salida = true;
         Transaction tx = null;
         Usuarios usu = null;
-        sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
 
         try {
             tx = sesion.beginTransaction();
-            Query q = sesion.createQuery("FROM Usuarios WHERE email='" + email + "'");
+            Query q = sesion.createQuery("FROM Usuarios WHERE email=:email").setParameter("email", email);
             usu = (Usuarios) q.uniqueResult();
             tx.commit();
         } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
             }
-            salida = false;
         }
 
         if (usu != null) {
             salida = true;
+        }
+        else{
+            salida = false;
         }
 
         return salida;
@@ -73,11 +73,13 @@ public class UsuarioDAO {
             if (tx != null) {
                 tx.rollback();
             }
-            salida = false;
         }
 
         if (usu != null) {
             salida = true;
+        }
+        else{
+            salida = false;
         }
 
         return salida;
