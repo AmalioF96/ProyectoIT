@@ -19,8 +19,9 @@
                         keyboard: false
                     });
                     var a = document.createElement('a');
-                    a.download = "<s:property value="recurso"/>";
-                    a.href = "<s:property value="recurso"/>";
+                    var uri = decodeURIComponent(("<s:property value="recurso"/>").replace(/\+/g, ' '));
+                    a.download = uri;
+                    a.href = uri;
                     document.body.appendChild(a);
                     a.click();
                     window.setTimeout(function () {
