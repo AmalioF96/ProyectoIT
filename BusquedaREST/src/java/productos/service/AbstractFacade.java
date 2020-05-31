@@ -36,7 +36,7 @@ public abstract class AbstractFacade<T> {
     public List<T> search(Object nombre) {
         EntityManager em = getEntityManager();
         return em.createQuery(
-                "SELECT c FROM Productos c WHERE c.nombre LIKE concat('%',:nombre,'%')")
+                "SELECT c FROM Productos c WHERE c.nombre LIKE concat('%',:nombre,'%') AND c.disponible=true")
                 .setParameter("nombre", nombre)
                 .setMaxResults(10)
                 .getResultList();
