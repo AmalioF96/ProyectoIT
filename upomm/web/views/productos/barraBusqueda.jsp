@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link href="/upomm/css/barraBusqueda.css" rel="stylesheet" type="text/css"/>
 <script>
     $(document).ready(function () {
@@ -56,7 +57,7 @@
             <s:form id='searchForm' cssClass="md-form mr-auto mb-1" action='listarProductos' theme="simple" method="GET" autocomplete="off">
                 <div class="row">
                     <div class="col-sm-4 pl-0 mx-auto">
-                        <s:select cssClass="form-control" name="categoria" list="categorias" listKey="nombre" listValue="nombre" headerKey="" headerValue="Todas las categorías">
+                        <s:select cssClass="form-control" name="categoria" list="categorias" listKey="nombre" listValue="nombre" headerKey="" headerValue="Todas las categorÃ­as">
                         </s:select>
                     </div>
                     <div class="input-group col-sm-8 p-0 mx-auto">
@@ -107,7 +108,7 @@
                     <s:else>
                         <option value="1">
                     </s:else>
-                    Más Vendidos
+                    MÃ¡s Vendidos
                     </option>
                     <s:if test="%{#ordenar==2}">
                         <option value="2" selected>
@@ -137,11 +138,4 @@
             </s:form>
         </div>
     </div>
-    <!--<div class="row mt-0">
-        <div class="col-xl-3 mt-0">
-        </div>
-        <div id="searchResult" class="col-xl-5 p-0 mt-0">
-            <ul id="livesearch" class="list-unstyled overflow-auto"></ul>
-        </div>
-    </div>-->
 </div>
