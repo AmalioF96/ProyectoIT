@@ -172,6 +172,7 @@ public class AccionCrearProducto extends ActionSupport {
                     salida = SUCCESS;
                 } else {
                     ProductoDAO.eliminarProducto(prod);
+                    addActionError("ERROR: No se pudo crear el producto.");
                 }
             } else {
                 addActionError("ERROR: No se pudo crear el producto.");
