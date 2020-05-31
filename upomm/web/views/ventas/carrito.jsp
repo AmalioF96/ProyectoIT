@@ -23,11 +23,14 @@
                         var cantidad = $(this).val();
                         var precio = parseFloat($("#precio-" + idProducto).text());
                         var subtotal = cantidad * precio;
-                        $("#subtotal-" + idProducto).text(subtotal.toFixed(2).toString().replace(".", ","));
+                        $("#subtotal-" + idProducto).text(subtotal.toFixed(2));
 
                         var subtotales = $(".subtotal");
                         for (var i = 0; i < subtotales.length; i++) {
-                            total += parseFloat($(subtotales[i]).text());
+                            var sub = $(subtotales[i]).text();
+                            sub = sub.replace(",","");
+                            //sub = sub.replace(",",".");
+                            total += parseFloat(sub);
                         }
 
                         $("#precioTotalCarrito").text(total.toFixed(2).toString().replace(".", ","));
