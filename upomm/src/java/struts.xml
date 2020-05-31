@@ -206,6 +206,10 @@
             <result name="success">/views/ventas/finalizarCompra.jsp</result>
             <result name="input">/views/ventas/carrito.jsp</result>
         </action>
+        <action name="verCarrito" class="controlador.ventas.AccionMostrarCarrito">
+            <result name="success">/views/ventas/carrito.jsp</result>
+            <result name="error">/views/ventas/carrito.jsp</result>
+        </action>
         <action name="accionFinalizarCompra" class="controlador.ventas.AccionVenta">
             <result name="success">/views/ventas/confirmacion.jsp</result>
             <result name="error">/views/ventas/confirmacion.jsp</result>

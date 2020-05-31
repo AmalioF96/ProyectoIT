@@ -1,7 +1,11 @@
 package controlador.productos;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.interceptor.I18nInterceptor;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import modelo.Categorias;
 
 public class AccionCategorias extends ActionSupport {
@@ -13,6 +17,10 @@ public class AccionCategorias extends ActionSupport {
     private String operacion;
 
     public String listar() {
+        Map session = (Map) ActionContext.getContext().get("session");
+        Locale l = new Locale("de", "DE");
+        ActionContext.getContext().setLocale(l);
+        session.put(I18nInterceptor.DEFAULT_SESSION_ATTRIBUTE, l);
         String salida = SUCCESS;
         List<Categorias> listaCategorias = modelo.DAO.CategoriaDAO.listarCategorias();
         setCategorias(listaCategorias);

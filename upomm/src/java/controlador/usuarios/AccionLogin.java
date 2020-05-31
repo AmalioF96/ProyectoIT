@@ -2,8 +2,10 @@ package controlador.usuarios;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.interceptor.I18nInterceptor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import static modelo.DAO.UsuarioDAO.obtenerUsuario;
 import modelo.Productos;

@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -212,7 +213,7 @@ public class AccionProductos extends ActionSupport {
                         String ext = original.getName().substring(original.getName().lastIndexOf("."));
                         String ruta = ServletActionContext.getServletContext().getRealPath("/tmp/");
                         String nuevoNombre = p.getNombre() + "_" + System.currentTimeMillis() + ext;
-                        File copia = new File(ruta+nuevoNombre); 
+                        File copia = new File(ruta + nuevoNombre);
                         try {
                             FileUtils.copyFile(original, copia);
                         } catch (IOException ex) {

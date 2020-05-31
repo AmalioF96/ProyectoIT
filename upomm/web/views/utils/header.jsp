@@ -34,7 +34,7 @@
                         <a class="nav-link" href="/upomm/views/ventas/misCompras.jsp">Compras</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/upomm/views/ventas/carrito.jsp"><i class="fa fa-shopping-cart"></i> Cesta (<s:property value="#session.carrito.size"/>)</a>
+                    <s:a cssClass="nav-link" action="verCarrito"><i class="fa fa-shopping-cart"></i> Cesta (<s:property value="#session.carrito.size"/>)</s:a>
                     </li>
                     <li id="profile" class="nav-item">
                         <a class="nav-link" href="/upomm/views/usuarios/perfil.jsp"><i class="fas fa-user"></i>
@@ -55,7 +55,7 @@
                         <a class="nav-link" href="/upomm/views/ventas/menuVentas.jsp">Ventas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/upomm/views/ventas/carrito.jsp"><i class="fa fa-shopping-cart"></i> Cesta (<s:property value="#session.carrito.size"/>)</a>
+                    <s:a cssClass="nav-link" action="verCarrito"><i class="fa fa-shopping-cart"></i> Cesta (<s:property value="#session.carrito.size"/>)</s:a>
                     </li>
                     <li id="profile" class="nav-item">
                         <a class="nav-link" href="/upomm/views/usuarios/perfil.jsp"><i class="fas fa-user"></i>
